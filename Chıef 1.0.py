@@ -95,3 +95,43 @@ if __name__ == "__main__":
     # Ornegin bir metin dosyasi olusturup uzantisini .exe yapmayi deneyebilirsin.
     test_dosyasi = "C:\\Windows\\System32\\cmd.exe" 
     gumruk_memuru_tam_analiz(test_dosyasi)
+
+def supheli_fonksiyonlari_say(dosya_yolu: str) -> dict:
+    """Dosyanin IAT (Import Address Table) tablosunu okur ve kritik API cagrilarini tespit eder."""
+    # Siber guvenlikte en cok kullanilan zararli/supheli API'lerin bir listesi
+    KARA_LISTE = [
+        b'VirtualAlloc', b'VirtualAllocEx', b'WriteProcessMemory', 
+        b'CreateRemoteThread', b'SetWindowsHookEx', b'IsDebuggerPresent',
+        b'RegSetValueEx', b'GetProcAddress', b'LoadLibraryA'
+    ]
+    
+    sonuc = {
+        "toplam_cagri": 0,
+        "supheli_cagri_sayisi": 0,
+        "bulunan_supheliler": []
+    }
+    
+    try:
+        pe = pefile.PE(dosya_yolu)
+        
+        # Eger dosyanin bir IAT tablosu yoksa (ornek: sadece veri iceren bir dll ise)
+        if not hasattr(pe, 'DIRECTORY_ENTRY_IMPORT'):
+            return sonuc
+
+        # IAT icindeki dll'leri ve onlardan cagirilan fonksiyonlari don
+        for entry in pe.DIRECTORY_ENTRY_IMPORT:
+            for imp in entry.imports:
+                if imp.name:
+                    sonuc["toplam_cagri"] += 1
+                    
+                    # Fonksiyon adi kara listedeki kritik API'lerden biriyle eslesiyor mu?
+                    for supheli in KARA_LISTE:
+                        if supheli in imp.name:
+                            sonuc["supheli_cagri_sayisi"] += 1
+                            sonuc["bulunan_supheliler"].append(imp.name.decode('utf-8'))
+                            
+        return sonuc
+
+    except Exception as e:
+        print(f"IAT Okuma Hatasi: {e}")
+        return sonuc
