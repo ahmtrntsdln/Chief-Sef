@@ -1,0 +1,16 @@
+# Claude Code yerel ayarlari (makineye ozel, repo'ya ait degil)
+.claude/
+
+# Python
+__pycache__/
+*.pyc
+
+# entropy.py test artefaktlari (script kendi temizler ama guvenlik icin)
+test_metin.txt
+test_rastgele.bin
+test_zip.zip
+
+# Ham EMBER veri seti bu proje disinda (C:\ember2018) tutuluyor - buraya
+# yanlislikla indirilirse (~10 GB JSONL) commit'lenmesin
+gumruk_memuru/*.jsonl
+ember2018/
