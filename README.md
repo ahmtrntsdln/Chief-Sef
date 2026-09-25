@@ -1,6 +1,9 @@
 # Chief-Sef
 Machine learning-powered software-hardware security engine
 
+> Projenin gelişim sürecini ve alınan kararların gerekçelerini
+> [GELISIM_SURECI.md](GELISIM_SURECI.md) dosyasında bulabilirsiniz.
+
 ## About Şef-Chief
 
 This repository contains the initial version (prototype) of Şef-Chief, a machine learning-powered software and hardware security engine.
