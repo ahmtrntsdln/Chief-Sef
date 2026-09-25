@@ -25,6 +25,28 @@ sifrelenmis/paketlenmis (potansiyel supheli) dosyalari ayirt edebilen
 basit bir statik analiz katmani kurmak.
 
 - `gumruk_memuru/entropy.py` -> Entropi hesaplama modulu
+- `gumruk_memuru/Chief_1.2.py` -> Tam statik analiz motoru (magic byte, bolum-bazli entropi, IAT/API)
+- `gumruk_memuru/ember_zararli_cikar.py`, `ember_zararsiz_cikar.py` -> EMBER'den gercek veri cikarma
+- `gumruk_memuru/toplu_tarama.py` -> Bu makinedeki dosyalari tarama (dis dogrulama seti)
+- `gumruk_memuru/rf_egit_gercek.py` -> Egitim, dis dogrulama ve sinsi ornek testleri
+
+## Faz 1 Sonuclari
+
+Model: Random Forest, 5 ozellik (boyut, sifir orani, ortalama bolum
+entropisi, toplam API, supheli API). Egitim: EMBER 2018'den 5700 zararli +
+5700 zararsiz gercek PE dosyasi.
+
+| Olcum | Sonuc |
+|---|---|
+| EMBER test dogrulugu | %90.1 |
+| EMBER icinde yanlis alarm / kacan zararli | %8.1 / %11.7 |
+| Bu makinedeki 5700 gercek zararsiz PE'de yanlis alarm (egitimde hic gorulmedi) | %3.5 |
+| En onemli ozellikler | Toplam_API 0.30, Boyut 0.25, Entropi 0.24, Sifir orani 0.18 |
+
+%90 bilincli olarak %99'dan daha guvenilir bir sonuc: onceki %99.9 (sentetik
+veri) ve %97 (zararsiz verinin tek makineden gelmesi) sonuclari, modelin
+zararli davranisi degil veri kaynaklari arasindaki farki ogrendigini
+gosteriyordu. Ayrintilar: [GELISIM_SURECI.md](GELISIM_SURECI.md).
 
 ## Yol Haritasi
 
@@ -37,9 +59,13 @@ basit bir statik analiz katmani kurmak.
        bolum-bazli entropi, pefile ile IAT/API analizi). v1.1'deki
        KARA_LISTE substring/cift-sayim hatasi duzeltildi (liste->set,
        tam esleme).
-4. [ ] EMBER'den gercek 5700 zararli kayit cikarma (`ember_zararli_cikar.py`
-       hazir - EMBER verisinin indirilip acilmasi gerekiyor)
-5. [ ] Gercek zararsiz (Chief_1.2.py ile 5700 dosyadan) + gercek zararli
-       (EMBER'den) veriyle Random Forest'i yeniden egitme
-6. [ ] (Ileride) eBPF ile Linux sistem cagrisi izleme
-7. [ ] (Ileride) NPU / TEE donanimsal izolasyon
+4. [x] EMBER'den gercek 5700 zararli kayit cikarildi. EMBER'in olcumu
+       pefile tarafiyla esitlendi (ordinal import'lar ve bos bolumler).
+5. [x] Zararsiz veri once bu makineden (System32 + Program Files) tarandi;
+       bunun kaynak yanliligi yarattigi goruldu. Zararsiz egitim verisi de
+       EMBER'den alindi, makine taramasi (533.081 dosya, 64.263 PE) dis
+       dogrulama setine donustu.
+6. [x] Random Forest gercek veriyle yeniden egitildi ve dogrulandi
+       (%90.1, gercek makinede %3.5 yanlis alarm). **Faz 1 kapandi.**
+7. [ ] (Faz 2) eBPF ile Linux sistem cagrisi izleme
+8. [ ] (Faz 3) NPU / TEE donanimsal izolasyon

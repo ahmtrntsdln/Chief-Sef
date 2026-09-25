@@ -28,6 +28,7 @@ import glob
 import json
 import os
 import random
+import re
 
 EMBER_KLASORU = r"C:\ember2018\ember2018"   # tar -xf ile acilan gercek klasor
 HEDEF_SAYI = 5700
@@ -41,7 +42,10 @@ KARA_LISTE = {
 }
 
 
-def kayittan_ozellik_cikar(kayit: dict) -> dict:
+ORDINAL_DESENI = re.compile(r"^ordinal\d+$")
+
+
+def kayittan_ozellik_cikar(kayit: dict, etiket: int) -> dict:
     """EMBER'in ham JSON kaydindan, Chief_1.2.py'daki ayni 5 sutunu cikarir."""
     boyut = kayit.get("general", {}).get("size", 0)
 
@@ -49,17 +53,20 @@ def kayittan_ozellik_cikar(kayit: dict) -> dict:
     toplam_bayt = sum(histogram) or 1
     sifir_orani = (histogram[0] / toplam_bayt * 100) if histogram else 0.0
 
-    # Chief_1.2.py bolum-bazli entropi hesapliyordu; EMBER da her PE
-    # bolumunun entropisini hazir veriyor - ayni mantigin ortalamasini aliyoruz.
+    # toplu_tarama.py bos (ham boyutu 0) bolumleri atliyor; ayni olcum icin
+    # burada da atlanmali, yoksa 0 entropili bolumler ortalamayi asagi ceker.
     bolumler = kayit.get("section", {}).get("sections", [])
-    entropiler = [b.get("entropy", 0.0) for b in bolumler]
+    entropiler = [b.get("entropy", 0.0) for b in bolumler if b.get("size", 0) > 0]
     ortalama_entropi = sum(entropiler) / len(entropiler) if entropiler else 0.0
 
+    # EMBER isimsiz (ordinal) import'lari "ordinal5" gibi yaziyor; pefile
+    # tarafi (imp.name None) bunlari saymiyor - ayni olcum icin burada da sayma.
     toplam_api = 0
     supheli_api = 0
     for fonksiyonlar in kayit.get("imports", {}).values():
-        toplam_api += len(fonksiyonlar)
-        supheli_api += sum(1 for f in fonksiyonlar if f in KARA_LISTE)
+        isimli = [f for f in fonksiyonlar if not ORDINAL_DESENI.match(f)]
+        toplam_api += len(isimli)
+        supheli_api += sum(1 for f in isimli if f in KARA_LISTE)
 
     return {
         "Dosya_Adi": f"ember_{kayit.get('sha256', 'bilinmeyen')[:12]}.exe",
@@ -68,12 +75,13 @@ def kayittan_ozellik_cikar(kayit: dict) -> dict:
         "Ortalama_Entropi": round(ortalama_entropi, 3),
         "Toplam_API": toplam_api,
         "Supheli_API": supheli_api,
-        "Etiket": 1,
+        "Etiket": etiket,
     }
 
 
-def zararlilari_topla(klasor: str, hedef: int):
-    """JSONL dosyalarini tarar, label==1 (zararli) kayitlari toplar."""
+def kayitlari_topla(klasor: str, hedef: int, etiket: int):
+    """JSONL dosyalarini tarar, label==etiket olan kayitlari toplar
+    (1=zararli, 0=zararsiz, -1=etiketsiz)."""
     jsonl_dosyalari = sorted(glob.glob(os.path.join(klasor, "*.jsonl")))
     if not jsonl_dosyalari:
         raise FileNotFoundError(
@@ -88,30 +96,33 @@ def zararlilari_topla(klasor: str, hedef: int):
         with open(dosya, "r", encoding="utf-8") as f:
             for satir in f:
                 kayit = json.loads(satir)
-                if kayit.get("label") == 1:  # 1=zararli, 0=zararsiz, -1=etiketsiz
-                    havuz.append(kayittan_ozellik_cikar(kayit))
+                if kayit.get("label") == etiket:
+                    havuz.append(kayittan_ozellik_cikar(kayit, etiket))
                     if len(havuz) >= havuz_hedefi:
                         break
         if len(havuz) >= havuz_hedefi:
             break
 
     if len(havuz) < hedef:
-        print(f"[!] Uyari: sadece {len(havuz)} zararli kayit bulundu, {hedef} istenmisti.")
+        print(f"[!] Uyari: sadece {len(havuz)} kayit (label={etiket}) bulundu, "
+              f"{hedef} istenmisti.")
         return havuz
 
     random.seed(42)
     return random.sample(havuz, hedef)
 
 
-if __name__ == "__main__":
-    secilenler = zararlilari_topla(EMBER_KLASORU, HEDEF_SAYI)
-
-    with open(CIKTI_DOSYASI, "w", newline="", encoding="utf-8") as f:
+def csv_yaz(kayitlar, yol: str):
+    with open(yol, "w", newline="", encoding="utf-8") as f:
         yazici = csv.DictWriter(f, fieldnames=[
             "Dosya_Adi", "Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi",
             "Toplam_API", "Supheli_API", "Etiket",
         ])
         yazici.writeheader()
-        yazici.writerows(secilenler)
+        yazici.writerows(kayitlar)
 
+
+if __name__ == "__main__":
+    secilenler = kayitlari_topla(EMBER_KLASORU, HEDEF_SAYI, etiket=1)
+    csv_yaz(secilenler, CIKTI_DOSYASI)
     print(f"[+] {len(secilenler)} gercek zararli kayit '{CIKTI_DOSYASI}' dosyasina yazildi.")

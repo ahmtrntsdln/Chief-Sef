@@ -10,6 +10,10 @@ test_metin.txt
 test_rastgele.bin
 test_zip.zip
 
+# toplu_tarama.py'nin tum-dosyalar ara kaydi: cok buyuk ve bu makinenin
+# tam dosya yollarini iceriyor; egitim/dogrulama icin PE CSV'si yeterli
+gumruk_memuru/sef_tarama_tum_dosyalar.csv
+
 # Ham EMBER veri seti bu proje disinda (C:\ember2018) tutuluyor - buraya
 # yanlislikla indirilirse (~10 GB JSONL) commit'lenmesin
 gumruk_memuru/*.jsonl
