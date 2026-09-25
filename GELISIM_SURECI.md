@@ -38,7 +38,7 @@ de eşleşiyor, tek bir API çağrısı iki kez sayılıyordu. Liste `set`'e
 
 ## 5. Kaynak Yanlılığı: İkinci Bir Sızıntı Türü
 
-Zararsız veri, kullanıcının kendi bilgisayarından (System32, Program
+Zararsız veri, kendi bilgisayarımdan(System32, Program
 Files) tarandı. Yeni model %97 başarı verdi, ancak özellik önem
 analizinde entropi ve sıfır-oranı özelliklerinin payı %70'e ulaştı.
 Neden araştırıldığında: zararsız veri tek, homojen bir kaynaktan
