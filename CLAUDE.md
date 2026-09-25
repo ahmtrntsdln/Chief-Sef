@@ -45,8 +45,9 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - `sef_dataset_ember_zararsiz.csv` - EMBER label==0, 5700 kayıt
 - `sef_dataset_zararsiz_gercek.csv` - bu makinenin taraması, 5700 PE
   (533.081 dosyadan 64.263 PE bulundu, random.seed(42) ile örneklendi).
-  Dosya adları bu makinede kurulu yazılımları ortaya koyduğu için repo'ya
-  koyup koymamak kullanıcının kararı.
+  Repo'da, `Dosya_Adi` sütunu OLMADAN (kurulu yazılımları ortaya koyar).
+  toplu_tarama.py onu baştan sütunsuz yazar; isimli hali
+  `sef_dataset_zararsiz_gercek_isimli.csv`'ye gider (`.gitignore`'da).
 - `sef_tarama_tum_dosyalar.csv` - tüm tarama (tam yollar içerir, büyük);
   `.gitignore`'da.
 

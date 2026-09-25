@@ -41,6 +41,7 @@ TARANACAK_KLASORLER = [
 
 TAM_CIKTI = "sef_tarama_tum_dosyalar.csv"          # her sey (PE olsun olmasin)
 PE_CIKTI = "sef_dataset_zararsiz_gercek.csv"        # dis dogrulama seti (egitimde kullanilmaz)
+PE_ISIMLI_CIKTI = "sef_dataset_zararsiz_gercek_isimli.csv"  # ayni satirlar + Dosya_Adi, sadece yerel
 HEDEF_SAYI = 5700   # EMBER siniflariyla ayni boyut
 
 KARA_LISTE = {
@@ -251,13 +252,17 @@ if __name__ == "__main__":
         random.seed(42)
         pe_satirlar = random.sample(pe_satirlar, HEDEF_SAYI)
 
-    egitim_kolonlari = ["Dosya_Adi", "Boyut_Bayt", "Sifir_Orani",
-                         "Ortalama_Entropi", "Toplam_API", "Supheli_API", "Etiket"]
-    with open(PE_CIKTI, "w", newline="", encoding="utf-8") as f:
-        yazici = csv.DictWriter(f, fieldnames=egitim_kolonlari)
-        yazici.writeheader()
-        for s in pe_satirlar:
-            yazici.writerow({k: s[k] for k in egitim_kolonlari})
+    # PE_CIKTI repo'da takip ediliyor: Dosya_Adi bu makinede kurulu yazilimlari
+    # ortaya koydugu icin oraya hic yazilmaz; isimli hali .gitignore'daki yedege gider.
+    ozellik_kolonlari = ["Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi",
+                         "Toplam_API", "Supheli_API", "Etiket"]
+    for yol, kolonlar in [(PE_CIKTI, ozellik_kolonlari),
+                          (PE_ISIMLI_CIKTI, ["Dosya_Adi"] + ozellik_kolonlari)]:
+        with open(yol, "w", newline="", encoding="utf-8") as f:
+            yazici = csv.DictWriter(f, fieldnames=kolonlar)
+            yazici.writeheader()
+            for s in pe_satirlar:
+                yazici.writerow({k: s[k] for k in kolonlar})
 
     print(f"\n[+] Bu calismada {islenen} dosya tarandi ({atlanan} atlandi), "
           f"sure {(time.monotonic() - baslangic) / 60:.1f} dk")
@@ -268,4 +273,5 @@ if __name__ == "__main__":
               f"-> '{PE_CIKTI}' ({len(pe_satirlar)} kayit)")
     else:
         print(f"[+] Tumu -> '{PE_CIKTI}' ({len(pe_satirlar)} kayit, HEDEF_SAYI={HEDEF_SAYI} altinda)")
+    print(f"    Dosya adli yerel yedek -> '{PE_ISIMLI_CIKTI}' (repo'ya girmez)")
     print("    (egitimde degil, rf_egit_gercek.py'deki dis dogrulamada kullanilir)")
