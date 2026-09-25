@@ -1,3 +1,16 @@
+# Chief-Sef
+Machine learning-powered software-hardware security engine
+
+## About Şef-Chief
+
+This repository contains the initial version (prototype) of Şef-Chief, a machine learning-powered software and hardware security engine.
+
+AI-Assisted Development: Developed with the support of Large Language Models (LLMs). The core project concept and direction belong entirely to me, while the coding phase was fully handled by Claude and Gemini.
+
+Project Milestone: This serves as a functional prototype and represents a personal milestone as both my first-ever project and my first AI-supported venture.
+
+---
+
 # Sef Projesi
 
 Yapay zeka destekli, donanimsal izolasyonlu siber guvenlik motoru.
