@@ -13,6 +13,9 @@ test_zip.zip
 # toplu_tarama.py'nin tum-dosyalar ara kaydi: cok buyuk ve bu makinenin
 # tam dosya yollarini iceriyor; egitim/dogrulama icin PE CSV'si yeterli
 gumruk_memuru/sef_tarama_tum_dosyalar.csv
+# Dis dogrulama setinin dosya adli yerel yedegi (kurulu yazilimlari gosterir);
+# repo'daki sef_dataset_zararsiz_gercek.csv bunun Dosya_Adi'siz hali
+gumruk_memuru/sef_dataset_zararsiz_gercek_isimli.csv
 
 # Ham EMBER veri seti bu proje disinda (C:\ember2018) tutuluyor - buraya
 # yanlislikla indirilirse (~10 GB JSONL) commit'lenmesin

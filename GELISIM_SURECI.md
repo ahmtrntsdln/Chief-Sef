@@ -52,7 +52,7 @@ veri yeniden üretildi.
 
 ## 6. Kaynak Yanlılığı: İkinci Bir Sızıntı Türü
 
-Zararsız veri, kendi bilgisayarımdan(System32, Program
+Zararsız veri, kendi bilgisayarımdan (System32, Program
 Files) tarandı. Yeni model %97 başarı verdi, ancak özellik önem
 analizinde entropi ve sıfır-oranı özelliklerinin payı %70'e ulaştı.
 Neden araştırıldığında: zararsız veri tek, homojen bir kaynaktan
@@ -64,7 +64,7 @@ EMBER'in çok çeşitli kaynaklarından. Model kısmen "zararlı mı" değil
 
 Bu yanlılığı gidermek için zararsız veri de EMBER'den (`label==0`)
 çekildi (`ember_zararsiz_cikar.py`) — artık iki sınıf da aynı kaynaktan,
-aynı çeşitlilikte. bilgisayar taramam çöpe atılmadı;
+aynı çeşitlilikte. Bilgisayar taramam çöpe atılmadı;
 bağımsız bir gerçek dünya doğrulama seti olarak yeniden konumlandırıldı:
 "EMBER ile eğitilen model, gerçek bir bilgisayardaki meşru dosyaları
 yanlış pozitif işaretliyor mu?" sorusuna cevap veriyor.
