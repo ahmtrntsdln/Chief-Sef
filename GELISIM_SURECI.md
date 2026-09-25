@@ -50,7 +50,7 @@ EMBER'in çok çeşitli kaynaklarından. Model kısmen "zararlı mı" değil
 
 Bu yanlılığı gidermek için zararsız veri de EMBER'den (`label==0`)
 çekildi (`ember_zararsiz_cikar.py`) — artık iki sınıf da aynı kaynaktan,
-aynı çeşitlilikte. Kullanıcının bilgisayar taraması çöpe atılmadı;
+aynı çeşitlilikte. bilgisayar taramam çöpe atılmadı;
 bağımsız bir gerçek dünya doğrulama seti olarak yeniden konumlandırıldı:
 "EMBER ile eğitilen model, gerçek bir bilgisayardaki meşru dosyaları
 yanlış pozitif işaretliyor mu?" sorusuna cevap veriyor.
