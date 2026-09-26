@@ -47,6 +47,44 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - `rf_egit_gercek.py` hâlâ 5 özellikte: makinedeki doğrulama seti bu iki
   sütunu içermiyor (yeni tarama gerekir, ~2.5 saat).
 
+## .NET Uzman Modeli - DENEYSEL (`net_model.py`)
+- Mimari: NET_mi=1 -> EMBER2024 .NET ile eğitilen uzman model; NET_mi=0 ->
+  EMBER 2018 ana model. Kaynaklar tek modelde karıştırılmaz (Kritik Kural 2;
+  string_counts EMBER 2018'de yok).
+- Veri: Dot_Net_train (520K, ilk 52 hafta) -> 100K alt örnek; test
+  Dot_Net_test (120K, son 12 hafta) - zamansal bölme. Eğitim/test ortak
+  dosya 0; birebir aynı özellik vektörü %1.6 (çıkarınca sonuç değişmiyor).
+- Dizge özellikleri (`dizge_ozellikleri.py`) thrember'ın KENDİ koduyla aynı
+  500 yerel dosyada (148 .NET) karşılaştırıldı: 500/500 birebir aynı.
+  Yerelde dosya başına ~0.25 sn (tam tarama süresini uzatır).
+- Ablasyon (EMBER2024 .NET test): M0 mevcut model kaçan %92.8 / AUC 0.63;
+  M1 yeni veri + temel özellikler kaçan %12.3 / AUC 0.94 (kazancın büyüğü
+  VERİDEN); M2 + dizgeler kaçan %3.8, yanlış alarm %4.2, AUC 0.993.
+- KESTİRME (üçüncü kez aynı ders): EMBER2024 .NET'te zararsızların ~%90'ı
+  DLL, zararlıların ~%90'ı EXE. En önemli özellik DZ_privilege aslında
+  manifest/EXE vekili (EXE içinde zararsız %90, zararlı %87'sinde var). M2
+  EXE'lerde yanlış alarm %26.3 - genel %4.2 bunu gizliyordu. Manifest
+  kelimelerini çıkarmak çözmüyor (%21; tip bilgisi başka özelliklerde de var).
+- Çözüm (M2d): eğitim örneklemi her tipin İÇİNDE 50/50 + DLL_mi girdi. EXE
+  yanlış alarm 26.3 -> 7.9, EXE AUC 0.966 -> 0.978, DLL AUC 0.986 -> 0.993;
+  EXE kaçan 3.1 -> 8.1 (M2 "EXE ise zararlı" önselini kullanıyordu). Genel
+  doğruluk 95.97 -> 94.90: bu KAYIP DEĞİL, gerçekçi hale gelmenin bedeli
+  (test kümesi de aynı tip dengesizliğini taşıdığı için kestirme orada
+  ödüllendiriliyordu). M2d'de en önemli özellikler artık içerik sinyali
+  (DZ_http_url, DZ_ort_uzunluk, DZ_url, DZ_entropi, DZ_crypt, DZ_base64);
+  DZ_privilege ilk 15'te yok.
+- Üretimde eşik/kalibrasyon: M2d her tip için %50 önsel varsayar. Gerçek
+  EXE/DLL zararlı oranı farkı gerçek bir bilgi, atılmamalı: eşik anında
+  tipe özel önselle düzelt: p' = p·π_t / (p·π_t + (1-p)(1-π_t)),
+  t ∈ {EXE, DLL}. EMBER2024'teki %88/%9 örnekleme artefaktı, gerçek π_t değil.
+- Bu makinedeki gerçek zararsız .NET dosyaları (500 EXE + 500 DLL; Program
+  Files x2 + Microsoft.NET, <=20 MB), yanlış alarm, %95 Wilson aralığı:
+  M2 EXE %15.6 [12.7-19.0], M2d EXE %1.6 [0.8-3.1]; DLL ikisinde de 0/500
+  [0-0.8]. Kestirme gerçek dünyada da vardı, M2d onu gideriyor. Uyarı:
+  örneklem rastgele değil (os.walk sırasıyla ilk 500) ve kümeli (aynı
+  paketten çok dosya) -> gerçek belirsizlik aralıktan geniş. M2d'nin
+  alarmları çoğunlukla az-import'lu komut satırı geliştirici araçları.
+
 ## Dosyalar
 - `entropy.py` - Shannon entropi hesaplayıcı.
 - `Chief_1.2.py` - tam statik analiz motoru (magic byte, bölüm-bazlı entropi,
@@ -65,10 +103,16 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - `model_karsilastir.py` - RF vs LightGBM, ham vs kalibre (5 katlı CV +
   makinedeki 11 örneklem + şüpheli bant). `requirements-experimental.txt`
   gerektirir.
-- `ember2024_net_cikar.py` - EMBER2024 .NET test kümesini (C:\ember2024,
-  Dot_Net_test.zip) aynı çıkarıcıyla CSV'ye çevirir (+ Aile, Hafta).
+- `ember2024_net_cikar.py` - EMBER2024 .NET kümelerini (`test|train`) aynı
+  çıkarıcıyla CSV'ye çevirir (+ dizgeler, DLL_mi, Aile, Hafta).
+- `dizge_ozellikleri.py` - thrember'ın `string_counts` regex'leri ve dizge
+  kuralı (Apache-2.0); JSON kaydından ve ham dosyadan aynı 80 sütun.
 - `net_dogrulama.py` - 5 vs 7 özellik; EMBER 2018 CV (.NET / .NET-dışı) ve
   EMBER2024 .NET üzerinde kestirme/körlük testi.
+- `net_model.py` - DENEYSEL .NET uzman modeli: M0/M1/M2/M2d ablasyonu,
+  tum/EXE/DLL alt grupları, aile bazında kaçma oranı.
+- NOT: `toplu_tarama.py` henüz DLL_mi ve dizge özelliklerini üretmiyor
+  (Sonraki Adımlar 2'deki yeniden taramada eklenecek).
 
 ## Model Seçimi - ŞİMDİLİK KAPALI, özellik sayısı artınca YENİDEN AÇ
 - 5 özellik, ayarsız modellerle: RF CV doğruluk %89.65 / AUC 0.963,
@@ -130,13 +174,17 @@ demek (taramayı erteleme mantığının aynısı).
   `sef_dataset_zararsiz_gercek_isimli.csv`'ye gider (`.gitignore`'da).
 - `sef_tarama_tum_dosyalar.csv` - tüm tarama (tam yollar içerir, büyük);
   `.gitignore`'da.
-- `sef_dataset_ember2024_net_test.csv` - EMBER2024 .NET test, 120.000
-  kayıt (60K zararlı + 60K zararsız), 6.8 MB. SADECE doğrulama.
-  REPO'DA YOK (`.gitignore`). Yeniden üretmek (~10 sn):
+- EMBER2024 .NET CSV'leri - proje DIŞINDA, REPO'DA YOK (büyük, üretilmiş):
+  `C:\ember2024\ember2024_net_test_ozellik.csv` (120.000 kayıt, 60K/60K,
+  son 12 hafta) ve `...\ember2024_net_train_ozellik.csv` (520.000 kayıt,
+  260K/260K, ilk 52 hafta). Sütunlar: temel + NET_mi/Karma_Mod + 80 dizge
+  (DZ_*) + DLL_mi + Aile + Hafta. Yeniden üretmek (Apache-2.0):
   1. `curl.exe -L -o C:\ember2024\Dot_Net_test.zip https://huggingface.co/datasets/joyce8/EMBER2024/resolve/main/Dot_Net_test.zip`
-     (210 MB, Apache-2.0)
-  2. `tar -xf Dot_Net_test.zip` (C:\ember2024 içinde; 12 haftalık JSONL, ~1 GB)
-  3. `gumruk_memuru` içinde `python ember2024_net_cikar.py`
+     (210 MB) -> C:\ember2024 içinde `tar -xf Dot_Net_test.zip` (~1 GB JSONL)
+  2. Aynı adresten `Dot_Net_train.zip` (894 MB) -> `C:\ember2024\train`
+     içinde `tar -xf` (52 haftalık JSONL)
+  3. `gumruk_memuru` içinde `python ember2024_net_cikar.py test` (~15 sn)
+     ve `python ember2024_net_cikar.py train` (~1 dk)
 - EMBER CSV'lerinde NET_mi ve Karma_Mod sütunları da var.
 - Veri politikası: üretilmiş veri commit'lenmez; bunun yerine kaynak + script
   talimatı yazılır. İstisnalar (kullanıcı kararı): iki EMBER 2018 CSV'si
@@ -192,6 +240,6 @@ demek (taramayı erteleme mantığının aynısı).
 - Remote: `origin` = https://github.com/ahmtrntsdln/Chief-Sef (main takip
   ediliyor). Repo'daki eski dosyalar (Chief 1.0/1.1, mimari PDF'ler) korunmalı.
 - Ham EMBER verisi (~10 GB) proje DIŞINDA: `C:\ember2018\ember2018`
-  (OneDrive'ı şişirmemek için). EMBER2024 .NET test (~1 GB açılmış):
-  `C:\ember2024`.
+  (OneDrive'ı şişirmemek için). EMBER2024 .NET: test JSONL + CSV'ler
+  `C:\ember2024`, train JSONL `C:\ember2024\train`.
 - Tam tarama (System32 + Program Files x2) bu makinede ~2.5 saat sürüyor.

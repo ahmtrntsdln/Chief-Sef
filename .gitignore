@@ -17,9 +17,6 @@ gumruk_memuru/sef_tarama_tum_dosyalar.csv
 # repo'daki sef_dataset_zararsiz_gercek.csv bunun Dosya_Adi'siz hali
 gumruk_memuru/sef_dataset_zararsiz_gercek_isimli.csv
 
-# Uretilmis veri: yeniden uretim talimati CLAUDE.md'de ("Veri dosyalari")
-gumruk_memuru/sef_dataset_ember2024_net_test.csv
-
 # Ham EMBER veri seti bu proje disinda (C:\ember2018) tutuluyor - buraya
 # yanlislikla indirilirse (~10 GB JSONL) commit'lenmesin
 gumruk_memuru/*.jsonl

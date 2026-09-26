@@ -24,9 +24,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold, train_test_split
 
+from ember2024_net_cikar import cikti_yolu
 from rf_egit_gercek import EMBER_ZARARLI_CSV, EMBER_ZARARSIZ_CSV, OZELLIKLER
 
-EMBER2024_NET_CSV = "sef_dataset_ember2024_net_test.csv"
+EMBER2024_NET_CSV = cikti_yolu("test")
 MODELLER = {"A (5 ozellik)": OZELLIKLER,
             "B (+NET_mi, Karma_Mod)": OZELLIKLER + ["NET_mi", "Karma_Mod"]}
 
