@@ -38,6 +38,36 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   ve `--devam` ile sürdürme var.
 - `rf_egit_gercek.py` - ana eğitim + dış doğrulama + eski tasarımla
   karşılaştırma + sinsi örnekler.
+- `model_karsilastir.py` - RF vs LightGBM, ham vs kalibre (5 katlı CV +
+  makinedeki 11 örneklem + şüpheli bant). `requirements-experimental.txt`
+  gerektirir.
+
+## Model Seçimi - ŞİMDİLİK KAPALI, özellik sayısı artınca YENİDEN AÇ
+- 5 özellik, ayarsız modellerle: RF CV doğruluk %89.65 / AUC 0.963,
+  LightGBM %87.96 / 0.952 (fark katlar arası oynaklığın üstünde). RF ile
+  devam. Özellik sayısı 10-15+ olunca `model_karsilastir.py` tekrar
+  çalıştırılmalı; boosting daha fazla özellikle genelde daha iyi ölçeklenir.
+- Kalibrasyon (isotonic): ham RF zaten iyi kalibre (ECE %1.72 -> %0.92).
+  Makinedeki isabet artışı (%96.89 -> %97.36) net kazanç değil, eşik
+  kayması: yanlış alarm 8.0 -> 6.2, kaçan zararlı 12.7 -> 14.3.
+- Olasılıklar EMBER'in %50 zararlı dünyasına göre. Gerçek ortamda zararlı
+  çok daha nadir: skor p, ortamdaki zararlı oranı π ise gerçek olasılık
+  p·π / (p·π + (1-p)(1-π)) (ör. p=0.93, π=%1 -> ~%12).
+
+## Sonraki Adımlar (bu sırayla)
+1. Özellik genişletme (.NET bayrağı, overlay/paketleyici belirtileri,
+   import kategorileri). Kritik Kural 1: her yeni özellik hem EMBER ham
+   JSON'undan hem pefile'dan AYNI şekilde hesaplanabilmeli; önce iki
+   tarafı örnek veriyle karşılaştır. En emin verilen yanlış alarmlar
+   .NET DLL'leri (tek import, entropi ~4.3).
+2. `model_karsilastir.py` ile RF vs boosting'i yeniden karşılaştır.
+3. Ancak ondan sonra üç bölgeli eşikler (zararsız / şüpheli / zararlı).
+   Şu an 0.2-0.8 bandı EMBER'in 1/4'ünü, makinenin 1/6'sını yutuyor ->
+   5 özellik yetersiz; eşikleri şimdi kilitleme. Eşik kuralı: gerçek
+   olasılık > C_FP / (C_FP + C_FN) ise işaretle. Maliyet oranı kullanıcı
+   kararı (EDR'de kaçan zararlı genelde daha pahalı); gerçek olasılık π'ye
+   bağlı olduğu için π için kaba bir aralık da gerekir (FN 10x pahalıyken
+   π=%1 -> skor eşiği ~0.91, π=%10 -> ~0.47).
 
 ### Veri dosyaları (`gumruk_memuru/`)
 - `sef_dataset_zararli_gercek.csv` - EMBER label==1, 5700 kayıt
@@ -73,6 +103,8 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   97°C'ye çıktı.
 
 ## Ortam Notları
+- Bağımlılıklar: `requirements.txt` (ana pipeline, sürümler sabit) ve
+  `requirements-experimental.txt` (+ LightGBM, sadece model_karsilastir.py).
 - Git: `C:\Program Files\Git\cmd\git.exe` (PATH'te olmayabilir).
 - Remote: `origin` = https://github.com/ahmtrntsdln/Chief-Sef (main takip
   ediliyor). Repo'daki eski dosyalar (Chief 1.0/1.1, mimari PDF'ler) korunmalı.

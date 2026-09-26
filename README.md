@@ -29,6 +29,10 @@ basit bir statik analiz katmani kurmak.
 - `gumruk_memuru/ember_zararli_cikar.py`, `ember_zararsiz_cikar.py` -> EMBER'den gercek veri cikarma
 - `gumruk_memuru/toplu_tarama.py` -> Bu makinedeki dosyalari tarama (dis dogrulama seti)
 - `gumruk_memuru/rf_egit_gercek.py` -> Egitim, dis dogrulama ve sinsi ornek testleri
+- `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM ve kalibrasyon karsilastirmasi
+
+Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin
+`requirements-experimental.txt`).
 
 ## Faz 1 Sonuclari
 
@@ -47,6 +51,10 @@ entropisi, toplam API, supheli API). Egitim: EMBER 2018'den 5700 zararli +
 veri) ve %97 (zararsiz verinin tek makineden gelmesi) sonuclari, modelin
 zararli davranisi degil veri kaynaklari arasindaki farki ogrendigini
 gosteriyordu. Ayrintilar: [GELISIM_SURECI.md](GELISIM_SURECI.md).
+
+Model karsilastirmasi (5 katli CV): Random Forest (AUC 0.963) ayarsiz
+LightGBM'i (0.952) geciyor. Bu sonuc 5 ozellige ozgu; ozellik sayisi
+artinca karsilastirma tekrarlanacak.
 
 ## Yol Haritasi
 

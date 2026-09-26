@@ -1,0 +1,4 @@
+-r requirements.txt
+# Sadece gumruk_memuru/model_karsilastir.py (RF vs LightGBM) icin.
+# LightGBM su an ana modeli gecmedigi icin ana pipeline'a eklenmedi.
+lightgbm==4.7.0
