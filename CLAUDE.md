@@ -73,6 +73,14 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   ödüllendiriliyordu). M2d'de en önemli özellikler artık içerik sinyali
   (DZ_http_url, DZ_ort_uzunluk, DZ_url, DZ_entropi, DZ_crypt, DZ_base64);
   DZ_privilege ilk 15'te yok.
+- Aile bazında bedel (M2 -> M2d kaçan): xworm/njrat/clipbanker ~0-2'de
+  kalıyor; agenttesla 7.0 -> 11.1, formbook 2.8 -> 6.2, remcos 3.2 -> 6.9.
+  "(bilinmiyor)" (15.4) ve wacatac (11.9; Microsoft'un jenerik tespit adı)
+  homojen aile DEĞİL - bunlardan "M2d X'e karşı zayıf" sonucu çıkarılmaz.
+  İzlenecek tanımlı aile: agenttesla. Kaçanların skorları: M2d'de
+  agenttesla kaçanlarının %69'u 0.2-0.5 bandında (üç bölgeli eşikte
+  "şüpheli" olur), ama 0.2 altında kalan "sessiz kaçan" ~%0.5 -> ~%3.5'e
+  çıkıyor. Eşik tasarımında (Sonraki Adımlar 4) bu aile ayrıca ölçülmeli.
 - Üretimde eşik/kalibrasyon: M2d her tip için %50 önsel varsayar. Gerçek
   EXE/DLL zararlı oranı farkı gerçek bir bilgi, atılmamalı: eşik anında
   tipe özel önselle düzelt: p' = p·π_t / (p·π_t + (1-p)(1-π_t)),
