@@ -4,8 +4,7 @@
 "Şef": yapay zeka destekli, donanımsal izolasyonlu bir siber güvenlik motoru
 (savunma amaçlı, EDR/antivirüs benzeri bir sistem). Uzun vadeli mimari TEE/NPU
 donanımsal izolasyon, eBPF ile Linux çekirdek izleme ve zero-knowledge
-biyometrik kasa içeriyor. Faz 1 KAPANDI; Faz 2 (eBPF) henüz başlamadı -
-kullanıcı açıkça istemeden Faz 2/3 işine girme.
+biyometrik kasa içeriyor. Faz 1 KAPANDI; Faz 2 (eBPF) henüz başlamadı.
 
 ## Faz 1: Gümrük Memuru - KAPANDI
 Dosyaları çalıştırılmadan önce statik analizle (entropi + PE header/IAT
