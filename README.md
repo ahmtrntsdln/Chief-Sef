@@ -32,7 +32,12 @@ basit bir statik analiz katmani kurmak.
 - `gumruk_memuru/Chief_1.2.py` -> Tam statik analiz motoru (magic byte, bolum-bazli entropi, IAT/API)
 - `gumruk_memuru/ember_zararli_cikar.py`, `ember_zararsiz_cikar.py` -> EMBER'den gercek veri cikarma
 - `gumruk_memuru/toplu_tarama.py` -> Bu makinedeki dosyalari tarama (dis dogrulama seti)
-- `gumruk_memuru/rf_egit_gercek.py` -> Egitim, dis dogrulama ve sinsi ornek testleri
+- `gumruk_memuru/rf_egit_gercek.py` -> Egitim, dis dogrulama ve sinsi ornek testleri;
+  ana modeli `model.pkl` olarak kaydeder (repo'da yok: ~10 sn'de ayni model
+  yeniden uretilir, pickle da sklearn surumune bagli)
+- `gumruk_memuru/tahmin_et.py` -> Tek dosya tahmini: `python tahmin_et.py <dosya>`.
+  Ozellikler dis dogrulamadaki ayni kodla cikarilir, boylece %3.5 yanlis
+  alarm olcumu bu script icin de gecerli.
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM ve kalibrasyon karsilastirmasi
 
 Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin

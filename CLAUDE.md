@@ -105,7 +105,13 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   doğrulama için. İlerleme çubuğu (%/ETA), satır tamponlu çıktı, ara kayıt
   ve `--devam` ile sürdürme var.
 - `rf_egit_gercek.py` - ana eğitim + dış doğrulama + eski tasarımla
-  karşılaştırma + sinsi örnekler.
+  karşılaştırma + sinsi örnekler. Sonunda ana modeli `model.pkl`'e kaydeder
+  (özellik listesi ve sklearn sürümüyle birlikte).
+- `tahmin_et.py` - `python tahmin_et.py <dosya>`: model.pkl ile tek dosya.
+  Özellikleri `toplu_tarama.dosyayi_analiz_et` ile çıkarır - dış
+  doğrulamada ölçülen AYNI kod; ayrı bir çıkarıcı yazmak raporlanan
+  sayıların geçmediği yeni bir ölçüm olurdu. PE olmayan dosyayı reddeder
+  (Kural 3), .NET dosyasında körlük uyarısı basar.
 - `model_karsilastir.py` - RF vs LightGBM, ham vs kalibre (5 katlı CV +
   makinedeki 11 örneklem + şüpheli bant). `requirements-experimental.txt`
   gerektirir.
@@ -192,6 +198,12 @@ demek (taramayı erteleme mantığının aynısı).
   3. `gumruk_memuru` içinde `python ember2024_net_cikar.py test` (~15 sn)
      ve `python ember2024_net_cikar.py train` (~1 dk)
 - EMBER CSV'lerinde NET_mi ve Karma_Mod sütunları da var.
+- `model.pkl` - REPO'DA YOK (`.gitignore`). Neden: (1) üretilmiş veri;
+  `python rf_egit_gercek.py` repodaki CSV'lerden ~10 sn'de birebir aynı
+  modeli üretir (random_state=42; kayıtlı model dış doğrulamada yine
+  197/5700). (2) Pickle sklearn sürümüne bağlı ikili dosya. (3) Pickle
+  yüklemek kod çalıştırmak demek - güvenlik projesi indirilen pickle'a
+  güvenmeyi alışkanlık haline getirmemeli.
 - Veri politikası: üretilmiş veri commit'lenmez; bunun yerine kaynak + script
   talimatı yazılır. İstisnalar (kullanıcı kararı): iki EMBER 2018 CSV'si
   (raporlanan sayılar birebir bunlara dayanıyor; EMBER sunucusunun yıllar
