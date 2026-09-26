@@ -14,6 +14,7 @@ Degisiklik (v1.1 -> v1.2):
 import pefile
 import math
 import os
+import sys
 from collections import Counter
 
 from sef_sabitler import KARA_LISTE_BAYT, SIHIRLI_IMZALAR
@@ -41,7 +42,10 @@ def gercek_dosya_turunu_bul(dosya_yolu: str) -> str:
             if dosya_basi.startswith(imza):
                 return aciklama
         return "Bilinmeyen Format"
-    except Exception as e:
+    except OSError as e:
+        # Sadece beklenen okuma hatasi (izin, kilitli dosya) yakalanir; kod
+        # hatalari "Okuma Hatasi" kilifina girip gizlenmesin diye Exception degil.
+        print(f"[!] Uyari: dosya turu okunamadi ({dosya_yolu}): {e}", file=sys.stderr)
         return f"Okuma Hatasi: {e}"
 
 
@@ -74,7 +78,10 @@ def boyut_ve_sifir_yogunlugu_hesapla(dosya_yolu: str) -> dict:
             sifir_sayisi = veri.count(b'\x00')
             oran = (sifir_sayisi / boyut) * 100
             return {"boyut_bayt": boyut, "sifir_orani": oran}
-    except Exception:
+    except OSError as e:
+        # 0.0 gercek bir olcum gibi gorunur; en azindan olcum yapilamadigi duyulsun.
+        print(f"[!] Uyari: sifir orani hesaplanamadi, 0.0 kullaniliyor "
+              f"({dosya_yolu}): {e}", file=sys.stderr)
         return {"boyut_bayt": boyut, "sifir_orani": 0.0}
 
 

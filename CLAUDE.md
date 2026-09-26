@@ -247,6 +247,13 @@ demek (taramayı erteleme mantığının aynısı).
   ilerleme bas, `python -u` / `sys.stdout.reconfigure(line_buffering=True)`,
   sonuçları anında dosyaya yaz ve sürdürme (`--devam`) desteği ver.
   Örnek uygulama: `toplu_tarama.py`.
+- `except Exception` ile varsayılan değer döndürme. Neden: özellik
+  çıkarımında sessiz bir varsayılan (ör. sıfır oranı 0.0) gerçek ölçüm gibi
+  görünür, modele ve raporlara hatasız karışır. Sadece BEKLENEN hatayı
+  yakala (dosya okuma: `OSError`, PE: `pefile.PEFormatError`); tek dosya
+  araçlarında stderr'e uyarı bas. Toplu taramada dosya başına uyarı yerine
+  sayaç kullan (toplu_tarama "atlandi"), yoksa ilerleme çıktısı gömülür.
+  Kök dizindeki `Chief 1.1.py` / `Chıef 1.0.py` tarihsel, bilerek dokunulmadı.
 - Dosya içeriğini tamamen belleğe okuyan işlerde boyut sınırı koy
   (toplu_tarama.py: 100 MiB = 100*1024*1024). Sınırsız taramada laptop
   97°C'ye çıktı.

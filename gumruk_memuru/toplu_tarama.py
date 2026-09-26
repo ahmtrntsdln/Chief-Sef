@@ -67,7 +67,11 @@ def dosya_turunu_bul(dosya_yolu: str) -> str:
             if bas.startswith(imza):
                 return ad
         return "Bilinmeyen"
-    except Exception:
+    except OSError:
+        # Beklenen (System32'de izin hatasi yaygin): hemen ardindaki tam okuma da
+        # ayni sebeple duser ve dosya ilerleme satirindaki "atlandi" sayacina
+        # girer. Dosya basina stderr uyarisi 500 bin dosyalik taramada ilerlemeyi
+        # gomer. Exception degil OSError: kod hatalari sessizce yutulmasin.
         return "Okuma_Hatasi"
 
 
