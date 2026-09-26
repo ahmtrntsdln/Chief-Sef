@@ -8,19 +8,15 @@ zararli dosyalarin ozelliklerini cikarir. Ayni KARA_LISTE'yi kullanir,
 boylece zararsiz (Chief_1.2.py ile senin 5700 dosyandan cikan) ve zararli
 (burada EMBER'den cikan) veriler AYNI olcume gore uretilmis olur.
 
-ON KOSUL (bunlari SEN, kendi bilgisayarinda yapmalisin - ben internete
-cikamiyorum, bu yuzden indirmeyi senin icin yapamam):
+ON KOSUL: https://ember.elastic.co/ember_dataset_2018_2.tar.bz2 (~1.6 GB)
+indirilip `tar -xf` ile EMBER_KLASORU'ne acilmis olmali.
 
-  1) Indir: https://ember.elastic.co/ember_dataset_2018_2.tar.bz2
-     (elastic/ember reposunun resmi indirme linki, ~birkac GB)
-  2) Ac:  tar -xjf ember_dataset_2018_2.tar.bz2
-     Bu islem train_features_0.jsonl ... train_features_5.jsonl ve
-     test_features.jsonl dosyalarini bir klasore cikarir.
-  3) Asagidaki EMBER_KLASORU degiskenini o klasorun yoluyla degistir.
-
-Alternatif (daha kolay/hizli): Kaggle'daki temizlenmis tablo hali
-  "dhoogla/ember-2018-v2-features" - CSV/parquet olarak hazir, indirip
-  bu scripti o formata gore ufak degisiklikle uyarlayabiliriz.
+kayittan_ozellik_cikar() EMBER2024 (thrember, pefile tabanli) kayitlarini da
+okur. Iki surum arasindaki, sessizce olcum farki yaratacak iki fark:
+  - ordinal import'lar: 2018 "ordinal5", 2024 "WS2_32.dll:ordinal5"
+  - datadirectories: 2024'te listenin basinda dizin olmayan bir girdi var ve
+    isimler farkli (CLR_RUNTIME_HEADER / COM_DESCRIPTOR) -> CLR girdisi
+    indeksle degil ISIMLE aranir.
 """
 
 import csv
@@ -42,11 +38,23 @@ KARA_LISTE = {
 }
 
 
-ORDINAL_DESENI = re.compile(r"^ordinal\d+$")
+ORDINAL_DESENI = re.compile(r"^(?:.+:)?ordinal\d+$")   # 2018 ve 2024 bicimi
+CLR_DIZIN_ADLARI = {"CLR_RUNTIME_HEADER", "COM_DESCRIPTOR"}  # 2018 (lief) / 2024 (pefile)
+
+
+def net_ozellikleri(kayit: dict) -> tuple:
+    """NET_mi: CLR dizini var (boyut > 0 VE adres > 0; toplu_tarama.py ile ayni
+    kural). Karma_Mod: .NET ve mscoree.dll disinda native DLL de import ediyor
+    (mixed-mode yaklasimi; gercek ILONLY biti EMBER'de yok)."""
+    clr = next((d for d in kayit.get("datadirectories", [])
+                if d.get("name") in CLR_DIZIN_ADLARI), None)
+    net_mi = bool(clr and clr["size"] > 0 and clr["virtual_address"] > 0)
+    native = any(lib.lower() != "mscoree.dll" for lib in kayit.get("imports", {}))
+    return int(net_mi), int(net_mi and native)
 
 
 def kayittan_ozellik_cikar(kayit: dict, etiket: int) -> dict:
-    """EMBER'in ham JSON kaydindan, Chief_1.2.py'daki ayni 5 sutunu cikarir."""
+    """EMBER'in ham JSON kaydindan, toplu_tarama.py'daki ayni sutunlari cikarir."""
     boyut = kayit.get("general", {}).get("size", 0)
 
     histogram = kayit.get("histogram", [])
@@ -59,7 +67,7 @@ def kayittan_ozellik_cikar(kayit: dict, etiket: int) -> dict:
     entropiler = [b.get("entropy", 0.0) for b in bolumler if b.get("size", 0) > 0]
     ortalama_entropi = sum(entropiler) / len(entropiler) if entropiler else 0.0
 
-    # EMBER isimsiz (ordinal) import'lari "ordinal5" gibi yaziyor; pefile
+    # EMBER isimsiz (ordinal) import'lari ayri girdi olarak yaziyor; pefile
     # tarafi (imp.name None) bunlari saymiyor - ayni olcum icin burada da sayma.
     toplam_api = 0
     supheli_api = 0
@@ -68,6 +76,7 @@ def kayittan_ozellik_cikar(kayit: dict, etiket: int) -> dict:
         toplam_api += len(isimli)
         supheli_api += sum(1 for f in isimli if f in KARA_LISTE)
 
+    net_mi, karma_mod = net_ozellikleri(kayit)
     return {
         "Dosya_Adi": f"ember_{kayit.get('sha256', 'bilinmeyen')[:12]}.exe",
         "Boyut_Bayt": boyut,
@@ -75,6 +84,8 @@ def kayittan_ozellik_cikar(kayit: dict, etiket: int) -> dict:
         "Ortalama_Entropi": round(ortalama_entropi, 3),
         "Toplam_API": toplam_api,
         "Supheli_API": supheli_api,
+        "NET_mi": net_mi,
+        "Karma_Mod": karma_mod,
         "Etiket": etiket,
     }
 
@@ -112,12 +123,13 @@ def kayitlari_topla(klasor: str, hedef: int, etiket: int):
     return random.sample(havuz, hedef)
 
 
-def csv_yaz(kayitlar, yol: str):
+CSV_KOLONLARI = ["Dosya_Adi", "Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi",
+                 "Toplam_API", "Supheli_API", "NET_mi", "Karma_Mod", "Etiket"]
+
+
+def csv_yaz(kayitlar, yol: str, kolonlar=CSV_KOLONLARI):
     with open(yol, "w", newline="", encoding="utf-8") as f:
-        yazici = csv.DictWriter(f, fieldnames=[
-            "Dosya_Adi", "Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi",
-            "Toplam_API", "Supheli_API", "Etiket",
-        ])
+        yazici = csv.DictWriter(f, fieldnames=kolonlar)
         yazici.writeheader()
         yazici.writerows(kayitlar)
 

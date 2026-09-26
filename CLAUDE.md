@@ -23,6 +23,30 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   profile benzeyen 22 gerçek dosyanın %64'ü zararlı -> model hatası değil,
   profil gerçekten belirsiz.
 
+### BİLİNEN SINIRLAMA: model .NET zararlılarına neredeyse kör (`net_dogrulama.py`)
+- Genel %90 doğruluk bir alt grubun çöküşünü gizliyor. EMBER 2018 CV'de
+  .NET zararlılarının %52'si kaçıyor (.NET-dışı: %11.5).
+- EMBER2024 .NET test (120.000 dosya, Eylül-Aralık 2024, eğitimde hiç
+  görülmedi): doğruluk %53, kaçan zararlı %92.8, AUC 0.63 -> yazı-tura.
+  Kaçanlar: xworm, njrat, asyncrat, agenttesla, redline, clipbanker...
+  (ailelerin %83-99'u).
+- Sebep NET_mi bayrağı DEĞİL (bayraksız model A da aynı körlükte): 5
+  PE-başlık özelliği .NET dosyalarını birbirinden ayıramıyor (hepsi ~1
+  import, benzer entropi) ve EMBER 2018 eğitiminde .NET zararlı az (162).
+
+## .NET Bayrağı (NET_mi, Karma_Mod) - çıkarıcılarda VAR, ana modelde HENÜZ YOK
+- `ember_zararli_cikar.py` ve `toplu_tarama.py` aynı kuralla üretiyor: CLR
+  dizini İSİMLE aranır, boyut > 0 VE adres > 0. Karma_Mod = .NET + mscoree
+  dışında native import (gerçek ILONLY biti EMBER'de yok; bu makinede 68
+  mixed-mode dosyanın 62'sini yakaladı, 0 yanlış pozitif).
+- Tutarlılık doğrulandı (60 bin EMBER kaydı + 5228 yerel PE): indeks
+  kayması, eksik dizin, boyut/adres çelişkisi pratikte yok.
+- Etkisi (EMBER 2018 CV): doğruluk %89.65 -> %90.16, .NET yanlış alarmı
+  3.1 -> 2.0; ama .NET kaçan zararlısı 52.5 -> 56.8 (".NET ise zararsız"
+  kestirmesi gerçek, küçük). EMBER2024 .NET'te kaçan 92.8 -> 93.4.
+- `rf_egit_gercek.py` hâlâ 5 özellikte: makinedeki doğrulama seti bu iki
+  sütunu içermiyor (yeni tarama gerekir, ~2.5 saat).
+
 ## Dosyalar
 - `entropy.py` - Shannon entropi hesaplayıcı.
 - `Chief_1.2.py` - tam statik analiz motoru (magic byte, bölüm-bazlı entropi,
@@ -41,6 +65,10 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - `model_karsilastir.py` - RF vs LightGBM, ham vs kalibre (5 katlı CV +
   makinedeki 11 örneklem + şüpheli bant). `requirements-experimental.txt`
   gerektirir.
+- `ember2024_net_cikar.py` - EMBER2024 .NET test kümesini (C:\ember2024,
+  Dot_Net_test.zip) aynı çıkarıcıyla CSV'ye çevirir (+ Aile, Hafta).
+- `net_dogrulama.py` - 5 vs 7 özellik; EMBER 2018 CV (.NET / .NET-dışı) ve
+  EMBER2024 .NET üzerinde kestirme/körlük testi.
 
 ## Model Seçimi - ŞİMDİLİK KAPALI, özellik sayısı artınca YENİDEN AÇ
 - 5 özellik, ayarsız modellerle: RF CV doğruluk %89.65 / AUC 0.963,
@@ -55,13 +83,32 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   p·π / (p·π + (1-p)(1-π)) (ör. p=0.93, π=%1 -> ~%12).
 
 ## Sonraki Adımlar (bu sırayla)
-1. Özellik genişletme (.NET bayrağı, overlay/paketleyici belirtileri,
-   import kategorileri). Kritik Kural 1: her yeni özellik hem EMBER ham
-   JSON'undan hem pefile'dan AYNI şekilde hesaplanabilmeli; önce iki
-   tarafı örnek veriyle karşılaştır. En emin verilen yanlış alarmlar
-   .NET DLL'leri (tek import, entropi ~4.3).
-2. `model_karsilastir.py` ile RF vs boosting'i yeniden karşılaştır.
-3. Ancak ondan sonra üç bölgeli eşikler (zararsız / şüpheli / zararlı).
+1. Özellik genişletme. .NET bayrağı eklendi (yukarı bak) ama .NET
+   körlüğünü çözmüyor; .NET içini gören özellikler gerekir. KISIT (Kritik
+   Kural 1): dnfile düzeyindeki özellikler (metod/P/Invoke sayısı, IL boyutu,
+   yönetilen kaynak entropisi) hiçbir eğitim kaynağında YOK - EMBER ikili
+   dosya dağıtmıyor. Yönetilen kaynaklar .rsrc'de değil CLR metadata
+   bölgesinde; pefile ile .rsrc'ye bakmak onları görmez. Uygulanabilir yol:
+   EMBER2024 `strings.string_counts` (ASCII dizgelerde thrember
+   regex'leri: keyboard, clipboard, password, wallet, base64string, url...;
+   .NET tip/metod/P/Invoke adları ASCII olduğu için kısmi .NET-içi sinyal;
+   aynı regex'ler yerelde birebir uygulanabilir) ve belki `caps` (capa).
+   EMBER 2018'de bu alanlar yok -> bu yol fiilen 4. maddeye (EMBER2024)
+   bağlı. Diğer adaylar: overlay/paketleyici belirtileri, import
+   kategorileri. Her yeni özellik hem EMBER ham JSON'undan hem pefile'dan
+   AYNI şekilde hesaplanabilmeli; önce iki tarafı örnek veriyle karşılaştır.
+   Canlı zararlı ikili dosya (MalwareBazaar vb.) bu laptopta işlenmez -
+   izolasyon Faz 3'ün konusu.
+2. Makinedeki doğrulama setini yeniden tara (~2.5 saat) - özellik seti
+   OTURDUKTAN sonra, yoksa iki kez taranır.
+3. `model_karsilastir.py` ile RF vs boosting'i yeniden karşılaştır.
+4. (Ayrı karar, mevcut işi bloklamasın) Ana veri kaynağını EMBER 2018'den
+   EMBER2024'e taşımak: 3.2M dosya, 2023-2024, pefile (thrember) ile
+   çıkarılmış, Apache-2.0, HuggingFace joyce8/EMBER2024'ten dosya tipi
+   bazında indirilebilir. .NET körlüğü için en güçlü aday (.NET eğitim
+   kümesi dengeli ve büyük). Tüm pipeline yeniden tutarlılık kontrolünden
+   geçmeli. Haftalık kotayla dengelenmiş -> oranlar gerçek yaygınlık değil.
+5. Ancak ondan sonra üç bölgeli eşikler (zararsız / şüpheli / zararlı).
    Şu an 0.2-0.8 bandı EMBER'in 1/4'ünü, makinenin 1/6'sını yutuyor ->
    5 özellik yetersiz; eşikleri şimdi kilitleme. Eşik kuralı: gerçek
    olasılık > C_FP / (C_FP + C_FN) ise işaretle. Maliyet oranı kullanıcı
@@ -79,19 +126,49 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   `sef_dataset_zararsiz_gercek_isimli.csv`'ye gider (`.gitignore`'da).
 - `sef_tarama_tum_dosyalar.csv` - tüm tarama (tam yollar içerir, büyük);
   `.gitignore`'da.
+- `sef_dataset_ember2024_net_test.csv` - EMBER2024 .NET test, 120.000
+  kayıt (60K zararlı + 60K zararsız), 6.8 MB. SADECE doğrulama.
+  REPO'DA YOK (`.gitignore`). Yeniden üretmek (~10 sn):
+  1. `curl.exe -L -o C:\ember2024\Dot_Net_test.zip https://huggingface.co/datasets/joyce8/EMBER2024/resolve/main/Dot_Net_test.zip`
+     (210 MB, Apache-2.0)
+  2. `tar -xf Dot_Net_test.zip` (C:\ember2024 içinde; 12 haftalık JSONL, ~1 GB)
+  3. `gumruk_memuru` içinde `python ember2024_net_cikar.py`
+- EMBER CSV'lerinde NET_mi ve Karma_Mod sütunları da var.
+- Veri politikası: üretilmiş veri commit'lenmez; bunun yerine kaynak + script
+  talimatı yazılır. Mevcut istisnalar (küçük, ~300 KB altı): iki EMBER
+  2018 CSV'si (raporlanan sayılar birebir bunlara dayanıyor) ve makine
+  taraması CSV'si (başka yerde yeniden üretilemez). İstisnaların kalıp
+  kalmayacağı kullanıcı kararı.
 
 ## Kritik Kurallar (Tekrar Sızıntı Yaratma)
 1. İki sınıf AYNI ölçüm yöntemiyle üretilmeli. Aynı sütun adı aynı ölçüm
    demek değil: EMBER ordinal import'ları (`ordinal5`) ve boyutu 0 olan
    bölümleri listeliyor, pefile tarafı saymıyor - `ember_zararli_cikar.py`
    bunları atlıyor. Yeni özellik eklerken iki tarafı örnek veriyle karşılaştır.
+   EMBER2024 (thrember) farklı: ordinal `DLL:ordinal5` biçiminde; ve
+   datadirectories listesinin başında dizin olmayan bir girdi var + isimler
+   farklı (CLR = `COM_DESCRIPTOR`, 15. indeks). Alanları İNDEKSLE değil
+   İSİMLE oku.
 2. İki sınıf AYNI kaynaktan gelmeli. Zararsız veri tek makineden gelince
    model "bu makineden mi?" sorusunu öğrendi (System32-only: Entropi+Sıfır
    payı %70; çeşitlenince %50; kaynak farkı yine de %96 doğrulukla
    ayırt edilebiliyordu).
 3. Zararsız tarafa PE olmayan dosya karıştırma (EMBER sadece PE).
 4. Yüksek doğruluk şüphe sebebidir; her modelde feature_importances_ ve
-   senaryo-dışı sinsi örneklerle kontrol et.
+   senaryo-dışı sinsi örneklerle kontrol et. Genel skor alt grup
+   çöküşünü gizleyebilir (genel doğruluk %90 iken .NET zararlılarının
+   sadece %48'i yakalanıyordu) ->
+   önemli alt grupları (.NET, paketli, dosya tipi) AYRICA ölç.
+5. Her yeni veri kaynağında (EMBER 2018, EMBER2024, ileride başka bir
+   kaynak) ordinal/indeks/alan adı varsayımları sabit sayılmaz, isimle ve
+   örnekle doğrulanır. Kontrol listesi:
+   - Kaynak kodu varsa oku (ör. thrember features.py); yoksa örnek kayıtla.
+   - Ordinal / isimsiz girdilerin biçimi (`ordinal5` mi `DLL:ordinal5` mi?)
+   - Liste alanlarında indeks -> isim eşlemesi, dizin olmayan ek girdiler,
+     isim yazımları (CLR_RUNTIME_HEADER / COM_DESCRIPTOR). İNDEKSLE okuma.
+   - Etiket değerleri ve sınıf sayıları (belgelenen sayıya güvenme:
+     EMBER2024 .NET test "60K" dendi, gerçekte 120K).
+   - Değişiklikten sonra mevcut sütunların birebir aynı kaldığını doğrula.
 
 ## Çalışma Alışkanlıkları
 - Uzun işler (tarama, çıkarım, eğitim döngüsü): başta işi say ve %/ETA
@@ -109,5 +186,6 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - Remote: `origin` = https://github.com/ahmtrntsdln/Chief-Sef (main takip
   ediliyor). Repo'daki eski dosyalar (Chief 1.0/1.1, mimari PDF'ler) korunmalı.
 - Ham EMBER verisi (~10 GB) proje DIŞINDA: `C:\ember2018\ember2018`
-  (OneDrive'ı şişirmemek için).
+  (OneDrive'ı şişirmemek için). EMBER2024 .NET test (~1 GB açılmış):
+  `C:\ember2024`.
 - Tam tarama (System32 + Program Files x2) bu makinede ~2.5 saat sürüyor.

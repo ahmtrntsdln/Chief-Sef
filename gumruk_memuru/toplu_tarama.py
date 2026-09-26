@@ -95,6 +95,18 @@ def supheli_api_say(pe) -> tuple:
     return toplam, supheli
 
 
+def net_ozellikleri(pe) -> tuple:
+    """ember_zararli_cikar.net_ozellikleri ile AYNI kural: CLR (COM_DESCRIPTOR)
+    dizini isimle aranir, boyut > 0 VE adres > 0 ise .NET; NumberOfRvaAndSizes
+    < 15 ise pefile girdiyi listelemez -> .NET degil (Windows'un davranisi)."""
+    dizin = next((d for d in pe.OPTIONAL_HEADER.DATA_DIRECTORY
+                  if d.name == "IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR"), None)
+    net_mi = bool(dizin and dizin.Size > 0 and dizin.VirtualAddress > 0)
+    native = any(e.dll.decode(errors="ignore").lower() != "mscoree.dll"
+                 for e in getattr(pe, "DIRECTORY_ENTRY_IMPORT", []))
+    return int(net_mi), int(net_mi and native)
+
+
 def dosyayi_analiz_et(dosya_yolu: str) -> dict:
     """Chief_1.2.py mantigiyla tek bir dosyadan ozellik cikarir."""
     try:
@@ -122,6 +134,7 @@ def dosyayi_analiz_et(dosya_yolu: str) -> dict:
     pe_mi = False
     toplam_api = 0
     supheli_api = 0
+    net_mi = karma_mod = 0
     ortalama_entropi = shannon_entropy(veri)  # varsayilan: tum dosya entropisi
 
     if tur == "PE":
@@ -135,6 +148,7 @@ def dosyayi_analiz_et(dosya_yolu: str) -> dict:
             if entropiler:
                 ortalama_entropi = sum(entropiler) / len(entropiler)
             toplam_api, supheli_api = supheli_api_say(pe)
+            net_mi, karma_mod = net_ozellikleri(pe)
             pe_mi = True
         except pefile.PEFormatError:
             pe_mi = False  # MZ ile basliyor ama gecerli PE degil
@@ -147,6 +161,8 @@ def dosyayi_analiz_et(dosya_yolu: str) -> dict:
         "Ortalama_Entropi": round(ortalama_entropi, 3),
         "Toplam_API": toplam_api,
         "Supheli_API": supheli_api,
+        "NET_mi": net_mi,
+        "Karma_Mod": karma_mod,
         "PE_mi": pe_mi,
         "Etiket": 0,
     }
@@ -186,7 +202,8 @@ def ilerleme_satiri(islenen, toplam, basarili, atlanan, baslangic):
 
 
 KOLONLAR = ["Dosya_Yolu", "Dosya_Adi", "Boyut_Bayt", "Sifir_Orani",
-            "Ortalama_Entropi", "Toplam_API", "Supheli_API", "PE_mi", "Etiket"]
+            "Ortalama_Entropi", "Toplam_API", "Supheli_API", "NET_mi",
+            "Karma_Mod", "PE_mi", "Etiket"]
 ILERLEME_DOSYA_ARALIGI = 500
 ILERLEME_SANIYE_ARALIGI = 30
 
@@ -255,7 +272,7 @@ if __name__ == "__main__":
     # PE_CIKTI repo'da takip ediliyor: Dosya_Adi bu makinede kurulu yazilimlari
     # ortaya koydugu icin oraya hic yazilmaz; isimli hali .gitignore'daki yedege gider.
     ozellik_kolonlari = ["Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi",
-                         "Toplam_API", "Supheli_API", "Etiket"]
+                         "Toplam_API", "Supheli_API", "NET_mi", "Karma_Mod", "Etiket"]
     for yol, kolonlar in [(PE_CIKTI, ozellik_kolonlari),
                           (PE_ISIMLI_CIKTI, ["Dosya_Adi"] + ozellik_kolonlari)]:
         with open(yol, "w", newline="", encoding="utf-8") as f:
