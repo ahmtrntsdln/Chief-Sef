@@ -241,6 +241,17 @@ demek (taramayı erteleme mantığının aynısı).
    - Etiket değerleri ve sınıf sayıları (belgelenen sayıya güvenme:
      EMBER2024 .NET test "60K" dendi, gerçekte 120K).
    - Değişiklikten sonra mevcut sütunların birebir aynı kaldığını doğrula.
+   OTOMATİK HALİ: `tests/test_olcum_tutarliligi.py` (`python -m pytest
+   tests`, `requirements-dev.txt`). Aynı sahte dosyayı hem EMBER 2018 hem
+   EMBER2024 biçimli JSON'a hem pefile tarafına verip 7 sütunun eşitliğini,
+   ordinal biçimlerini, CLR'nin isimle bulunmasını, KARA_LISTE'nin tek
+   kaynaktan geldiğini kontrol eder. Testler geçmiş hataların (ordinal
+   sayımı, boş bölüm, indeksle CLR, v1.1 substring, bytes/str liste
+   ayrışması) her biri koda geri sokularak denendi: hepsi yakalanıyor.
+   YENİ VERİ KAYNAĞI EKLENİNCE: o kaynağın kayıt biçimini `_ember_kaydi`'na
+   yeni bir biçim olarak, yeni ordinal/dizin adlarını ilgili örnek
+   listelerine ekle. Test yazılmadan yeni kaynak eğitime girmez.
+   Özellik çıkaran kodu değiştirdikten sonra da testleri çalıştır.
 
 ## Çalışma Alışkanlıkları
 - Uzun işler (tarama, çıkarım, eğitim döngüsü): başta işi say ve %/ETA
@@ -259,8 +270,9 @@ demek (taramayı erteleme mantığının aynısı).
   97°C'ye çıktı.
 
 ## Ortam Notları
-- Bağımlılıklar: `requirements.txt` (ana pipeline, sürümler sabit) ve
-  `requirements-experimental.txt` (+ LightGBM, sadece model_karsilastir.py).
+- Bağımlılıklar: `requirements.txt` (ana pipeline, sürümler sabit),
+  `requirements-experimental.txt` (+ LightGBM, sadece model_karsilastir.py)
+  ve `requirements-dev.txt` (+ pytest, testler için).
 - Git: `C:\Program Files\Git\cmd\git.exe` (PATH'te olmayabilir).
 - Remote: `origin` = https://github.com/ahmtrntsdln/Chief-Sef (main takip
   ediliyor). Repo'daki eski dosyalar (Chief 1.0/1.1, mimari PDF'ler) korunmalı.

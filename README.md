@@ -43,6 +43,13 @@ basit bir statik analiz katmani kurmak.
 Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin
 `requirements-experimental.txt`).
 
+Testler: `pip install -r requirements-dev.txt` ve repo kokunden
+`python -m pytest tests`. `tests/test_olcum_tutarliligi.py`, zararli (EMBER
+JSON) ve zararsiz (pefile) tarafin ayni dosyayi ayni sayilara cevirdigini
+kontrol eder. Bu projede en pahali hatalar model hatasi degil olcum
+farkiydi: iki taraf farkli olculunce model zararliligi degil olcum farkini
+ogreniyor.
+
 ## Faz 1 Sonuclari
 
 Model: Random Forest, 5 ozellik (boyut, sifir orani, ortalama bolum
