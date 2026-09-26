@@ -28,7 +28,8 @@ import random
 
 from sef_ayarlar import EMBER2018_KLASORU as EMBER_KLASORU
 from sef_ayarlar import EMBER_ZARARLI_CSV as CIKTI_DOSYASI
-from sef_sabitler import CLR_DIZIN_ADLARI, KARA_LISTE, ORDINAL_DESENI
+from dizge_ozellikleri import EMBER2018_DIZGE_SUTUNLARI, kayittan_ember2018_dizge
+from sef_sabitler import CLR_DIZIN_ADLARI, DLL_KARAKTERISTIK_ADI, KARA_LISTE, ORDINAL_DESENI
 
 HEDEF_SAYI = 5700
 
@@ -42,6 +43,12 @@ def net_ozellikleri(kayit: dict) -> tuple:
     net_mi = bool(clr and clr["size"] > 0 and clr["virtual_address"] > 0)
     native = any(lib.lower() != "mscoree.dll" for lib in kayit.get("imports", {}))
     return int(net_mi), int(net_mi and native)
+
+
+def dll_mi(kayit: dict) -> int:
+    """coff.characteristics'te "DLL": EMBER 2018 (lief) ve EMBER2024 (thrember)
+    ayni adi kullanir. Yerel karsiligi: toplu_tarama.dll_mi (IMAGE_FILE_DLL biti)."""
+    return int(DLL_KARAKTERISTIK_ADI in kayit["header"]["coff"]["characteristics"])
 
 
 def kayittan_ozellik_cikar(kayit: dict, etiket: int) -> dict:
@@ -81,6 +88,16 @@ def kayittan_ozellik_cikar(kayit: dict, etiket: int) -> dict:
     }
 
 
+def ember2018_kayittan(kayit: dict, etiket: int) -> dict:
+    """EMBER 2018 CSV'lerinin satiri: temel sutunlar + DLL_mi + EMBER 2018
+    strings grubu (EMBER2024'te bu grup farkli -> orada kayittan_ozellik_cikar
+    + dizge_ozellikleri.kayittan_dizge_ozellikleri kullanilir)."""
+    satir = kayittan_ozellik_cikar(kayit, etiket)
+    satir["DLL_mi"] = dll_mi(kayit)
+    satir.update(kayittan_ember2018_dizge(kayit))
+    return satir
+
+
 def kayitlari_topla(klasor: str, hedef: int, etiket: int):
     """JSONL dosyalarini tarar, label==etiket olan kayitlari toplar
     (1=zararli, 0=zararsiz, -1=etiketsiz)."""
@@ -99,7 +116,7 @@ def kayitlari_topla(klasor: str, hedef: int, etiket: int):
             for satir in f:
                 kayit = json.loads(satir)
                 if kayit.get("label") == etiket:
-                    havuz.append(kayittan_ozellik_cikar(kayit, etiket))
+                    havuz.append(ember2018_kayittan(kayit, etiket))
                     if len(havuz) >= havuz_hedefi:
                         break
         if len(havuz) >= havuz_hedefi:
@@ -116,9 +133,10 @@ def kayitlari_topla(klasor: str, hedef: int, etiket: int):
 
 CSV_KOLONLARI = ["Dosya_Adi", "Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi",
                  "Toplam_API", "Supheli_API", "NET_mi", "Karma_Mod", "Etiket"]
+EMBER2018_KOLONLARI = CSV_KOLONLARI + ["DLL_mi"] + EMBER2018_DIZGE_SUTUNLARI
 
 
-def csv_yaz(kayitlar, yol: str, kolonlar=CSV_KOLONLARI):
+def csv_yaz(kayitlar, yol: str, kolonlar=EMBER2018_KOLONLARI):
     with open(yol, "w", newline="", encoding="utf-8") as f:
         yazici = csv.DictWriter(f, fieldnames=kolonlar)
         yazici.writeheader()

@@ -36,7 +36,8 @@ from sef_ayarlar import TARANACAK_KLASORLER   # taranacak klasorler orada
 from sef_ayarlar import TUM_TARAMA_CSV as TAM_CIKTI                    # her sey (PE olsun olmasin)
 from sef_ayarlar import TARAMA_ZARARSIZ_CSV as PE_CIKTI                # dis dogrulama seti (egitimde kullanilmaz)
 from sef_ayarlar import TARAMA_ZARARSIZ_ISIMLI_CSV as PE_ISIMLI_CIKTI  # ayni satirlar + Dosya_Adi, sadece yerel
-from sef_sabitler import KARA_LISTE_BAYT, PEFILE_CLR_DIZIN_ADI, SIHIRLI_IMZALAR
+from dizge_ozellikleri import EMBER2018_DIZGE_SUTUNLARI, dosyadan_ember2018_dizge
+from sef_sabitler import IMAGE_FILE_DLL, KARA_LISTE_BAYT, PEFILE_CLR_DIZIN_ADI, SIHIRLI_IMZALAR
 
 HEDEF_SAYI = 5700   # EMBER siniflariyla ayni boyut
 
@@ -94,6 +95,12 @@ def net_ozellikleri(pe) -> tuple:
     return int(net_mi), int(net_mi and native)
 
 
+def dll_mi(pe) -> int:
+    """ember_zararli_cikar.dll_mi ile ayni bilgi: EMBER'in coff.characteristics
+    listesindeki "DLL" = FILE_HEADER.Characteristics'teki IMAGE_FILE_DLL biti."""
+    return int(bool(pe.FILE_HEADER.Characteristics & IMAGE_FILE_DLL))
+
+
 def dosyayi_analiz_et(dosya_yolu: str) -> dict:
     """Chief_1.2.py mantigiyla tek bir dosyadan ozellik cikarir."""
     try:
@@ -121,8 +128,11 @@ def dosyayi_analiz_et(dosya_yolu: str) -> dict:
     pe_mi = False
     toplam_api = 0
     supheli_api = 0
-    net_mi = karma_mod = 0
+    net_mi = karma_mod = dll = 0
     ortalama_entropi = shannon_entropy(veri)  # varsayilan: tum dosya entropisi
+    # EMBER 2018 gibi tum dosya baytlarindan (PE olmayanlarda da hesaplanir;
+    # ara kayittan surdurme bos alanli satiri yarim yazilmis sayar)
+    dizge = dosyadan_ember2018_dizge(veri)
 
     if tur == "PE":
         try:
@@ -136,6 +146,7 @@ def dosyayi_analiz_et(dosya_yolu: str) -> dict:
                 ortalama_entropi = sum(entropiler) / len(entropiler)
             toplam_api, supheli_api = supheli_api_say(pe)
             net_mi, karma_mod = net_ozellikleri(pe)
+            dll = dll_mi(pe)
             pe_mi = True
         except pefile.PEFormatError:
             pe_mi = False  # MZ ile basliyor ama gecerli PE degil
@@ -152,6 +163,8 @@ def dosyayi_analiz_et(dosya_yolu: str) -> dict:
         "Karma_Mod": karma_mod,
         "PE_mi": pe_mi,
         "Etiket": 0,
+        "DLL_mi": dll,
+        **dizge,
     }
 
 
@@ -190,7 +203,7 @@ def ilerleme_satiri(islenen, toplam, basarili, atlanan, baslangic):
 
 KOLONLAR = ["Dosya_Yolu", "Dosya_Adi", "Boyut_Bayt", "Sifir_Orani",
             "Ortalama_Entropi", "Toplam_API", "Supheli_API", "NET_mi",
-            "Karma_Mod", "PE_mi", "Etiket"]
+            "Karma_Mod", "PE_mi", "Etiket", "DLL_mi"] + EMBER2018_DIZGE_SUTUNLARI
 ILERLEME_DOSYA_ARALIGI = 500
 ILERLEME_SANIYE_ARALIGI = 30
 
@@ -258,8 +271,9 @@ if __name__ == "__main__":
 
     # PE_CIKTI repo'da takip ediliyor: Dosya_Adi bu makinede kurulu yazilimlari
     # ortaya koydugu icin oraya hic yazilmaz; isimli hali .gitignore'daki yedege gider.
-    ozellik_kolonlari = ["Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi",
-                         "Toplam_API", "Supheli_API", "NET_mi", "Karma_Mod", "Etiket"]
+    ozellik_kolonlari = (["Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi",
+                          "Toplam_API", "Supheli_API", "NET_mi", "Karma_Mod", "Etiket",
+                          "DLL_mi"] + EMBER2018_DIZGE_SUTUNLARI)
     for yol, kolonlar in [(PE_CIKTI, ozellik_kolonlari),
                           (PE_ISIMLI_CIKTI, ["Dosya_Adi"] + ozellik_kolonlari)]:
         with open(yol, "w", newline="", encoding="utf-8") as f:

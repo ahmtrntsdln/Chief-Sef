@@ -22,6 +22,14 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - Sinsi 2 örneği (%17 sıfır, 3.8 entropi) %68 zararlı çıkıyor; EMBER'de bu
   profile benzeyen 22 gerçek dosyanın %64'ü zararlı -> model hatası değil,
   profil gerçekten belirsiz.
+- ÖLÇÜM NOTU (`dizge_dll_dogrulama.py`): %90.1 İYİMSER. Örneklem havuzu
+  EMBER dosyalarının alfabetik ilkinden (test_features.jsonl) sırayla
+  toplanmış: 11.400 satırın hepsi dosyanın ilk ~34 bin kaydından, hepsi
+  Kasım 2018. 80/20 bölme bu dar pencerenin içinde. Aynı dosyanın geri
+  kalan 188.600 kaydında (Kasım+Aralık) ana model: %87.4 doğruluk, AUC
+  0.947. Aynı 5 özellik tasarımı zamansal bölmeyle (Ocak-Ekim eğit ->
+  Kasım-Aralık test): %83.8, AUC 0.920. Sızıntı değil, ama raporlanacak
+  gerçekçi sayı bunlar; %3.5 dış doğrulama ayrı ölçüm, etkilenmiyor.
 
 ### BİLİNEN SINIRLAMA: model .NET zararlılarına neredeyse kör (`net_dogrulama.py`)
 - Genel %90 doğruluk bir alt grubun çöküşünü gizliyor. EMBER 2018 CV'de
@@ -54,6 +62,11 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - Veri: Dot_Net_train (520K, ilk 52 hafta) -> 100K alt örnek; test
   Dot_Net_test (120K, son 12 hafta) - zamansal bölme. Eğitim/test ortak
   dosya 0; birebir aynı özellik vektörü %1.6 (çıkarınca sonuç değişmiyor).
+  Train'deki 8 kayıt PE değil (`is_pe=0`, 146 baytlık JSON hata metni);
+  eskiden `coff` alanı olmadığı için sessizce DLL_mi=0 alıyordu, artık
+  atlanıyor (Kural 3). Bu yüzden M1-M2d sayıları ilk ölçümden örneklem
+  gürültüsü kadar farklı (ör. M2d EXE yanlış alarm 7.88 -> 7.34);
+  sonuçlar aynı. Bu makinedeki 500+500 .NET ölçümü ilk eğitimle yapıldı.
 - Dizge özellikleri (`dizge_ozellikleri.py`) thrember'ın KENDİ koduyla aynı
   500 yerel dosyada (148 .NET) karşılaştırıldı: 500/500 birebir aynı.
   Yerelde dosya başına ~0.25 sn (tam tarama süresini uzatır).
@@ -66,9 +79,9 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   EXE'lerde yanlış alarm %26.3 - genel %4.2 bunu gizliyordu. Manifest
   kelimelerini çıkarmak çözmüyor (%21; tip bilgisi başka özelliklerde de var).
 - Çözüm (M2d): eğitim örneklemi her tipin İÇİNDE 50/50 + DLL_mi girdi. EXE
-  yanlış alarm 26.3 -> 7.9, EXE AUC 0.966 -> 0.978, DLL AUC 0.986 -> 0.993;
-  EXE kaçan 3.1 -> 8.1 (M2 "EXE ise zararlı" önselini kullanıyordu). Genel
-  doğruluk 95.97 -> 94.90: bu KAYIP DEĞİL, gerçekçi hale gelmenin bedeli
+  yanlış alarm 26.5 -> 7.3, EXE AUC 0.966 -> 0.979, DLL AUC 0.986 -> 0.993;
+  EXE kaçan 2.9 -> 8.0 (M2 "EXE ise zararlı" önselini kullanıyordu). Genel
+  doğruluk 95.97 -> 94.97: bu KAYIP DEĞİL, gerçekçi hale gelmenin bedeli
   (test kümesi de aynı tip dengesizliğini taşıdığı için kestirme orada
   ödüllendiriliyordu). M2d'de en önemli özellikler artık içerik sinyali
   (DZ_http_url, DZ_ort_uzunluk, DZ_url, DZ_entropi, DZ_crypt, DZ_base64);
@@ -93,6 +106,35 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   paketten çok dosya) -> gerçek belirsizlik aralıktan geniş. M2d'nin
   alarmları çoğunlukla az-import'lu komut satırı geliştirici araçları.
 
+## Native Model: DLL_mi + EMBER 2018 dizgeleri - DENEYSEL (`dizge_dll_dogrulama.py`)
+- Soru: EMBER2024 Win32/Win64'ü (17 GB) indirmeden native modele dizge
+  sinyali eklenebilir mi? EMBER 2018 JSON'unda `strings` grubu var ama
+  string_counts (77 regex) YOK. Olan: numstrings, avlength, entropy,
+  printables (thrember ile satır satır AYNI kod) + tüm dosyada 4 kaba sayım
+  (`C:\`, `http(s)://`, `HKEY_`, `MZ`). Tanım EMBER'in kendi koduyla
+  doğrulandı: 60K kayıtta iç tutarlılık (printabledist toplamı, entropi,
+  histogram sınırı, MZ>=1) ihlalsiz; yerel `dosyadan_ember2018_dizge`
+  EMBER'in StringExtractor koduyla 500 yerel dosyada 500/500 birebir.
+  Yerelde ucuz (77 regex döngüsü yok).
+- KESTİRME BURADA DA VAR (dördüncü kez): EMBER 2018 train'de zararsızların
+  %45.7'si, zararlıların %6.3'ü DLL (test: %28.8 / %7.2). Mevcut 5 özellik
+  bile tipi dolaylı öğrenmiş: V0 EXE yanlış alarm %19.1 / DLL %8.4, DLL
+  kaçan %21.6 / EXE %15.9. DLL_mi'yi DÜZ eklemek (V1) kestirmeyi büyütür:
+  DLL yanlış alarm 2.0 ama DLL kaçan %38, EXE yanlış alarm %24.5; genel
+  doğruluk sadece +0.3 -> yine genel skor gizliyor.
+- Sonuç (zamansal test, Kasım-Aralık 200K, 5 tohum ortalaması; tohum farkı
+  genel ~1 puan, AUC ~0.006, .NET kaçan ~12 puan):
+  V0 5 temel %83.8 / AUC 0.920; V2 +dizge %86.8 / 0.945 (.NET AUC 0.865 ->
+  0.939); V4 +dizge +DLL_mi tip-içi dengeli %86.3 / 0.944, DLL AUC 0.982
+  (V2 0.970), DLL kaçan 7.8 (V2 18.6), EXE yanlış alarm 14.2 (V2 17.0),
+  EXE kaçan 16.2 (V2 12.7). V4'te DLL_mi önemi 0.027 (V3'te 0.106);
+  en önemliler DZ_entropi, Toplam_API, DZ_ort_uzunluk, DZ18_http.
+- Yorum: dizge grubu gerçek kazanç (AUC +0.025, tohum farkının ~4 katı).
+  EXE'de V2/V4 farkı çoğunlukla eşik/önsel kayması (EXE AUC ikisinde de
+  ~0.93) -> .NET modelindeki gibi tipe özel kalibrasyonla çözülür. Aday:
+  V4. Ana modele ALINMADI: önce bu makinedeki dış doğrulama setinde
+  DLL_mi + dizge sütunları gerekiyor (bkz. Sonraki Adımlar 2).
+
 ## Dosyalar
 - `entropy.py` - Shannon entropi hesaplayıcı.
 - `sef_sabitler.py` - ölçüm sabitlerinin TEK kaynağı: KARA_LISTE (str) ve
@@ -116,6 +158,14 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   sızıntı kanıtı. Yeni işte kullanma.
 - `ember_zararli_cikar.py` - EMBER JSONL'den label'a göre özellik çıkarır
   (`kayitlari_topla(klasor, hedef, etiket)`); ana çalıştırma zararlı üretir.
+  `dll_mi` (2018 ve 2024 ortak) ve `ember2018_kayittan` (temel + DLL_mi +
+  EMBER 2018 dizge grubu) burada. Repodaki iki EMBER 2018 CSV'si HENÜZ
+  eski 9 sütunlu: yeni sütunlar ana model değişince (şema değişikliği)
+  yazılacak; genişletilmiş hali eski sütunları birebir koruyor (doğrulandı).
+- `ember2018_tam_cikar.py` - EMBER 2018'in tüm etiketli kayıtlarını
+  (`test|train`) proje dışına CSV'ye çevirir (+ Aile, Ay); ~2 dk.
+- `dizge_dll_dogrulama.py` - native model için DLL_mi / dizge ablasyonu,
+  zamansal test, 5 tohum, tum/EXE/DLL/.NET.
 - `ember_zararsiz_cikar.py` - aynı fonksiyonlarla EMBER zararsız üretir.
 - `toplu_tarama.py` - bu makinedeki dosyaları tarar; PE CSV'si SADECE dış
   doğrulama için. İlerleme çubuğu (%/ETA), satır tamponlu çıktı, ara kayıt
@@ -134,13 +184,18 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - `ember2024_net_cikar.py` - EMBER2024 .NET kümelerini (`test|train`) aynı
   çıkarıcıyla CSV'ye çevirir (+ dizgeler, DLL_mi, Aile, Hafta).
 - `dizge_ozellikleri.py` - thrember'ın `string_counts` regex'leri ve dizge
-  kuralı (Apache-2.0); JSON kaydından ve ham dosyadan aynı 80 sütun.
+  kuralı (Apache-2.0); JSON kaydından ve ham dosyadan aynı 80 sütun. Ayrıca
+  EMBER 2018 strings grubu (8 sütun: DZ_sayi, DZ_ort_uzunluk, DZ_entropi,
+  DZ18_*). Yanlış kaynağın kaydı verilirse KeyError - eskiden eksik
+  string_counts 77 sütuna sessizce 0 yazardı.
 - `net_dogrulama.py` - 5 vs 7 özellik; EMBER 2018 CV (.NET / .NET-dışı) ve
   EMBER2024 .NET üzerinde kestirme/körlük testi.
 - `net_model.py` - DENEYSEL .NET uzman modeli: M0/M1/M2/M2d ablasyonu,
   tum/EXE/DLL alt grupları, aile bazında kaçma oranı.
-- NOT: `toplu_tarama.py` henüz DLL_mi ve dizge özelliklerini üretmiyor
-  (Sonraki Adımlar 2'deki yeniden taramada eklenecek).
+- `toplu_tarama.py` artık DLL_mi + EMBER 2018 dizge grubunu da üretiyor
+  (8 sütun, ucuz). thrember'ın 80 sütununu ÜRETMİYOR (dosya başına ~0.25
+  sn, 64K PE'de ~4.5 saat ek); .NET uzman modeli için gerekirse sadece
+  NET_mi=1 dosyalarda hesaplanmalı.
 
 ## Model Seçimi - ŞİMDİLİK KAPALI, özellik sayısı artınca YENİDEN AÇ
 - 5 özellik, ayarsız modellerle: RF CV doğruluk %89.65 / AUC 0.963,
@@ -181,8 +236,16 @@ demek (taramayı erteleme mantığının aynısı).
      (MalwareBazaar vb.) bu laptopta işlenmez - izolasyon Faz 3'ün konusu.
    - Diğer adaylar (EMBER2024 JSON'unda varsa): overlay/paketleyici
      belirtileri, import kategorileri.
+   - YAPILDI (native kısmı, indirmesiz): DLL_mi + EMBER 2018 dizge grubu
+     (bkz. "Native Model"). Win32/Win64 string_counts için 17 GB indirme
+     hâlâ gerekir; karar .NET ve native sonuçlarına bağlı.
 2. Makinedeki doğrulama setini yeniden tara (~2.5 saat) - özellik seti
-   kesinleşince, BİR KEZ.
+   kesinleşince, BİR KEZ. Alternatif (daha ucuz): 5700'lük set
+   `sef_tarama_tum_dosyalar.csv`'den seed 42 ile birebir yeniden
+   kurulabiliyor (5700/5700 doğrulandı). Ama o dosya eski tarama sürümünden:
+   tam yol YOK, sadece Dosya_Adi. Klasörleri listeleyip (ad, boyut) ile
+   eşleştir, sadece o dosyaları yeniden oku, eski 5 sütunun birebir
+   tuttuğunu satır satır kontrol et (dosya taramadan beri değiştiyse at).
 3. `model_karsilastir.py` ile RF vs boosting'i yeniden karşılaştır.
 4. Üç bölgeli eşikler (zararsız / şüpheli / zararlı).
    Şu an 0.2-0.8 bandı EMBER'in 1/4'ünü, makinenin 1/6'sını yutuyor ->
@@ -214,6 +277,11 @@ demek (taramayı erteleme mantığının aynısı).
   3. `gumruk_memuru` içinde `python ember2024_net_cikar.py test` (~15 sn)
      ve `python ember2024_net_cikar.py train` (~1 dk)
 - EMBER CSV'lerinde NET_mi ve Karma_Mod sütunları da var.
+- EMBER 2018 tam CSV'leri - proje DIŞINDA, REPO'DA YOK:
+  `C:\ember2018\ember2018_train_ozellik.csv` (600.000 etiketli, Ocak-Ekim)
+  ve `..._test_ozellik.csv` (200.000, Kasım-Aralık). Yeniden üretmek: ham
+  EMBER 2018 (`C:\ember2018\ember2018`) varken `python ember2018_tam_cikar.py
+  test` ve `... train` (toplam ~2 dk).
 - `model.pkl` - REPO'DA YOK (`.gitignore`). Neden: (1) üretilmiş veri;
   `python rf_egit_gercek.py` repodaki CSV'lerden ~10 sn'de birebir aynı
   modeli üretir (random_state=42; kayıtlı model dış doğrulamada yine
@@ -257,6 +325,9 @@ demek (taramayı erteleme mantığının aynısı).
    - Etiket değerleri ve sınıf sayıları (belgelenen sayıya güvenme:
      EMBER2024 .NET test "60K" dendi, gerçekte 120K).
    - Değişiklikten sonra mevcut sütunların birebir aynı kaldığını doğrula.
+   - Bozuk/PE olmayan kayıtlar (EMBER2024 `is_pe=0`, eksik `header.coff`):
+     `.get(..., [])` ile okuma - sessizce varsayılan değer alırlar. Alanı
+     doğrudan oku, eksikse say ve açıkça atla.
    OTOMATİK HALİ: `tests/test_olcum_tutarliligi.py` (`python -m pytest
    tests`, `requirements-dev.txt`). Aynı sahte dosyayı hem EMBER 2018 hem
    EMBER2024 biçimli JSON'a hem pefile tarafına verip 7 sütunun eşitliğini,

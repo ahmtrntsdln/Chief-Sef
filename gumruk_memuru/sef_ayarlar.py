@@ -24,6 +24,7 @@ def _proje(ad: str) -> str:
 
 # --- Ham veri: proje (OneDrive) DISINDA, buyuk ---
 EMBER2018_KLASORU = r"C:\ember2018\ember2018"     # tar -xf ile acilan gercek klasor
+EMBER2018_CIKTI_KLASORU = r"C:\ember2018"         # ember2018_tam_cikar.py'nin buyuk CSV'leri
 EMBER2024_KLASORU = r"C:\ember2024"               # Dot_Net_test JSONL + uretilen CSV'ler
 EMBER2024_TRAIN_KLASORU = os.path.join(EMBER2024_KLASORU, "train")   # Dot_Net_train JSONL
 

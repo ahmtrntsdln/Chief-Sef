@@ -16,14 +16,18 @@ Calistirma (repo kokunden): python -m pytest tests
 
 import glob
 import os
+import re
 import sys
 from collections import Counter
 from types import SimpleNamespace
 
+import numpy as np
 import pefile
 import pytest
 
 import ember_zararli_cikar as ezc
+from dizge_ozellikleri import (EMBER2018_DIZGE_SUTUNLARI, kayittan_dizge_ozellikleri,
+                               kayittan_ember2018_dizge)
 import sef_sabitler
 import toplu_tarama as tt
 
@@ -66,11 +70,18 @@ IMPORTLAR = {"KERNEL32.dll": ["VirtualAlloc", "VirtualAllocEx",   # Ex: substrin
                               "VirtualAllocExNuma",                # listede YOK, iki adi da icerir
                               "GetProcAddress", None],            # None = ordinal
              "mscoree.dll": ["_CorExeMain"]}
-DOSYA = b"MZ" + b"\x00" * 62 + b"".join(v for _, v in BOLUMLER) + b"\x90" * 50
+# EMBER 2018 strings grubu icin kuyruk: buyuk/kucuk harf ve 5 karakter
+# siniri tuzaklari (paths/urls harf duyarsiz, HKEY_ duyarli, "MZMZ" dizge sayilmaz).
+KUYRUK = (b"\x00C:\\Windows\\a.dll\x00c:\\x\\yyyy\x00http://ornek.com\x00HTTPS://b.org/x\x00"
+          b"HKEY_LOCAL_MACHINE\x00hkey_kucuk\x00MZMZ\x00")
+DOSYA = b"MZ" + b"\x00" * 62 + b"".join(v for _, v in BOLUMLER) + b"\x90" * 50 + KUYRUK
+DLL_KARAKTERISTIKLERI = ["EXECUTABLE_IMAGE", "DLL"]    # EMBER coff.characteristics
+DLL_BAYRAKLARI = 0x0002 | 0x2000                          # pefile: EXECUTABLE_IMAGE | DLL
 
 
-def _pefile_nesnesi(dizinler):
+def _pefile_nesnesi(dizinler, bayraklar=DLL_BAYRAKLARI):
     return SimpleNamespace(
+        FILE_HEADER=SimpleNamespace(Characteristics=bayraklar),
         sections=[SimpleNamespace(get_data=lambda v=v: v) for _, v in BOLUMLER],
         DIRECTORY_ENTRY_IMPORT=[
             SimpleNamespace(dll=dll.encode(),
@@ -100,10 +111,22 @@ def _ember_kaydi(bicim):
             {"name": f"DIZIN_{i}", "size": 16, "virtual_address": 4096} for i in range(15)]
         dizinler[15] = {"name": "COM_DESCRIPTOR", "size": 0x48, "virtual_address": 0x2008}
     sayim = Counter(DOSYA)
+    dizgeler = re.findall(b"[\x20-\x7f]{5,}", DOSYA)
+    c = np.bincount(np.frombuffer(b"".join(dizgeler), dtype=np.uint8) - 0x20, minlength=96)
+    p = c[c > 0] / c.sum()
+    strings = {"numstrings": len(dizgeler), "avlength": c.sum() / len(dizgeler),
+               "printabledist": c.tolist(), "printables": int(c.sum()),
+               "entropy": float(-(p * np.log2(p)).sum())}
+    if bicim == "2018":   # ember v2: tum dosyada 4 sayim (elle, KUYRUK'tan)
+        strings.update(paths=2, urls=2, registry=1, MZ=3)
+    else:                 # thrember: 4 sayim yok, yerine regex sayimlari
+        strings["string_counts"] = {}
     return {
         "sha256": "0" * 64,
         "general": {"size": len(DOSYA)},
         "histogram": [sayim.get(b, 0) for b in range(256)],
+        "strings": strings,
+        "header": {"coff": {"characteristics": DLL_KARAKTERISTIKLERI}},
         "section": {"sections": [{"name": ad, "size": len(v), "entropy": tt.shannon_entropy(v)}
                                  for ad, v in BOLUMLER]},
         "imports": imports,
@@ -137,6 +160,46 @@ def test_beklenen_degerler(pefile_tarafi):
     assert pefile_tarafi["Karma_Mod"] == 1         # mscoree disinda KERNEL32
     beklenen = round((tt.shannon_entropy(BOLUMLER[0][1]) + tt.shannon_entropy(BOLUMLER[1][1])) / 2, 3)
     assert pefile_tarafi["Ortalama_Entropi"] == beklenen   # bos bolum ortalamaya girmez
+    assert pefile_tarafi["DLL_mi"] == 1
+
+
+# --- DLL_mi ve EMBER 2018 strings grubu ---
+
+@pytest.mark.parametrize("bicim", ["2018", "2024"])
+def test_dll_mi_ayni(pefile_tarafi, bicim):
+    assert ezc.dll_mi(_ember_kaydi(bicim)) == pefile_tarafi["DLL_mi"] == 1
+
+
+def test_exe_iki_tarafta_da_dll_degil():
+    kayit = _ember_kaydi("2018")
+    kayit["header"]["coff"]["characteristics"] = ["EXECUTABLE_IMAGE"]
+    assert ezc.dll_mi(kayit) == tt.dll_mi(_pefile_nesnesi(_pefile_dizinleri(), bayraklar=0x0002)) == 0
+
+
+@pytest.mark.parametrize("sutun", EMBER2018_DIZGE_SUTUNLARI)
+def test_ember2018_dizge_ayni(pefile_tarafi, sutun):
+    ember_tarafi = ezc.ember2018_kayittan(_ember_kaydi("2018"), etiket=1)
+    assert ember_tarafi[sutun] == pytest.approx(pefile_tarafi[sutun], abs=1e-3)
+
+
+def test_ember2018_dizge_beklenen(pefile_tarafi):
+    """Elle: .text'te 8 x 96 karakterlik dizge (0x20-0x7f), .data'da 200, kuyrukta
+    6 (MZMZ 4 karakter -> dizge degil). paths: C:\\ + c:\\, urls: http + HTTPS,
+    registry: sadece buyuk harfli HKEY_, MZ: baslik + MZMZ'deki 2."""
+    kuyruk = [16, 9, 16, 15, 18, 10]
+    assert pefile_tarafi["DZ_sayi"] == 8 + 1 + len(kuyruk)
+    assert pefile_tarafi["DZ18_yazdirilabilir"] == 8 * 96 + 200 + sum(kuyruk)
+    assert (pefile_tarafi["DZ18_c_yolu"], pefile_tarafi["DZ18_http"],
+            pefile_tarafi["DZ18_hkey"], pefile_tarafi["DZ18_mz"]) == (2, 2, 1, 3)
+
+
+def test_eksik_dizge_alani_sessiz_sifir_olmaz():
+    """EMBER 2018'de string_counts, EMBER2024'te paths/urls/registry/MZ yok:
+    yanlis kaynaktan okumak hata vermeli, 0 yazmamali."""
+    with pytest.raises(KeyError):
+        kayittan_dizge_ozellikleri(_ember_kaydi("2018"))
+    with pytest.raises(KeyError):
+        kayittan_ember2018_dizge(_ember_kaydi("2024"))
 
 
 def test_chief_supheli_sayimi_ayni(chief):

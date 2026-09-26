@@ -27,17 +27,11 @@ import sys
 import time
 
 from dizge_ozellikleri import DIZGE_SUTUNLARI, kayittan_dizge_ozellikleri
-from ember_zararli_cikar import CSV_KOLONLARI, kayittan_ozellik_cikar
+from ember_zararli_cikar import CSV_KOLONLARI, dll_mi, kayittan_ozellik_cikar
 from sef_ayarlar import EMBER2024_KLASORU, EMBER2024_TRAIN_KLASORU
 
 GIRDI = {"test": EMBER2024_KLASORU, "train": EMBER2024_TRAIN_KLASORU}
 KOLONLAR = CSV_KOLONLARI + DIZGE_SUTUNLARI + ["DLL_mi", "Aile", "Hafta"]
-
-
-def dll_mi(kayit: dict) -> int:
-    """thrember coff.characteristics = pefile FILE_HEADER'daki IMAGE_FILE_* bayraklari
-    ("IMAGE_FILE_" kirpilmis); yerelde karsiligi pe.FILE_HEADER.IMAGE_FILE_DLL."""
-    return int("DLL" in kayit.get("header", {}).get("coff", {}).get("characteristics", []))
 
 
 def cikti_yolu(bolum: str) -> str:
@@ -55,7 +49,7 @@ if __name__ == "__main__":
     toplam_bayt = sum(os.path.getsize(d) for d in dosyalar)
 
     sayac = {0: 0, 1: 0}
-    atlanan, okunan_bayt = 0, 0
+    atlanan, pe_degil, okunan_bayt = 0, 0, 0
     baslangic = son = time.monotonic()
     with open(cikti_yolu(bolum), "w", newline="", encoding="utf-8") as f:
         yazici = csv.DictWriter(f, fieldnames=KOLONLAR)
@@ -67,6 +61,11 @@ if __name__ == "__main__":
                     kayit = json.loads(satir)
                     if kayit.get("label") not in (0, 1):
                         atlanan += 1
+                        continue
+                    if not kayit["general"]["is_pe"]:
+                        # train'de 8 kayit: 146 baytlik JSON hata metni, PE degil.
+                        # Kural 3; eskiden coff'suz oldugu icin sessizce DLL_mi=0 aliyordu.
+                        pe_degil += 1
                         continue
                     ozellik = kayittan_ozellik_cikar(kayit, kayit["label"])
                     ozellik.update(kayittan_dizge_ozellikleri(kayit))
@@ -84,5 +83,5 @@ if __name__ == "__main__":
                               f"gecen {gecen:.0f} sn, kalan ~{gecen / oran * (1 - oran):.0f} sn")
 
     print(f"[+] {bolum}: {sum(sayac.values())} kayit ({sayac[1]} zararli, {sayac[0]} zararsiz, "
-          f"{atlanan} etiketsiz atlandi) -> '{cikti_yolu(bolum)}' "
+          f"{atlanan} etiketsiz, {pe_degil} PE olmayan atlandi) -> '{cikti_yolu(bolum)}' "
           f"({time.monotonic() - baslangic:.0f} sn)")

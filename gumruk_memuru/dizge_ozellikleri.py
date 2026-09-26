@@ -17,6 +17,8 @@ import re
 
 import numpy as np
 
+from sef_sabitler import EMBER2018_DIZGE_DESENLERI
+
 DIZGE_DESENI = re.compile(b"[\x20-\x7f]{5,}")
 
 REGEXLER = {
@@ -137,18 +139,23 @@ def _sutunlara(numstrings, avlength, entropi, string_counts) -> dict:
     return satir
 
 
+def _dizge_istatistikleri(dizgeler: list) -> tuple:
+    """numstrings, avlength, entropy, printables: EMBER 2018 (ember v2) ve
+    EMBER2024 (thrember) StringExtractor'da satir satir AYNI kod."""
+    if not dizgeler:
+        return 0, 0, 0.0, 0
+    avlength = sum(len(s) for s in dizgeler) / len(dizgeler)
+    c = np.bincount(np.frombuffer(b"".join(dizgeler), dtype=np.uint8) - 0x20, minlength=96)
+    p = c.astype(np.float32) / c.sum()
+    wh = np.where(c)[0]
+    return len(dizgeler), avlength, float(np.sum(-p[wh] * np.log2(p[wh]))), int(c.sum())
+
+
 def ham_dizge_ozellikleri(bytez: bytes) -> dict:
     """thrember StringExtractor.raw_features'in bu projede kullanilan alanlari,
     ayni algoritmayla (dizge kurali, entropi, regex basina 'eslesen dizge' sayisi)."""
     dizgeler = DIZGE_DESENI.findall(bytez)
-    if dizgeler:
-        avlength = sum(len(s) for s in dizgeler) / len(dizgeler)
-        c = np.bincount(np.frombuffer(b"".join(dizgeler), dtype=np.uint8) - 0x20, minlength=96)
-        p = c.astype(np.float32) / c.sum()
-        wh = np.where(c)[0]
-        entropi = float(np.sum(-p[wh] * np.log2(p[wh])))
-    else:
-        avlength, entropi = 0, 0.0
+    _, avlength, entropi, _ = _dizge_istatistikleri(dizgeler)
     string_counts = {}
     for s in (d.decode() for d in dizgeler):
         for ad, desen in REGEXLER.items():
@@ -164,6 +171,39 @@ def dosyadan_dizge_ozellikleri(bytez: bytes) -> dict:
 
 
 def kayittan_dizge_ozellikleri(kayit: dict) -> dict:
-    """EMBER2024 ham JSON kaydindan ayni sutunlar (EMBER 2018'de bu alan yok)."""
+    """EMBER2024 ham JSON kaydindan ayni sutunlar. EMBER 2018'de string_counts
+    YOK: eksikse KeyError - .get(..., {}) 77 sutuna sessizce 0 yazardi."""
     s = kayit["strings"]
-    return _sutunlara(s["numstrings"], s["avlength"], s["entropy"], s.get("string_counts", {}))
+    return _sutunlara(s["numstrings"], s["avlength"], s["entropy"], s["string_counts"])
+
+
+# --- EMBER 2018 strings grubu (native model icin; 17 GB EMBER2024 Win32/64
+# indirmeden elde edilebilen kisim). string_counts'un 77 regex'i YOK; yerine
+# tum dosyada 4 kaba sayim (sef_sabitler.EMBER2018_DIZGE_DESENLERI).
+# DZ_sayi/DZ_ort_uzunluk/DZ_entropi yukaridakilerle ayni tanim, ayni ad.
+EMBER2018_SAYIM_SUTUNLARI = {"paths": "DZ18_c_yolu", "urls": "DZ18_http",
+                             "registry": "DZ18_hkey", "MZ": "DZ18_mz"}
+EMBER2018_DIZGE_SUTUNLARI = (["DZ_sayi", "DZ_ort_uzunluk", "DZ_entropi", "DZ18_yazdirilabilir"]
+                             + list(EMBER2018_SAYIM_SUTUNLARI.values()))
+
+
+def _ember2018_sutunlari(numstrings, avlength, entropi, printables, sayimlar) -> dict:
+    satir = {"DZ_sayi": numstrings, "DZ_ort_uzunluk": round(avlength, 4),
+             "DZ_entropi": round(entropi, 4), "DZ18_yazdirilabilir": printables}
+    for ad, sutun in EMBER2018_SAYIM_SUTUNLARI.items():
+        satir[sutun] = sayimlar[ad]
+    return satir
+
+
+def dosyadan_ember2018_dizge(bytez: bytes) -> dict:
+    """Yerel dosya icin EMBER 2018 strings grubu. 77 regex dongusu yok ->
+    thrember sutunlarindan cok daha ucuz."""
+    return _ember2018_sutunlari(*_dizge_istatistikleri(DIZGE_DESENI.findall(bytez)),
+                                {ad: len(d.findall(bytez)) for ad, d in EMBER2018_DIZGE_DESENLERI.items()})
+
+
+def kayittan_ember2018_dizge(kayit: dict) -> dict:
+    """EMBER 2018 ham JSON kaydindan. EMBER2024 kaydinda paths/urls/registry/MZ
+    yok: KeyError (sessiz 0 yok)."""
+    s = kayit["strings"]
+    return _ember2018_sutunlari(s["numstrings"], s["avlength"], s["entropy"], s["printables"], s)
