@@ -30,6 +30,7 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   0.947. Aynı 5 özellik tasarımı zamansal bölmeyle (Ocak-Ekim eğit ->
   Kasım-Aralık test): %83.8, AUC 0.920. Sızıntı değil, ama raporlanacak
   gerçekçi sayı bunlar; %3.5 dış doğrulama ayrı ölçüm, etkilenmiyor.
+  Genel ders: Kritik Kural 6.
 
 ### BİLİNEN SINIRLAMA: model .NET zararlılarına neredeyse kör (`net_dogrulama.py`)
 - Genel %90 doğruluk bir alt grubun çöküşünü gizliyor. EMBER 2018 CV'de
@@ -166,6 +167,13 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   (`test|train`) proje dışına CSV'ye çevirir (+ Aile, Ay); ~2 dk.
 - `dizge_dll_dogrulama.py` - native model için DLL_mi / dizge ablasyonu,
   zamansal test, 5 tohum, tum/EXE/DLL/.NET.
+- `dogrulama_yeniden_olc.py` - dış doğrulama setinin AYNI 5700 dosyasını
+  yeni sütunlarla yeniden ölçer (tam tarama yerine). Neden aynı dosyalar:
+  özellik değişiminin etkisi örneklem farkı karışmadan ölçülür. Örneklemi
+  seed 42 ile kurar (repodakiyle birebir değilse durur), klasörleri
+  listeleyip (ad, boyut) ile bulur, eski 5 sütunun HEPSİ tutmayanı eler
+  ve sebebini yazar. Repodaki doğrulama setinin üzerine YAZMAZ:
+  `..._yeniden.csv` üretir; eleme sayısı rapor edilmeden kullanılmaz.
 - `ember_zararsiz_cikar.py` - aynı fonksiyonlarla EMBER zararsız üretir.
 - `toplu_tarama.py` - bu makinedeki dosyaları tarar; PE CSV'si SADECE dış
   doğrulama için. İlerleme çubuğu (%/ETA), satır tamponlu çıktı, ara kayıt
@@ -339,6 +347,21 @@ demek (taramayı erteleme mantığının aynısı).
    yeni bir biçim olarak, yeni ordinal/dizin adlarını ilgili örnek
    listelerine ekle. Test yazılmadan yeni kaynak eğitime girmez.
    Özellik çıkaran kodu değiştirdikten sonra da testleri çalıştır.
+
+6. ZAMAN EKSENİ: train ve test aynı dönemden gelirse (aynı ay, aynı
+   dosyanın ardışık kayıtları) aynı kampanyalar/aileler iki tarafta da
+   bulunur ve skor yapay olarak kolaylaşır. Kural 4'ten farklı: o "hangi
+   alt grup", bu "hangi zaman". Örnek: Faz 1 ana modeli %90.1 (tek dosyanın
+   ilk 34K kaydı, hepsi Kasım 2018, içinde 80/20) -> aynı dosyanın geri
+   kalanında %87.4 -> zamansal bölmede %83.8. Güvenlik ML'de bilinen
+   problem (BODMAS gibi zamansal veri setlerinin varlık sebebi).
+   Kontrol listesi (her yeni model / veri kaynağında):
+   - Raporlanan ana sayı zamansal bölmeden gelsin: eğitim eski dönem,
+     test sonraki dönem (EMBER 2018: Ocak-Ekim -> Kasım-Aralık; EMBER2024:
+     ilk 52 hafta -> son 12 hafta).
+   - Örneklem havuzu dosya sırasıyla toplanıyorsa hangi döneme düştüğünü
+     kontrol et (`kayitlari_topla` alfabetik ilk dosyadan, sırayla topluyor).
+   - Aynı-dönem sayısı raporlanacaksa zamansal sayıyla YAN YANA yaz.
 
 ## Çalışma Alışkanlıkları
 - Uzun işler (tarama, çıkarım, eğitim döngüsü): başta işi say ve %/ETA

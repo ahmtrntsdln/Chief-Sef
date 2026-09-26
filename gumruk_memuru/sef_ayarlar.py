@@ -41,4 +41,9 @@ EMBER_ZARARSIZ_CSV = _proje("sef_dataset_ember_zararsiz.csv")       # EMBER 2018
 TARAMA_ZARARSIZ_CSV = _proje("sef_dataset_zararsiz_gercek.csv")     # dis dogrulama (Dosya_Adi'siz)
 TARAMA_ZARARSIZ_ISIMLI_CSV = _proje("sef_dataset_zararsiz_gercek_isimli.csv")   # .gitignore
 TUM_TARAMA_CSV = _proje("sef_tarama_tum_dosyalar.csv")              # .gitignore, tam yollar
+# dogrulama_yeniden_olc.py: ayni 5700 dosyanin yeni sutunlarla yeniden olcumu.
+# Repodaki TARAMA_ZARARSIZ_CSV'nin UZERINE YAZILMAZ; karar sonuca gore verilir.
+YENIDEN_OLCUM_CSV = _proje("sef_dataset_zararsiz_gercek_yeniden.csv")                  # Dosya_Adi'siz
+YENIDEN_OLCUM_ISIMLI_CSV = _proje("sef_dataset_zararsiz_gercek_yeniden_isimli.csv")    # .gitignore
+YENIDEN_OLCUM_ELENEN_CSV = _proje("sef_dogrulama_elenenler_isimli.csv")                # .gitignore
 MODEL_YOLU = _proje("model.pkl")                                     # .gitignore, uretilmis

@@ -204,6 +204,10 @@ def ilerleme_satiri(islenen, toplam, basarili, atlanan, baslangic):
 KOLONLAR = ["Dosya_Yolu", "Dosya_Adi", "Boyut_Bayt", "Sifir_Orani",
             "Ortalama_Entropi", "Toplam_API", "Supheli_API", "NET_mi",
             "Karma_Mod", "PE_mi", "Etiket", "DLL_mi"] + EMBER2018_DIZGE_SUTUNLARI
+# Dis dogrulama CSV'sinin sutunlari (Dosya_Adi'siz; isimli yedekte basa eklenir)
+PE_KOLONLARI = (["Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi", "Toplam_API",
+                 "Supheli_API", "NET_mi", "Karma_Mod", "Etiket", "DLL_mi"]
+                + EMBER2018_DIZGE_SUTUNLARI)
 ILERLEME_DOSYA_ARALIGI = 500
 ILERLEME_SANIYE_ARALIGI = 30
 
@@ -271,11 +275,8 @@ if __name__ == "__main__":
 
     # PE_CIKTI repo'da takip ediliyor: Dosya_Adi bu makinede kurulu yazilimlari
     # ortaya koydugu icin oraya hic yazilmaz; isimli hali .gitignore'daki yedege gider.
-    ozellik_kolonlari = (["Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi",
-                          "Toplam_API", "Supheli_API", "NET_mi", "Karma_Mod", "Etiket",
-                          "DLL_mi"] + EMBER2018_DIZGE_SUTUNLARI)
-    for yol, kolonlar in [(PE_CIKTI, ozellik_kolonlari),
-                          (PE_ISIMLI_CIKTI, ["Dosya_Adi"] + ozellik_kolonlari)]:
+    for yol, kolonlar in [(PE_CIKTI, PE_KOLONLARI),
+                          (PE_ISIMLI_CIKTI, ["Dosya_Adi"] + PE_KOLONLARI)]:
         with open(yol, "w", newline="", encoding="utf-8") as f:
             yazici = csv.DictWriter(f, fieldnames=kolonlar)
             yazici.writeheader()
