@@ -32,18 +32,12 @@ from collections import Counter
 
 import pefile
 
+from sef_ayarlar import TARANACAK_KLASORLER   # taranacak klasorler orada
+from sef_ayarlar import TUM_TARAMA_CSV as TAM_CIKTI                    # her sey (PE olsun olmasin)
+from sef_ayarlar import TARAMA_ZARARSIZ_CSV as PE_CIKTI                # dis dogrulama seti (egitimde kullanilmaz)
+from sef_ayarlar import TARAMA_ZARARSIZ_ISIMLI_CSV as PE_ISIMLI_CIKTI  # ayni satirlar + Dosya_Adi, sadece yerel
 from sef_sabitler import KARA_LISTE_BAYT, PEFILE_CLR_DIZIN_ADI, SIHIRLI_IMZALAR
 
-# Kendi 5700 dosyalik taramani yaptigin klasorleri buraya ekle
-TARANACAK_KLASORLER = [
-    r"C:\Windows\System32",
-    r"C:\Program Files",
-    r"C:\Program Files (x86)",
-]
-
-TAM_CIKTI = "sef_tarama_tum_dosyalar.csv"          # her sey (PE olsun olmasin)
-PE_CIKTI = "sef_dataset_zararsiz_gercek.csv"        # dis dogrulama seti (egitimde kullanilmaz)
-PE_ISIMLI_CIKTI = "sef_dataset_zararsiz_gercek_isimli.csv"  # ayni satirlar + Dosya_Adi, sadece yerel
 HEDEF_SAYI = 5700   # EMBER siniflariyla ayni boyut
 
 

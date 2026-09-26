@@ -19,7 +19,7 @@ import joblib
 import pandas as pd
 import sklearn
 
-from rf_egit_gercek import MODEL_YOLU
+from sef_ayarlar import MODEL_YOLU
 from toplu_tarama import dosyayi_analiz_et
 
 

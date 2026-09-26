@@ -29,6 +29,9 @@ basit bir statik analiz katmani kurmak.
   imzalar, ordinal deseni, CLR dizin adlari). Zararli ve zararsiz taraf ayni
   olcumle uretilmeli; sabitler tek yerde durunca biri degisip digeri eski
   kalamaz.
+- `gumruk_memuru/sef_ayarlar.py` -> Makineye ozel yollar ve veri dosyasi adlari.
+  Olcum sabitlerinden ayri tutuldu: yol degistirmek hicbir sayiyi
+  degistirmez, sabit degistirmek tum veriyi yeniden uretmeyi gerektirir.
 - `gumruk_memuru/Chief_1.2.py` -> Tam statik analiz motoru (magic byte, bolum-bazli entropi, IAT/API)
 - `gumruk_memuru/ember_zararli_cikar.py`, `ember_zararsiz_cikar.py` -> EMBER'den gercek veri cikarma
 - `gumruk_memuru/toplu_tarama.py` -> Bu makinedeki dosyalari tarama (dis dogrulama seti)
@@ -41,7 +44,8 @@ basit bir statik analiz katmani kurmak.
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM ve kalibrasyon karsilastirmasi
 
 Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin
-`requirements-experimental.txt`).
+`requirements-experimental.txt`). Veri klasorleri farkliysa
+`gumruk_memuru/sef_ayarlar.py`'yi duzenle.
 
 Testler: `pip install -r requirements-dev.txt` ve repo kokunden
 `python -m pytest tests`. `tests/test_olcum_tutarliligi.py`, zararli (EMBER

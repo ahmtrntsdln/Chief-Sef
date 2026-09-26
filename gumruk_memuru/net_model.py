@@ -30,7 +30,8 @@ from sklearn.model_selection import train_test_split
 from dizge_ozellikleri import DIZGE_SUTUNLARI
 from ember2024_net_cikar import cikti_yolu
 from net_dogrulama import hata_ozeti
-from rf_egit_gercek import EMBER_ZARARLI_CSV, EMBER_ZARARSIZ_CSV, OZELLIKLER
+from rf_egit_gercek import OZELLIKLER
+from sef_ayarlar import EMBER_ZARARLI_CSV, EMBER_ZARARSIZ_CSV
 
 EGITIM_ORNEK = 100_000   # 520K'nin alt ornegi; tek cekirdek, laptopu isitmamak icin
 TEMEL = OZELLIKLER + ["Karma_Mod"]   # NET_mi bu veride hep 1, bilgi tasimaz

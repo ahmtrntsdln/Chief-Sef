@@ -41,10 +41,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import brier_score_loss, log_loss, roc_auc_score
 from sklearn.model_selection import StratifiedKFold, train_test_split
 
-from rf_egit_gercek import (EMBER_ZARARLI_CSV, EMBER_ZARARSIZ_CSV, OZELLIKLER,
-                            SINSI_ORNEKLER, TARAMA_ZARARSIZ_CSV)
+from rf_egit_gercek import OZELLIKLER, SINSI_ORNEKLER
+from sef_ayarlar import EMBER_ZARARLI_CSV, EMBER_ZARARSIZ_CSV, TARAMA_ZARARSIZ_CSV
+from sef_ayarlar import TUM_TARAMA_CSV   # yerel, .gitignore'da
 
-TUM_TARAMA_CSV = "sef_tarama_tum_dosyalar.csv"   # yerel, .gitignore'da
 TOHUMLAR = [42] + list(range(1, 11))
 ORNEK = 5700
 KAT_SAYISI = 5

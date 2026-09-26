@@ -93,6 +93,14 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   birini güncelleyip diğerini unutmak iki sınıfı sessizce farklı ölçer
   (Kritik Kural 1). Fonksiyonlar bilerek birleştirilmedi (girdi tipleri
   farklı: pefile nesnesi vs EMBER JSON). Sabit eklerken buraya ekle.
+- `sef_ayarlar.py` - makineye özel yollar (EMBER klasörleri, taranacak
+  klasörler) ve proje içi veri dosyası adları (CSV'ler, model.pkl).
+  sef_sabitler'den AYRI: sabitler ölçümü tanımlar (değişirse veri yeniden
+  üretilir), buradakiler sadece yeri - başka makinede sadece bu dosya
+  değişir. Neden tek yer: aynı CSV'yi yazan ve okuyan script adını ayrı
+  ayrı tanımlıyordu (toplu_tarama yazar, rf_egit_gercek okur). Proje içi
+  yollar bu klasöre göre mutlak: script hangi klasörden çalışırsa çalışsın
+  aynı dosyalar.
 - `Chief_1.2.py` - tam statik analiz motoru (magic byte, bölüm-bazlı entropi,
   pefile ile IAT/API analizi). v1.1'deki KARA_LISTE substring/çift-sayım
   hatası düzeltildi (liste->set, tam eşleme).
@@ -276,6 +284,7 @@ demek (taramayı erteleme mantığının aynısı).
 - Git: `C:\Program Files\Git\cmd\git.exe` (PATH'te olmayabilir).
 - Remote: `origin` = https://github.com/ahmtrntsdln/Chief-Sef (main takip
   ediliyor). Repo'daki eski dosyalar (Chief 1.0/1.1, mimari PDF'ler) korunmalı.
+- Tüm yollar `gumruk_memuru/sef_ayarlar.py`'de; yeni makinede orayı düzenle.
 - Ham EMBER verisi (~10 GB) proje DIŞINDA: `C:\ember2018\ember2018`
   (OneDrive'ı şişirmemek için). EMBER2024 .NET: test JSONL + CSV'ler
   `C:\ember2024`, train JSONL `C:\ember2024\train`.

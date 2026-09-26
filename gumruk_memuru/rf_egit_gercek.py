@@ -16,7 +16,6 @@ Karsilastirma icin eski tasarim (EMBER zararli vs kendi taramamiz) da
 egitilip ozellik onemleri yan yana basilir.
 """
 
-import os
 import sys
 
 import joblib
@@ -26,14 +25,13 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
 
-EMBER_ZARARLI_CSV = "sef_dataset_zararli_gercek.csv"
-EMBER_ZARARSIZ_CSV = "sef_dataset_ember_zararsiz.csv"
-TARAMA_ZARARSIZ_CSV = "sef_dataset_zararsiz_gercek.csv"
+from sef_ayarlar import EMBER_ZARARLI_CSV, EMBER_ZARARSIZ_CSV, TARAMA_ZARARSIZ_CSV
+# model.pkl uretilmis veri: commit'lenmez (.gitignore), bu script ~10 sn'de
+# birebir ayni modeli yeniden uretir (random_state=42). CLAUDE.md, Veri dosyalari.
+from sef_ayarlar import MODEL_YOLU
+
 OZELLIKLER = ["Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi",
               "Toplam_API", "Supheli_API"]
-# Uretilmis veri: commit'lenmez (.gitignore), bu script ~10 sn'de birebir
-# ayni modeli yeniden uretir (random_state=42). Bkz. CLAUDE.md, Veri dosyalari.
-MODEL_YOLU = os.path.join(os.path.dirname(os.path.abspath(__file__)), "model.pkl")
 
 SINSI_ORNEKLER = {
     "Sinsi 1 (faz1_dogrulama.py): entropi 5.6, sifir %4, 1 supheli API": {

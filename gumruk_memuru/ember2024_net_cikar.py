@@ -28,9 +28,9 @@ import time
 
 from dizge_ozellikleri import DIZGE_SUTUNLARI, kayittan_dizge_ozellikleri
 from ember_zararli_cikar import CSV_KOLONLARI, kayittan_ozellik_cikar
+from sef_ayarlar import EMBER2024_KLASORU, EMBER2024_TRAIN_KLASORU
 
-EMBER2024_KLASORU = r"C:\ember2024"
-GIRDI = {"test": EMBER2024_KLASORU, "train": os.path.join(EMBER2024_KLASORU, "train")}
+GIRDI = {"test": EMBER2024_KLASORU, "train": EMBER2024_TRAIN_KLASORU}
 KOLONLAR = CSV_KOLONLARI + DIZGE_SUTUNLARI + ["DLL_mi", "Aile", "Hafta"]
 
 

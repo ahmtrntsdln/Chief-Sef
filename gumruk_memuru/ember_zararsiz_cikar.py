@@ -8,8 +8,7 @@ ogrenemez; kendi taramamiz (toplu_tarama.py) sadece dis dogrulama icin kalir.
 """
 
 from ember_zararli_cikar import EMBER_KLASORU, HEDEF_SAYI, csv_yaz, kayitlari_topla
-
-CIKTI_DOSYASI = "sef_dataset_ember_zararsiz.csv"
+from sef_ayarlar import EMBER_ZARARSIZ_CSV as CIKTI_DOSYASI
 
 if __name__ == "__main__":
     secilenler = kayitlari_topla(EMBER_KLASORU, HEDEF_SAYI, etiket=0)

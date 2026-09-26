@@ -9,7 +9,8 @@ zararli dosyalarin ozelliklerini cikarir. Ayni KARA_LISTE'yi kullanir
 (burada EMBER'den cikan) veriler AYNI olcume gore uretilmis olur.
 
 ON KOSUL: https://ember.elastic.co/ember_dataset_2018_2.tar.bz2 (~1.6 GB)
-indirilip `tar -xf` ile EMBER_KLASORU'ne acilmis olmali.
+indirilip `tar -xf` ile EMBER_KLASORU'ne (sef_ayarlar.EMBER2018_KLASORU)
+acilmis olmali.
 
 kayittan_ozellik_cikar() EMBER2024 (thrember, pefile tabanli) kayitlarini da
 okur. Iki surum arasindaki, sessizce olcum farki yaratacak iki fark:
@@ -25,11 +26,11 @@ import json
 import os
 import random
 
+from sef_ayarlar import EMBER2018_KLASORU as EMBER_KLASORU
+from sef_ayarlar import EMBER_ZARARLI_CSV as CIKTI_DOSYASI
 from sef_sabitler import CLR_DIZIN_ADLARI, KARA_LISTE, ORDINAL_DESENI
 
-EMBER_KLASORU = r"C:\ember2018\ember2018"   # tar -xf ile acilan gercek klasor
 HEDEF_SAYI = 5700
-CIKTI_DOSYASI = "sef_dataset_zararli_gercek.csv"
 
 
 def net_ozellikleri(kayit: dict) -> tuple:
