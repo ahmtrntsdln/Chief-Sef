@@ -87,6 +87,12 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 
 ## Dosyalar
 - `entropy.py` - Shannon entropi hesaplayıcı.
+- `sef_sabitler.py` - ölçüm sabitlerinin TEK kaynağı: KARA_LISTE (str) ve
+  KARA_LISTE_BAYT (pefile bytes, aynı kümeden türetilir), SIHIRLI_IMZALAR,
+  ORDINAL_DESENI, CLR dizin adları. Neden: bunlar 3 dosyada ayrı kopyaydı;
+  birini güncelleyip diğerini unutmak iki sınıfı sessizce farklı ölçer
+  (Kritik Kural 1). Fonksiyonlar bilerek birleştirilmedi (girdi tipleri
+  farklı: pefile nesnesi vs EMBER JSON). Sabit eklerken buraya ekle.
 - `Chief_1.2.py` - tam statik analiz motoru (magic byte, bölüm-bazlı entropi,
   pefile ile IAT/API analizi). v1.1'deki KARA_LISTE substring/çift-sayım
   hatası düzeltildi (liste->set, tam eşleme).

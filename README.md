@@ -25,6 +25,10 @@ sifrelenmis/paketlenmis (potansiyel supheli) dosyalari ayirt edebilen
 basit bir statik analiz katmani kurmak.
 
 - `gumruk_memuru/entropy.py` -> Entropi hesaplama modulu
+- `gumruk_memuru/sef_sabitler.py` -> Ortak olcum sabitleri (KARA_LISTE, sihirli
+  imzalar, ordinal deseni, CLR dizin adlari). Zararli ve zararsiz taraf ayni
+  olcumle uretilmeli; sabitler tek yerde durunca biri degisip digeri eski
+  kalamaz.
 - `gumruk_memuru/Chief_1.2.py` -> Tam statik analiz motoru (magic byte, bolum-bazli entropi, IAT/API)
 - `gumruk_memuru/ember_zararli_cikar.py`, `ember_zararsiz_cikar.py` -> EMBER'den gercek veri cikarma
 - `gumruk_memuru/toplu_tarama.py` -> Bu makinedeki dosyalari tarama (dis dogrulama seti)

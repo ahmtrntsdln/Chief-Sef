@@ -32,6 +32,8 @@ from collections import Counter
 
 import pefile
 
+from sef_sabitler import KARA_LISTE_BAYT, PEFILE_CLR_DIZIN_ADI, SIHIRLI_IMZALAR
+
 # Kendi 5700 dosyalik taramani yaptigin klasorleri buraya ekle
 TARANACAK_KLASORLER = [
     r"C:\Windows\System32",
@@ -43,19 +45,6 @@ TAM_CIKTI = "sef_tarama_tum_dosyalar.csv"          # her sey (PE olsun olmasin)
 PE_CIKTI = "sef_dataset_zararsiz_gercek.csv"        # dis dogrulama seti (egitimde kullanilmaz)
 PE_ISIMLI_CIKTI = "sef_dataset_zararsiz_gercek_isimli.csv"  # ayni satirlar + Dosya_Adi, sadece yerel
 HEDEF_SAYI = 5700   # EMBER siniflariyla ayni boyut
-
-KARA_LISTE = {
-    b'VirtualAlloc', b'VirtualAllocEx', b'WriteProcessMemory',
-    b'CreateRemoteThread', b'SetWindowsHookEx', b'IsDebuggerPresent',
-}
-
-SIHIRLI_IMZALAR = {
-    b'MZ': "PE",
-    b'\x7fELF': "ELF",
-    b'%PDF': "PDF",
-    b'PK\x03\x04': "ZIP",
-    b'\xFF\xD8\xFF': "JPEG",
-}
 
 
 def shannon_entropy(data: bytes) -> float:
@@ -74,7 +63,7 @@ def dosya_turunu_bul(dosya_yolu: str) -> str:
     try:
         with open(dosya_yolu, "rb") as f:
             bas = f.read(8)
-        for imza, ad in SIHIRLI_IMZALAR.items():
+        for imza, (ad, _) in SIHIRLI_IMZALAR.items():
             if bas.startswith(imza):
                 return ad
         return "Bilinmeyen"
@@ -90,7 +79,7 @@ def supheli_api_say(pe) -> tuple:
         for imp in entry.imports:
             if imp.name:
                 toplam += 1
-                if imp.name in KARA_LISTE:
+                if imp.name in KARA_LISTE_BAYT:
                     supheli += 1
     return toplam, supheli
 
@@ -100,7 +89,7 @@ def net_ozellikleri(pe) -> tuple:
     dizini isimle aranir, boyut > 0 VE adres > 0 ise .NET; NumberOfRvaAndSizes
     < 15 ise pefile girdiyi listelemez -> .NET degil (Windows'un davranisi)."""
     dizin = next((d for d in pe.OPTIONAL_HEADER.DATA_DIRECTORY
-                  if d.name == "IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR"), None)
+                  if d.name == PEFILE_CLR_DIZIN_ADI), None)
     net_mi = bool(dizin and dizin.Size > 0 and dizin.VirtualAddress > 0)
     native = any(e.dll.decode(errors="ignore").lower() != "mscoree.dll"
                  for e in getattr(pe, "DIRECTORY_ENTRY_IMPORT", []))

@@ -8,12 +8,15 @@ Degisiklik (v1.1 -> v1.2):
   'VirtualAllocEx' icinde de gectigi icin tek bir import iki kez
   sayiliyordu (supheli_api yanlislikla sisiyordu). Ayrica set kullanmak
   aramayi O(n)'den O(1)'e dusurur.
+  KARA_LISTE ve sihirli imzalar artik sef_sabitler.py'de (tek kaynak).
 """
 
 import pefile
 import math
 import os
 from collections import Counter
+
+from sef_sabitler import KARA_LISTE_BAYT, SIHIRLI_IMZALAR
 
 
 def shannon_entropy(data: bytes) -> float:
@@ -31,29 +34,15 @@ def shannon_entropy(data: bytes) -> float:
 
 def gercek_dosya_turunu_bul(dosya_yolu: str) -> str:
     """Sihirli Numaralara (Magic Bytes) bakarak dosyanin gercek kimligini bulur."""
-    sihirli_imzalar = {
-        b'MZ': "Windows Calistirilabilir Dosya (PE)",
-        b'\x7fELF': "Linux Calistirilabilir Dosya (ELF)",
-        b'%PDF': "PDF Belgesi",
-        b'PK\x03\x04': "ZIP Arsivi",
-        b'\xFF\xD8\xFF': "JPEG Gorseli",
-    }
     try:
         with open(dosya_yolu, "rb") as f:
             dosya_basi = f.read(8)
-        for imza, aciklama in sihirli_imzalar.items():
+        for imza, (_, aciklama) in SIHIRLI_IMZALAR.items():
             if dosya_basi.startswith(imza):
                 return aciklama
         return "Bilinmeyen Format"
     except Exception as e:
         return f"Okuma Hatasi: {e}"
-
-
-# DUZELTME: liste -> set (O(1) arama), substring -> tam esleme
-KARA_LISTE = {
-    b'VirtualAlloc', b'VirtualAllocEx', b'WriteProcessMemory',
-    b'CreateRemoteThread', b'SetWindowsHookEx', b'IsDebuggerPresent',
-}
 
 
 def supheli_fonksiyonlari_say(pe) -> dict:
@@ -68,7 +57,7 @@ def supheli_fonksiyonlari_say(pe) -> dict:
             if imp.name:
                 sonuc["toplam"] += 1
                 # DUZELTME: "in" (substring) yerine kume uyeligi (tam esleme)
-                if imp.name in KARA_LISTE:
+                if imp.name in KARA_LISTE_BAYT:
                     sonuc["supheli"] += 1
                     sonuc["detay"].append(imp.name.decode('utf-8'))
     return sonuc

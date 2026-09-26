@@ -4,8 +4,8 @@ Sef Projesi - Faz 1: EMBER'den Gercek Zararli Veri Cikarma
 
 Onceki sentetik uretici (random.uniform ile 5 senaryo) yerine, bu script
 EMBER veri setinin HAM (vektorlestirilmemis) JSONL kayitlarindan gercek
-zararli dosyalarin ozelliklerini cikarir. Ayni KARA_LISTE'yi kullanir,
-boylece zararsiz (Chief_1.2.py ile senin 5700 dosyandan cikan) ve zararli
+zararli dosyalarin ozelliklerini cikarir. Ayni KARA_LISTE'yi kullanir
+(sef_sabitler.py - uc dosyanin ortak tek kaynagi), boylece zararsiz (Chief_1.2.py ile senin 5700 dosyandan cikan) ve zararli
 (burada EMBER'den cikan) veriler AYNI olcume gore uretilmis olur.
 
 ON KOSUL: https://ember.elastic.co/ember_dataset_2018_2.tar.bz2 (~1.6 GB)
@@ -24,22 +24,12 @@ import glob
 import json
 import os
 import random
-import re
+
+from sef_sabitler import CLR_DIZIN_ADLARI, KARA_LISTE, ORDINAL_DESENI
 
 EMBER_KLASORU = r"C:\ember2018\ember2018"   # tar -xf ile acilan gercek klasor
 HEDEF_SAYI = 5700
 CIKTI_DOSYASI = "sef_dataset_zararli_gercek.csv"
-
-# Chief_1.2.py ile BIREBIR AYNI blacklist - iki taraf da ayni olcume gore
-# etiketlenmezse, yeni bir sizinti kaynagi yaratmis oluruz.
-KARA_LISTE = {
-    "VirtualAlloc", "VirtualAllocEx", "WriteProcessMemory",
-    "CreateRemoteThread", "SetWindowsHookEx", "IsDebuggerPresent",
-}
-
-
-ORDINAL_DESENI = re.compile(r"^(?:.+:)?ordinal\d+$")   # 2018 ve 2024 bicimi
-CLR_DIZIN_ADLARI = {"CLR_RUNTIME_HEADER", "COM_DESCRIPTOR"}  # 2018 (lief) / 2024 (pefile)
 
 
 def net_ozellikleri(kayit: dict) -> tuple:
