@@ -83,32 +83,36 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   p·π / (p·π + (1-p)(1-π)) (ör. p=0.93, π=%1 -> ~%12).
 
 ## Sonraki Adımlar (bu sırayla)
-1. Özellik genişletme. .NET bayrağı eklendi (yukarı bak) ama .NET
-   körlüğünü çözmüyor; .NET içini gören özellikler gerekir. KISIT (Kritik
-   Kural 1): dnfile düzeyindeki özellikler (metod/P/Invoke sayısı, IL boyutu,
-   yönetilen kaynak entropisi) hiçbir eğitim kaynağında YOK - EMBER ikili
-   dosya dağıtmıyor. Yönetilen kaynaklar .rsrc'de değil CLR metadata
-   bölgesinde; pefile ile .rsrc'ye bakmak onları görmez. Uygulanabilir yol:
-   EMBER2024 `strings.string_counts` (ASCII dizgelerde thrember
-   regex'leri: keyboard, clipboard, password, wallet, base64string, url...;
-   .NET tip/metod/P/Invoke adları ASCII olduğu için kısmi .NET-içi sinyal;
-   aynı regex'ler yerelde birebir uygulanabilir) ve belki `caps` (capa).
-   EMBER 2018'de bu alanlar yok -> bu yol fiilen 4. maddeye (EMBER2024)
-   bağlı. Diğer adaylar: overlay/paketleyici belirtileri, import
-   kategorileri. Her yeni özellik hem EMBER ham JSON'undan hem pefile'dan
-   AYNI şekilde hesaplanabilmeli; önce iki tarafı örnek veriyle karşılaştır.
-   Canlı zararlı ikili dosya (MalwareBazaar vb.) bu laptopta işlenmez -
-   izolasyon Faz 3'ün konusu.
+Sıralama gerekçesi: sonraki adımlar özellik setine bağlı; özellik seti
+EMBER2024'e bağlı. 2-4'ü önce yapmak, geçişten sonra hepsini tekrarlamak
+demek (taramayı erteleme mantığının aynısı).
+
+1. EMBER2024'e geçiş + `string_counts` tabanlı özellikler - TEK ADIM.
+   - İKİ SINIF BİRDEN taşınır (Kritik Kural 2): zararlı 2024 / zararsız
+     2018 olursa model yine "hangi veri seti" (2018 vs 2024, lief vs
+     pefile) sorusunu öğrenir; ayrıca string_counts EMBER 2018'de yok.
+   - Kaynak: 3.2M dosya, 2023-2024, pefile (thrember) ile çıkarılmış,
+     Apache-2.0, HuggingFace joyce8/EMBER2024'ten dosya tipi bazında
+     (Win32/Win64/Dot_Net train+test zip'leri; Win32_train 11.7 GB,
+     Win64_train 5.6 GB, Dot_Net_train 0.9 GB). Haftalık kotayla dengeli ->
+     oranlar gerçek yaygınlık değil. Tüm pipeline Kritik Kural 5 kontrol
+     listesinden geçmeli.
+   - Özellik: `strings.string_counts` (ASCII dizgelerde thrember regex'leri:
+     keyboard, clipboard, password, wallet, base64string, url...; .NET
+     tip/metod/P/Invoke adları ASCII olduğu için kısmi .NET-içi sinyal).
+     Yerel tarafta thrember'ın regex'leri ve `[\x20-\x7f]{5,}` dizge kuralı
+     birebir uygulanır (Apache-2.0). Belki `caps` (capa) da.
+   - KISIT (Kritik Kural 1): dnfile düzeyindeki özellikler (metod/P/Invoke
+     sayısı, IL boyutu, yönetilen kaynak entropisi) hiçbir eğitim
+     kaynağında YOK - EMBER ikili dosya dağıtmıyor. Yönetilen kaynaklar
+     .rsrc'de değil CLR metadata bölgesinde. Canlı zararlı ikili dosya
+     (MalwareBazaar vb.) bu laptopta işlenmez - izolasyon Faz 3'ün konusu.
+   - Diğer adaylar (EMBER2024 JSON'unda varsa): overlay/paketleyici
+     belirtileri, import kategorileri.
 2. Makinedeki doğrulama setini yeniden tara (~2.5 saat) - özellik seti
-   OTURDUKTAN sonra, yoksa iki kez taranır.
+   kesinleşince, BİR KEZ.
 3. `model_karsilastir.py` ile RF vs boosting'i yeniden karşılaştır.
-4. (Ayrı karar, mevcut işi bloklamasın) Ana veri kaynağını EMBER 2018'den
-   EMBER2024'e taşımak: 3.2M dosya, 2023-2024, pefile (thrember) ile
-   çıkarılmış, Apache-2.0, HuggingFace joyce8/EMBER2024'ten dosya tipi
-   bazında indirilebilir. .NET körlüğü için en güçlü aday (.NET eğitim
-   kümesi dengeli ve büyük). Tüm pipeline yeniden tutarlılık kontrolünden
-   geçmeli. Haftalık kotayla dengelenmiş -> oranlar gerçek yaygınlık değil.
-5. Ancak ondan sonra üç bölgeli eşikler (zararsız / şüpheli / zararlı).
+4. Üç bölgeli eşikler (zararsız / şüpheli / zararlı).
    Şu an 0.2-0.8 bandı EMBER'in 1/4'ünü, makinenin 1/6'sını yutuyor ->
    5 özellik yetersiz; eşikleri şimdi kilitleme. Eşik kuralı: gerçek
    olasılık > C_FP / (C_FP + C_FN) ise işaretle. Maliyet oranı kullanıcı
@@ -135,10 +139,12 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   3. `gumruk_memuru` içinde `python ember2024_net_cikar.py`
 - EMBER CSV'lerinde NET_mi ve Karma_Mod sütunları da var.
 - Veri politikası: üretilmiş veri commit'lenmez; bunun yerine kaynak + script
-  talimatı yazılır. Mevcut istisnalar (küçük, ~300 KB altı): iki EMBER
-  2018 CSV'si (raporlanan sayılar birebir bunlara dayanıyor) ve makine
-  taraması CSV'si (başka yerde yeniden üretilemez). İstisnaların kalıp
-  kalmayacağı kullanıcı kararı.
+  talimatı yazılır. İstisnalar (kullanıcı kararı): iki EMBER 2018 CSV'si
+  (raporlanan sayılar birebir bunlara dayanıyor; EMBER sunucusunun yıllar
+  sonra aynı içerikle kalacağı garanti değil) ve makine taraması CSV'si
+  (başka yerde yeniden üretilemez). SINIR: bu dosyalar SADECE şema
+  değişikliğinde (yeni sütun) yeniden yazılır, kozmetik sebeple asla -
+  her yeniden yazım tüm satırları git geçmişine tekrar ekler.
 
 ## Kritik Kurallar (Tekrar Sızıntı Yaratma)
 1. İki sınıf AYNI ölçüm yöntemiyle üretilmeli. Aynı sütun adı aynı ölçüm
