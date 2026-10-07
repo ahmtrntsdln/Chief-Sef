@@ -46,6 +46,27 @@ def test_zaman_bol_donem_siniri_ve_sira(veri):
     assert max(fit.Ay) < min(dog.Ay) and len(set(dog.Ay)) == 2   # 10 donemin %20'si
 
 
+def test_zaman_bol_kayit_payina_gore(veri):
+    """Gercek EMBER 2018 yapisi: cok sayida eski ay, hepsi az ve sadece zararsiz.
+    Donem sayisina gore bolme 2018'in tamamini dogrulamaya atip fit'i tek sinif
+    birakiyordu; kayit payina gore dogrulama son ~%20 kayit olmali."""
+    egitim, _ = veri
+    eski = pd.concat([egitim[egitim.Etiket == 0].head(3).assign(Ay=f"20{y:02d}-06")
+                      for y in range(6, 18)], ignore_index=True)   # 12 eski ay, 3'er zararsiz
+    karma = pd.concat([eski, egitim], ignore_index=True)
+    fit, dog = dg.zaman_bol(karma, "Ay")
+    assert set(fit.Etiket) == {0, 1} and set(dog.Etiket) == {0, 1}
+    assert {"2018-09", "2018-10"} <= set(dog.Ay) and min(dog.Ay) >= "2018-01"   # en yeni aylar
+    assert 0.2 <= len(dog) / len(karma) <= 0.3                                   # en az %20
+
+
+def test_zaman_bol_tek_sinifli_fit_reddedilir(veri):
+    egitim, _ = veri
+    egitim = egitim[(egitim.Ay >= "2018-09") | (egitim.Etiket == 0)]   # fit'te zararli yok
+    with pytest.raises(dg.SizintiHatasi, match="tek sinif"):
+        dg.zaman_bol(egitim, "Ay")
+
+
 def test_zaman_bol_tek_donem_reddedilir(veri):
     with pytest.raises(dg.SizintiHatasi):
         dg.zaman_bol(veri[0][veri[0].Ay == "2018-01"], "Ay")

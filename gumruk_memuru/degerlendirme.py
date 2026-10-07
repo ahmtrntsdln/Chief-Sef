@@ -93,14 +93,28 @@ def donem_sirasi(seri: pd.Series) -> list:
 
 
 def zaman_bol(egitim: pd.DataFrame, zaman: str, oran: float = DOGRULAMA_ORANI):
-    """Egitimi donem sinirindan (satir sayisindan degil) 'fit' ve 'dogrulama'ya ayirir."""
+    """Egitimi donem sinirindan 'fit' ve 'dogrulama'ya ayirir. Dogrulama: KAYITLARIN
+    en az `oran`'ini kapsayan en son donemler. Donem SAYISI degil kayit payi: EMBER
+    2018 train'de appeared 2006'ya kadar gidiyor (~140 ay, 2018 oncesi sadece 50K
+    zararsiz); donem sayisinin %20'si son 28 ay = tum 2018 olur ve fit'te hic
+    zararli kalmaz."""
     donemler = donem_sirasi(egitim[zaman])
     if len(donemler) < 2:
         raise SizintiHatasi("Dogrulama ayirmak icin en az 2 egitim donemi gerekir.")
-    k = max(1, int(round(len(donemler) * oran)))
-    dogrulama_donemleri = set(donemler[-k:])
-    m = egitim[zaman].isin(dogrulama_donemleri)
-    return egitim[~m].copy(), egitim[m].copy()
+    sayim = egitim[zaman].value_counts()
+    dogrulama_donemleri, kapsanan = [], 0
+    for donem in reversed(donemler[1:]):          # en eski donem her zaman fit'te kalir
+        if kapsanan >= oran * len(egitim):
+            break
+        dogrulama_donemleri.append(donem)
+        kapsanan += sayim[donem]
+    m = egitim[zaman].isin(set(dogrulama_donemleri))
+    fit, dog = egitim[~m].copy(), egitim[m].copy()
+    for ad, x in (("fit", fit), ("dogrulama", dog)):
+        if x["Etiket"].nunique() < 2:
+            raise SizintiHatasi(f"{ad} kumesinde tek sinif var ({x['Etiket'].unique().tolist()}); "
+                                f"zaman bolmesi veriye uymuyor.")
+    return fit, dog
 
 
 def aile_ayrik_test(test: pd.DataFrame, gorulen_aileler: set) -> pd.DataFrame:
