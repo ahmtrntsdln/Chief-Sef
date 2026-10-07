@@ -33,6 +33,9 @@ Ayrıntılar SADECE gerekince okunur:
    hata yakalanır, PE olmayan / bozuk kayıt sayılıp açıkça atlanır.
 
 ## Çalışma
+- Her aşama ayrı bir dalda bir pull request olarak açılır ve kullanıcıya
+  inceleme için sorulur; onay gelmeden `main`'e birleştirilmez, sonraki
+  aşamaya geçilmez.
 - Bağımlılıklar: `requirements.txt` (+ `-dev` testler, `-experimental` LightGBM).
 - Makineye özel yollar yalnızca `gumruk_memuru/sef_ayarlar.py`'de; ölçüm
   sabitleri yalnızca `gumruk_memuru/sef_sabitler.py`'de.
