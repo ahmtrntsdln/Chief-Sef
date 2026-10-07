@@ -189,6 +189,16 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   doğrulamada ölçülen AYNI kod; ayrı bir çıkarıcı yazmak raporlanan
   sayıların geçmediği yeni bir ölçüm olurdu. PE olmayan dosyayı reddeder
   (Kural 3), .NET dosyasında körlük uyarısı basar.
+- `degerlendirme.py` - DEĞERLENDİRME DÜZENEĞİ: zaman (Ocak-Ekim -> Kasım-Aralık,
+  eğitimin son %20 dönemi eşik doğrulaması) + aile-ayrık test, sızıntı
+  kontrolleri (ihlalde durur), RF / HistGradientBoosting / (varsa) LightGBM aynı
+  örnek-tohum-eşik prosedürüyle, sabit FPR (%1, %0.1) için TPR + gerçekleşen FPR,
+  tüm / PE (.NET dışı) / .NET / EXE / DLL kırılımı, markdown rapor. Eşik
+  doğrulama zararsızlarından seçilir, teste dokunmaz. `python degerlendirme.py`
+  (ön koşul: ember2018_tam_cikar.py train+test). Testler sentetik veriyle MANTIĞI
+  doğrular (`tests/test_degerlendirme.py`); gerçek veriyle çalıştırılıp raporu
+  üretilmedi (bulut ortamından EMBER indirilemiyor). Sadece EMBER 2018 (EMBER2024
+  .NET için aynı fonksiyonlar `Hafta` sütunuyla kullanılabilir, CLI'de yok).
 - `model_karsilastir.py` - RF vs LightGBM, ham vs kalibre (5 katlı CV +
   makinedeki 11 örneklem + şüpheli bant). `requirements-experimental.txt`
   gerektirir.
