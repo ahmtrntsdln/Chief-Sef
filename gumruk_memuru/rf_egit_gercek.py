@@ -27,7 +27,7 @@ from sklearn.model_selection import train_test_split
 
 from sef_ayarlar import EMBER_ZARARLI_CSV, EMBER_ZARARSIZ_CSV, TARAMA_ZARARSIZ_CSV
 # model.pkl uretilmis veri: commit'lenmez (.gitignore), bu script ~10 sn'de
-# birebir ayni modeli yeniden uretir (random_state=42). CLAUDE.md, Veri dosyalari.
+# birebir ayni modeli yeniden uretir (random_state=42). PROJE_DURUMU.md, Veri dosyalari.
 from sef_ayarlar import MODEL_YOLU
 
 OZELLIKLER = ["Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi",

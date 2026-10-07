@@ -1,393 +1,45 @@
 # Şef Projesi - CLAUDE.md
 
-## Proje
-"Şef": yapay zeka destekli, donanımsal izolasyonlu bir siber güvenlik motoru
-(savunma amaçlı, EDR/antivirüs benzeri bir sistem). Uzun vadeli mimari TEE/NPU
-donanımsal izolasyon, eBPF ile Linux çekirdek izleme ve zero-knowledge
-biyometrik kasa içeriyor. Faz 1 KAPANDI; Faz 2 (eBPF) henüz başlamadı.
+Savunma amaçlı, yapay zeka destekli statik zararlı yazılım sınıflandırıcı
+(EDR/antivirüs benzeri). Faz 1 (PE header + entropi + IAT ile Random Forest,
+`gumruk_memuru/`) KAPANDI; .NET uzman modeli ve native dizge modeli
+DENEYSEL; Faz 2 (eBPF) başlamadı.
 
-## Faz 1: Gümrük Memuru - KAPANDI
-Dosyaları çalıştırılmadan önce statik analizle (entropi + PE header/IAT
-bilgisi) zararlı/zararsız sınıflandıran, doğrulanmış bir Random Forest.
-Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
+Ayrıntılar SADECE gerekince okunur:
+- `PROJE_DURUMU.md` - ölçüm sonuçları, dosya listesi, veri yeniden üretme
+  talimatları, sonraki adımlar, tüm Kritik Kurallar (1-6) ve gerekçeleri.
+- `GELISIM_SURECI.md` - kararların hikayesi.
 
-### Nihai sonuç (`gumruk_memuru/rf_egit_gercek.py`)
-- Eğitim: EMBER zararlı (5700) + EMBER zararsız (5700). İki sınıf da aynı
-  kaynaktan, aynı ölçümle.
-- EMBER test seti: %90.1 doğruluk (yanlış alarm %8.1, kaçan zararlı %11.7).
-- Dış doğrulama: bu makinedeki 5700 gerçek zararsız PE (eğitimde hiç
-  görülmedi) -> yanlış alarm %3.5.
-- Özellik önemleri: Toplam_API 0.30, Boyut 0.25, Entropi 0.24, Sıfır oranı
-  0.18, Supheli_API 0.03 (6 isimlik KARA_LISTE zayıf sinyal).
-- Sinsi 2 örneği (%17 sıfır, 3.8 entropi) %68 zararlı çıkıyor; EMBER'de bu
-  profile benzeyen 22 gerçek dosyanın %64'ü zararlı -> model hatası değil,
-  profil gerçekten belirsiz.
-- ÖLÇÜM NOTU (`dizge_dll_dogrulama.py`): %90.1 İYİMSER. Örneklem havuzu
-  EMBER dosyalarının alfabetik ilkinden (test_features.jsonl) sırayla
-  toplanmış: 11.400 satırın hepsi dosyanın ilk ~34 bin kaydından, hepsi
-  Kasım 2018. 80/20 bölme bu dar pencerenin içinde. Aynı dosyanın geri
-  kalan 188.600 kaydında (Kasım+Aralık) ana model: %87.4 doğruluk, AUC
-  0.947. Aynı 5 özellik tasarımı zamansal bölmeyle (Ocak-Ekim eğit ->
-  Kasım-Aralık test): %83.8, AUC 0.920. Sızıntı değil, ama raporlanacak
-  gerçekçi sayı bunlar; %3.5 dış doğrulama ayrı ölçüm, etkilenmiyor.
-  Genel ders: Kritik Kural 6.
+## Değişmez Kurallar
+1. **Gerçek zararlı örnek repoya ASLA girmez** (ikili, zip, parça, base64
+   dahil). Zararlı taraf yalnızca EMBER özellik vektörlerinden gelir; canlı
+   zararlı dosya bu ortamda işlenmez (izolasyon Faz 3'ün konusu).
+2. **Veri dosyaları git'e girmez**: ham/üretilmiş veri (JSONL, zip, CSV,
+   `model.pkl`, tarama çıktıları) yerine kaynak + üretim scripti yazılır.
+   Tek istisna repodaki üç CSV (`gumruk_memuru/sef_dataset_*.csv`); bunlar
+   yalnızca şema değişikliğinde yeniden yazılır, yenisi eklenmez.
+   `tests/fixtures/` küçük ZARARSIZ test dosyaları içindir (bkz. oradaki README).
+3. **Değerlendirme zamana VE zararlı ailesine göre ayrılmış sette yapılır**:
+   eğitim eski dönem, test sonraki dönem (EMBER 2018: Ocak-Ekim -> Kasım-Aralık;
+   EMBER2024: ilk 52 hafta -> son 12 hafta); aile bazında ayrı ölçüm/ayrım
+   (bir ailenin testte görülen örnekleri eğitimde sızıntı yaratmamalı,
+   aile bazında kaçma oranı raporlanmalı). Rastgele/aynı-dönem bölme ana
+   sayı olarak raporlanmaz; raporlanacaksa zamansal sayıyla yan yana.
+4. İki sınıf AYNI kaynaktan ve AYNI ölçüm koduyla üretilir; alanlar indeksle
+   değil isimle okunur. Özellik çıkaran kod değişince: `python -m pytest tests`.
+5. Genel skor alt grup çöküşünü gizler: .NET / EXE / DLL / paketli ayrıca
+   ölçülür; yüksek doğruluk şüphe sebebidir (feature_importances_ kontrolü).
+6. `except Exception` ile varsayılan değer döndürülmez; yalnızca beklenen
+   hata yakalanır, PE olmayan / bozuk kayıt sayılıp açıkça atlanır.
 
-### BİLİNEN SINIRLAMA: model .NET zararlılarına neredeyse kör (`net_dogrulama.py`)
-- Genel %90 doğruluk bir alt grubun çöküşünü gizliyor. EMBER 2018 CV'de
-  .NET zararlılarının %52'si kaçıyor (.NET-dışı: %11.5).
-- EMBER2024 .NET test (120.000 dosya, Eylül-Aralık 2024, eğitimde hiç
-  görülmedi): doğruluk %53, kaçan zararlı %92.8, AUC 0.63 -> yazı-tura.
-  Kaçanlar: xworm, njrat, asyncrat, agenttesla, redline, clipbanker...
-  (ailelerin %83-99'u).
-- Sebep NET_mi bayrağı DEĞİL (bayraksız model A da aynı körlükte): 5
-  PE-başlık özelliği .NET dosyalarını birbirinden ayıramıyor (hepsi ~1
-  import, benzer entropi) ve EMBER 2018 eğitiminde .NET zararlı az (162).
-
-## .NET Bayrağı (NET_mi, Karma_Mod) - çıkarıcılarda VAR, ana modelde HENÜZ YOK
-- `ember_zararli_cikar.py` ve `toplu_tarama.py` aynı kuralla üretiyor: CLR
-  dizini İSİMLE aranır, boyut > 0 VE adres > 0. Karma_Mod = .NET + mscoree
-  dışında native import (gerçek ILONLY biti EMBER'de yok; bu makinede 68
-  mixed-mode dosyanın 62'sini yakaladı, 0 yanlış pozitif).
-- Tutarlılık doğrulandı (60 bin EMBER kaydı + 5228 yerel PE): indeks
-  kayması, eksik dizin, boyut/adres çelişkisi pratikte yok.
-- Etkisi (EMBER 2018 CV): doğruluk %89.65 -> %90.16, .NET yanlış alarmı
-  3.1 -> 2.0; ama .NET kaçan zararlısı 52.5 -> 56.8 (".NET ise zararsız"
-  kestirmesi gerçek, küçük). EMBER2024 .NET'te kaçan 92.8 -> 93.4.
-- `rf_egit_gercek.py` hâlâ 5 özellikte: makinedeki doğrulama seti bu iki
-  sütunu içermiyor (yeni tarama gerekir, ~2.5 saat).
-
-## .NET Uzman Modeli - DENEYSEL (`net_model.py`)
-- Mimari: NET_mi=1 -> EMBER2024 .NET ile eğitilen uzman model; NET_mi=0 ->
-  EMBER 2018 ana model. Kaynaklar tek modelde karıştırılmaz (Kritik Kural 2;
-  string_counts EMBER 2018'de yok).
-- Veri: Dot_Net_train (520K, ilk 52 hafta) -> 100K alt örnek; test
-  Dot_Net_test (120K, son 12 hafta) - zamansal bölme. Eğitim/test ortak
-  dosya 0; birebir aynı özellik vektörü %1.6 (çıkarınca sonuç değişmiyor).
-  Train'deki 8 kayıt PE değil (`is_pe=0`, 146 baytlık JSON hata metni);
-  eskiden `coff` alanı olmadığı için sessizce DLL_mi=0 alıyordu, artık
-  atlanıyor (Kural 3). Bu yüzden M1-M2d sayıları ilk ölçümden örneklem
-  gürültüsü kadar farklı (ör. M2d EXE yanlış alarm 7.88 -> 7.34);
-  sonuçlar aynı. Bu makinedeki 500+500 .NET ölçümü ilk eğitimle yapıldı.
-- Dizge özellikleri (`dizge_ozellikleri.py`) thrember'ın KENDİ koduyla aynı
-  500 yerel dosyada (148 .NET) karşılaştırıldı: 500/500 birebir aynı.
-  Yerelde dosya başına ~0.25 sn (tam tarama süresini uzatır).
-- Ablasyon (EMBER2024 .NET test): M0 mevcut model kaçan %92.8 / AUC 0.63;
-  M1 yeni veri + temel özellikler kaçan %12.3 / AUC 0.94 (kazancın büyüğü
-  VERİDEN); M2 + dizgeler kaçan %3.8, yanlış alarm %4.2, AUC 0.993.
-- KESTİRME (üçüncü kez aynı ders): EMBER2024 .NET'te zararsızların ~%90'ı
-  DLL, zararlıların ~%90'ı EXE. En önemli özellik DZ_privilege aslında
-  manifest/EXE vekili (EXE içinde zararsız %90, zararlı %87'sinde var). M2
-  EXE'lerde yanlış alarm %26.3 - genel %4.2 bunu gizliyordu. Manifest
-  kelimelerini çıkarmak çözmüyor (%21; tip bilgisi başka özelliklerde de var).
-- Çözüm (M2d): eğitim örneklemi her tipin İÇİNDE 50/50 + DLL_mi girdi. EXE
-  yanlış alarm 26.5 -> 7.3, EXE AUC 0.966 -> 0.979, DLL AUC 0.986 -> 0.993;
-  EXE kaçan 2.9 -> 8.0 (M2 "EXE ise zararlı" önselini kullanıyordu). Genel
-  doğruluk 95.97 -> 94.97: bu KAYIP DEĞİL, gerçekçi hale gelmenin bedeli
-  (test kümesi de aynı tip dengesizliğini taşıdığı için kestirme orada
-  ödüllendiriliyordu). M2d'de en önemli özellikler artık içerik sinyali
-  (DZ_http_url, DZ_ort_uzunluk, DZ_url, DZ_entropi, DZ_crypt, DZ_base64);
-  DZ_privilege ilk 15'te yok.
-- Aile bazında bedel (M2 -> M2d kaçan): xworm/njrat/clipbanker ~0-2'de
-  kalıyor; agenttesla 7.0 -> 11.1, formbook 2.8 -> 6.2, remcos 3.2 -> 6.9.
-  "(bilinmiyor)" (15.4) ve wacatac (11.9; Microsoft'un jenerik tespit adı)
-  homojen aile DEĞİL - bunlardan "M2d X'e karşı zayıf" sonucu çıkarılmaz.
-  İzlenecek tanımlı aile: agenttesla. Kaçanların skorları: M2d'de
-  agenttesla kaçanlarının %69'u 0.2-0.5 bandında (üç bölgeli eşikte
-  "şüpheli" olur), ama 0.2 altında kalan "sessiz kaçan" ~%0.5 -> ~%3.5'e
-  çıkıyor. Eşik tasarımında (Sonraki Adımlar 4) bu aile ayrıca ölçülmeli.
-- Üretimde eşik/kalibrasyon: M2d her tip için %50 önsel varsayar. Gerçek
-  EXE/DLL zararlı oranı farkı gerçek bir bilgi, atılmamalı: eşik anında
-  tipe özel önselle düzelt: p' = p·π_t / (p·π_t + (1-p)(1-π_t)),
-  t ∈ {EXE, DLL}. EMBER2024'teki %88/%9 örnekleme artefaktı, gerçek π_t değil.
-- Bu makinedeki gerçek zararsız .NET dosyaları (500 EXE + 500 DLL; Program
-  Files x2 + Microsoft.NET, <=20 MB), yanlış alarm, %95 Wilson aralığı:
-  M2 EXE %15.6 [12.7-19.0], M2d EXE %1.6 [0.8-3.1]; DLL ikisinde de 0/500
-  [0-0.8]. Kestirme gerçek dünyada da vardı, M2d onu gideriyor. Uyarı:
-  örneklem rastgele değil (os.walk sırasıyla ilk 500) ve kümeli (aynı
-  paketten çok dosya) -> gerçek belirsizlik aralıktan geniş. M2d'nin
-  alarmları çoğunlukla az-import'lu komut satırı geliştirici araçları.
-
-## Native Model: DLL_mi + EMBER 2018 dizgeleri - DENEYSEL (`dizge_dll_dogrulama.py`)
-- Soru: EMBER2024 Win32/Win64'ü (17 GB) indirmeden native modele dizge
-  sinyali eklenebilir mi? EMBER 2018 JSON'unda `strings` grubu var ama
-  string_counts (77 regex) YOK. Olan: numstrings, avlength, entropy,
-  printables (thrember ile satır satır AYNI kod) + tüm dosyada 4 kaba sayım
-  (`C:\`, `http(s)://`, `HKEY_`, `MZ`). Tanım EMBER'in kendi koduyla
-  doğrulandı: 60K kayıtta iç tutarlılık (printabledist toplamı, entropi,
-  histogram sınırı, MZ>=1) ihlalsiz; yerel `dosyadan_ember2018_dizge`
-  EMBER'in StringExtractor koduyla 500 yerel dosyada 500/500 birebir.
-  Yerelde ucuz (77 regex döngüsü yok).
-- KESTİRME BURADA DA VAR (dördüncü kez): EMBER 2018 train'de zararsızların
-  %45.7'si, zararlıların %6.3'ü DLL (test: %28.8 / %7.2). Mevcut 5 özellik
-  bile tipi dolaylı öğrenmiş: V0 EXE yanlış alarm %19.1 / DLL %8.4, DLL
-  kaçan %21.6 / EXE %15.9. DLL_mi'yi DÜZ eklemek (V1) kestirmeyi büyütür:
-  DLL yanlış alarm 2.0 ama DLL kaçan %38, EXE yanlış alarm %24.5; genel
-  doğruluk sadece +0.3 -> yine genel skor gizliyor.
-- Sonuç (zamansal test, Kasım-Aralık 200K, 5 tohum ortalaması; tohum farkı
-  genel ~1 puan, AUC ~0.006, .NET kaçan ~12 puan):
-  V0 5 temel %83.8 / AUC 0.920; V2 +dizge %86.8 / 0.945 (.NET AUC 0.865 ->
-  0.939); V4 +dizge +DLL_mi tip-içi dengeli %86.3 / 0.944, DLL AUC 0.982
-  (V2 0.970), DLL kaçan 7.8 (V2 18.6), EXE yanlış alarm 14.2 (V2 17.0),
-  EXE kaçan 16.2 (V2 12.7). V4'te DLL_mi önemi 0.027 (V3'te 0.106);
-  en önemliler DZ_entropi, Toplam_API, DZ_ort_uzunluk, DZ18_http.
-- Yorum: dizge grubu gerçek kazanç (AUC +0.025, tohum farkının ~4 katı).
-  EXE'de V2/V4 farkı çoğunlukla eşik/önsel kayması (EXE AUC ikisinde de
-  ~0.93) -> .NET modelindeki gibi tipe özel kalibrasyonla çözülür. Aday:
-  V4. Ana modele ALINMADI: önce bu makinedeki dış doğrulama setinde
-  DLL_mi + dizge sütunları gerekiyor (bkz. Sonraki Adımlar 2).
-
-## Dosyalar
-- `entropy.py` - Shannon entropi hesaplayıcı.
-- `sef_sabitler.py` - ölçüm sabitlerinin TEK kaynağı: KARA_LISTE (str) ve
-  KARA_LISTE_BAYT (pefile bytes, aynı kümeden türetilir), SIHIRLI_IMZALAR,
-  ORDINAL_DESENI, CLR dizin adları. Neden: bunlar 3 dosyada ayrı kopyaydı;
-  birini güncelleyip diğerini unutmak iki sınıfı sessizce farklı ölçer
-  (Kritik Kural 1). Fonksiyonlar bilerek birleştirilmedi (girdi tipleri
-  farklı: pefile nesnesi vs EMBER JSON). Sabit eklerken buraya ekle.
-- `sef_ayarlar.py` - makineye özel yollar (EMBER klasörleri, taranacak
-  klasörler) ve proje içi veri dosyası adları (CSV'ler, model.pkl).
-  sef_sabitler'den AYRI: sabitler ölçümü tanımlar (değişirse veri yeniden
-  üretilir), buradakiler sadece yeri - başka makinede sadece bu dosya
-  değişir. Neden tek yer: aynı CSV'yi yazan ve okuyan script adını ayrı
-  ayrı tanımlıyordu (toplu_tarama yazar, rf_egit_gercek okur). Proje içi
-  yollar bu klasöre göre mutlak: script hangi klasörden çalışırsa çalışsın
-  aynı dosyalar.
-- `Chief_1.2.py` - tam statik analiz motoru (magic byte, bölüm-bazlı entropi,
-  pefile ile IAT/API analizi). v1.1'deki KARA_LISTE substring/çift-sayım
-  hatası düzeltildi (liste->set, tam eşleme).
-- `faz1_dogrulama.py` - TARİHSEL: sentetik veriyle %99.9 veren ilk modelin
-  sızıntı kanıtı. Yeni işte kullanma.
-- `ember_zararli_cikar.py` - EMBER JSONL'den label'a göre özellik çıkarır
-  (`kayitlari_topla(klasor, hedef, etiket)`); ana çalıştırma zararlı üretir.
-  `dll_mi` (2018 ve 2024 ortak) ve `ember2018_kayittan` (temel + DLL_mi +
-  EMBER 2018 dizge grubu) burada. Repodaki iki EMBER 2018 CSV'si HENÜZ
-  eski 9 sütunlu: yeni sütunlar ana model değişince (şema değişikliği)
-  yazılacak; genişletilmiş hali eski sütunları birebir koruyor (doğrulandı).
-- `ember2018_tam_cikar.py` - EMBER 2018'in tüm etiketli kayıtlarını
-  (`test|train`) proje dışına CSV'ye çevirir (+ Aile, Ay); ~2 dk.
-- `dizge_dll_dogrulama.py` - native model için DLL_mi / dizge ablasyonu,
-  zamansal test, 5 tohum, tum/EXE/DLL/.NET.
-- `dogrulama_yeniden_olc.py` - dış doğrulama setinin AYNI 5700 dosyasını
-  yeni sütunlarla yeniden ölçer (tam tarama yerine). Neden aynı dosyalar:
-  özellik değişiminin etkisi örneklem farkı karışmadan ölçülür. Örneklemi
-  seed 42 ile kurar (repodakiyle birebir değilse durur), klasörleri
-  listeleyip (ad, boyut) ile bulur, eski 5 sütunun HEPSİ tutmayanı eler
-  ve sebebini yazar. Repodaki doğrulama setinin üzerine YAZMAZ:
-  `..._yeniden.csv` üretir; eleme sayısı rapor edilmeden kullanılmaz.
-- `ember_zararsiz_cikar.py` - aynı fonksiyonlarla EMBER zararsız üretir.
-- `toplu_tarama.py` - bu makinedeki dosyaları tarar; PE CSV'si SADECE dış
-  doğrulama için. İlerleme çubuğu (%/ETA), satır tamponlu çıktı, ara kayıt
-  ve `--devam` ile sürdürme var.
-- `rf_egit_gercek.py` - ana eğitim + dış doğrulama + eski tasarımla
-  karşılaştırma + sinsi örnekler. Sonunda ana modeli `model.pkl`'e kaydeder
-  (özellik listesi ve sklearn sürümüyle birlikte).
-- `tahmin_et.py` - `python tahmin_et.py <dosya>`: model.pkl ile tek dosya.
-  Özellikleri `toplu_tarama.dosyayi_analiz_et` ile çıkarır - dış
-  doğrulamada ölçülen AYNI kod; ayrı bir çıkarıcı yazmak raporlanan
-  sayıların geçmediği yeni bir ölçüm olurdu. PE olmayan dosyayı reddeder
-  (Kural 3), .NET dosyasında körlük uyarısı basar.
-- `model_karsilastir.py` - RF vs LightGBM, ham vs kalibre (5 katlı CV +
-  makinedeki 11 örneklem + şüpheli bant). `requirements-experimental.txt`
-  gerektirir.
-- `ember2024_net_cikar.py` - EMBER2024 .NET kümelerini (`test|train`) aynı
-  çıkarıcıyla CSV'ye çevirir (+ dizgeler, DLL_mi, Aile, Hafta).
-- `dizge_ozellikleri.py` - thrember'ın `string_counts` regex'leri ve dizge
-  kuralı (Apache-2.0); JSON kaydından ve ham dosyadan aynı 80 sütun. Ayrıca
-  EMBER 2018 strings grubu (8 sütun: DZ_sayi, DZ_ort_uzunluk, DZ_entropi,
-  DZ18_*). Yanlış kaynağın kaydı verilirse KeyError - eskiden eksik
-  string_counts 77 sütuna sessizce 0 yazardı.
-- `net_dogrulama.py` - 5 vs 7 özellik; EMBER 2018 CV (.NET / .NET-dışı) ve
-  EMBER2024 .NET üzerinde kestirme/körlük testi.
-- `net_model.py` - DENEYSEL .NET uzman modeli: M0/M1/M2/M2d ablasyonu,
-  tum/EXE/DLL alt grupları, aile bazında kaçma oranı.
-- `toplu_tarama.py` artık DLL_mi + EMBER 2018 dizge grubunu da üretiyor
-  (8 sütun, ucuz). thrember'ın 80 sütununu ÜRETMİYOR (dosya başına ~0.25
-  sn, 64K PE'de ~4.5 saat ek); .NET uzman modeli için gerekirse sadece
-  NET_mi=1 dosyalarda hesaplanmalı.
-
-## Model Seçimi - ŞİMDİLİK KAPALI, özellik sayısı artınca YENİDEN AÇ
-- 5 özellik, ayarsız modellerle: RF CV doğruluk %89.65 / AUC 0.963,
-  LightGBM %87.96 / 0.952 (fark katlar arası oynaklığın üstünde). RF ile
-  devam. Özellik sayısı 10-15+ olunca `model_karsilastir.py` tekrar
-  çalıştırılmalı; boosting daha fazla özellikle genelde daha iyi ölçeklenir.
-- Kalibrasyon (isotonic): ham RF zaten iyi kalibre (ECE %1.72 -> %0.92).
-  Makinedeki isabet artışı (%96.89 -> %97.36) net kazanç değil, eşik
-  kayması: yanlış alarm 8.0 -> 6.2, kaçan zararlı 12.7 -> 14.3.
-- Olasılıklar EMBER'in %50 zararlı dünyasına göre. Gerçek ortamda zararlı
-  çok daha nadir: skor p, ortamdaki zararlı oranı π ise gerçek olasılık
-  p·π / (p·π + (1-p)(1-π)) (ör. p=0.93, π=%1 -> ~%12).
-
-## Sonraki Adımlar (bu sırayla)
-Sıralama gerekçesi: sonraki adımlar özellik setine bağlı; özellik seti
-EMBER2024'e bağlı. 2-4'ü önce yapmak, geçişten sonra hepsini tekrarlamak
-demek (taramayı erteleme mantığının aynısı).
-
-1. EMBER2024'e geçiş + `string_counts` tabanlı özellikler - TEK ADIM.
-   - İKİ SINIF BİRDEN taşınır (Kritik Kural 2): zararlı 2024 / zararsız
-     2018 olursa model yine "hangi veri seti" (2018 vs 2024, lief vs
-     pefile) sorusunu öğrenir; ayrıca string_counts EMBER 2018'de yok.
-   - Kaynak: 3.2M dosya, 2023-2024, pefile (thrember) ile çıkarılmış,
-     Apache-2.0, HuggingFace joyce8/EMBER2024'ten dosya tipi bazında
-     (Win32/Win64/Dot_Net train+test zip'leri; Win32_train 11.7 GB,
-     Win64_train 5.6 GB, Dot_Net_train 0.9 GB). Haftalık kotayla dengeli ->
-     oranlar gerçek yaygınlık değil. Tüm pipeline Kritik Kural 5 kontrol
-     listesinden geçmeli.
-   - Özellik: `strings.string_counts` (ASCII dizgelerde thrember regex'leri:
-     keyboard, clipboard, password, wallet, base64string, url...; .NET
-     tip/metod/P/Invoke adları ASCII olduğu için kısmi .NET-içi sinyal).
-     Yerel tarafta thrember'ın regex'leri ve `[\x20-\x7f]{5,}` dizge kuralı
-     birebir uygulanır (Apache-2.0). Belki `caps` (capa) da.
-   - KISIT (Kritik Kural 1): dnfile düzeyindeki özellikler (metod/P/Invoke
-     sayısı, IL boyutu, yönetilen kaynak entropisi) hiçbir eğitim
-     kaynağında YOK - EMBER ikili dosya dağıtmıyor. Yönetilen kaynaklar
-     .rsrc'de değil CLR metadata bölgesinde. Canlı zararlı ikili dosya
-     (MalwareBazaar vb.) bu laptopta işlenmez - izolasyon Faz 3'ün konusu.
-   - Diğer adaylar (EMBER2024 JSON'unda varsa): overlay/paketleyici
-     belirtileri, import kategorileri.
-   - YAPILDI (native kısmı, indirmesiz): DLL_mi + EMBER 2018 dizge grubu
-     (bkz. "Native Model"). Win32/Win64 string_counts için 17 GB indirme
-     hâlâ gerekir; karar .NET ve native sonuçlarına bağlı.
-2. Makinedeki doğrulama setini yeniden tara (~2.5 saat) - özellik seti
-   kesinleşince, BİR KEZ. Alternatif (daha ucuz): 5700'lük set
-   `sef_tarama_tum_dosyalar.csv`'den seed 42 ile birebir yeniden
-   kurulabiliyor (5700/5700 doğrulandı). Ama o dosya eski tarama sürümünden:
-   tam yol YOK, sadece Dosya_Adi. Klasörleri listeleyip (ad, boyut) ile
-   eşleştir, sadece o dosyaları yeniden oku, eski 5 sütunun birebir
-   tuttuğunu satır satır kontrol et (dosya taramadan beri değiştiyse at).
-3. `model_karsilastir.py` ile RF vs boosting'i yeniden karşılaştır.
-4. Üç bölgeli eşikler (zararsız / şüpheli / zararlı).
-   Şu an 0.2-0.8 bandı EMBER'in 1/4'ünü, makinenin 1/6'sını yutuyor ->
-   5 özellik yetersiz; eşikleri şimdi kilitleme. Eşik kuralı: gerçek
-   olasılık > C_FP / (C_FP + C_FN) ise işaretle. Maliyet oranı kullanıcı
-   kararı (EDR'de kaçan zararlı genelde daha pahalı); gerçek olasılık π'ye
-   bağlı olduğu için π için kaba bir aralık da gerekir (FN 10x pahalıyken
-   π=%1 -> skor eşiği ~0.91, π=%10 -> ~0.47).
-
-### Veri dosyaları (`gumruk_memuru/`)
-- `sef_dataset_zararli_gercek.csv` - EMBER label==1, 5700 kayıt
-- `sef_dataset_ember_zararsiz.csv` - EMBER label==0, 5700 kayıt
-- `sef_dataset_zararsiz_gercek.csv` - bu makinenin taraması, 5700 PE
-  (533.081 dosyadan 64.263 PE bulundu, random.seed(42) ile örneklendi).
-  Repo'da, `Dosya_Adi` sütunu OLMADAN (kurulu yazılımları ortaya koyar).
-  toplu_tarama.py onu baştan sütunsuz yazar; isimli hali
-  `sef_dataset_zararsiz_gercek_isimli.csv`'ye gider (`.gitignore`'da).
-- `sef_tarama_tum_dosyalar.csv` - tüm tarama (tam yollar içerir, büyük);
-  `.gitignore`'da.
-- EMBER2024 .NET CSV'leri - proje DIŞINDA, REPO'DA YOK (büyük, üretilmiş):
-  `C:\ember2024\ember2024_net_test_ozellik.csv` (120.000 kayıt, 60K/60K,
-  son 12 hafta) ve `...\ember2024_net_train_ozellik.csv` (520.000 kayıt,
-  260K/260K, ilk 52 hafta). Sütunlar: temel + NET_mi/Karma_Mod + 80 dizge
-  (DZ_*) + DLL_mi + Aile + Hafta. Yeniden üretmek (Apache-2.0):
-  1. `curl.exe -L -o C:\ember2024\Dot_Net_test.zip https://huggingface.co/datasets/joyce8/EMBER2024/resolve/main/Dot_Net_test.zip`
-     (210 MB) -> C:\ember2024 içinde `tar -xf Dot_Net_test.zip` (~1 GB JSONL)
-  2. Aynı adresten `Dot_Net_train.zip` (894 MB) -> `C:\ember2024\train`
-     içinde `tar -xf` (52 haftalık JSONL)
-  3. `gumruk_memuru` içinde `python ember2024_net_cikar.py test` (~15 sn)
-     ve `python ember2024_net_cikar.py train` (~1 dk)
-- EMBER CSV'lerinde NET_mi ve Karma_Mod sütunları da var.
-- EMBER 2018 tam CSV'leri - proje DIŞINDA, REPO'DA YOK:
-  `C:\ember2018\ember2018_train_ozellik.csv` (600.000 etiketli, Ocak-Ekim)
-  ve `..._test_ozellik.csv` (200.000, Kasım-Aralık). Yeniden üretmek: ham
-  EMBER 2018 (`C:\ember2018\ember2018`) varken `python ember2018_tam_cikar.py
-  test` ve `... train` (toplam ~2 dk).
-- `model.pkl` - REPO'DA YOK (`.gitignore`). Neden: (1) üretilmiş veri;
-  `python rf_egit_gercek.py` repodaki CSV'lerden ~10 sn'de birebir aynı
-  modeli üretir (random_state=42; kayıtlı model dış doğrulamada yine
-  197/5700). (2) Pickle sklearn sürümüne bağlı ikili dosya. (3) Pickle
-  yüklemek kod çalıştırmak demek - güvenlik projesi indirilen pickle'a
-  güvenmeyi alışkanlık haline getirmemeli.
-- Veri politikası: üretilmiş veri commit'lenmez; bunun yerine kaynak + script
-  talimatı yazılır. İstisnalar (kullanıcı kararı): iki EMBER 2018 CSV'si
-  (raporlanan sayılar birebir bunlara dayanıyor; EMBER sunucusunun yıllar
-  sonra aynı içerikle kalacağı garanti değil) ve makine taraması CSV'si
-  (başka yerde yeniden üretilemez). SINIR: bu dosyalar SADECE şema
-  değişikliğinde (yeni sütun) yeniden yazılır, kozmetik sebeple asla -
-  her yeniden yazım tüm satırları git geçmişine tekrar ekler.
-
-## Kritik Kurallar (Tekrar Sızıntı Yaratma)
-1. İki sınıf AYNI ölçüm yöntemiyle üretilmeli. Aynı sütun adı aynı ölçüm
-   demek değil: EMBER ordinal import'ları (`ordinal5`) ve boyutu 0 olan
-   bölümleri listeliyor, pefile tarafı saymıyor - `ember_zararli_cikar.py`
-   bunları atlıyor. Yeni özellik eklerken iki tarafı örnek veriyle karşılaştır.
-   EMBER2024 (thrember) farklı: ordinal `DLL:ordinal5` biçiminde; ve
-   datadirectories listesinin başında dizin olmayan bir girdi var + isimler
-   farklı (CLR = `COM_DESCRIPTOR`, 15. indeks). Alanları İNDEKSLE değil
-   İSİMLE oku.
-2. İki sınıf AYNI kaynaktan gelmeli. Zararsız veri tek makineden gelince
-   model "bu makineden mi?" sorusunu öğrendi (System32-only: Entropi+Sıfır
-   payı %70; çeşitlenince %50; kaynak farkı yine de %96 doğrulukla
-   ayırt edilebiliyordu).
-3. Zararsız tarafa PE olmayan dosya karıştırma (EMBER sadece PE).
-4. Yüksek doğruluk şüphe sebebidir; her modelde feature_importances_ ve
-   senaryo-dışı sinsi örneklerle kontrol et. Genel skor alt grup
-   çöküşünü gizleyebilir (genel doğruluk %90 iken .NET zararlılarının
-   sadece %48'i yakalanıyordu) ->
-   önemli alt grupları (.NET, paketli, dosya tipi) AYRICA ölç.
-5. Her yeni veri kaynağında (EMBER 2018, EMBER2024, ileride başka bir
-   kaynak) ordinal/indeks/alan adı varsayımları sabit sayılmaz, isimle ve
-   örnekle doğrulanır. Kontrol listesi:
-   - Kaynak kodu varsa oku (ör. thrember features.py); yoksa örnek kayıtla.
-   - Ordinal / isimsiz girdilerin biçimi (`ordinal5` mi `DLL:ordinal5` mi?)
-   - Liste alanlarında indeks -> isim eşlemesi, dizin olmayan ek girdiler,
-     isim yazımları (CLR_RUNTIME_HEADER / COM_DESCRIPTOR). İNDEKSLE okuma.
-   - Etiket değerleri ve sınıf sayıları (belgelenen sayıya güvenme:
-     EMBER2024 .NET test "60K" dendi, gerçekte 120K).
-   - Değişiklikten sonra mevcut sütunların birebir aynı kaldığını doğrula.
-   - Bozuk/PE olmayan kayıtlar (EMBER2024 `is_pe=0`, eksik `header.coff`):
-     `.get(..., [])` ile okuma - sessizce varsayılan değer alırlar. Alanı
-     doğrudan oku, eksikse say ve açıkça atla.
-   OTOMATİK HALİ: `tests/test_olcum_tutarliligi.py` (`python -m pytest
-   tests`, `requirements-dev.txt`). Aynı sahte dosyayı hem EMBER 2018 hem
-   EMBER2024 biçimli JSON'a hem pefile tarafına verip 7 sütunun eşitliğini,
-   ordinal biçimlerini, CLR'nin isimle bulunmasını, KARA_LISTE'nin tek
-   kaynaktan geldiğini kontrol eder. Testler geçmiş hataların (ordinal
-   sayımı, boş bölüm, indeksle CLR, v1.1 substring, bytes/str liste
-   ayrışması) her biri koda geri sokularak denendi: hepsi yakalanıyor.
-   YENİ VERİ KAYNAĞI EKLENİNCE: o kaynağın kayıt biçimini `_ember_kaydi`'na
-   yeni bir biçim olarak, yeni ordinal/dizin adlarını ilgili örnek
-   listelerine ekle. Test yazılmadan yeni kaynak eğitime girmez.
-   Özellik çıkaran kodu değiştirdikten sonra da testleri çalıştır.
-
-6. ZAMAN EKSENİ: train ve test aynı dönemden gelirse (aynı ay, aynı
-   dosyanın ardışık kayıtları) aynı kampanyalar/aileler iki tarafta da
-   bulunur ve skor yapay olarak kolaylaşır. Kural 4'ten farklı: o "hangi
-   alt grup", bu "hangi zaman". Örnek: Faz 1 ana modeli %90.1 (tek dosyanın
-   ilk 34K kaydı, hepsi Kasım 2018, içinde 80/20) -> aynı dosyanın geri
-   kalanında %87.4 -> zamansal bölmede %83.8. Güvenlik ML'de bilinen
-   problem (BODMAS gibi zamansal veri setlerinin varlık sebebi).
-   Kontrol listesi (her yeni model / veri kaynağında):
-   - Raporlanan ana sayı zamansal bölmeden gelsin: eğitim eski dönem,
-     test sonraki dönem (EMBER 2018: Ocak-Ekim -> Kasım-Aralık; EMBER2024:
-     ilk 52 hafta -> son 12 hafta).
-   - Örneklem havuzu dosya sırasıyla toplanıyorsa hangi döneme düştüğünü
-     kontrol et (`kayitlari_topla` alfabetik ilk dosyadan, sırayla topluyor).
-   - Aynı-dönem sayısı raporlanacaksa zamansal sayıyla YAN YANA yaz.
-
-## Çalışma Alışkanlıkları
-- Uzun işler (tarama, çıkarım, eğitim döngüsü): başta işi say ve %/ETA
-  ilerleme bas, `python -u` / `sys.stdout.reconfigure(line_buffering=True)`,
-  sonuçları anında dosyaya yaz ve sürdürme (`--devam`) desteği ver.
-  Örnek uygulama: `toplu_tarama.py`.
-- `except Exception` ile varsayılan değer döndürme. Neden: özellik
-  çıkarımında sessiz bir varsayılan (ör. sıfır oranı 0.0) gerçek ölçüm gibi
-  görünür, modele ve raporlara hatasız karışır. Sadece BEKLENEN hatayı
-  yakala (dosya okuma: `OSError`, PE: `pefile.PEFormatError`); tek dosya
-  araçlarında stderr'e uyarı bas. Toplu taramada dosya başına uyarı yerine
-  sayaç kullan (toplu_tarama "atlandi"), yoksa ilerleme çıktısı gömülür.
-  Kök dizindeki `Chief 1.1.py` / `Chıef 1.0.py` tarihsel, bilerek dokunulmadı.
-- Dosya içeriğini tamamen belleğe okuyan işlerde boyut sınırı koy
-  (toplu_tarama.py: 100 MiB = 100*1024*1024). Sınırsız taramada laptop
-  97°C'ye çıktı.
-
-## Ortam Notları
-- Bağımlılıklar: `requirements.txt` (ana pipeline, sürümler sabit),
-  `requirements-experimental.txt` (+ LightGBM, sadece model_karsilastir.py)
-  ve `requirements-dev.txt` (+ pytest, testler için).
-- Git: `C:\Program Files\Git\cmd\git.exe` (PATH'te olmayabilir).
-- Remote: `origin` = https://github.com/ahmtrntsdln/Chief-Sef (main takip
-  ediliyor). Repo'daki eski dosyalar (Chief 1.0/1.1, mimari PDF'ler) korunmalı.
-- Tüm yollar `gumruk_memuru/sef_ayarlar.py`'de; yeni makinede orayı düzenle.
-- Ham EMBER verisi (~10 GB) proje DIŞINDA: `C:\ember2018\ember2018`
-  (OneDrive'ı şişirmemek için). EMBER2024 .NET: test JSONL + CSV'ler
-  `C:\ember2024`, train JSONL `C:\ember2024\train`.
-- Tam tarama (System32 + Program Files x2) bu makinede ~2.5 saat sürüyor.
+## Çalışma
+- Her aşama ayrı bir dalda bir pull request olarak açılır ve kullanıcıya
+  inceleme için sorulur; onay gelmeden `main`'e birleştirilmez, sonraki
+  aşamaya geçilmez.
+- Bağımlılıklar: `requirements.txt` (+ `-dev` testler, `-experimental` LightGBM).
+- Makineye özel yollar yalnızca `gumruk_memuru/sef_ayarlar.py`'de; ölçüm
+  sabitleri yalnızca `gumruk_memuru/sef_sabitler.py`'de.
+- Ham EMBER verisi ve büyük CSV'ler proje DIŞINDA (kullanıcının Windows
+  makinesinde `C:\ember2018`, `C:\ember2024`); bulut oturumunda yok - bu
+  verilere dayanan scriptler burada çalışmaz, testler çalışır.
+- Kök dizindeki `Chief 1.0/1.1` ve mimari PDF'ler tarihsel, dokunulmaz.
