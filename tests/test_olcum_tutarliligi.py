@@ -1,5 +1,5 @@
 """
-Olcum tutarliligi testleri - CLAUDE.md Kritik Kural 1 ve 5'in otomatik hali.
+Olcum tutarliligi testleri - PROJE_DURUMU.md Kritik Kural 1 ve 5'in otomatik hali.
 
 Zararli taraf EMBER JSON'dan (ember_zararli_cikar), zararsiz taraf pefile ile
 yerel dosyadan (toplu_tarama, Chief_1.2) olculur. Ayni sutun adi ayni olcum

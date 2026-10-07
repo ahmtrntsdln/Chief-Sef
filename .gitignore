@@ -27,3 +27,10 @@ gumruk_memuru/model.pkl
 # yanlislikla indirilirse (~10 GB JSONL) commit'lenmesin
 gumruk_memuru/*.jsonl
 ember2018/
+
+# Veri dosyalari git'e girmez (CLAUDE.md Kural 2). Repodaki uc
+# sef_dataset_*.csv zaten takipte; bu kural onlari etkilemez, yenilerini durdurur.
+*.csv
+*.zip
+*.parquet
+*.npz

@@ -59,7 +59,7 @@ if __name__ == "__main__":
     print(f"Zararli olasiligi: %{olasilik * 100:.1f} -> "
           f"{'ZARARLI' if olasilik > 0.5 else 'zararsiz'} (esik 0.5)")
     print("  Not: skor EMBER'in %50 zararli dunyasina gore; gercek ortamda zararli "
-          "cok daha nadir oldugu icin gercek olasilik daha dusuktur (CLAUDE.md, Model Secimi).")
+          "cok daha nadir oldugu icin gercek olasilik daha dusuktur (PROJE_DURUMU.md, Model Secimi).")
     if ozellik["NET_mi"]:
         print("  [!] .NET dosyasi: bu model .NET zararlilarinin cogunu kaciriyor "
-              "(CLAUDE.md, BILINEN SINIRLAMA); dusuk skor guvence degil.")
+              "(PROJE_DURUMU.md, BILINEN SINIRLAMA); dusuk skor guvence degil.")

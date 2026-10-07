@@ -15,7 +15,7 @@ Ablasyon (test: EMBER2024 .NET son 12 hafta, egitimde hic gorulmedi):
 EMBER2024 .NET'te zararsizlarin ~%90'i DLL, zararlilarin ~%90'i EXE; M2 bunu
 "EXE ise zararli" kestirmesi olarak ogreniyor (EXE yanlis alarmi ~%26).
 M2d her tip icin %50 onsel varsayar; uretimde esik aninda tipe ozel onselle
-duzeltilmeli (CLAUDE.md, ".NET Uzman Modeli").
+duzeltilmeli (PROJE_DURUMU.md, ".NET Uzman Modeli").
 
 Kullanim: once `python ember2024_net_cikar.py train` ve `... test`.
 """

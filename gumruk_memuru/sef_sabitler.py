@@ -3,7 +3,7 @@ Sef Projesi - ortak olcum sabitleri
 ============================================================
 
 Zararli (EMBER JSON) ve zararsiz (pefile ile yerel tarama) taraflar AYNI
-olcumle uretilmeli (CLAUDE.md, Kritik Kural 1). Bu sabitler eskiden
+olcumle uretilmeli (PROJE_DURUMU.md, Kritik Kural 1). Bu sabitler eskiden
 Chief_1.2.py, toplu_tarama.py ve ember_zararli_cikar.py'de ayri ayri
 kopyalanmisti; birinde yapilan degisiklik digerine yansimazsa iki sinif
 sessizce farkli olculur ve model olcum farkini ogrenir. Tek kaynak burasi.

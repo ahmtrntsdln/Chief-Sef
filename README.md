@@ -67,12 +67,12 @@ entropisi, toplam API, supheli API). Egitim: EMBER 2018'den 5700 zararli +
 | EMBER icinde yanlis alarm / kacan zararli (ayni donem) | %8.1 / %11.7 |
 | Bu makinedeki 5700 gercek zararsiz PE'de yanlis alarm (egitimde hic gorulmedi) | %3.5 |
 | En onemli ozellikler | Toplam_API 0.30, Boyut 0.25, Entropi 0.24, Sifir orani 0.18 |
-| Bilinen sinirlama | .NET zararlilarina neredeyse kor: guncel (2024) .NET zararlilarinin %93'u kaciyor (bkz. CLAUDE.md) |
+| Bilinen sinirlama | .NET zararlilarina neredeyse kor: guncel (2024) .NET zararlilarinin %93'u kaciyor (bkz. PROJE_DURUMU.md) |
 
 Gercekci sayi zamansal olan: train ve test ayni aydan gelince ayni
 kampanyalar iki tarafta da bulunuyor ve skor yapay olarak kolaylasiyor
 (%90.1 -> %83.8). Ayrintilar ve deneysel duzeltmeler (.NET uzman modeli,
-dizge ozellikleri): CLAUDE.md.
+dizge ozellikleri): PROJE_DURUMU.md.
 
 %90 bilincli olarak %99'dan daha guvenilir bir sonuc: onceki %99.9 (sentetik
 veri) ve %97 (zararsiz verinin tek makineden gelmesi) sonuclari, modelin
