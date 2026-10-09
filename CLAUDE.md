@@ -136,6 +136,48 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   V4. Ana modele ALINMADI: önce bu makinedeki dış doğrulama setinde
   DLL_mi + dizge sütunları gerekiyor (bkz. Sonraki Adımlar 2).
 
+## Native Model: EMBER2024 (Win32+Win64) + thrember dizgeleri - DAL `model/ember2024-native`, KARAR BEKLİYOR
+- Çalışma kuralı: her yeni model kendi `model/<ad>` dalında; main ile aynı
+  protokolle karşılaştırılır, hangi dalın alınacağına kullanıcı karar verir.
+- Veri (9 Ekim 2026): HF joyce8/EMBER2024 Win32/Win64 train+test zip'leri
+  (21.9 GB, SHA-256 doğrulandı, `ember2024_indir.py`), AÇILMADAN okunur
+  (`ember2024_cikar.py`; açılmış ~100 GB). Eğitim 4.158.450 kayıt (hafta 0-51),
+  test 959.738 (hafta 52-63). is_pe=0 atlandı (train 1.550, test 262).
+- Kural 5 incelemesi (Win64_test, 240K): alanlar Dot_Net kaydıyla aynı;
+  string_counts SEYREK (eşleşmeyen desen yazılmaz -> 0, yerel taraf da aynı);
+  datadirectories başında isimsiz girdi, 236 kayıtta hiç dizin yok (isimle
+  okunduğu için sorun değil); ordinal "DLL:ordinal5"; haftada 20K, 50/50.
+- KESTİRME (beşinci kez): zararsızların ~%73'ü DLL, zararlıların ~%6'sı
+  (train %64.9 / %6.3). Import'suz: Win32 zararsız DLL'lerin %45'i (bu
+  makinedeki zararsız DLL'lerde %19.2 -> örüntü gerçek ama veri setinde abartılı).
+  Train->test kayması: zararsız DLL %64.9 -> %73.4, import'suz %13.5 -> %18.4.
+- Dış doğrulama: `dogrulama_dizge80.py` aynı 5637 dosyaya 80 dizge sütunu ekledi
+  -> 5635 (2 silinmiş, değişen 0; 7 Ekim'deki 3 ortak dizge sütunu 5635/5635
+  birebir). %93'ü DLL (EXE yalnız 402 -> geniş aralık).
+- Sonuç (`ember2024_native_dogrulama.py`; RF 100 ağaç, 100K alt örneklem,
+  5 tohum ortalaması; tohum farkı genel ≤0.35 puan, AUC ≤0.001):
+  | | doğruluk | YA | kaçan | AUC | EXE YA | DLL kaçan | yerel YA (EXE / DLL) |
+  |---|---|---|---|---|---|---|---|
+  | ANA (EMBER 2018, 5 öz.) | 55.5 | 10.3 | 78.7 | 0.663 | 11.7 | 68.4 | 3.4 (10.9 / 2.8) |
+  | E1 2024, 5 temel | 88.2 | 7.1 | 16.5 | 0.953 | 11.6 | 35.6 | 6.5 (10.9 / 6.1) |
+  | E2 +dizge, sınıf dengeli | 93.8 | 3.4 | 9.0 | 0.986 | 7.4 | 24.6 | 1.2 (4.7 / 1.0) |
+  | E3 +dizge +DLL_mi, tip-içi | 92.5 | 4.7 | 10.3 | 0.979 | 5.3 | 12.4 | 1.4 (2.7 / 1.3) |
+  Yerel YA Wilson %95: ANA 2.9-3.9, E3 1.1-1.7 (EXE 1.5-4.8).
+- Yorum: ana model 2024 verisinde çöküyor (import'suz zararlıların %99'u
+  kaçıyor). Kazancın büyüğü VERİDEN (E1), dizgeler AUC'yi 0.953 -> 0.986 taşıyor.
+  E2'nin genel üstünlüğü DLL kestirmesinden: DLL kaçan 24.6 (E3 12.4), EXE YA
+  7.4 (E3 5.3); DLL AUC E3'te daha iyi (0.978 / 0.969), EXE AUC aynı (~0.976).
+  Genel doğruluktaki 1.2 puanlık kayıp M2d ve V4'teki gibi gerçekçi olmanın bedeli.
+  En önemli özellikler içerik: DZ_http_url, DZ_ort_uzunluk, Sifir_Orani, DZ_url.
+- Zayıf kalanlar (tohum 42, E3 kaçan %): floxif 49.7, virut 32.2 (dosya
+  bulaştırıcıları: zararsız taşıyıcı statik olarak zararsız görünüyor),
+  (bilinmiyor) 16.6, lummastealer 15.1 (E2 12.1), wacatac 9.3.
+- .NET alt grubu küçük (testin %0.5'i), tohum farkı 3-5 puan; .NET dosyaları
+  zaten uzman modele gidecek (mimari, .NET bölümü).
+- Öneri: E3. Birleştirmeden önce dalda: eğitim betiği + model.pkl (86 öz.),
+  tahmin_et'in 80 dizge sütununu üretmesi ve uçtan uca doğrulama, tipe özel
+  kalibrasyon, 86 özellikle RF vs LightGBM (Model Seçimi bölümü bunu istiyor).
+
 ## Dosyalar
 - `entropy.py` - Shannon entropi hesaplayıcı.
 - `sef_sabitler.py` - ölçüm sabitlerinin TEK kaynağı: KARA_LISTE (str) ve
@@ -204,6 +246,17 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   (8 sütun, ucuz). thrember'ın 80 sütununu ÜRETMİYOR (dosya başına ~0.25
   sn, 64K PE'de ~4.5 saat ek); .NET uzman modeli için gerekirse sadece
   NET_mi=1 dosyalarda hesaplanmalı.
+- `ember2024_indir.py` - EMBER2024 zip'lerini indirir: Range ile devam,
+  ağ hatasında artan beklemeyle yeniden deneme, HF API'sine göre boyut +
+  SHA-256 kontrolü (tutmayan `.bozuk` olarak ayrılır).
+- `ember2024_cikar.py` - Win32/Win64 zip'lerinden açmadan özellik çıkarır
+  (ember2024_net_cikar ile aynı fonksiyonlar + Tur); haftalık CSV'ler,
+  biten hafta atlanır; olağandışı kayıtları sayar (import yok, ölçülebilir
+  bölüm yok). Çıktı `C:\ember2024\ozellik\<zip>\`.
+- `dogrulama_dizge80.py` - dış doğrulama setine 80 thrember dizge sütunu;
+  eski 5 sütun ve 3 ortak dizge sütunu tutmayan dosyayı eler/sayar; `--devam`.
+- `ember2024_native_dogrulama.py` - native adaylar (ANA/E1/E2/E3), zamansal
+  test, 5 tohum, alt gruplar, yerel YA (Wilson), aile bazında kaçan.
 
 ## Model Seçimi - ŞİMDİLİK KAPALI, özellik sayısı artınca YENİDEN AÇ
 - 5 özellik, ayarsız modellerle: RF CV doğruluk %89.65 / AUC 0.963,

@@ -27,6 +27,8 @@ EMBER2018_KLASORU = r"C:\ember2018\ember2018"     # tar -xf ile acilan gercek kl
 EMBER2018_CIKTI_KLASORU = r"C:\ember2018"         # ember2018_tam_cikar.py'nin buyuk CSV'leri
 EMBER2024_KLASORU = r"C:\ember2024"               # Dot_Net_test JSONL + uretilen CSV'ler
 EMBER2024_TRAIN_KLASORU = os.path.join(EMBER2024_KLASORU, "train")   # Dot_Net_train JSONL
+# Win32/Win64 zip'leri (~22 GB) ACILMAZ: ozellikler zip'in icinden okunur (acilmis hali ~100 GB).
+EMBER2024_ZIP_KLASORU = os.path.join(EMBER2024_KLASORU, "zip")
 
 # --- Yerel dis dogrulama taramasi (toplu_tarama.py) ---
 TARANACAK_KLASORLER = [
@@ -46,4 +48,7 @@ TUM_TARAMA_CSV = _proje("sef_tarama_tum_dosyalar.csv")              # .gitignore
 YENIDEN_OLCUM_CSV = _proje("sef_dataset_zararsiz_gercek_yeniden.csv")                  # Dosya_Adi'siz
 YENIDEN_OLCUM_ISIMLI_CSV = _proje("sef_dataset_zararsiz_gercek_yeniden_isimli.csv")    # .gitignore
 YENIDEN_OLCUM_ELENEN_CSV = _proje("sef_dogrulama_elenenler_isimli.csv")                # .gitignore
+# dogrulama_dizge80.py: ayni dosyalara EMBER2024 (thrember) dizge sutunlari eklenmis hali.
+DOGRULAMA_DZ80_CSV = _proje("sef_dogrulama_dz80.csv")                    # Dosya_Adi'siz
+DOGRULAMA_DZ80_ISIMLI_CSV = _proje("sef_dogrulama_dz80_isimli.csv")      # .gitignore
 MODEL_YOLU = _proje("model.pkl")                                     # .gitignore, uretilmis
