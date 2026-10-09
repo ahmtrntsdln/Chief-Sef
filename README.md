@@ -1,8 +1,10 @@
 # Chief-Sef
 Machine learning-powered software-hardware security engine
 
-> Projenin gelişim sürecini ve alınan kararların gerekçelerini
-> [GELISIM_SURECI.md](GELISIM_SURECI.md) dosyasında bulabilirsiniz.
+> Türkçe: [README.tr.md](README.tr.md)
+
+> The development story and the reasoning behind each decision are in
+> [GELISIM_SURECI.md](GELISIM_SURECI.md) (in Turkish).
 
 ## About Şef-Chief
 
@@ -14,94 +16,98 @@ Project Milestone: This serves as a functional prototype and represents a person
 
 ---
 
-# Sef Projesi
+# The Şef Project
 
-Yapay zeka destekli, donanimsal izolasyonlu siber guvenlik motoru.
+An AI-assisted cybersecurity engine built around hardware isolation.
 
-## Faz 1: Konseptin Ispati - Gumruk Memuru
+## Phase 1: Proof of Concept - "Customs Officer" (Gümrük Memuru)
 
-Ilk hedef: dosyalarin Shannon Entropisini olcup normal dosyalarla
-sifrelenmis/paketlenmis (potansiyel supheli) dosyalari ayirt edebilen
-basit bir statik analiz katmani kurmak.
+First goal: a simple static analysis layer that measures the Shannon entropy
+of files and tells normal files apart from encrypted/packed (potentially
+suspicious) ones.
 
-- `gumruk_memuru/entropy.py` -> Entropi hesaplama modulu
-- `gumruk_memuru/sef_sabitler.py` -> Ortak olcum sabitleri (KARA_LISTE, sihirli
-  imzalar, ordinal deseni, CLR dizin adlari). Zararli ve zararsiz taraf ayni
-  olcumle uretilmeli; sabitler tek yerde durunca biri degisip digeri eski
-  kalamaz.
-- `gumruk_memuru/sef_ayarlar.py` -> Makineye ozel yollar ve veri dosyasi adlari.
-  Olcum sabitlerinden ayri tutuldu: yol degistirmek hicbir sayiyi
-  degistirmez, sabit degistirmek tum veriyi yeniden uretmeyi gerektirir.
-- `gumruk_memuru/Chief_1.2.py` -> Tam statik analiz motoru (magic byte, bolum-bazli entropi, IAT/API)
-- `gumruk_memuru/ember_zararli_cikar.py`, `ember_zararsiz_cikar.py` -> EMBER'den gercek veri cikarma
-- `gumruk_memuru/toplu_tarama.py` -> Bu makinedeki dosyalari tarama (dis dogrulama seti)
-- `gumruk_memuru/rf_egit_gercek.py` -> Egitim, dis dogrulama ve sinsi ornek testleri;
-  ana modeli `model.pkl` olarak kaydeder (repo'da yok: ~10 sn'de ayni model
-  yeniden uretilir, pickle da sklearn surumune bagli)
-- `gumruk_memuru/tahmin_et.py` -> Tek dosya tahmini: `python tahmin_et.py <dosya>`.
-  Ozellikler dis dogrulamadaki ayni kodla cikarilir, boylece %3.5 yanlis
-  alarm olcumu bu script icin de gecerli.
-- `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM ve kalibrasyon karsilastirmasi
+- `gumruk_memuru/entropy.py` -> Entropy calculation module
+- `gumruk_memuru/sef_sabitler.py` -> Shared measurement constants (KARA_LISTE
+  (suspicious API list), magic signatures, ordinal pattern, CLR directory
+  names). The malicious and benign sides must be produced by the same
+  measurement; with the constants in one place, one side cannot change while
+  the other stays stale.
+- `gumruk_memuru/sef_ayarlar.py` -> Machine-specific paths and data file names.
+  Kept separate from the measurement constants: changing a path changes no
+  number, changing a constant requires regenerating all data.
+- `gumruk_memuru/Chief_1.2.py` -> Full static analysis engine (magic bytes, per-section entropy, IAT/API)
+- `gumruk_memuru/ember_zararli_cikar.py`, `ember_zararsiz_cikar.py` -> Extracting real data from EMBER
+- `gumruk_memuru/toplu_tarama.py` -> Scanning the files on this machine (external validation set)
+- `gumruk_memuru/rf_egit_gercek.py` -> Training, external validation and "sneaky sample" tests;
+  saves the main model as `model.pkl` (not in the repo: the same model is
+  reproduced in ~10 s, and a pickle is tied to the scikit-learn version)
+- `gumruk_memuru/tahmin_et.py` -> Single-file prediction: `python tahmin_et.py <file>`.
+  Features are extracted with the same code used in the external validation,
+  so the 3.5% false-alarm measurement also applies to this script.
+- `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM and calibration comparison
 
-Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin
-`requirements-experimental.txt`). Veri klasorleri farkliysa
-`gumruk_memuru/sef_ayarlar.py`'yi duzenle.
+Setup: `pip install -r requirements.txt` (`requirements-experimental.txt` for
+the model comparison). If your data folders differ, edit
+`gumruk_memuru/sef_ayarlar.py`.
 
-Testler: `pip install -r requirements-dev.txt` ve repo kokunden
-`python -m pytest tests`. `tests/test_olcum_tutarliligi.py`, zararli (EMBER
-JSON) ve zararsiz (pefile) tarafin ayni dosyayi ayni sayilara cevirdigini
-kontrol eder. Bu projede en pahali hatalar model hatasi degil olcum
-farkiydi: iki taraf farkli olculunce model zararliligi degil olcum farkini
-ogreniyor.
+Tests: `pip install -r requirements-dev.txt`, then from the repo root
+`python -m pytest tests`. `tests/test_olcum_tutarliligi.py` checks that the
+malicious side (EMBER JSON) and the benign side (pefile) turn the same file
+into the same numbers. In this project the most expensive bugs were not model
+errors but measurement differences: when the two sides are measured
+differently, the model learns the measurement difference instead of
+maliciousness.
 
-## Faz 1 Sonuclari
+## Phase 1 Results
 
-Model: Random Forest, 5 ozellik (boyut, sifir orani, ortalama bolum
-entropisi, toplam API, supheli API). Egitim: EMBER 2018'den 5700 zararli +
-5700 zararsiz gercek PE dosyasi.
+Model: Random Forest, 5 features (size, zero-byte ratio, mean section
+entropy, total APIs, suspicious APIs). Training: 5,700 malicious + 5,700
+benign real PE files from EMBER 2018.
 
-| Olcum | Sonuc |
+| Measurement | Result |
 |---|---|
-| EMBER test dogrulugu: ayni donem (Kasim 2018 icinde 80/20) | %90.1 |
-| EMBER test dogrulugu: zamansal bolme (Ocak-Ekim egitim -> Kasim-Aralik test) | %83.8 (AUC 0.920) |
-| EMBER icinde yanlis alarm / kacan zararli (ayni donem) | %8.1 / %11.7 |
-| Bu makinedeki 5700 gercek zararsiz PE'de yanlis alarm (egitimde hic gorulmedi) | %3.5 |
-| En onemli ozellikler | Toplam_API 0.30, Boyut 0.25, Entropi 0.24, Sifir orani 0.18 |
-| Bilinen sinirlama | .NET zararlilarina neredeyse kor: guncel (2024) .NET zararlilarinin %93'u kaciyor (bkz. CLAUDE.md) |
+| EMBER test accuracy: same period (80/20 within November 2018) | 90.1% |
+| EMBER test accuracy: temporal split (train Jan-Oct -> test Nov-Dec) | 83.8% (AUC 0.920) |
+| False alarms / missed malware within EMBER (same period) | 8.1% / 11.7% |
+| False alarms on 5,700 real benign PE files from this machine (never seen in training) | 3.5% |
+| Most important features | Toplam_API 0.30, Boyut 0.25, Entropi 0.24, Sifir orani 0.18 |
+| Known limitation | Nearly blind to .NET malware: 93% of recent (2024) .NET malware is missed (see CLAUDE.md) |
 
-Gercekci sayi zamansal olan: train ve test ayni aydan gelince ayni
-kampanyalar iki tarafta da bulunuyor ve skor yapay olarak kolaylasiyor
-(%90.1 -> %83.8). Ayrintilar ve deneysel duzeltmeler (.NET uzman modeli,
-dizge ozellikleri): CLAUDE.md.
+The realistic number is the temporal one: when training and test data come
+from the same month, the same campaigns appear on both sides and the score
+becomes artificially easy (90.1% -> 83.8%). Details and experimental fixes
+(.NET specialist model, string features): CLAUDE.md (in Turkish).
 
-%90 bilincli olarak %99'dan daha guvenilir bir sonuc: onceki %99.9 (sentetik
-veri) ve %97 (zararsiz verinin tek makineden gelmesi) sonuclari, modelin
-zararli davranisi degil veri kaynaklari arasindaki farki ogrendigini
-gosteriyordu. Ayrintilar: [GELISIM_SURECI.md](GELISIM_SURECI.md).
+90% is deliberately a more trustworthy result than 99%: the earlier 99.9%
+(synthetic data) and 97% (benign data from a single machine) results showed
+that the model was learning the difference between data sources, not
+malicious behavior. Details: [GELISIM_SURECI.md](GELISIM_SURECI.md).
 
-Model karsilastirmasi (5 katli CV): Random Forest (AUC 0.963) ayarsiz
-LightGBM'i (0.952) geciyor. Bu sonuc 5 ozellige ozgu; ozellik sayisi
-artinca karsilastirma tekrarlanacak.
+Model comparison (5-fold CV): Random Forest (AUC 0.963) beats untuned
+LightGBM (0.952). This result is specific to 5 features; the comparison will
+be repeated as the feature count grows.
 
-## Yol Haritasi
+## Roadmap
 
-1. [x] Entropi hesaplayici (ilk calisan parca)
-2. [x] Ilk Random Forest modeli kuruldu - %99.9 sonuc ANCAK veri sizintisi
-       tespit edildi: sentetik "zararli" veri 5 sabit senaryodan (random.uniform)
-       uretildigi icin gercekci degil. Senaryo disi "sinsi" ornekler
-       %100 guvenle kaciyor. Bkz. `faz1_dogrulama.py`.
-3. [x] Gercek ozellik cikarim motoru yazildi (`Chief_1.2.py` - magic byte,
-       bolum-bazli entropi, pefile ile IAT/API analizi). v1.1'deki
-       KARA_LISTE substring/cift-sayim hatasi duzeltildi (liste->set,
-       tam esleme).
-4. [x] EMBER'den gercek 5700 zararli kayit cikarildi. EMBER'in olcumu
-       pefile tarafiyla esitlendi (ordinal import'lar ve bos bolumler).
-5. [x] Zararsiz veri once bu makineden (System32 + Program Files) tarandi;
-       bunun kaynak yanliligi yarattigi goruldu. Zararsiz egitim verisi de
-       EMBER'den alindi, makine taramasi (533.081 dosya, 64.263 PE) dis
-       dogrulama setine donustu.
-6. [x] Random Forest gercek veriyle yeniden egitildi ve dogrulandi
-       (ayni donem %90.1 / zamansal %83.8, gercek makinede %3.5 yanlis
-       alarm). **Faz 1 kapandi.**
-7. [ ] (Faz 2) eBPF ile Linux sistem cagrisi izleme
-8. [ ] (Faz 3) NPU / TEE donanimsal izolasyon
+1. [x] Entropy calculator (the first working piece)
+2. [x] First Random Forest model built - 99.9% result, BUT data leakage was
+       detected: the synthetic "malicious" data was generated from 5 fixed
+       scenarios (random.uniform), so it is not realistic. Out-of-scenario
+       "sneaky" samples slip through with 100% confidence. See
+       `faz1_dogrulama.py`.
+3. [x] Real feature extraction engine written (`Chief_1.2.py` - magic bytes,
+       per-section entropy, IAT/API analysis with pefile). The KARA_LISTE
+       substring/double-counting bug in v1.1 was fixed (list -> set, exact
+       match).
+4. [x] 5,700 real malicious records extracted from EMBER. EMBER's
+       measurement was aligned with the pefile side (ordinal imports and
+       empty sections).
+5. [x] Benign data was first scanned from this machine (System32 + Program
+       Files); this turned out to create source bias. Benign training data
+       was also taken from EMBER, and the machine scan (533,081 files, 64,263
+       PE) became the external validation set.
+6. [x] Random Forest retrained on real data and validated (same period
+       90.1% / temporal 83.8%, 3.5% false alarms on a real machine).
+       **Phase 1 closed.**
+7. [ ] (Phase 2) Linux system-call monitoring with eBPF
+8. [ ] (Phase 3) NPU / TEE hardware isolation
