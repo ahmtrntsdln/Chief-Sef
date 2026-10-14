@@ -114,4 +114,8 @@ artinca karsilastirma tekrarlanacak.
          128'de negatife sariyor ve `skor > 100` kontrolunu atlatiyor:
          supheli dosya temiz geciyor. Test hatali ve dogru surumu (genis tip
          + aralik dogrulamasi + fail-closed) birlikte sabitliyor.
+   - [ ] C kismini gercek bir derleyiciyle calistir (gelistirme
+         makinesinde henuz yok, bu yuzden "atlandi" gorunuyor),
+         `-Wconversion -Wsign-conversion`'in daralmayi yakaladigini
+         dogrula, bu bayraklar ve test her ajan derlemesinin parcasi olsun.
 8. [ ] (Faz 3) NPU / TEE donanimsal izolasyon

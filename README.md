@@ -119,4 +119,8 @@ be repeated as the feature count grows.
          a narrow type wraps at 128 and bypasses `score > 100`: a suspicious
          file passes as clean. The test pins both the broken and the correct
          version (wide type + range check + fail-closed).
+   - [ ] Run the C part with a real compiler (none on the development
+         machine yet, so it is reported as skipped), verify that
+         `-Wconversion -Wsign-conversion` flags the narrowing, and make
+         those flags and this test part of every agent build.
 8. [ ] (Phase 3) NPU / TEE hardware isolation

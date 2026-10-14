@@ -305,15 +305,28 @@ demek (taramayı erteleme mantığının aynısı).
   her yeniden yazım tüm satırları git geçmişine tekrar ekler.
 
 ## Faz 2 (gerçek zamanlı ajan, C/C++) - Yapılacaklar
-- Ajanın C/C++ tarafında eşik karşılaştırması dar tipte yapılmayacak;
-  int32/double + aralık doğrulaması + fail-closed (aralık dışı skor =
-  şüpheli). Neden: Faz 1 Python'da, tamsayı taşması yok; C'de skor
-  `signed char`'a yazılırsa 128 -> -128 olur ve `skor > 100` kontrolü
-  sessizce atlanır. Regresyon testi: `tests/test_esik_sinir.py` +
-  `tests/esik_sinir.c` (hatalı sürüm tabloda KAÇIRMALI, doğru sürüm
-  GEÇMELİ; hatalı sürüm de geçerse test tablonun taşmayı artık ölçmediğini
-  söyleyip başarısız olur). Bu makinede C derleyicisi yok: C kısmı
-  atlanıyor (pytest'te "skipped"), Faz 2 ortamında çalıştırılmalı.
+Faz 2 henüz başlamadı; bunlar ajan C/C++'a taşınırken uyulacak kurallar ve
+açık işler.
+- [x] KURAL: Ajanın C/C++ tarafında eşik karşılaştırması dar tipte
+  yapılmayacak; int32/double + aralık doğrulaması + fail-closed (aralık
+  dışı skor = şüpheli). Neden: Faz 1 Python'da, tamsayı taşması yok; C'de
+  skor `signed char`'a yazılırsa 128 -> -128 olur ve `skor > 100` kontrolü
+  sessizce atlanır (Kritik Kural 7).
+- [x] Regresyon testi yazıldı: `tests/test_esik_sinir.py` +
+  `tests/esik_sinir.c`. Hatalı sürüm tabloda KAÇIRMALI, doğru sürüm
+  GEÇMELİ; hatalı sürüm de geçerse test, tablonun taşmayı artık ölçmediğini
+  söyleyip başarısız olur.
+- [ ] Testin C kısmını derleyicisi olan ortamda çalıştır. Bu makinede
+  gcc/clang yok: C kısmı atlanıyor (pytest'te "skipped", geçti sayılmıyor).
+- [ ] Derleyici iddialarını doğrula: `gcc -c -Wconversion -Wsign-conversion`
+  hatalı sürümde uyarı veriyor mu; `-fsanitize=undefined` vermiyor,
+  clang `-fsanitize=implicit-integer-truncation` veriyor mu.
+- [ ] Ajan kodu derlemesinde `-Wconversion -Wsign-conversion` kalıcı
+  olsun (tercihen `-Werror` ile) ve bu test CI'da derleyiciyle koşsun;
+  yoksa "skipped" sessizce kalıcı hale gelir.
+- [ ] Skor ölçeğini sabitle: model olasılığı (0-1, double) mı, tamsayı
+  yüzde (0-100) mi? Test 0-255 aralığını sınır değerleri denemek için
+  kullanıyor; gerçek ölçek kararlaşınca SKOR_MIN/MAX ve ESIK ona uydurulur.
 
 ## Kritik Kurallar (Tekrar Sızıntı Yaratma)
 1. İki sınıf AYNI ölçüm yöntemiyle üretilmeli. Aynı sütun adı aynı ölçüm
