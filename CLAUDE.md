@@ -304,6 +304,17 @@ demek (taramayı erteleme mantığının aynısı).
   değişikliğinde (yeni sütun) yeniden yazılır, kozmetik sebeple asla -
   her yeniden yazım tüm satırları git geçmişine tekrar ekler.
 
+## Faz 2 (gerçek zamanlı ajan, C/C++) - Yapılacaklar
+- Ajanın C/C++ tarafında eşik karşılaştırması dar tipte yapılmayacak;
+  int32/double + aralık doğrulaması + fail-closed (aralık dışı skor =
+  şüpheli). Neden: Faz 1 Python'da, tamsayı taşması yok; C'de skor
+  `signed char`'a yazılırsa 128 -> -128 olur ve `skor > 100` kontrolü
+  sessizce atlanır. Regresyon testi: `tests/test_esik_sinir.py` +
+  `tests/esik_sinir.c` (hatalı sürüm tabloda KAÇIRMALI, doğru sürüm
+  GEÇMELİ; hatalı sürüm de geçerse test tablonun taşmayı artık ölçmediğini
+  söyleyip başarısız olur). Bu makinede C derleyicisi yok: C kısmı
+  atlanıyor (pytest'te "skipped"), Faz 2 ortamında çalıştırılmalı.
+
 ## Kritik Kurallar (Tekrar Sızıntı Yaratma)
 1. İki sınıf AYNI ölçüm yöntemiyle üretilmeli. Aynı sütun adı aynı ölçüm
    demek değil: EMBER ordinal import'ları (`ordinal5`) ve boyutu 0 olan
@@ -362,6 +373,16 @@ demek (taramayı erteleme mantığının aynısı).
    - Örneklem havuzu dosya sırasıyla toplanıyorsa hangi döneme düştüğünü
      kontrol et (`kayitlari_topla` alfabetik ilk dosyadan, sırayla topluyor).
    - Aynı-dönem sayısı raporlanacaksa zamansal sayıyla YAN YANA yaz.
+
+7. Eşik ve skor karşılaştırmalarında dar tip kullanma. Genişte tut,
+   aralığı doğrula, aralık dışını şüpheli say (fail-closed). C'ye geçen
+   her kod `-Wconversion -Wsign-conversion` ile derlenir; UBSan bu
+   daralmayı yakalamaz: int -> signed char dönüşümü tanımsız davranış
+   değil, uygulamaya bağlı davranış, `-fsanitize=undefined` kapsamıyor
+   (clang'ın ayrı `-fsanitize=implicit-integer-truncation`'ı yakalar ama
+   varsayılan değil). Test: `tests/test_esik_sinir.py` (bkz. Faz 2
+   Yapılacaklar). Not: -Wconversion/UBSan davranışı bu makinede derleyici
+   olmadığı için yerelde doğrulanmadı; Faz 2 ortamında ilk iş doğrula.
 
 ## Çalışma Alışkanlıkları
 - Uzun işler (tarama, çıkarım, eğitim döngüsü): başta işi say ve %/ETA

@@ -56,7 +56,10 @@ malicious side (EMBER JSON) and the benign side (pefile) turn the same file
 into the same numbers. In this project the most expensive bugs were not model
 errors but measurement differences: when the two sides are measured
 differently, the model learns the measurement difference instead of
-maliciousness.
+maliciousness. `tests/test_esik_sinir.py` + `tests/esik_sinir.c` are a
+boundary-value regression test for the threshold comparison, written ahead
+of Phase 2 (see the roadmap); the C part is skipped when no gcc/clang is
+installed.
 
 ## Phase 1 Results
 
@@ -110,4 +113,10 @@ be repeated as the feature count grows.
        90.1% / temporal 83.8%, 3.5% false alarms on a real machine).
        **Phase 1 closed.**
 7. [ ] (Phase 2) Linux system-call monitoring with eBPF
+   - [x] Boundary-value regression test for the threshold comparison
+         (`tests/test_esik_sinir.py`, `tests/esik_sinir.c`). Python has no
+         integer overflow, but once the agent moves to C, a score stored in
+         a narrow type wraps at 128 and bypasses `score > 100`: a suspicious
+         file passes as clean. The test pins both the broken and the correct
+         version (wide type + range check + fail-closed).
 8. [ ] (Phase 3) NPU / TEE hardware isolation

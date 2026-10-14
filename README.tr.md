@@ -54,7 +54,9 @@ Testler: `pip install -r requirements-dev.txt` ve repo kokunden
 JSON) ve zararsiz (pefile) tarafin ayni dosyayi ayni sayilara cevirdigini
 kontrol eder. Bu projede en pahali hatalar model hatasi degil olcum
 farkiydi: iki taraf farkli olculunce model zararliligi degil olcum farkini
-ogreniyor.
+ogreniyor. `tests/test_esik_sinir.py` + `tests/esik_sinir.c`: esik
+karsilastirmasi icin Faz 2'ye hazirlik olarak yazilmis sinir-deger
+regresyon testi (bkz. yol haritasi); gcc/clang yoksa C kismi atlanir.
 
 ## Faz 1 Sonuclari
 
@@ -106,4 +108,10 @@ artinca karsilastirma tekrarlanacak.
        (ayni donem %90.1 / zamansal %83.8, gercek makinede %3.5 yanlis
        alarm). **Faz 1 kapandi.**
 7. [ ] (Faz 2) eBPF ile Linux sistem cagrisi izleme
+   - [x] Esik karsilastirmasi icin sinir-deger regresyon testi
+         (`tests/test_esik_sinir.py`, `tests/esik_sinir.c`). Python'da
+         tamsayi tasmasi yok; ama ajan C'ye tasininca dar tipe yazilan skor
+         128'de negatife sariyor ve `skor > 100` kontrolunu atlatiyor:
+         supheli dosya temiz geciyor. Test hatali ve dogru surumu (genis tip
+         + aralik dogrulamasi + fail-closed) birlikte sabitliyor.
 8. [ ] (Faz 3) NPU / TEE donanimsal izolasyon
