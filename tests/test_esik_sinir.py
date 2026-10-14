@@ -18,12 +18,19 @@ Kullanim:
     python tests/test_esik_sinir.py    # tek basina, pytest gerekmez
     python -m pytest tests             # diger testlerle birlikte
 
+  3) DERLEYICI - projenin C varsayilan uyari bayraklariyla (-Wall -Wextra
+     -Wconversion -Wsign-conversion) derleyici hatali satiri SATIR
+     NUMARASIYLA gostermeli, dogru surumde tek uyari vermemeli. En ucuz
+     savunma bu: bedeli sifir, hatayi calistirmadan yakaliyor. Bu dosya
+     hatayi bilerek icerdigi icin burada -Werror YOK; ajan kodunda var.
+
 C derleyicisi yoksa C kismi atlanir (pytest'te "skipped" gorunur, gecti
 sayilmaz), Python kismi yine calisir.
 """
 
 import ctypes
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -35,6 +42,10 @@ SKOR_MAX = 255
 
 BURASI = os.path.dirname(os.path.abspath(__file__))
 C_KAYNAK = os.path.join(BURASI, "esik_sinir.c")
+# Projenin C varsayilani (CLAUDE.md, Kritik Kural 7); -Werror ajan kodunda eklenir.
+UYARI_BAYRAKLARI = ["-Wall", "-Wextra", "-Wconversion", "-Wsign-conversion"]
+# Satir BASINDA (girinti haric) aranir: yorumlardaki ayni metin sayilmaz.
+HATALI_SATIR = re.compile(r"^\s*signed char skor = ham_skor;")
 
 # (skor, beklenen_supheli, aciklama)
 # 128 ve 255 satirlari C'deki hatali surumu dusuren satirlar.
@@ -117,6 +128,28 @@ def c_kutuphanesi_derle(hedef_dizin: str):
     return lib
 
 
+def hatali_satir_no() -> int:
+    """esik_sinir.c'de sessiz daralmanin yapildigi satirin numarasi."""
+    with open(C_KAYNAK, encoding="utf-8") as f:
+        bulunan = [no for no, satir in enumerate(f, 1) if HATALI_SATIR.match(satir)]
+    assert len(bulunan) == 1, f"esik_sinir.c'de tam bir daralma satiri bekleniyordu: {bulunan}"
+    return bulunan[0]
+
+
+def derleyici_uyarilari(hedef_dizin: str):
+    """esik_sinir.c'yi proje uyari bayraklariyla derler; uyari verilen satir
+    numaralarini dondurur. Derleyici yoksa None."""
+    derleyici = shutil.which("gcc") or shutil.which("clang")
+    if derleyici is None or not os.path.exists(C_KAYNAK):
+        return None
+    sonuc = subprocess.run(
+        [derleyici, "-c", *UYARI_BAYRAKLARI, "-o", os.path.join(hedef_dizin, "esik_sinir.o"), C_KAYNAK],
+        capture_output=True, text=True, timeout=60,
+    )
+    desen = re.compile(r"esik_sinir\.c:(\d+):\d+: warning:")
+    return sorted({int(m.group(1)) for m in desen.finditer(sonuc.stderr)}), sonuc.stderr
+
+
 def c_testi(lib) -> int:
     """C'nin dogru ve hatali surumunu ayni tabloda dener.
 
@@ -193,6 +226,20 @@ def test_c_hatali_surum_tasmayi_gosteriyor():
             "dogru surum 128'i supheli saymali"
 
 
+def test_derleyici_daralmayi_satir_numarasiyla_gosteriyor():
+    """Proje uyari bayraklariyla: hatali satir uyari almali, BASKA HICBIR satir
+    almamali (dogru surum bu bayraklarla temiz derlenmeli)."""
+    with tempfile.TemporaryDirectory() as d:
+        sonuc = derleyici_uyarilari(d)
+        _derleyici_yoksa_atla(sonuc)
+        satirlar, cikti = sonuc
+        beklenen = hatali_satir_no()
+        assert beklenen in satirlar, \
+            f"{' '.join(UYARI_BAYRAKLARI)} hatali satiri ({beklenen}) gostermedi:\n{cikti}"
+        assert satirlar == [beklenen], \
+            f"hatali satir disinda da uyari var (dogru surum temiz olmali): {satirlar}\n{cikti}"
+
+
 # --------------------------------------------------------------------------
 
 if __name__ == "__main__":
@@ -207,6 +254,18 @@ if __name__ == "__main__":
             print("=== 2) C tarafi ATLANDI (derleyici bulunamadi) ===\n")
         else:
             hata += c_testi(lib)
+
+        sonuc = derleyici_uyarilari(d)
+        if sonuc is None:
+            print("=== 3) DERLEYICI uyarilari ATLANDI (derleyici bulunamadi) ===\n")
+        else:
+            satirlar, _ = sonuc
+            beklenen = hatali_satir_no()
+            tamam = satirlar == [beklenen]
+            print(f"=== 3) DERLEYICI ({' '.join(UYARI_BAYRAKLARI)}) ===\n"
+                  f"uyari verilen satirlar: {satirlar}, beklenen: [{beklenen}] -> "
+                  f"{'tamam' if tamam else '[HATA]'}\n")
+            hata += 0 if tamam else 1
 
     print("SONUC:", "BASARILI" if hata == 0 else f"BASARISIZ ({hata} sorun)")
     sys.exit(1 if hata else 0)

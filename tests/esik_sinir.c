@@ -18,8 +18,11 @@
  *     gcc -shared -fPIC -O1 -o esik_sinir.so esik_sinir.c
  *   Tek basina calistirilabilir test:
  *     gcc -DSEF_TEST_MAIN -O1 -o esik_sinir esik_sinir.c && ./esik_sinir
- *   Derleyici hatayi yakaliyor mu (asil ders):
- *     gcc -c -Wconversion -Wsign-conversion -o /dev/null esik_sinir.c
+ *   Derleyici hatayi yakaliyor mu (asil ders) - projenin C varsayilani:
+ *     gcc -c -Wall -Wextra -Wconversion -Wsign-conversion -o /dev/null esik_sinir.c
+ *   Beklenen: TEK uyari, esik_asti_hatali icindeki daralma satirinda.
+ *   Bu dosya hatayi BILEREK icerdigi icin -Werror'siz derlenir; ajan kodunda
+ *   ayni bayraklar -Werror ile kullanilir (CLAUDE.md, Kritik Kural 7).
  */
 
 #include <stdbool.h>

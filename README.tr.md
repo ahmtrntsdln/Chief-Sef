@@ -114,8 +114,11 @@ artinca karsilastirma tekrarlanacak.
          128'de negatife sariyor ve `skor > 100` kontrolunu atlatiyor:
          supheli dosya temiz geciyor. Test hatali ve dogru surumu (genis tip
          + aralik dogrulamasi + fail-closed) birlikte sabitliyor.
-   - [ ] C kismini gercek bir derleyiciyle calistir (gelistirme
-         makinesinde henuz yok, bu yuzden "atlandi" gorunuyor),
-         `-Wconversion -Wsign-conversion`'in daralmayi yakaladigini
-         dogrula, bu bayraklar ve test her ajan derlemesinin parcasi olsun.
+   - [x] C/C++ varsayilan bayraklari: `-Wall -Wextra -Wconversion
+         -Wsign-conversion -Werror`. Derleyiciyi konusturmak en ucuz
+         savunma: `-Wconversion` tasma satirini kod hic calismadan
+         gosteriyor. Test, bu bayraklarin tam o satirda ve sadece orada
+         uyari verdigini de denetliyor.
+   - [ ] C kismini CI'da gercek bir derleyiciyle calistir (gelistirme
+         makinesinde henuz yok, bu yuzden "atlandi" gorunuyor).
 8. [ ] (Faz 3) NPU / TEE donanimsal izolasyon

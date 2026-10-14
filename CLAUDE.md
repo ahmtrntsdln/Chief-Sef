@@ -312,18 +312,22 @@ açık işler.
   dışı skor = şüpheli). Neden: Faz 1 Python'da, tamsayı taşması yok; C'de
   skor `signed char`'a yazılırsa 128 -> -128 olur ve `skor > 100` kontrolü
   sessizce atlanır (Kritik Kural 7).
+- [x] KURAL: C/C++ varsayılan bayrakları `-Wall -Wextra -Wconversion
+  -Wsign-conversion -Werror` (Kritik Kural 7). İlk ajan kodu, Makefile /
+  CMake ve CI adımı bunlarla yazılır, sonradan eklenmez.
 - [x] Regresyon testi yazıldı: `tests/test_esik_sinir.py` +
-  `tests/esik_sinir.c`. Hatalı sürüm tabloda KAÇIRMALI, doğru sürüm
-  GEÇMELİ; hatalı sürüm de geçerse test, tablonun taşmayı artık ölçmediğini
-  söyleyip başarısız olur.
-- [ ] Testin C kısmını derleyicisi olan ortamda çalıştır. Bu makinede
-  gcc/clang yok: C kısmı atlanıyor (pytest'te "skipped", geçti sayılmıyor).
-- [ ] Derleyici iddialarını doğrula: `gcc -c -Wconversion -Wsign-conversion`
-  hatalı sürümde uyarı veriyor mu; `-fsanitize=undefined` vermiyor,
+  `tests/esik_sinir.c`. Üç kontrol: (1) Python eşiği, (2) C'de hatalı sürüm
+  tabloda KAÇIRMALI, doğru sürüm GEÇMELİ (hatalı sürüm de geçerse tablo
+  taşmayı artık ölçmüyor demektir), (3) proje bayraklarıyla derleyici
+  TEK uyarı vermeli, o da hatalı satırda (doğru sürüm temiz derlenmeli).
+- [x] -Wconversion'ın daralmayı satır numarasıyla gösterdiği kullanıcının
+  ortamında doğrulandı.
+- [ ] Testin C kısmını bu depodaki halleriyle derleyicisi olan ortamda
+  çalıştır (bu makinede gcc/clang yok: 3 test "skipped", geçti sayılmıyor).
+  UBSan iddiasını da orada doğrula: `-fsanitize=undefined` vermiyor,
   clang `-fsanitize=implicit-integer-truncation` veriyor mu.
-- [ ] Ajan kodu derlemesinde `-Wconversion -Wsign-conversion` kalıcı
-  olsun (tercihen `-Werror` ile) ve bu test CI'da derleyiciyle koşsun;
-  yoksa "skipped" sessizce kalıcı hale gelir.
+- [ ] Bu test CI'da derleyiciyle koşsun; yoksa "skipped" sessizce kalıcı
+  hale gelir.
 - [ ] Skor ölçeğini sabitle: model olasılığı (0-1, double) mı, tamsayı
   yüzde (0-100) mi? Test 0-255 aralığını sınır değerleri denemek için
   kullanıyor; gerçek ölçek kararlaşınca SKOR_MIN/MAX ve ESIK ona uydurulur.
@@ -388,14 +392,18 @@ açık işler.
    - Aynı-dönem sayısı raporlanacaksa zamansal sayıyla YAN YANA yaz.
 
 7. Eşik ve skor karşılaştırmalarında dar tip kullanma. Genişte tut,
-   aralığı doğrula, aralık dışını şüpheli say (fail-closed). C'ye geçen
-   her kod `-Wconversion -Wsign-conversion` ile derlenir; UBSan bu
-   daralmayı yakalamaz: int -> signed char dönüşümü tanımsız davranış
-   değil, uygulamaya bağlı davranış, `-fsanitize=undefined` kapsamıyor
-   (clang'ın ayrı `-fsanitize=implicit-integer-truncation`'ı yakalar ama
-   varsayılan değil). Test: `tests/test_esik_sinir.py` (bkz. Faz 2
-   Yapılacaklar). Not: -Wconversion/UBSan davranışı bu makinede derleyici
-   olmadığı için yerelde doğrulanmadı; Faz 2 ortamında ilk iş doğrula.
+   aralığı doğrula, aralık dışını şüpheli say (fail-closed).
+   C/C++ VARSAYILAN BAYRAKLARI: `-Wall -Wextra -Wconversion
+   -Wsign-conversion -Werror`. Neden: derleyiciyi konuşturmak en ucuz
+   savunma - -Wconversion eşik taşmasını kullanıcının ortamında satır
+   numarasıyla gösterdi, bedeli sıfır, kod çalışmadan. -Werror'sız uyarı
+   kaybolur. Tek istisna hatayı BİLEREK içeren regresyon dosyaları
+   (`tests/esik_sinir.c`): -Werror'sız derlenir, uyarının tam o satırda ve
+   sadece orada çıktığı test edilir.
+   UBSan bu daralmayı yakalamaz: int -> signed char dönüşümü tanımsız
+   davranış değil, uygulamaya bağlı davranış, `-fsanitize=undefined`
+   kapsamıyor (clang'ın ayrı `-fsanitize=implicit-integer-truncation`'ı
+   yakalar ama varsayılan değil). Test: `tests/test_esik_sinir.py`.
 
 ## Çalışma Alışkanlıkları
 - Uzun işler (tarama, çıkarım, eğitim döngüsü): başta işi say ve %/ETA
