@@ -1,0 +1,128 @@
+[*] egitim 4158450 (ilk 52 hafta), test 959738 (son 12 hafta), yerel zararsiz 5635 | 15 sn
+    haftalar: egitim 0-51, test 52-63
+    egitim: zararli %50.0 | DLL zararsiz %64.9, zararli %6.3 | import'suz %13.5 | .NET %1.28
+    test: zararli %50.0 | DLL zararsiz %73.4, zararli %6.0 | import'suz %18.4 | .NET %0.51
+  [0/3] ANA model olculdu
+      E1 2024, 5 temel tohum 42: 8 sn
+      E1 2024, 5 temel tohum 1: 17 sn
+      E1 2024, 5 temel tohum 2: 26 sn
+      E1 2024, 5 temel tohum 3: 33 sn
+      E1 2024, 5 temel tohum 4: 41 sn
+  [1/3] E1 2024, 5 temel: 5 ozellik
+      E2 +dizge, sinif dengeli tohum 42: 11 sn
+      E2 +dizge, sinif dengeli tohum 1: 21 sn
+      E2 +dizge, sinif dengeli tohum 2: 31 sn
+      E2 +dizge, sinif dengeli tohum 3: 42 sn
+      E2 +dizge, sinif dengeli tohum 4: 52 sn
+  [2/3] E2 +dizge, sinif dengeli: 85 ozellik
+      E3 +dizge +DLL_mi, tip-ici (ADAY) tohum 42: 11 sn
+      E3 +dizge +DLL_mi, tip-ici (ADAY) tohum 1: 22 sn
+      E3 +dizge +DLL_mi, tip-ici (ADAY) tohum 2: 33 sn
+      E3 +dizge +DLL_mi, tip-ici (ADAY) tohum 3: 44 sn
+      E3 +dizge +DLL_mi, tip-ici (ADAY) tohum 4: 55 sn
+  [3/3] E3 +dizge +DLL_mi, tip-ici (ADAY): 86 ozellik
+
+=== EMBER2024 native test (son 12 hafta, 959738 dosya): 5 tohum ortalamasi ===
+                                              dogruluk %  yanlis alarm %  kacan zararli %    AUC
+aday                              alt                                                           
+ANA model.pkl (EMBER 2018)        tum             55.500          10.270           78.710  0.663
+                                  EXE             35.540          11.690           79.360  0.612
+                                  DLL             85.840           9.760           68.380  0.716
+                                  Win32           57.470          10.220           74.820  0.698
+                                  Win64           49.580          10.450           90.380  0.555
+                                  import'suz      73.400           0.080           99.280  0.693
+                                  .NET            25.410          11.410           96.820  0.398
+E1 2024, 5 temel                  tum             88.208           7.056           16.522  0.953
+                                  EXE             85.502          11.614           15.310  0.936
+                                  DLL             92.328           5.406           35.614  0.911
+                                  Win32           87.788           7.244           17.182  0.953
+                                  Win64           89.480           6.500           14.540  0.953
+                                  import'suz      93.382           3.550           15.026  0.981
+                                  .NET            74.472          16.512           28.700  0.850
+E2 +dizge, sinif dengeli          tum             93.762           3.448            9.026  0.986
+                                  EXE             92.102           7.410            8.036  0.977
+                                  DLL             96.290           2.016           24.588  0.969
+                                  Win32           93.424           3.338            9.804  0.985
+                                  Win64           94.776           3.772            6.678  0.987
+                                  import'suz      96.874           1.668            7.124  0.995
+                                  .NET            84.002           3.424           20.422  0.963
+E3 +dizge +DLL_mi, tip-ici (ADAY) tum             92.512           4.680           10.294  0.979
+                                  EXE             90.902           5.332           10.164  0.975
+                                  DLL             94.962           4.444           12.356  0.978
+                                  Win32           92.048           4.564           11.344  0.977
+                                  Win64           93.912           5.032            7.142  0.981
+                                  import'suz      97.036           2.156            5.180  0.996
+                                  .NET            87.624           4.916           15.002  0.968
+
+=== Tohumlar arasi fark (max - min): bundan kucuk farklar anlamsiz ===
+            dogruluk %  yanlis alarm %  kacan zararli %    AUC
+alt                                                           
+tum               0.28            0.35             0.52  0.001
+EXE               0.49            1.51             0.47  0.003
+DLL               0.27            0.20             1.42  0.002
+Win32             0.35            0.45             0.62  0.001
+Win64             0.21            0.58             0.63  0.002
+import'suz        0.40            0.46             1.74  0.001
+.NET              3.14            4.12             5.01  0.018
+
+=== Bu makinedeki zararsiz PE'lerde yanlis alarm (tohum 42), Wilson %95 ===
+                                                         tum                        EXE                        DLL
+ANA model.pkl (EMBER 2018)         %3.4 [2.9-3.9] (190/5635)  %10.9 [8.3-14.4] (44/402)  %2.8 [2.4-3.3] (146/5233)
+E1 2024, 5 temel                   %6.5 [5.9-7.2] (365/5635)  %10.9 [8.3-14.4] (44/402)  %6.1 [5.5-6.8] (321/5233)
+E2 +dizge, sinif dengeli            %1.2 [1.0-1.6] (70/5635)    %4.7 [3.0-7.3] (19/402)   %1.0 [0.7-1.3] (51/5233)
+E3 +dizge +DLL_mi, tip-ici (ADAY)   %1.4 [1.1-1.7] (77/5635)    %2.7 [1.5-4.8] (11/402)   %1.3 [1.0-1.6] (66/5233)
+
+=== En sik 15 ailede kacan zararli % (tohum 42) ===
+              E1 2024, 5 temel  E2 +dizge, sinif dengeli  E3 +dizge +DLL_mi, tip-ici (ADAY)      n
+Aile                                                                                              
+berbew                     0.6                       0.1                                0.0  92088
+(bilinmiyor)              26.1                      14.9                               16.6  65632
+wacatac                   18.4                       9.1                                9.3  30848
+mimikatz                   0.4                       0.2                                0.2  17720
+expiro                    10.8                       5.5                                6.1  17094
+cosmu                      2.5                       0.3                                0.5  14922
+upatre                    10.1                       2.2                                3.0   6444
+virlock                    1.4                       0.3                                0.2   5674
+floxif                    52.4                      54.1                               49.7   5516
+caynamer                   3.8                       1.9                                3.5   5232
+lummastealer              19.4                      12.1                               15.1   5160
+virut                     40.1                      23.7                               32.2   4572
+aenjaris                   0.5                       0.5                                0.7   4226
+snackarcin                 6.8                       6.5                                5.2   4088
+puwaders                  12.8                       6.2                                5.4   3726
+
+=== E2 +dizge, sinif dengeli: ilk 15 ozellik onemi (tohum 42) ===
+DZ_http_url         0.097
+DZ_ort_uzunluk      0.083
+Sifir_Orani         0.072
+DZ_url              0.056
+DZ_entropi          0.051
+Toplam_API          0.043
+Ortalama_Entropi    0.040
+DZ_dos_msg          0.031
+DZ_debug            0.028
+DZ_sayi             0.028
+DZ_https_url        0.027
+Boyut_Bayt          0.026
+DZ_file             0.019
+DZ_desktop          0.019
+DZ_process          0.018
+
+=== E3 +dizge +DLL_mi, tip-ici (ADAY): ilk 15 ozellik onemi (tohum 42) ===
+DZ_http_url         0.119
+DZ_ort_uzunluk      0.064
+Sifir_Orani         0.063
+DZ_url              0.061
+DZ_entropi          0.052
+Toplam_API          0.050
+Ortalama_Entropi    0.034
+DZ_sayi             0.031
+Boyut_Bayt          0.028
+DZ_https_url        0.022
+DZ_file             0.020
+DZ_process          0.018
+DZ_dos_msg          0.016
+DZ_privilege        0.016
+DZ_exit             0.015
+
+[+] toplam sure 2.8 dk -> C:\ember2024\sonuc

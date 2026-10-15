@@ -29,6 +29,8 @@ EMBER2024_KLASORU = r"C:\ember2024"               # Dot_Net_test JSONL + uretile
 EMBER2024_TRAIN_KLASORU = os.path.join(EMBER2024_KLASORU, "train")   # Dot_Net_train JSONL
 # Win32/Win64 zip'leri (~22 GB) ACILMAZ: ozellikler zip'in icinden okunur (acilmis hali ~100 GB).
 EMBER2024_ZIP_KLASORU = os.path.join(EMBER2024_KLASORU, "zip")
+# Win32/Win64 ozellik tablolarinin Parquet hali (sonuclar/0/parquet_cevir.py), <zip>.parquet
+EMBER2024_PARQUET_KLASORU = os.path.join(EMBER2024_KLASORU, "parquet")
 
 # --- Yerel dis dogrulama taramasi (toplu_tarama.py) ---
 TARANACAK_KLASORLER = [

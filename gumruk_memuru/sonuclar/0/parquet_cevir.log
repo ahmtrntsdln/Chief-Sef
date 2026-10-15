@@ -1,0 +1,22 @@
+﻿  [1/4] Win32_train: 13/52 hafta okundu | 4 sn
+  [1/4] Win32_train: 26/52 hafta okundu | 8 sn
+  [1/4] Win32_train: 39/52 hafta okundu | 12 sn
+  [1/4] Win32_train: 52/52 hafta okundu | 16 sn
+  [1/4] Win32_train: 3118582 satir -> C:\ember2024\parquet\Win32_train.parquet (212.5 MB)
+  [2/4] Win64_train: 13/52 hafta okundu | 24 sn
+  [2/4] Win64_train: 26/52 hafta okundu | 26 sn
+  [2/4] Win64_train: 39/52 hafta okundu | 27 sn
+  [2/4] Win64_train: 52/52 hafta okundu | 28 sn
+  [2/4] Win64_train: 1039868 satir -> C:\ember2024\parquet\Win64_train.parquet (61.6 MB)
+  [3/4] Win32_test: 12/12 hafta okundu | 34 sn
+  [3/4] Win32_test: 719756 satir -> C:\ember2024\parquet\Win32_test.parquet (46.5 MB)
+  [4/4] Win64_test: 12/12 hafta okundu | 36 sn
+  [4/4] Win64_test: 239982 satir -> C:\ember2024\parquet\Win64_test.parquet (12.9 MB)
+
+        zip   satir  csv_satir  hafta_min  hafta_max  zararli_%  DLL_zararsiz_%  DLL_zararli_%  hucre_DLL0_E0  hucre_DLL0_E1  hucre_DLL1_E0  hucre_DLL1_E1    MB
+Win32_train 3118582    3118582          0         51      50.00           63.33           5.81         571828        1468728         987418          90608 212.5
+Win64_train 1039868    1039868          0         51      50.00           69.73           7.68         157392         480016         362518          39942  61.6
+ Win32_test  719756     719756         52         63      50.02           73.18           6.15          96492         337848         263272          22144  46.5
+ Win64_test  239982     239982         52         63      50.00           74.12           5.37          31054         113554          88928           6446  12.9
+
+[+] 0.6 dk
