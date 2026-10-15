@@ -154,6 +154,13 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - Dış doğrulama: `dogrulama_dizge80.py` aynı 5637 dosyaya 80 dizge sütunu ekledi
   -> 5635 (2 silinmiş, değişen 0; 7 Ekim'deki 3 ortak dizge sütunu 5635/5635
   birebir). %93'ü DLL (EXE yalnız 402 -> geniş aralık).
+  SET ESKİYOR: 15 Ekim'de 5635 dosyanın 857'si (%15) diskte yok (güncellemeler,
+  ör. dotnet paketleri). 9 Ekim ölçümü geçerli; yeniden ölçüm bu dosyaları kaybeder.
+- Kural 1, GERÇEK dosyalarla (yerel ölçüm = thrember ölçümü mü?): 80 dizge sütunu
+  Eylül'de 500 yerel dosyada thrember ile 500/500 (o betik repoda YOK). Kalan 6
+  sütun (5 temel + DLL_mi) ve NET_mi/Karma_Mod: `thrember_karsilastir.py`, thrember
+  0.1.0, 50 yerel dosya (20 EXE, 20 DLL, 5 .NET, 5 import'suz DLL; seed 42) -> 50/50
+  birebir (15 Ekim). Böylece 86 model sütununun hepsi gerçek dosyada doğrulandı.
 - Sonuç (`ember2024_native_dogrulama.py`; RF 100 ağaç, 100K alt örneklem,
   5 tohum ortalaması; tohum farkı genel ≤0.35 puan, AUC ≤0.001):
   | | doğruluk | YA | kaçan | AUC | EXE YA | DLL kaçan | yerel YA (EXE / DLL) |
@@ -257,6 +264,11 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   eski 5 sütun ve 3 ortak dizge sütunu tutmayan dosyayı eler/sayar; `--devam`.
 - `ember2024_native_dogrulama.py` - native adaylar (ANA/E1/E2/E3), zamansal
   test, 5 tohum, alt gruplar, yerel YA (Wilson), aile bazında kaçan.
+- `thrember_karsilastir.py` - yerel ölçüm ile thrember ölçümü aynı mı (gerçek
+  dosyalar, 6 sütun + NET_mi/Karma_Mod). İki adım, iki ortam: `uret` thrember
+  ortamında (`C:\ember2024\thr_env`; Windows yol sınırı yüzünden kısa yol,
+  signify==0.7.1 sabit), `karsilastir` proje ortamında. 50 kayıt yoksa BAŞARISIZ
+  (boş girdiyle "fark yok" sahte geçişi engellenir).
 
 ## Model Seçimi - ŞİMDİLİK KAPALI, özellik sayısı artınca YENİDEN AÇ
 - 5 özellik, ayarsız modellerle: RF CV doğruluk %89.65 / AUC 0.963,
