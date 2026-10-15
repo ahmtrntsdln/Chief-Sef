@@ -1,0 +1,13 @@
+﻿[*] egitim 4158450, test 959738, yerel 5635 | en kucuk tip-ici hucre 130550
+[*] 10 hucre kosulacak
+  [1/10] % 10.0 | gecen 0.3 dk, kalan ~3.0 dk | E2 tohum 42: AUC 0.99, DLL kacan@1 26.107, 17.0 sn
+  [2/10] % 20.0 | gecen 0.6 dk, kalan ~2.5 dk | E2 tohum 1: AUC 0.9899, DLL kacan@1 26.688, 17.9 sn
+  [3/10] % 30.0 | gecen 0.9 dk, kalan ~2.2 dk | E2 tohum 2: AUC 0.9899, DLL kacan@1 25.841, 17.9 sn
+  [4/10] % 40.0 | gecen 1.2 dk, kalan ~1.9 dk | E2 tohum 3: AUC 0.9898, DLL kacan@1 26.093, 18.3 sn
+  [5/10] % 50.0 | gecen 1.5 dk, kalan ~1.5 dk | E2 tohum 4: AUC 0.9898, DLL kacan@1 25.526, 17.6 sn
+  [6/10] % 60.0 | gecen 1.8 dk, kalan ~1.2 dk | E3 tohum 42: AUC 0.9856, DLL kacan@1 23.491, 17.8 sn
+  [7/10] % 70.0 | gecen 2.1 dk, kalan ~0.9 dk | E3 tohum 1: AUC 0.9851, DLL kacan@1 24.379, 17.2 sn
+  [8/10] % 80.0 | gecen 2.4 dk, kalan ~0.6 dk | E3 tohum 2: AUC 0.9854, DLL kacan@1 22.931, 16.4 sn
+  [9/10] % 90.0 | gecen 2.7 dk, kalan ~0.3 dk | E3 tohum 3: AUC 0.9854, DLL kacan@1 23.302, 16.7 sn
+  [10/10] %100.0 | gecen 2.9 dk, kalan ~0.0 dk | E3 tohum 4: AUC 0.9855, DLL kacan@1 23.533, 16.7 sn
+[+] 2.9 dk
