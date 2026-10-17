@@ -110,22 +110,37 @@ def c_kutuphanesi_derle(hedef_dizin: str):
     if derleyici is None or not os.path.exists(C_KAYNAK):
         return None
 
-    cikti = os.path.join(hedef_dizin, "esik_sinir.so")
+    # Windows'ta paylasimli kutuphane .dll (MinGW), Linux'ta .so; -fPIC yalnizca Linux'ta
+    # (PE/COFF'ta konumdan bagimsiz kod bu bayrakla istenmez).
+    windows = sys.platform == "win32"
+    cikti = os.path.join(hedef_dizin, "esik_sinir.dll" if windows else "esik_sinir.so")
+    bayraklar = ["-shared", "-O1"] + (["-fPIC"] if sys.platform.startswith("linux") else [])
     try:
         subprocess.run(
-            [derleyici, "-shared", "-fPIC", "-O1", "-o", cikti, C_KAYNAK],
+            [derleyici, *bayraklar, "-o", cikti, C_KAYNAK],
             check=True, capture_output=True, timeout=60,
         )
     except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
         print(f"[!] C derlenemedi, C kismi atlaniyor: {e}")
         return None
 
+    if windows:
+        # MinGW calisma zamani DLL'leri derleyicinin bin klasorunde
+        os.add_dll_directory(os.path.dirname(derleyici))
     lib = ctypes.CDLL(cikti)
     lib.esik_asti_dogru.argtypes = [ctypes.c_int32]
     lib.esik_asti_dogru.restype = ctypes.c_bool
     lib.esik_asti_hatali.argtypes = [ctypes.c_int]
     lib.esik_asti_hatali.restype = ctypes.c_bool
     return lib
+
+
+def kutuphane_birak(lib):
+    """Windows yuklu DLL'i silmeye izin vermez: gecici klasor temizlenmeden once serbest birak."""
+    if lib is not None and sys.platform == "win32":
+        kernel32 = ctypes.WinDLL("kernel32")
+        kernel32.FreeLibrary.argtypes = [ctypes.c_void_p]
+        kernel32.FreeLibrary(lib._handle)
 
 
 def hatali_satir_no() -> int:
@@ -142,8 +157,9 @@ def derleyici_uyarilari(hedef_dizin: str):
     derleyici = shutil.which("gcc") or shutil.which("clang")
     if derleyici is None or not os.path.exists(C_KAYNAK):
         return None
+    # -fsyntax-only: dosya uretmeden yalniz on uc (uyarilar burada); /dev/null Windows'ta yok
     sonuc = subprocess.run(
-        [derleyici, "-c", *UYARI_BAYRAKLARI, "-o", os.path.join(hedef_dizin, "esik_sinir.o"), C_KAYNAK],
+        [derleyici, "-fsyntax-only", *UYARI_BAYRAKLARI, C_KAYNAK],
         capture_output=True, text=True, timeout=60,
     )
     desen = re.compile(r"esik_sinir\.c:(\d+):\d+: warning:")
@@ -206,9 +222,12 @@ def test_c_dogru_surum_sinirlari():
     with tempfile.TemporaryDirectory() as d:
         lib = c_kutuphanesi_derle(d)
         _derleyici_yoksa_atla(lib)
-        for skor, beklenen, aciklama in TABLO:
-            assert bool(lib.esik_asti_dogru(skor)) is beklenen, \
-                f"skor={skor} ({aciklama})"
+        try:
+            for skor, beklenen, aciklama in TABLO:
+                assert bool(lib.esik_asti_dogru(skor)) is beklenen, \
+                    f"skor={skor} ({aciklama})"
+        finally:
+            kutuphane_birak(lib)
 
 
 def test_c_hatali_surum_tasmayi_gosteriyor():
@@ -220,10 +239,13 @@ def test_c_hatali_surum_tasmayi_gosteriyor():
     with tempfile.TemporaryDirectory() as d:
         lib = c_kutuphanesi_derle(d)
         _derleyici_yoksa_atla(lib)
-        assert bool(lib.esik_asti_hatali(128)) is False, \
-            "128 artik sarmiyor - tablo tasmayi olcmuyor"
-        assert bool(lib.esik_asti_dogru(128)) is True, \
-            "dogru surum 128'i supheli saymali"
+        try:
+            assert bool(lib.esik_asti_hatali(128)) is False, \
+                "128 artik sarmiyor - tablo tasmayi olcmuyor"
+            assert bool(lib.esik_asti_dogru(128)) is True, \
+                "dogru surum 128'i supheli saymali"
+        finally:
+            kutuphane_birak(lib)
 
 
 def test_derleyici_daralmayi_satir_numarasiyla_gosteriyor():
@@ -254,6 +276,7 @@ if __name__ == "__main__":
             print("=== 2) C tarafi ATLANDI (derleyici bulunamadi) ===\n")
         else:
             hata += c_testi(lib)
+            kutuphane_birak(lib)
 
         sonuc = derleyici_uyarilari(d)
         if sonuc is None:

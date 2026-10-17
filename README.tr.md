@@ -119,6 +119,10 @@ artinca karsilastirma tekrarlanacak.
          savunma: `-Wconversion` tasma satirini kod hic calismadan
          gosteriyor. Test, bu bayraklarin tam o satirda ve sadece orada
          uyari verdigini de denetliyor.
-   - [ ] C kismini CI'da gercek bir derleyiciyle calistir (gelistirme
-         makinesinde henuz yok, bu yuzden "atlandi" gorunuyor).
+   - [x] Windows'ta MinGW gcc 16.2 ile dogrulandi (Ekim 2026): uyari
+         bayraklari tek uyari veriyor, daralma satirinda; dogru C surumu 7
+         sinir durumunun hepsini geciyor, hatali surum 128 ve 255'i
+         kaciriyor. Faz 2'de Linux'ta yeniden kosulacak.
+   - [ ] C kismini CI'da gercek bir derleyiciyle calistir; "atlandi"
+         sessizce kalici olmasin.
 8. [ ] (Faz 3) NPU / TEE donanimsal izolasyon

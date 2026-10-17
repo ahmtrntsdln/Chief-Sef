@@ -1,0 +1,33 @@
+﻿Sef - Esik sinir-deger testi
+
+=== 1) PYTHON tarafi ===
+skor | beklenen | sonuc    | not
+-----+----------+----------+---------------------------------
+   0 | temiz    | temiz    | taban
+ 100 | temiz    | temiz    | esige esit - asmiyor
+ 101 | supheli  | supheli  | esigin bir ustu
+ 127 | supheli  | supheli  | signed char tavani
+ 128 | supheli  | supheli  | TASMA SINIRI - dar tipte -128 olur
+ 255 | supheli  | supheli  | unsigned tavani - dar tipte -1 olur
+  -1 | supheli  | supheli  | aralik disi - fail-closed, supheli sayilir
+
+Python: 7/7 gecti
+
+=== 2) C tarafi (Faz 2'de olusacak hal) ===
+skor | beklenen | dogru    | hatali   | not
+-----+----------+----------+----------+------------------------
+   0 | temiz    | temiz    | temiz    | taban
+ 100 | temiz    | temiz    | temiz    | esige esit - asmiyor
+ 101 | supheli  | supheli  | supheli  | esigin bir ustu
+ 127 | supheli  | supheli  | supheli  | signed char tavani
+ 128 | supheli  | supheli  | temiz    | [KACIRDI] TASMA SINIRI - dar tipte -128 olur
+ 255 | supheli  | supheli  | temiz    | [KACIRDI] unsigned tavani - dar tipte -1 olur
+  -1 | supheli  | supheli  | temiz    | [KACIRDI] aralik disi - fail-closed, supheli sayilir
+
+C dogru surum : 7/7 gecti
+C hatali surum: 4/7 gecti (kacirmasi BEKLENIYOR)
+
+=== 3) DERLEYICI (-Wall -Wextra -Wconversion -Wsign-conversion) ===
+uyari verilen satirlar: [48], beklenen: [48] -> tamam
+
+SONUC: BASARILI

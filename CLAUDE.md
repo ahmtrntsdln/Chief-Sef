@@ -322,10 +322,21 @@ açık işler.
   TEK uyarı vermeli, o da hatalı satırda (doğru sürüm temiz derlenmeli).
 - [x] -Wconversion'ın daralmayı satır numarasıyla gösterdiği kullanıcının
   ortamında doğrulandı.
-- [ ] Testin C kısmını bu depodaki halleriyle derleyicisi olan ortamda
-  çalıştır (bu makinede gcc/clang yok: 3 test "skipped", geçti sayılmıyor).
-  UBSan iddiasını da orada doğrula: `-fsanitize=undefined` vermiyor,
-  clang `-fsanitize=implicit-integer-truncation` veriyor mu.
+- [x] WINDOWS MinGW'DE DOĞRULANDI (17 Ekim 2026; gcc 16.2.0, winget paketi
+  `BrechtSanders.WinLibs.POSIX.UCRT` 16.2.0-14.0.0-r2, resmî winget deposu,
+  kullanıcı kapsamı, ~916 MB): testin C kısmı ve derleyici kontrolü gerçekten
+  koştu. `-Wall -Wextra -Wconversion -Wsign-conversion` TEK uyarı verdi,
+  hatalı satırda (`esik_sinir.c:48`, "conversion from 'int' to 'signed char'
+  may change value [-Wconversion]"); doğru sürüm temiz. C doğru sürüm 7/7;
+  hatalı sürüm 128 ve 255'i (taşma) ve -1'i (aralık kontrolü yok) "temiz"
+  sayıyor - beklenen. pytest 63/63 (gcc'siz: 3 skipped). Çıktı:
+  `tests/esik_sinir_mingw.log`. Windows uyarlaması: `.dll`, `-fPIC` yalnız
+  Linux'ta, uyarı kontrolü `-fsyntax-only` ile, yüklü DLL temizlikten önce
+  `FreeLibrary` ile bırakılır (Windows yüklü DLL'i sildirmez).
+- [ ] LİNUX'TA YENİDEN KOŞ (Faz 2, WSL/eBPF ortamı): aynı test Linux gcc ile
+  (`.so`, `-fPIC`). UBSan iddiası DOĞRULANMADI: MinGW Windows'ta UBSan
+  çalışma zamanı sağlamıyor; Linux'ta `-fsanitize=undefined` vermiyor mu,
+  clang `-fsanitize=implicit-integer-truncation` veriyor mu, orada ölç.
 - [ ] Bu test CI'da derleyiciyle koşsun; yoksa "skipped" sessizce kalıcı
   hale gelir.
 - [ ] Skor ölçeğini sabitle: model olasılığı (0-1, double) mı, tamsayı
@@ -400,10 +411,13 @@ açık işler.
    kaybolur. Tek istisna hatayı BİLEREK içeren regresyon dosyaları
    (`tests/esik_sinir.c`): -Werror'sız derlenir, uyarının tam o satırda ve
    sadece orada çıktığı test edilir.
-   UBSan bu daralmayı yakalamaz: int -> signed char dönüşümü tanımsız
-   davranış değil, uygulamaya bağlı davranış, `-fsanitize=undefined`
-   kapsamıyor (clang'ın ayrı `-fsanitize=implicit-integer-truncation`'ı
-   yakalar ama varsayılan değil). Test: `tests/test_esik_sinir.py`.
+   Ölçüm: Windows MinGW gcc 16.2'de doğrulandı (tek uyarı, hatalı satırda;
+   bkz. Faz 2 Yapılacaklar); Linux'ta Faz 2'de yeniden koşulacak.
+   UBSan bu daralmayı yakalamaz (gerekçe; ölçüm henüz YOK, Linux'ta
+   yapılacak): int -> signed char dönüşümü tanımsız davranış değil,
+   uygulamaya bağlı davranış, `-fsanitize=undefined` kapsamıyor (clang'ın
+   ayrı `-fsanitize=implicit-integer-truncation`'ı yakalar ama varsayılan
+   değil). Test: `tests/test_esik_sinir.py`.
 
 ## Çalışma Alışkanlıkları
 - Uzun işler (tarama, çıkarım, eğitim döngüsü): başta işi say ve %/ETA

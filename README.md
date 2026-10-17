@@ -124,6 +124,10 @@ be repeated as the feature count grows.
          `-Wconversion` points at the overflow line before the code ever
          runs. The test also checks that these flags warn on exactly that
          line and nowhere else.
-   - [ ] Run the C part in CI with a real compiler (none on the development
-         machine yet, so it is reported as skipped).
+   - [x] Verified on Windows with MinGW gcc 16.2 (October 2026): the warning
+         flags produce exactly one warning, on the narrowing line; the correct
+         C version passes all 7 boundary cases, the broken one misses 128 and
+         255. To be re-run on Linux in Phase 2.
+   - [ ] Run the C part in CI with a real compiler, so "skipped" cannot
+         silently become the norm.
 8. [ ] (Phase 3) NPU / TEE hardware isolation
