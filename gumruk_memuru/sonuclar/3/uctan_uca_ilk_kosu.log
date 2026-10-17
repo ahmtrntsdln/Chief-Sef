@@ -1,0 +1,23 @@
+﻿[*] dogrulama setinde 5635 satir; diskte ve boyutu ayni aday: {'EXE': 308, 'DLL': 1659, '.NET': 2234}; secilen 20
+   1 sira  1126 EXE  | ozellik 86/86 ayni | tek 0.020000 toplu 0.020000 ayni | GECTI
+   2 sira   218 EXE  | ozellik 86/86 ayni | tek 0.090000 toplu 0.090000 ayni | GECTI
+   3 sira  2832 EXE  | ozellik 86/86 ayni | tek 0.010000 toplu 0.010000 ayni | GECTI
+   4 sira  2497 EXE  | ozellik 86/86 ayni | tek 0.040000 toplu 0.040000 ayni | GECTI
+   5 sira  2399 EXE  | ozellik 86/86 ayni | tek 0.080000 toplu 0.080000 ayni | GECTI
+   6 sira  1429 EXE  | ozellik 86/86 ayni | tek 0.030000 toplu 0.030000 ayni | GECTI
+   7 sira  1013 EXE  | ozellik 86/86 ayni | tek 0.030000 toplu 0.030000 ayni | GECTI
+   8 sira  4822 DLL  | ozellik 86/86 ayni | tek 0.010000 toplu 0.010000 ayni | GECTI
+   9 sira  5252 DLL  | ozellik 86/86 ayni | tek 0.010000 toplu 0.010000 ayni | GECTI
+  10 sira  3861 DLL  | ozellik 86/86 ayni | tek 0.060000 toplu 0.060000 ayni | GECTI
+  11 sira   588 DLL  | ozellik 86/86 ayni | tek 0.040000 toplu 0.040000 ayni | GECTI
+  12 sira  4215 DLL  | ozellik 86/86 ayni | tek 0.130000 toplu 0.130000 ayni | GECTI
+  13 sira  3001 DLL  | ozellik 86/86 ayni | tek 0.000000 toplu 0.000000 ayni | GECTI
+  14 sira   203 DLL  | ozellik 86/86 ayni | tek 0.000000 toplu 0.000000 ayni | GECTI
+  15 sira   184 DLL  | ozellik 86/86 ayni | tek 0.190000 toplu 0.190000 ayni | GECTI
+  16 sira   999 .NET | ozellik 86/86 ayni | tek 0.260000 toplu 0.260000 ayni | GECTI
+  17 sira  2280 .NET | ozellik 86/86 ayni | tek 0.240000 toplu 0.240000 ayni | GECTI
+  18 sira  2449 .NET | ozellik 86/86 FARKLI: ['Sifir_Orani', 'Ortalama_Entropi', 'DZ_sayi', 'DZ_ort_uzunluk', 'DZ_entropi'] | tek 0.176000 toplu 0.176000 ayni | BASARISIZ
+  19 sira  5271 .NET | ozellik 86/86 ayni | tek 0.130000 toplu 0.130000 ayni | GECTI
+  20 sira   298 .NET | ozellik 86/86 FARKLI: ['Sifir_Orani', 'DZ_sayi', 'DZ_ort_uzunluk', 'DZ_entropi'] | tek 0.030000 toplu 0.030000 ayni | BASARISIZ
+
+SONUC: 18/20 gecti -> BASARISIZ

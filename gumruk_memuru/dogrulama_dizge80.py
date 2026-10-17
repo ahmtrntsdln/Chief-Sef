@@ -7,10 +7,9 @@ o olcumde elendi). EMBER2024 modelini bu makinede sinamak icin thrember'in 80 di
 sutunu gerekiyor (string_counts; EMBER 2018 olcumunde yoktu).
 
 Her dosya icin:
-  1. Dosyayi yolundan oku; toplu_tarama.dosyayi_analiz_et ile eski 5 sutunu YENIDEN olc.
-     Tutmuyorsa dosya 7 Ekim'den beri degismis (guncelleme) -> ELENIR, sebebiyle sayilir.
-  2. dizge_ozellikleri.dosyadan_dizge_ozellikleri ile 80 sutun (thrember koduyla yerelde
-     500/500 birebir dogrulanmis kod).
+  1. ozellik_cikar.dosya_ozellikleri ile (tahmin_et.py ile AYNI kod, tek okuma) eski 5 sutunu
+     YENIDEN olc. Tutmuyorsa dosya 7 Ekim'den beri degismis (guncelleme) -> ELENIR.
+  2. Ayni cagridan 80 dizge sutunu (thrember koduyla yerelde 500/500 birebir dogrulanmis kod).
   3. Tutarlilik: onceki olcumdeki DZ_sayi / DZ_ort_uzunluk / DZ_entropi yeni olcumle ayni
      olmali (ayni tanim); tutmayan sayilir ve raporlanir.
 Ciktilar: DOGRULAMA_DZ80_ISIMLI_CSV (.gitignore) ve Dosya_Adi'siz DOGRULAMA_DZ80_CSV.
@@ -26,9 +25,9 @@ import sys
 import time
 from collections import Counter
 
-from dizge_ozellikleri import DIZGE_SUTUNLARI, dosyadan_dizge_ozellikleri
+from dizge_ozellikleri import DIZGE_SUTUNLARI
+from ozellik_cikar import dosya_ozellikleri
 from sef_ayarlar import DOGRULAMA_DZ80_CSV, DOGRULAMA_DZ80_ISIMLI_CSV, YENIDEN_OLCUM_ISIMLI_CSV
-from toplu_tarama import dosyayi_analiz_et
 
 ESKI_SUTUNLAR = ["Boyut_Bayt", "Sifir_Orani", "Ortalama_Entropi", "Toplam_API", "Supheli_API"]
 ORTAK_DIZGE = ["DZ_sayi", "DZ_ort_uzunluk", "DZ_entropi"]
@@ -67,26 +66,20 @@ if __name__ == "__main__":
             yazici.writeheader()
         for i, satir in enumerate(yapilacak, 1):
             yol = satir["Dosya_Yolu"]
-            yeni = dosyayi_analiz_et(yol)
-            if yeni is None:
+            yeni = dosya_ozellikleri(yol)          # tek okuma; tahmin_et ile AYNI kod
+            if yeni is None or not yeni["PE_mi"]:
                 sayac["okunamadi / silinmis"] += 1
             elif not all(esit(yeni[s], satir[s]) for s in ESKI_SUTUNLAR):
                 sayac["eski sutunlar tutmadi (dosya degismis)"] += 1
             else:
-                try:
-                    with open(yol, "rb") as d:
-                        bytez = d.read()
-                except OSError:
-                    sayac["okunamadi / silinmis"] += 1
-                else:
-                    dz = dosyadan_dizge_ozellikleri(bytez)
-                    if not all(esit(dz[s], satir[s]) for s in ORTAK_DIZGE):
-                        sayac["ortak dizge sutunlari tutmadi"] += 1
-                    cikti = {k: satir[k] for k in ["Sira", "Dosya_Adi", "Dosya_Yolu"] + temel}
-                    cikti.update(dz)
-                    yazici.writerow(cikti)
-                    f.flush()
-                    sayac["yazildi"] += 1
+                dz = {k: yeni[k] for k in DIZGE_SUTUNLARI}
+                if not all(esit(dz[s], satir[s]) for s in ORTAK_DIZGE):
+                    sayac["ortak dizge sutunlari tutmadi"] += 1
+                cikti = {k: satir[k] for k in ["Sira", "Dosya_Adi", "Dosya_Yolu"] + temel}
+                cikti.update(dz)
+                yazici.writerow(cikti)
+                f.flush()
+                sayac["yazildi"] += 1
             simdi = time.monotonic()
             if simdi - son >= YAZDIRMA_SANIYESI or i == len(yapilacak):
                 son = simdi

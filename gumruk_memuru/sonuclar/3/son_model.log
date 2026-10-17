@@ -1,0 +1,32 @@
+[*] boyut kurali: kazanc +1.691, s 0.720 -> 483224
+[*] determinizm: esik_boyut.csv'deki ayni hucreyle birebir
+{
+ "egitim_boyutu": 483224,
+ "esikler": {
+  "EXE": 0.7,
+  "DLL": 0.61
+ },
+ "test_bir_kez": {
+  "haftalar": "52-63",
+  "satir": 959738,
+  "genel_AUC": 0.9865,
+  "EXE_kacan_%@1": 17.749,
+  "DLL_kacan_%@1": 19.524,
+  "EXE_test_YA_%@1": 0.828,
+  "DLL_test_YA_%@1": 1.428,
+  "EXE_AUC": 0.98373,
+  "DLL_AUC": 0.98439
+ },
+ "yerel_zararsiz": {
+  "satir": 5635,
+  "EXE_yerel_YA_%@1": 0.249,
+  "EXE_yerel_YA_alt": 0.044,
+  "EXE_yerel_YA_ust": 1.395,
+  "DLL_yerel_YA_%@1": 0.21,
+  "DLL_yerel_YA_alt": 0.117,
+  "DLL_yerel_YA_ust": 0.376
+ },
+ "model_bayt": 414422345
+}
+[+] model -> C:\ember2024\model\model_native.joblib
+[+] meta  -> <repo>\gumruk_memuru\model_native_meta.json

@@ -31,6 +31,9 @@ EMBER2024_TRAIN_KLASORU = os.path.join(EMBER2024_KLASORU, "train")   # Dot_Net_t
 EMBER2024_ZIP_KLASORU = os.path.join(EMBER2024_KLASORU, "zip")
 # Win32/Win64 ozellik tablolarinin Parquet hali (sonuclar/0/parquet_cevir.py), <zip>.parquet
 EMBER2024_PARQUET_KLASORU = os.path.join(EMBER2024_KLASORU, "parquet")
+# Native model (RF E3, sonuclar/3/son_model.py): model dosyasi buyuk -> OneDrive DISINDA, repoda yok;
+# meta veri (ozellik sirasi, esikler, model sha256) kucuk -> repoda.
+NATIVE_MODEL_YOLU = os.path.join(EMBER2024_KLASORU, "model", "model_native.joblib")
 
 # --- Yerel dis dogrulama taramasi (toplu_tarama.py) ---
 TARANACAK_KLASORLER = [
@@ -54,3 +57,4 @@ YENIDEN_OLCUM_ELENEN_CSV = _proje("sef_dogrulama_elenenler_isimli.csv")         
 DOGRULAMA_DZ80_CSV = _proje("sef_dogrulama_dz80.csv")                    # Dosya_Adi'siz
 DOGRULAMA_DZ80_ISIMLI_CSV = _proje("sef_dogrulama_dz80_isimli.csv")      # .gitignore
 MODEL_YOLU = _proje("model.pkl")                                     # .gitignore, uretilmis
+NATIVE_META_YOLU = _proje("model_native_meta.json")                 # repoda; NATIVE_MODEL_YOLU'nun kimligi

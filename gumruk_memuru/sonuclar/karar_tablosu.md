@@ -56,3 +56,7 @@ E3 1 milyon kurulamadı (eğitimde zararlı DLL 130.550 < 250.000); E3 'tamamı'
 ## Not (tablo üretildikten sonra eklendi, ölçütleri değiştirmez)
 
 LightGBM öğrenme eğrisi neredeyse düz (E2 AUC 100 bin 0.9766 → 4,16 milyon 0.9776). Boosting'de bu, veri değil KAPASİTE sınırına işaret eder: varsayılan 100 ağaç / öğrenme hızı 0,1 fazla veriyi kullanamıyor. Ölçütler LightGBM'i bilerek varsayılan ve sabit ayarla kilitledi; bu yüzden "RF > LightGBM" sonucu yalnızca AYARSIZ LightGBM için geçerlidir. Ayarlı LightGBM (ör. daha çok ağaç + erken durdurma) ayrı bir deney olur ve bu karşılaştırmanın parçası değildir.
+
+## UYARI (17 Ekim): bu tablodaki eşik TESTTEN seçildi
+
+Bu tablodaki "%1 noktası" test kümesinin (hafta 52-63) zararsızlarından seçildi: iki adayı aynı yanlış alarmda karşılaştıran bir ROC noktası, ama test bilgisi kullanıyor ve üretim eşiği değil. Yerine geçen ölçüm: [3/esik_boyut_sonuc.md](3/esik_boyut_sonuc.md) — eğitim hafta 0-47, eşik hafta 48-51 doğrulama diliminden (iki sınıf), test SABİT eşikle bir kez (ön kayıt: [3/on_kayit_esik_boyut.md](3/on_kayit_esik_boyut.md)). Ölçütlerin mekanik sonucu değişmedi: RF E3 (DLL kaçan 300 binde %20,9; RF E2 %25,6; LightGBM %35,8 / %39,7).

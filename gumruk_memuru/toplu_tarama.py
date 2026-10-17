@@ -36,7 +36,7 @@ from sef_ayarlar import TARANACAK_KLASORLER   # taranacak klasorler orada
 from sef_ayarlar import TUM_TARAMA_CSV as TAM_CIKTI                    # her sey (PE olsun olmasin)
 from sef_ayarlar import TARAMA_ZARARSIZ_CSV as PE_CIKTI                # dis dogrulama seti (egitimde kullanilmaz)
 from sef_ayarlar import TARAMA_ZARARSIZ_ISIMLI_CSV as PE_ISIMLI_CIKTI  # ayni satirlar + Dosya_Adi, sadece yerel
-from dizge_ozellikleri import EMBER2018_DIZGE_SUTUNLARI, dosyadan_ember2018_dizge
+from dizge_ozellikleri import EMBER2018_DIZGE_SUTUNLARI, dosyadan_dizge_ozellikleri, dosyadan_ember2018_dizge
 from sef_sabitler import IMAGE_FILE_DLL, KARA_LISTE_BAYT, PEFILE_CLR_DIZIN_ADI, SIHIRLI_IMZALAR
 
 HEDEF_SAYI = 5700   # EMBER siniflariyla ayni boyut
@@ -101,8 +101,10 @@ def dll_mi(pe) -> int:
     return int(bool(pe.FILE_HEADER.Characteristics & IMAGE_FILE_DLL))
 
 
-def dosyayi_analiz_et(dosya_yolu: str) -> dict:
-    """Chief_1.2.py mantigiyla tek bir dosyadan ozellik cikarir."""
+def dosyayi_analiz_et(dosya_yolu: str, dizge80: bool = False) -> dict:
+    """Chief_1.2.py mantigiyla tek bir dosyadan ozellik cikarir.
+    dizge80=True: gecerli PE'lerde thrember'in 80 dizge sutununu da AYNI baytlardan ekler
+    (native EMBER2024 modeli icin; ortak giris noktasi ozellik_cikar.dosya_ozellikleri)."""
     try:
         boyut = os.path.getsize(dosya_yolu)
     except OSError:
@@ -151,6 +153,10 @@ def dosyayi_analiz_et(dosya_yolu: str) -> dict:
         except pefile.PEFormatError:
             pe_mi = False  # MZ ile basliyor ama gecerli PE degil
 
+    # DZ_sayi/DZ_ort_uzunluk/DZ_entropi iki grupta AYNI tanim (dizge_ozellikleri), ustune yazmak
+    # degeri degistirmez.
+    dizge80_sutunlari = dosyadan_dizge_ozellikleri(veri) if (dizge80 and pe_mi) else {}
+
     return {
         "Dosya_Yolu": dosya_yolu,
         "Dosya_Adi": os.path.basename(dosya_yolu),
@@ -165,6 +171,7 @@ def dosyayi_analiz_et(dosya_yolu: str) -> dict:
         "Etiket": 0,
         "DLL_mi": dll,
         **dizge,
+        **dizge80_sutunlari,
     }
 
 

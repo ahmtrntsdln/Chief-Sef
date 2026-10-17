@@ -77,16 +77,26 @@ def wilson(k, n, z=1.96):
     return 100 * max(0, o - m), 100 * min(1, o + m)
 
 
-def olc(p_test, test, p_yerel, yerel):
-    """Bir model+tohum icin tum olculer (tek satir) ve tur esikleri."""
+def tur_esikleri(p, df):
+    """Her tur icin, df'deki o turun ZARARSIZLARININ %1'inin astigi esik (karar_olcutleri.md)."""
+    y, esik = df.Etiket.to_numpy(), {}
+    for tur, deger in (("EXE", 0), ("DLL", 1)):
+        z = p[(df.DLL_mi.to_numpy() == deger) & (y == 0)]
+        esik[tur] = float(np.quantile(z, 1 - FPR_HEDEF, method="higher"))
+    return esik
+
+
+def olc(p_test, test, p_yerel, yerel, esik=None):
+    """Bir model+tohum icin tum olculer (tek satir) ve tur esikleri.
+    esik=None: esik TESTTEN secilir (2c'deki ROC calisma noktasi). esik verilirse (dogrulama
+    diliminden secilmis) test o SABIT esikle bir kez olculur."""
     y = test.Etiket.to_numpy()
     satir = {f"genel_{k}": v for k, v in hata_ozeti(y, p_test).items() if k != "n"}
-    esik = {}
+    esik = dict(esik) if esik is not None else tur_esikleri(p_test, test)
     for tur, deger in (("EXE", 0), ("DLL", 1)):
         m = test.DLL_mi.to_numpy() == deger
         zararsiz, zararli = p_test[m & (y == 0)], p_test[m & (y == 1)]
-        tau = float(np.quantile(zararsiz, 1 - FPR_HEDEF, method="higher"))
-        esik[tur] = tau
+        tau = esik[tur]
         satir[f"{tur}_dogruluk_%"] = round(100 * ((p_test[m] > 0.5) == (y[m] == 1)).mean(), 3)
         satir[f"{tur}_AUC"] = round(roc_auc_score(y[m], p_test[m]), 5)
         satir[f"{tur}_esik@1"] = tau
@@ -115,19 +125,32 @@ def model_uret(algoritma, tohum, cekirdek):
     return RandomForestClassifier(n_estimators=100, random_state=tohum, n_jobs=cekirdek)
 
 
-def hucre_kos(algoritma, aday, boyut, tohum, egitim, test, yerel, cekirdek=8):
-    """Tek deney hucresi: orneklem -> egitim -> olcum; yerel tahminleri diske yazar."""
+def hucre_kos(algoritma, aday, boyut, tohum, egitim, test, yerel, cekirdek=8, dogrulama=None,
+              onek="", model_dondur=False):
+    """Tek deney hucresi: orneklem -> egitim -> olcum; yerel tahminleri diske yazar.
+    dogrulama verilirse esik ORADAN secilir ve test o sabit esikle bir kez olculur."""
     ornekle, kolonlar = ADAYLAR[aday]
     t = time.monotonic()
     ornek = ornekle(egitim, boyut, tohum)
     model = model_uret(algoritma, tohum, cekirdek).fit(ornek[kolonlar], ornek.Etiket)
+    ek = {}
+    esik = None
+    if dogrulama is not None:
+        p_dog = model.predict_proba(dogrulama[kolonlar])[:, 1]
+        esik = tur_esikleri(p_dog, dogrulama)
+        y_dog = dogrulama.Etiket.to_numpy()
+        for tur, deger in (("EXE", 0), ("DLL", 1)):
+            m = dogrulama.DLL_mi.to_numpy() == deger
+            ek[f"{tur}_dogrulama_YA_%"] = round(100 * (p_dog[m & (y_dog == 0)] > esik[tur]).mean(), 3)
+            ek[f"{tur}_dogrulama_kacan_%"] = round(100 * (p_dog[m & (y_dog == 1)] <= esik[tur]).mean(), 3)
     p_test = model.predict_proba(test[kolonlar])[:, 1]
     p_yerel = model.predict_proba(yerel[kolonlar])[:, 1]
-    satir, esik = olc(p_test, test, p_yerel, yerel)
-    anahtar = f"{algoritma}_{aday}_{boyut}_{tohum}"
+    satir, esik = olc(p_test, test, p_yerel, yerel, esik)
+    anahtar = f"{onek}{algoritma}_{aday}_{boyut}_{tohum}"
     yerel_tahmin_kaydet(anahtar, p_yerel, esik)
-    return {"hucre": anahtar, "algoritma": algoritma, "aday": aday, "boyut": boyut, "tohum": tohum,
-            "egitim_satir": len(ornek), "sure_sn": round(time.monotonic() - t, 1), **satir}
+    sonuc = {"hucre": anahtar, "algoritma": algoritma, "aday": aday, "boyut": boyut, "tohum": tohum,
+             "egitim_satir": len(ornek), "sure_sn": round(time.monotonic() - t, 1), **satir, **ek}
+    return (sonuc, model) if model_dondur else sonuc
 
 
 # --- Sonuc CSV'si: hucre basina satir, --devam ---

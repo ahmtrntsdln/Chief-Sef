@@ -1,0 +1,23 @@
+﻿[*] dogrulama setinde 5635 satir; diskte ve boyutu ayni aday: {'EXE': 288, 'DLL': 1569, '.NET': 1782}; secilen 20
+   1 sira  1276 EXE  | CSV ile 86/86 ayni | tek 0.060000 toplu 0.060000 ayni | eski kod ayni | GECTI
+   2 sira   261 EXE  | CSV ile 86/86 ayni | tek 0.090000 toplu 0.090000 ayni | eski kod ayni | GECTI
+   3 sira  3051 EXE  | CSV ile 86/86 ayni | tek 0.050000 toplu 0.050000 ayni | eski kod ayni | GECTI
+   4 sira  2677 EXE  | CSV ile 86/86 ayni | tek 0.000000 toplu 0.000000 ayni | eski kod ayni | GECTI
+   5 sira  2488 EXE  | CSV ile 86/86 ayni | tek 0.140000 toplu 0.140000 ayni | eski kod ayni | GECTI
+   6 sira  1513 EXE  | CSV ile 86/86 ayni | tek 0.000000 toplu 0.000000 ayni | eski kod ayni | GECTI
+   7 sira  1069 EXE  | CSV ile 86/86 ayni | tek 0.130000 toplu 0.130000 ayni | eski kod ayni | GECTI
+   8 sira  5076 DLL  | CSV ile 86/86 ayni | tek 0.090000 toplu 0.090000 ayni | eski kod ayni | GECTI
+   9 sira  5549 DLL  | CSV ile 86/86 ayni | tek 0.060000 toplu 0.060000 ayni | eski kod ayni | GECTI
+  10 sira  4120 DLL  | CSV ile 86/86 ayni | tek 0.170000 toplu 0.170000 ayni | eski kod ayni | GECTI
+  11 sira   609 DLL  | CSV ile 86/86 ayni | tek 0.050000 toplu 0.050000 ayni | eski kod ayni | GECTI
+  12 sira  4459 DLL  | CSV ile 86/86 ayni | tek 0.050000 toplu 0.050000 ayni | eski kod ayni | GECTI
+  13 sira  3133 DLL  | CSV ile 86/86 ayni | tek 0.040000 toplu 0.040000 ayni | eski kod ayni | GECTI
+  14 sira   205 DLL  | CSV ile 86/86 ayni | tek 0.180000 toplu 0.180000 ayni | eski kod ayni | GECTI
+  15 sira   195 DLL  | CSV ile 86/86 ayni | tek 0.250000 toplu 0.250000 ayni | eski kod ayni | GECTI
+  16 sira   635 .NET | CSV ile 86/86 ayni | tek 0.000000 toplu 0.000000 ayni | eski kod ayni | GECTI
+  17 sira  1395 .NET | CSV ile 86/86 ayni | tek 0.000000 toplu 0.000000 ayni | eski kod ayni | GECTI
+  18 sira  1490 .NET | CSV ile 86/86 ayni | tek 0.130000 toplu 0.130000 ayni | eski kod ayni | GECTI
+  19 sira  3330 .NET | CSV ile 86/86 ayni | tek 0.150000 toplu 0.150000 ayni | eski kod ayni | GECTI
+  20 sira  3945 .NET | CSV ile 86/86 ayni | tek 0.010000 toplu 0.010000 ayni | eski kod ayni | GECTI
+
+SONUC: 20/20 gecti -> BASARILI
