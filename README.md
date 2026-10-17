@@ -56,7 +56,10 @@ malicious side (EMBER JSON) and the benign side (pefile) turn the same file
 into the same numbers. In this project the most expensive bugs were not model
 errors but measurement differences: when the two sides are measured
 differently, the model learns the measurement difference instead of
-maliciousness.
+maliciousness. `tests/test_esik_sinir.py` + `tests/esik_sinir.c` are a
+boundary-value regression test for the threshold comparison, written ahead
+of Phase 2 (see the roadmap); the C part is skipped when no gcc/clang is
+installed.
 
 ## Phase 1 Results
 
@@ -110,4 +113,21 @@ be repeated as the feature count grows.
        90.1% / temporal 83.8%, 3.5% false alarms on a real machine).
        **Phase 1 closed.**
 7. [ ] (Phase 2) Linux system-call monitoring with eBPF
+   - [x] Boundary-value regression test for the threshold comparison
+         (`tests/test_esik_sinir.py`, `tests/esik_sinir.c`). Python has no
+         integer overflow, but once the agent moves to C, a score stored in
+         a narrow type wraps at 128 and bypasses `score > 100`: a suspicious
+         file passes as clean. The test pins both the broken and the correct
+         version (wide type + range check + fail-closed).
+   - [x] Default C/C++ flags: `-Wall -Wextra -Wconversion -Wsign-conversion
+         -Werror`. Making the compiler talk is the cheapest defense:
+         `-Wconversion` points at the overflow line before the code ever
+         runs. The test also checks that these flags warn on exactly that
+         line and nowhere else.
+   - [x] Verified on Windows with MinGW gcc 16.2 (October 2026): the warning
+         flags produce exactly one warning, on the narrowing line; the correct
+         C version passes all 7 boundary cases, the broken one misses 128 and
+         255. To be re-run on Linux in Phase 2.
+   - [ ] Run the C part in CI with a real compiler, so "skipped" cannot
+         silently become the norm.
 8. [ ] (Phase 3) NPU / TEE hardware isolation

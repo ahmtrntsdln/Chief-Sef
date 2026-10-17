@@ -369,6 +369,45 @@ demek (taramayı erteleme mantığının aynısı).
   değişikliğinde (yeni sütun) yeniden yazılır, kozmetik sebeple asla -
   her yeniden yazım tüm satırları git geçmişine tekrar ekler.
 
+## Faz 2 (gerçek zamanlı ajan, C/C++) - Yapılacaklar
+Faz 2 henüz başlamadı; bunlar ajan C/C++'a taşınırken uyulacak kurallar ve
+açık işler.
+- [x] KURAL: Ajanın C/C++ tarafında eşik karşılaştırması dar tipte
+  yapılmayacak; int32/double + aralık doğrulaması + fail-closed (aralık
+  dışı skor = şüpheli). Neden: Faz 1 Python'da, tamsayı taşması yok; C'de
+  skor `signed char`'a yazılırsa 128 -> -128 olur ve `skor > 100` kontrolü
+  sessizce atlanır (Kritik Kural 7).
+- [x] KURAL: C/C++ varsayılan bayrakları `-Wall -Wextra -Wconversion
+  -Wsign-conversion -Werror` (Kritik Kural 7). İlk ajan kodu, Makefile /
+  CMake ve CI adımı bunlarla yazılır, sonradan eklenmez.
+- [x] Regresyon testi yazıldı: `tests/test_esik_sinir.py` +
+  `tests/esik_sinir.c`. Üç kontrol: (1) Python eşiği, (2) C'de hatalı sürüm
+  tabloda KAÇIRMALI, doğru sürüm GEÇMELİ (hatalı sürüm de geçerse tablo
+  taşmayı artık ölçmüyor demektir), (3) proje bayraklarıyla derleyici
+  TEK uyarı vermeli, o da hatalı satırda (doğru sürüm temiz derlenmeli).
+- [x] -Wconversion'ın daralmayı satır numarasıyla gösterdiği kullanıcının
+  ortamında doğrulandı.
+- [x] WINDOWS MinGW'DE DOĞRULANDI (17 Ekim 2026; gcc 16.2.0, winget paketi
+  `BrechtSanders.WinLibs.POSIX.UCRT` 16.2.0-14.0.0-r2, resmî winget deposu,
+  kullanıcı kapsamı, ~916 MB): testin C kısmı ve derleyici kontrolü gerçekten
+  koştu. `-Wall -Wextra -Wconversion -Wsign-conversion` TEK uyarı verdi,
+  hatalı satırda (`esik_sinir.c:48`, "conversion from 'int' to 'signed char'
+  may change value [-Wconversion]"); doğru sürüm temiz. C doğru sürüm 7/7;
+  hatalı sürüm 128 ve 255'i (taşma) ve -1'i (aralık kontrolü yok) "temiz"
+  sayıyor - beklenen. pytest 63/63 (gcc'siz: 3 skipped). Çıktı:
+  `tests/esik_sinir_mingw.log`. Windows uyarlaması: `.dll`, `-fPIC` yalnız
+  Linux'ta, uyarı kontrolü `-fsyntax-only` ile, yüklü DLL temizlikten önce
+  `FreeLibrary` ile bırakılır (Windows yüklü DLL'i sildirmez).
+- [ ] LİNUX'TA YENİDEN KOŞ (Faz 2, WSL/eBPF ortamı): aynı test Linux gcc ile
+  (`.so`, `-fPIC`). UBSan iddiası DOĞRULANMADI: MinGW Windows'ta UBSan
+  çalışma zamanı sağlamıyor; Linux'ta `-fsanitize=undefined` vermiyor mu,
+  clang `-fsanitize=implicit-integer-truncation` veriyor mu, orada ölç.
+- [ ] Bu test CI'da derleyiciyle koşsun; yoksa "skipped" sessizce kalıcı
+  hale gelir.
+- [ ] Skor ölçeğini sabitle: model olasılığı (0-1, double) mı, tamsayı
+  yüzde (0-100) mi? Test 0-255 aralığını sınır değerleri denemek için
+  kullanıyor; gerçek ölçek kararlaşınca SKOR_MIN/MAX ve ESIK ona uydurulur.
+
 ## Kritik Kurallar (Tekrar Sızıntı Yaratma)
 1. İki sınıf AYNI ölçüm yöntemiyle üretilmeli. Aynı sütun adı aynı ölçüm
    demek değil: EMBER ordinal import'ları (`ordinal5`) ve boyutu 0 olan
@@ -427,6 +466,23 @@ demek (taramayı erteleme mantığının aynısı).
    - Örneklem havuzu dosya sırasıyla toplanıyorsa hangi döneme düştüğünü
      kontrol et (`kayitlari_topla` alfabetik ilk dosyadan, sırayla topluyor).
    - Aynı-dönem sayısı raporlanacaksa zamansal sayıyla YAN YANA yaz.
+
+7. Eşik ve skor karşılaştırmalarında dar tip kullanma. Genişte tut,
+   aralığı doğrula, aralık dışını şüpheli say (fail-closed).
+   C/C++ VARSAYILAN BAYRAKLARI: `-Wall -Wextra -Wconversion
+   -Wsign-conversion -Werror`. Neden: derleyiciyi konuşturmak en ucuz
+   savunma - -Wconversion eşik taşmasını kullanıcının ortamında satır
+   numarasıyla gösterdi, bedeli sıfır, kod çalışmadan. -Werror'sız uyarı
+   kaybolur. Tek istisna hatayı BİLEREK içeren regresyon dosyaları
+   (`tests/esik_sinir.c`): -Werror'sız derlenir, uyarının tam o satırda ve
+   sadece orada çıktığı test edilir.
+   Ölçüm: Windows MinGW gcc 16.2'de doğrulandı (tek uyarı, hatalı satırda;
+   bkz. Faz 2 Yapılacaklar); Linux'ta Faz 2'de yeniden koşulacak.
+   UBSan bu daralmayı yakalamaz (gerekçe; ölçüm henüz YOK, Linux'ta
+   yapılacak): int -> signed char dönüşümü tanımsız davranış değil,
+   uygulamaya bağlı davranış, `-fsanitize=undefined` kapsamıyor (clang'ın
+   ayrı `-fsanitize=implicit-integer-truncation`'ı yakalar ama varsayılan
+   değil). Test: `tests/test_esik_sinir.py`.
 
 ## Çalışma Alışkanlıkları
 - Uzun işler (tarama, çıkarım, eğitim döngüsü): başta işi say ve %/ETA
