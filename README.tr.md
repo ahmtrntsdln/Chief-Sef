@@ -40,9 +40,10 @@ basit bir statik analiz katmani kurmak.
 - `gumruk_memuru/rf_egit_gercek.py` -> Egitim, dis dogrulama ve sinsi ornek testleri;
   ana modeli `model.pkl` olarak kaydeder (repo'da yok: ~10 sn'de ayni model
   yeniden uretilir, pickle da sklearn surumune bagli)
-- `gumruk_memuru/tahmin_et.py` -> Tek dosya tahmini: `python tahmin_et.py <dosya>`.
-  Ozellikler dis dogrulamadaki ayni kodla cikarilir, boylece %3.5 yanlis
-  alarm olcumu bu script icin de gecerli.
+- `gumruk_memuru/tahmin_et.py` -> Native modelle tek dosya tahmini (asagida
+  "Native model"): `python tahmin_et.py <dosya>`. Ozellikler dis dogrulamayla
+  ayni modulden (`gumruk_memuru/ozellik_cikar.py`); model yalnizca SHA-256'si
+  repodaki meta veriyle (`gumruk_memuru/model_native_meta.json`) tutarsa yuklenir.
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM ve kalibrasyon karsilastirmasi
 
 Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin
@@ -87,6 +88,42 @@ Model karsilastirmasi (5 katli CV): Random Forest (AUC 0.963) ayarsiz
 LightGBM'i (0.952) geciyor. Bu sonuc 5 ozellige ozgu; ozellik sayisi
 artinca karsilastirma tekrarlanacak.
 
+## Native model (EMBER2024, Ekim 2026)
+
+2018 verisiyle egitilen Faz 1 modeli 2024 dosyalarinda cokuyor (AUC 0.663).
+Yerine EMBER2024 Win32/Win64 ile egitilen, 86 ozellikli (5 temel + 80 dizge +
+DLL bayragi) Random Forest geldi: 483.224 egitim dosyasi, her dosya turunun
+ICINDE 50/50 orneklenmis. Neden: veri setinde zararsizlarin cogu DLL,
+zararlilarin cok azi; aksi halde model "DLL ise zararsiz" demeyi ogreniyor.
+Karar olcutleri hicbir sonuca bakilmadan yazilip commit'lendi
+(`gumruk_memuru/sonuclar/`).
+
+Esikler egitimden ayrilan 48-51. haftalardan secildi (her turde %1 yanlis
+alarm); test haftalari 52-63 (959.738 dosya) bu sabit esiklerle bir kez olculdu:
+
+| Dosya turu | Kacan zararli | EMBER2024 zararsizlarinda yanlis alarm |
+|---|---|---|
+| EXE | %17.7 | %0.83 |
+| DLL | %19.5 | %1.43 |
+
+Genel test AUC 0.9865. Bu makinedeki 5.635 gercek zararsiz dosyada yanlis
+alarm: EXE %0.25, DLL %0.21.
+
+Bu sayilar nasil okunmali:
+- **Test dosyalarinin %50'si zararli.** EMBER2024 haftalik 50/50 orneklenmis;
+  gercek kullanimda zararli cok daha nadir, bu yuzden bir skorun arkasindaki
+  gercek olasilik daha dusuk, alarmlarin yanlis olan payi daha yuksektir.
+- **DLL yanlis alarmi %1 hedefini asiyor** (%1.43). Esik 48-51. haftalarda
+  ayarlandi; o haftalardan test haftalarina gecerken zararsiz DLL kitlesi
+  kayiyor (zararsiz DLL payi egitimde %64.9, testte %73.4). Esik zamanla
+  eskiyor ve yeniden ele alinmali.
+- **Yerel dogrulama seti eskiyor.** 9 Ekim'deki olcumden bu yana dosyalarinin
+  857'si silindi, yuzlercesi guncellendi. Olcumlerin dayandigi 5.635 satir
+  yeniden taranmak yerine donduruldu (repoda yok; SHA-256
+  `gumruk_memuru/sonuclar/4/yerel_set.md`'de).
+- Random Forest yalnizca AYARSIZ LightGBM'i gecti; ayarli LightGBM ayri,
+  henuz yapilmamis bir deney.
+
 ## Yol Haritasi
 
 1. [x] Entropi hesaplayici (ilk calisan parca)
@@ -107,6 +144,9 @@ artinca karsilastirma tekrarlanacak.
 6. [x] Random Forest gercek veriyle yeniden egitildi ve dogrulandi
        (ayni donem %90.1 / zamansal %83.8, gercek makinede %3.5 yanlis
        alarm). **Faz 1 kapandi.**
+6b. [x] Native model EMBER2024'e tasindi (Random Forest, 86 ozellik, tur
+       ici dengeli egitim; bkz. "Native model"). 2018 modeli git etiketi
+       `eski-5-ozellik` altinda duruyor.
 7. [ ] (Faz 2) eBPF ile Linux sistem cagrisi izleme
    - [x] Esik karsilastirmasi icin sinir-deger regresyon testi
          (`tests/test_esik_sinir.py`, `tests/esik_sinir.c`). Python'da

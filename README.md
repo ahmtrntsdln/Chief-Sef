@@ -41,9 +41,11 @@ suspicious) ones.
 - `gumruk_memuru/rf_egit_gercek.py` -> Training, external validation and "sneaky sample" tests;
   saves the main model as `model.pkl` (not in the repo: the same model is
   reproduced in ~10 s, and a pickle is tied to the scikit-learn version)
-- `gumruk_memuru/tahmin_et.py` -> Single-file prediction: `python tahmin_et.py <file>`.
-  Features are extracted with the same code used in the external validation,
-  so the 3.5% false-alarm measurement also applies to this script.
+- `gumruk_memuru/tahmin_et.py` -> Single-file prediction with the native model
+  (see "Native model" below): `python tahmin_et.py <file>`. Features come from
+  `gumruk_memuru/ozellik_cikar.py`, the same module the external validation
+  uses; the model is only loaded if its SHA-256 matches the checked-in
+  metadata (`gumruk_memuru/model_native_meta.json`).
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM and calibration comparison
 
 Setup: `pip install -r requirements.txt` (`requirements-experimental.txt` for
@@ -90,6 +92,44 @@ Model comparison (5-fold CV): Random Forest (AUC 0.963) beats untuned
 LightGBM (0.952). This result is specific to 5 features; the comparison will
 be repeated as the feature count grows.
 
+## Native model (EMBER2024, October 2026)
+
+The Phase 1 model, trained on 2018 data, collapses on 2024 files (AUC 0.663).
+Its replacement is trained on EMBER2024 Win32/Win64 with 86 features (5 basic +
+80 string features + DLL flag): Random Forest, 483,224 training files sampled
+50/50 *within* each file type, because in the data set most benign files are
+DLLs and very few malicious ones are, and a model can otherwise learn "DLL ⇒
+benign". The decision criteria were written down and committed before any
+result was seen (`gumruk_memuru/sonuclar/`).
+
+Thresholds were chosen on held-out training weeks 48-51 (1% false alarms per
+file type); the test weeks 52-63 (959,738 files) were measured once with
+those fixed thresholds:
+
+| File type | Missed malware | False alarms on EMBER2024 benign files |
+|---|---|---|
+| EXE | 17.7% | 0.83% |
+| DLL | 19.5% | 1.43% |
+
+Overall test AUC 0.9865. On 5,635 real benign files from this machine: false
+alarms 0.25% (EXE) and 0.21% (DLL).
+
+How to read these numbers:
+- **50% of the test files are malicious.** EMBER2024 is sampled 50/50 per
+  week; in real use malware is far rarer, so the real probability behind a
+  given score is lower and the real share of alarms that are false is higher.
+- **The DLL false-alarm rate exceeds its 1% target** (1.43%). The threshold was
+  set on weeks 48-51; between those weeks and the test weeks the benign DLL
+  population shifts (benign DLL share 64.9% in training, 73.4% in test). The
+  threshold ages with time and has to be revisited.
+- **The local validation set is aging.** Since it was measured on 9 October,
+  857 of its files have been deleted and hundreds updated on this machine.
+  The 5,635 rows the measurements rely on are frozen (not in the repository;
+  SHA-256 recorded in `gumruk_memuru/sonuclar/4/yerel_set.md`) instead of
+  being re-scanned.
+- Random Forest beat LightGBM only against *untuned* LightGBM; a tuned
+  LightGBM is a separate, not-yet-run experiment.
+
 ## Roadmap
 
 1. [x] Entropy calculator (the first working piece)
@@ -112,6 +152,9 @@ be repeated as the feature count grows.
 6. [x] Random Forest retrained on real data and validated (same period
        90.1% / temporal 83.8%, 3.5% false alarms on a real machine).
        **Phase 1 closed.**
+6b. [x] Native model moved to EMBER2024 (Random Forest, 86 features,
+       type-balanced training; see "Native model"). The 2018 model is kept
+       under the git tag `eski-5-ozellik`.
 7. [ ] (Phase 2) Linux system-call monitoring with eBPF
    - [x] Boundary-value regression test for the threshold comparison
          (`tests/test_esik_sinir.py`, `tests/esik_sinir.c`). Python has no

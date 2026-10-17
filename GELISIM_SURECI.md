@@ -101,7 +101,51 @@ bir profil %68 olasılıkla zararlı bulundu. İlk bakışta hata gibi görünse
 de EMBER'de bu profile benzeyen 22 gerçek dosyanın %64'ü zararlı:
 model veriyi doğru yansıtıyor, "zararsız görünüyor" sezgisi yanlıştı.
 
-## 10. Sonuç
+## 10. 2018 Modeli 2024'te: Çöküş, Kestirme ve Yeni Model
+
+Faz 1'in modeli EMBER 2018 ile eğitilmişti. Aynı modeli EMBER2024'ün
+Win32/Win64 test kümesinde (son 12 hafta, 959.738 dosya) ölçtüğümüzde AUC
+**0,663**'e düştü; import'suz zararlıların neredeyse tamamı kaçıyordu. Altı
+yıllık zaman farkı, Kural 6'nın (zaman ekseni) en sert örneği oldu: "geçmişte
+iyi" bir model bugünün dosyalarında yazı-turaya yaklaşabiliyor.
+
+Yeni veriyle eğitince ikinci tanıdık sorun çıktı: **dosya tipi kestirmesi.**
+EMBER2024'te zararsızların ~%65-73'ü DLL, zararlıların yalnızca ~%6'sı. Model
+"DLL ise zararsız" demeyi öğrenebiliyordu; genel doğruluk bunu ödüllendiriyor,
+zararlı DLL'ler gözden kaçıyordu. Bu, projede beşinci kez karşılaşılan aynı
+dersti. Çözüm .NET modelinde ve 2018 denemesinde olduğu gibi: eğitim
+örneklemini her dosya tipinin İÇİNDE 50/50 dengelemek (E3). Genel doğruluk
+biraz düşüyor, ama bu gerçekçi olmanın bedeli.
+
+Karar sırası bilinçli kuruldu. Ölçütler (her türde %1 yanlış alarmda DLL'de
+kaçan zararlı; yerel yanlış alarm McNemar'a göre kötüleşmemeli) sonuçlara
+bakılmadan yazılıp commit'lendi. İlk karşılaştırmada eşik test kümesinden
+seçilmişti; bu, iki modeli aynı noktada kıyaslamak için yeterli ama raporlanacak
+bir sayı değil. Eşik sonra eğitim haftalarından ayrılan bir doğrulama
+diliminden (hafta 48-51) seçildi ve test bu sabit eşikle bir kez ölçüldü.
+Sonuç değişmedi: RF E3. Son boyut için de kural ölçümden önce yazıldı;
+483.224 örnek, 300 binden 1,69 puan daha az zararlı DLL kaçırdı (tohum
+oynaması 0,72) ve seçildi.
+
+Son model testte bir kez ölçüldü: AUC 0,9865; kaçan zararlı EXE'de %17,7,
+DLL'de %19,5; yanlış alarm EXE'de %0,83, DLL'de %1,43. DLL'deki yanlış alarm,
+doğrulamada %1'e ayarlanan hedefi aştı: doğrulama haftalarından test
+haftalarına geçerken zararsız DLL'lerin dağılımı kayıyor. Bu bir hata değil,
+eşiğin zamanla eskidiğinin ölçümü.
+
+**18/20 koşusu.** Tahmin aracının özellikleri ile doğrulama setindekilerin
+aynı olduğunu 20 dosyada uçtan uca sınadık. İlk koşu 18/20 geçti: iki .NET
+dosyasının değerleri tutmadı. Kod mu yanlıştı, dosya mı değişmişti? İki dosya
+da ölçümden beş gün sonra, aynı boyutla güncellenmişti; eski kod yolu ve yeni
+tek modül o dosyalarda da birebir aynı sayıyı veriyordu. Test "boyut aynıysa
+dosya aynıdır" varsayımına dayanıyordu ve bu varsayım yanlıştı. Başarı
+ölçütünü gevşetmek yerine aday seçimini düzelttik (son değişikliği ölçümden
+önce olan dosyalar) ve testi yeniden koştuk: 20/20. İlk koşunun kaydı da
+saklandı. Bu olay, yerel doğrulama setinin eskidiğini de gösterdi: 9 Ekim'den
+bu yana 857 dosya silinmiş, yüzlercesi güncellenmişti. Ölçümlerin dayandığı
+5.635 satır bu yüzden donduruldu.
+
+## 11. Sonuç
 
 Faz 1, aynı temel dersi iki farklı biçimde öğretti: **bir sınıfın verisi
 diğerinden daha dar/temiz bir süreçten geliyorsa, model gerçek sinyali

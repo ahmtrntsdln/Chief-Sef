@@ -136,7 +136,7 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   V4. Ana modele ALINMADI: önce bu makinedeki dış doğrulama setinde
   DLL_mi + dizge sütunları gerekiyor (bkz. Sonraki Adımlar 2).
 
-## Native Model: EMBER2024 (Win32+Win64) + thrember dizgeleri - DAL `model/ember2024-native`, KARAR BEKLİYOR
+## Native Model: EMBER2024 (Win32+Win64) + thrember dizgeleri - SEÇİLDİ: RF E3 (`tahmin_et.py`)
 - Çalışma kuralı: her yeni model kendi `model/<ad>` dalında; main ile aynı
   protokolle karşılaştırılır, hangi dalın alınacağına kullanıcı karar verir.
 - Veri (9 Ekim 2026): HF joyce8/EMBER2024 Win32/Win64 train+test zip'leri
@@ -181,9 +181,40 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   (bilinmiyor) 16.6, lummastealer 15.1 (E2 12.1), wacatac 9.3.
 - .NET alt grubu küçük (testin %0.5'i), tohum farkı 3-5 puan; .NET dosyaları
   zaten uzman modele gidecek (mimari, .NET bölümü).
-- Öneri: E3. Birleştirmeden önce dalda: eğitim betiği + model.pkl (86 öz.),
-  tahmin_et'in 80 dizge sütununu üretmesi ve uçtan uca doğrulama, tipe özel
-  kalibrasyon, 86 özellikle RF vs LightGBM (Model Seçimi bölümü bunu istiyor).
+- KARAR SÜRECİ (15-17 Ekim, ayrıntı `gumruk_memuru/sonuclar/`): ölçütler
+  sonuçlardan ÖNCE yazıldı ve commit'lendi (`sonuclar/karar_olcutleri.md`): ana
+  ölçüt her türde %1 yanlış alarmda DLL'de kaçan zararlı; yerel yanlış alarm
+  McNemar'a göre anlamlı kötüleşmemeli; tohum oynaması içindeki fark eşit,
+  eşitlikte LightGBM. Kullanıcı kararı: RF E3.
+- Eşik (`sonuclar/3/`, ön kayıt `on_kayit_esik_boyut.md`): eğitim havuzu hafta
+  0-47, eşik hafta 48-51 doğrulama diliminden (İKİ sınıf), test hafta 52-63 SABİT
+  eşikle BİR KEZ. 2c'deki ilk tablo eşiği testten seçmişti (`karar_tablosu.md`'de
+  UYARI); doğrulama eşiğiyle yeniden ölçümde mekanik sonuç aynı: 300 binde DLL
+  kaçan RF E3 20.9, RF E2 25.6, LightGBM E3 35.8, E2 39.7.
+- RF > LightGBM yalnızca AYARSIZ LightGBM için: öğrenme eğrisi düz (100 bin ->
+  4,16 milyon AUC 0.9766 -> 0.9776) = kapasite sınırı. Ayarlı LightGBM ayrı,
+  ön kayıtlı deney olarak bekliyor.
+- Son boyut: ön kayıtlı kural (kazanç < tohum std -> 300 bin). 522.200 zamansal
+  doğrulamayla kurulamaz (havuzda zararlı DLL 120.806) -> 483.224. Kazanç 1.69
+  puan ≥ s 0.72 -> **483.224**. Kaynak (tohum 42): 300 bin 279 MB / 4.2 ms,
+  483.224 395 MB / 3.6 ms (tek satır tahmin, özellik çıkarma hariç).
+- SON MODEL (`sonuclar/3/son_model.py`): RF E3, 483.224, tohum 42, hafta 0-47;
+  eşik EXE 0.70 / DLL 0.61. Test (bir kez): AUC 0.9865; kaçan EXE %17.7, DLL
+  %19.5; yanlış alarm EXE %0.83, DLL %1.43. Yerel yanlış alarm EXE %0.25
+  [0.04-1.40], DLL %0.21 [0.12-0.38]. Model `C:\ember2024\model` (414 MB, repoda
+  yok); meta `gumruk_memuru/model_native_meta.json` (repoda).
+- DLL YANLIŞ ALARMI HEDEFİ AŞIYOR: eşik doğrulamada %1 için seçildi, testte %1.43.
+  Neden: zaman kayması (hafta 48-51 -> 52-63; zararsız DLL payı train %64.9 ->
+  test %73.4). Üretim eşiği bu payı hesaba katmalı (Sonraki Adımlar 4).
+- Uçtan uca (`sonuclar/3/uctan_uca.py`): 20/20 - CSV ile 86/86 özellik aynı, tek
+  dosya == toplu tahmin, tek modül == eski kod yolu. İlk koşu 18/20: 2 .NET
+  dosyası 14 Ekim'de AYNI BOYUTLA güncellenmişti (eski ve yeni kod onlarda da
+  aynı) -> aday seçimine "son değişiklik ölçümden önce" koşulu eklendi; başarı
+  ölçütü gevşetilmedi, ilk koşunun logu saklı.
+- Yerel set ESKİYOR: 857 dosya diskte yok, aynı boyutla güncellenen .NET adayı
+  452. Ölçümlerin dayandığı 5.635 satır DONDURULDU: `sef_yerel_dogrulama_5635.csv`
+  (repoda yok; sha256 `5d96007d…262987`, `sonuclar/4/yerel_set.md`). Yeniden
+  TARANMAZ; yeni ölçüm yeni ön kayıtla yapılır.
 
 ## Dosyalar
 - `entropy.py` - Shannon entropi hesaplayıcı.
@@ -230,11 +261,29 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - `rf_egit_gercek.py` - ana eğitim + dış doğrulama + eski tasarımla
   karşılaştırma + sinsi örnekler. Sonunda ana modeli `model.pkl`'e kaydeder
   (özellik listesi ve sklearn sürümüyle birlikte).
-- `tahmin_et.py` - `python tahmin_et.py <dosya>`: model.pkl ile tek dosya.
-  Özellikleri `toplu_tarama.dosyayi_analiz_et` ile çıkarır - dış
-  doğrulamada ölçülen AYNI kod; ayrı bir çıkarıcı yazmak raporlanan
-  sayıların geçmediği yeni bir ölçüm olurdu. PE olmayan dosyayı reddeder
-  (Kural 3), .NET dosyasında körlük uyarısı basar.
+- `tahmin_et.py` - `python tahmin_et.py <dosya>`: NATIVE model (RF E3, 86
+  özellik) ile tek dosya. Özellikleri `ozellik_cikar.dosya_ozellikleri` ile
+  çıkarır (dış doğrulamayla AYNI kod, Kural 9); dosya türünü (EXE / DLL /
+  .NET) ve türe göre eşiği (EXE 0.70, DLL 0.61) uygular. Model dosyası meta
+  verideki SHA-256 ile tutmazsa YÜKLEMEZ (Kural 10). PE olmayan dosyayı
+  reddeder (Kural 3); .NET dosyasında uzman modelin henüz bağlı olmadığını
+  yazar. Faz 1'in 5 özellikli `model.pkl`'i artık burada kullanılmıyor
+  (`rf_egit_gercek.py` onu hâlâ üretir; tarihsel karşılaştırma için).
+- `ozellik_cikar.py` - TEK özellik modülü (Kural 9): `MODEL_KOLONLARI` (86,
+  E3 sırası), `dosya_ozellikleri(yol)` (toplu_tarama.dosyayi_analiz_et
+  `dizge80=True`: 80 thrember dizge sütunu aynı baytlardan, tek okuma) ve
+  `dosya_turu`.
+- `model_native_meta.json` - son modelin kimliği (repoda): özellik sırası,
+  RF parametreleri, tohum, boyut ve boyut kararı, eğitim verisi özeti
+  (haftalar, hücreler, Parquet sha256), eşikler, testte bir kez ölçülen
+  değerler, yerel set kimliği, sürümler, tarih, kod commit'i, model sha256.
+- `sonuclar/` - native model kararının tüm izi; her adımın betiği, logu ve
+  küçük tabloları kendi klasöründe: `karar_olcutleri.md` (ön kayıt),
+  `ortak_deney.py` (yükleme/örneklem/ölçüm, tek tanım), `0/` Parquet,
+  `2a/` LightGBM öğrenme eğrisi, `2b/` RF 300 bin (+ 9 Ekim 100 bin),
+  `2c/` + `karar_tablosu.md`, `3/` eşik ve boyut ön kaydı, ölçümü, son model,
+  uçtan uca test; `4/` yerel set kimliği. Büyük çıktılar (model, yerel
+  tahminler) `C:\ember2024\sonuc` ve `C:\ember2024\model` altında.
 - `model_karsilastir.py` - RF vs LightGBM, ham vs kalibre (5 katlı CV +
   makinedeki 11 örneklem + şüpheli bant). `requirements-experimental.txt`
   gerektirir.
@@ -270,7 +319,13 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   signify==0.7.1 sabit), `karsilastir` proje ortamında. 50 kayıt yoksa BAŞARISIZ
   (boş girdiyle "fark yok" sahte geçişi engellenir).
 
-## Model Seçimi - ŞİMDİLİK KAPALI, özellik sayısı artınca YENİDEN AÇ
+## Model Seçimi
+- YENİDEN AÇILDI (86 özellik, 15-17 Ekim): RF vs ayarsız LightGBM, aynı örneklem
+  ve tohumlar, eşik doğrulama diliminden. RF açık farkla önde (300 binde DLL
+  kaçan RF E3 20.9 / LightGBM E3 35.8). LightGBM'in öğrenme eğrisi düz -> sonuç
+  yalnız AYARSIZ LightGBM için; ayarlı LightGBM (sabit bütçe, doğrulama
+  diliminde ayar, test bir kez) ayrı ön kayıtlı deney, henüz yapılmadı.
+  Aşağısı Faz 1'in (5 özellik) tarihsel karşılaştırması.
 - 5 özellik, ayarsız modellerle: RF CV doğruluk %89.65 / AUC 0.963,
   LightGBM %87.96 / 0.952 (fark katlar arası oynaklığın üstünde). RF ile
   devam. Özellik sayısı 10-15+ olunca `model_karsilastir.py` tekrar
@@ -320,7 +375,14 @@ demek (taramayı erteleme mantığının aynısı).
    eşleştir, sadece o dosyaları yeniden oku, eski 5 sütunun birebir
    tuttuğunu satır satır kontrol et (dosya taramadan beri değiştiyse at).
 3. `model_karsilastir.py` ile RF vs boosting'i yeniden karşılaştır.
+   - YAPILDI (native, `sonuclar/2a-2c`, `3/`): RF > AYARSIZ LightGBM. Kalan:
+     ayarlı LightGBM, ayrı ön kayıtlı deney (sabit bütçe, doğrulamada ayar,
+     test bir kez).
 4. Üç bölgeli eşikler (zararsız / şüpheli / zararlı).
+   - KISMEN: native modelde türe göre tek eşik (EXE 0.70, DLL 0.61), doğrulama
+     diliminden %1 yanlış alarm için. Testte DLL %1.43 (zaman kayması) -> üretim
+     eşiği bu payı ve gerçek zararlı oranını (π) hesaba katmalı. Şüpheli bant
+     ve maliyet oranı hâlâ açık.
    Şu an 0.2-0.8 bandı EMBER'in 1/4'ünü, makinenin 1/6'sını yutuyor ->
    5 özellik yetersiz; eşikleri şimdi kilitleme. Eşik kuralı: gerçek
    olasılık > C_FP / (C_FP + C_FN) ise işaretle. Maliyet oranı kullanıcı
@@ -331,6 +393,18 @@ demek (taramayı erteleme mantığının aynısı).
 ### Veri dosyaları (`gumruk_memuru/`)
 - `sef_dataset_zararli_gercek.csv` - EMBER label==1, 5700 kayıt
 - `sef_dataset_ember_zararsiz.csv` - EMBER label==0, 5700 kayıt
+  İkisi 17 Ekim'de ŞEMA DEĞİŞİKLİĞİYLE bir kez yeniden yazıldı: 9 -> 18 sütun
+  (DLL_mi + EMBER 2018 dizge grubu), aynı satırlar, eski 9 sütun birebir
+  (doğrulandı; rf_egit_gercek.py çıktısı değişmedi: %90.1, 197/5700).
+- `sef_yerel_dogrulama_5635.csv` - native model ölçümlerinin dayandığı yerel
+  zararsız set (9 Ekim dz80 ölçümünün dondurulmuş kopyası; 5.635 satır, 94
+  sütun, dosya adı/yol yok). REPODA YOK (kullanıcı kararı). sha256
+  `5d96007d6f21dd1b1b128669639d07cc1b4b56ce73bdc9ce69b213f02b262987`.
+  Eski 5700'lük `sef_dataset_zararsiz_gercek.csv` DEĞİŞMEDİ (Faz 1 sayıları
+  birebir yeniden üretilebilir kalsın).
+- EMBER2024 Win32/Win64 Parquet - proje DIŞINDA: `C:\ember2024\parquet\
+  <zip>.parquet` (`sonuclar/0/parquet_cevir.py`, ~36 sn; satır sayıları CSV'lerle
+  birebir). Native model: `C:\ember2024\model\model_native.joblib` (414 MB).
 - `sef_dataset_zararsiz_gercek.csv` - bu makinenin taraması, 5700 PE
   (533.081 dosyadan 64.263 PE bulundu, random.seed(42) ile örneklendi).
   Repo'da, `Dosya_Adi` sütunu OLMADAN (kurulu yazılımları ortaya koyar).
@@ -466,6 +540,14 @@ açık işler.
    - Örneklem havuzu dosya sırasıyla toplanıyorsa hangi döneme düştüğünü
      kontrol et (`kayitlari_topla` alfabetik ilk dosyadan, sırayla topluyor).
    - Aynı-dönem sayısı raporlanacaksa zamansal sayıyla YAN YANA yaz.
+   - EŞİK de tarihsel bölmeye tabi: eğitim haftalarından ayrılmış doğrulama
+     diliminden seçilir (EMBER2024: hafta 48-51, iki sınıf birden; yalnız
+     zararsızları ayırmak iki sınıfı farklı zamanlardan getirir, Kural 2),
+     test bu SABİT eşikle BİR KEZ ölçülür. Testten seçilen eşik bir ROC
+     noktasıdır, raporlanacak çalışma noktası değildir.
+   - Doğrulama dilimini dönem SAYISIYLA değil KAYIT payıyla seç: EMBER 2018
+     train'de appeared 2006'ya kadar gidiyor; dönem sayısının %20'si tüm
+     2018'i doğrulamaya atıp eğitimde hiç zararlı bırakmıyordu.
 
 7. Eşik ve skor karşılaştırmalarında dar tip kullanma. Genişte tut,
    aralığı doğrula, aralık dışını şüpheli say (fail-closed).
@@ -483,6 +565,30 @@ açık işler.
    uygulamaya bağlı davranış, `-fsanitize=undefined` kapsamıyor (clang'ın
    ayrı `-fsanitize=implicit-integer-truncation`'ı yakalar ama varsayılan
    değil). Test: `tests/test_esik_sinir.py`.
+
+8. TİP-DENGELİ EĞİTİM: dosya tipi (EXE/DLL) sınıfla karışıksa (kestirme beş
+   kez görüldü: EMBER2024 .NET %90/%10, EMBER 2018 %45.7/%6.3, EMBER2024
+   native %64.9/%6.3 zararsız/zararlı DLL payı) eğitim örneklemi (DLL_mi ×
+   Etiket) hücrelerinin HER BİRİNDE eşit sayıda alınır ve DLL_mi girdi olur.
+   Tip bilgisini DÜZ eklemek kestirmeyi büyütür (V1: DLL kaçan %38). Ölçüm
+   tipe göre ayrı yapılır (EXE / DLL kaçan ve yanlış alarm); genel doğruluk
+   bu kestirmeyi ödüllendirir. Genel doğruluktaki düşüş gerçekçi olmanın
+   bedelidir, kayıp değil. Tip içi dengenin üst sınırı en küçük hücredir
+   (EMBER2024: zararlı DLL); yerine koyarak örnekleme yapılmaz.
+9. TEK ÖZELLİK MODÜLÜ: modelin özellikleri tek yerden çıkar
+   (`ozellik_cikar.dosya_ozellikleri`); dış doğrulama (`dogrulama_dizge80.py`)
+   ve tahmin (`tahmin_et.py`) ONU içe aktarır. İkinci bir birleştirme kopyası
+   yazılmaz: biri değişip diğeri eski kalırsa raporlanan yanlış alarm, tahmin
+   aracının ölçtüğü şey olmaktan çıkar (Kural 1'in kod tarafı). Kanıt:
+   `sonuclar/3/uctan_uca.py` (20/20: CSV ile 86/86, tek == toplu, tek modül ==
+   eski kod). Özellik eklenince bu test yeniden koşar.
+10. MODEL YALNIZCA HASH DOĞRULANDIKTAN SONRA YÜKLENİR: joblib/pickle yüklemek
+   kod çalıştırmak demek. `tahmin_et.model_yukle` model dosyasının SHA-256'sını
+   meta verideki (`model_native_meta.json`, repoda) değerle karşılaştırır,
+   tutmazsa YÜKLEMEZ. Bu ayrıca eşiklerin başka bir modele uygulanmasını
+   engeller (eşikler o modelin doğrulama skorlarından seçildi). Model dosyası
+   repoya ve paylaşıma girmez; yalnız meta veri (özellik sırası, sürümler,
+   tohum, eşikler, test sonuçları, sha256) girer.
 
 ## Çalışma Alışkanlıkları
 - Uzun işler (tarama, çıkarım, eğitim döngüsü): başta işi say ve %/ETA
@@ -512,3 +618,10 @@ açık işler.
   (OneDrive'ı şişirmemek için). EMBER2024 .NET: test JSONL + CSV'ler
   `C:\ember2024`, train JSONL `C:\ember2024\train`.
 - Tam tarama (System32 + Program Files x2) bu makinede ~2.5 saat sürüyor.
+- C derleyicisi (17 Ekim): MinGW-w64 gcc 16.2.0, resmî winget deposundan
+  `BrechtSanders.WinLibs.POSIX.UCRT` 16.2.0-14.0.0-r2 (taşınabilir, kullanıcı
+  kapsamı, ~916 MB, yönetici gerekmez). PATH'te `gcc` yok (winget yalnız önekli
+  adlar ekledi): `%LOCALAPPDATA%\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.
+  POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin`'i PATH'e ekle.
+  WSL kurulu değil (Faz 2 eBPF için gerekecek; yönetici + yeniden başlatma ister).
+  Kaldırma: `winget uninstall --id BrechtSanders.WinLibs.POSIX.UCRT`.

@@ -21,6 +21,9 @@ gumruk_memuru/*_isimli.csv
 # dogrulama_dizge80.py'nin Dosya_Adi'siz ciktisi: uretilmis veri (veri politikasi). Repo'ya
 # alinip alinmayacagi model/ember2024-native birlestirilirken kararlastirilacak.
 gumruk_memuru/sef_dogrulama_dz80.csv
+# Native model olcumlerinin dayandigi yerel 5.635'lik setin dondurulmus kopyasi (kullanici
+# karari: repoya GIRMEZ). Kimligi (satir, sha256): sonuclar/4/yerel_set.md, model_native_meta.json
+gumruk_memuru/sef_yerel_dogrulama_5635.csv
 
 # rf_egit_gercek.py'nin kaydettigi egitilmis model: uretilmis ikili dosya,
 # ~10 sn'de birebir yeniden uretilir; pickle yuklemek kod calistirmak demek

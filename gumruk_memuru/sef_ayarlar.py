@@ -58,3 +58,6 @@ DOGRULAMA_DZ80_CSV = _proje("sef_dogrulama_dz80.csv")                    # Dosya
 DOGRULAMA_DZ80_ISIMLI_CSV = _proje("sef_dogrulama_dz80_isimli.csv")      # .gitignore
 MODEL_YOLU = _proje("model.pkl")                                     # .gitignore, uretilmis
 NATIVE_META_YOLU = _proje("model_native_meta.json")                 # repoda; NATIVE_MODEL_YOLU'nun kimligi
+# Native model olcumlerinin dayandigi yerel zararsiz set: DOGRULAMA_DZ80_CSV'nin 9 Ekim olcumunun
+# DONDURULMUS kopyasi (dz80 betigi yeniden kosarsa o dosya degisebilir, bu degismez). .gitignore'da.
+YEREL_DOGRULAMA_5635_CSV = _proje("sef_yerel_dogrulama_5635.csv")

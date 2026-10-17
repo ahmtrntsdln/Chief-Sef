@@ -180,5 +180,16 @@
  "kod_commit": "f31a482bb2da3dbcebf48c5aa44143b4ddf9d324",
  "model_dosyasi": "model_native.joblib",
  "model_bayt": 414422345,
- "model_sha256": "f6b74df812f02d75a28a003b33d22294b799a94f12cf0e4ec2d5d6c9569ba536"
+ "model_sha256": "f6b74df812f02d75a28a003b33d22294b799a94f12cf0e4ec2d5d6c9569ba536",
+ "yerel_dogrulama_seti": {
+  "dosya": "sef_yerel_dogrulama_5635.csv",
+  "satir": 5635,
+  "sutun": 94,
+  "sha256": "5d96007d6f21dd1b1b128669639d07cc1b4b56ce73bdc9ce69b213f02b262987",
+  "EXE": 402,
+  "DLL": 5233,
+  ".NET": 3471,
+  "kaynak": "dogrulama_dizge80.py, 9 Ekim 2026 olcumu (DOGRULAMA_DZ80_CSV'nin bayt bayt kopyasi)",
+  "repoda": false
+ }
 }
