@@ -269,6 +269,14 @@ def test_clr_boyut_ve_adres_ikisi_de_gerekli(va, boyut):
 # ayni arayuzu kullandigini dogrular)
 # --------------------------------------------------------------------------
 
+def _pe_mi(yol):
+    with open(yol, "rb") as f:
+        return f.read(2) == b"MZ"
+
+
+@pytest.mark.skipif(not _pe_mi(sys.executable),
+                    reason="Python yorumlayicisi PE degil (Windows disi); tests/fixtures'a "
+                           "zararsiz native PE eklenince bu test her platformda calisir")
 def test_gercek_native_pe():
     sonuc = tt.dosyayi_analiz_et(sys.executable)
     assert sonuc["PE_mi"] and sonuc["NET_mi"] == 0 and sonuc["Toplam_API"] > 0
