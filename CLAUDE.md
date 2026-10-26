@@ -285,7 +285,11 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   .NET) ve türe göre eşiği (EXE 0.70, DLL 0.61) uygular. Model dosyası meta
   verideki SHA-256 ile tutmazsa YÜKLEMEZ (Kural 10). PE olmayan dosyayı
   reddeder (Kural 3); .NET dosyasında uzman modelin henüz bağlı olmadığını
-  yazar. Faz 1'in 5 özellikli `model.pkl`'i artık burada kullanılmıyor
+  yazar. KARAR (`karar()`, 26 Ekim): .NET dışı eşik üstü ZARARLI / altı zararsız;
+  .NET'te eşik altı BELİRSİZ (asla zararsız; ölçüm `sonuclar/5/net_sonuc.md`),
+  eşik üstü .NET EXE OLASI ZARARLI, .NET DLL ZARARLI; NaN / sonsuz / [0, 1] dışı
+  skor her dosyada BELİRSİZ (Kural 7). Ölçülen oranlar koda gömülmez, kaynağa
+  yönlendirilir. Testler `tests/test_tahmin_karar.py` (model dosyası gerekmez). Faz 1'in 5 özellikli `model.pkl`'i artık burada kullanılmıyor
   (`rf_egit_gercek.py` onu hâlâ üretir; tarihsel karşılaştırma için).
 - `ozellik_cikar.py` - TEK özellik modülü (Kural 9): `MODEL_KOLONLARI` (86,
   E3 sırası), `dosya_ozellikleri(yol)` (toplu_tarama.dosyayi_analiz_et

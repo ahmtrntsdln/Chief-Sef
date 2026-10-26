@@ -45,7 +45,12 @@ suspicious) ones.
   (see "Native model" below): `python tahmin_et.py <file>`. Features come from
   `gumruk_memuru/ozellik_cikar.py`, the same module the external validation
   uses; the model is only loaded if its SHA-256 matches the checked-in
-  metadata (`gumruk_memuru/model_native_meta.json`).
+  metadata (`gumruk_memuru/model_native_meta.json`). For .NET files a score
+  below the threshold is reported as BELIRSIZ (uncertain, needs review), never
+  as benign, because the native model misses many .NET malware samples (see
+  ".NET is still a weak spot" below); above the threshold a .NET EXE is
+  OLASI ZARARLI (possibly malicious). Invalid scores (NaN, infinite, outside
+  [0, 1]) are BELIRSIZ for every file.
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM and calibration comparison
 
 Setup: `pip install -r requirements.txt` (`requirements-experimental.txt` for

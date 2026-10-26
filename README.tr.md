@@ -44,6 +44,10 @@ basit bir statik analiz katmani kurmak.
   "Native model"): `python tahmin_et.py <dosya>`. Ozellikler dis dogrulamayla
   ayni modulden (`gumruk_memuru/ozellik_cikar.py`); model yalnizca SHA-256'si
   repodaki meta veriyle (`gumruk_memuru/model_native_meta.json`) tutarsa yuklenir.
+  .NET dosyasinda esigin altindaki skor "zararsiz" degil BELIRSIZ (ek inceleme)
+  olarak raporlanir: native model .NET zararlilarinin onemli bir kismini
+  kaciriyor (asagida ".NET hala zayif nokta"); esigin ustunde .NET EXE
+  OLASI ZARARLI. Gecersiz skor (NaN, sonsuz, [0, 1] disi) her dosyada BELIRSIZ.
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM ve kalibrasyon karsilastirmasi
 
 Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin

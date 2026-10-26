@@ -14,11 +14,19 @@ eslesmesin.
 Esik: dosya turune gore (EXE / DLL), egitimde kullanilmayan dogrulama diliminde
 (hafta 48-51) zararsizlarin %1'i asacak sekilde secildi.
 
+Karar (karar()): .NET disi dosyada esik ustu ZARARLI, alti zararsiz. .NET dosyasinda (NET_mi:
+CLR veri dizini ISIMLE, toplu_tarama.net_ozellikleri) esigin alti ASLA "zararsiz" degil, BELIRSIZ:
+native model bu grupta zararlilarin onemli bir kismini kaciriyor (olcum sonuclar/5/net_sonuc.md).
+.NET EXE'de esik ustu OLASI ZARARLI (o grupta yanlis alarm .NET disi EXE'lerden yuksek), .NET
+DLL'de ZARARLI. Skor NaN, sonsuz ya da [0, 1] disindaysa her dosyada BELIRSIZ (fail-closed,
+Kritik Kural 7). Olculen oranlar koda GOMULMEZ; kaynaga yonlendirilir.
+
 Kullanim: python tahmin_et.py <dosya_yolu>
 """
 
 import hashlib
 import json
+import math
 import os
 import sys
 
@@ -54,6 +62,25 @@ def model_yukle():
     return {"model": joblib.load(NATIVE_MODEL_YOLU), "meta": meta}
 
 
+ZARARLI, OLASI_ZARARLI, ZARARSIZ, BELIRSIZ = "ZARARLI", "OLASI ZARARLI", "zararsiz", "BELIRSIZ"
+NET_OLCUM_KAYNAGI = "README 'Native model' bolumu ve gumruk_memuru/sonuclar/5/net_sonuc.md"
+
+
+def gecerli_skor(olasilik):
+    return math.isfinite(olasilik) and 0.0 <= olasilik <= 1.0
+
+
+def karar(olasilik, esik, net_mi, esik_turu):
+    """Skor -> karar (modul belgesindeki tablo). Aralik disi / NaN / sonsuz skor: BELIRSIZ."""
+    if not gecerli_skor(olasilik):
+        return BELIRSIZ
+    if not net_mi:
+        return ZARARLI if olasilik > esik else ZARARSIZ
+    if olasilik <= esik:
+        return BELIRSIZ
+    return OLASI_ZARARLI if esik_turu == "EXE" else ZARARLI
+
+
 def tahmin(dosya_yolu, paket):
     """Tek dosya: ozellikler + zararli olasiligi + tur esigi + karar. Analiz edilemezse ValueError."""
     ozellik = dosya_ozellikleri(dosya_yolu)
@@ -66,13 +93,16 @@ def tahmin(dosya_yolu, paket):
     olasilik = float(paket["model"].predict_proba(X)[0, 1])
     esik_turu = "DLL" if int(float(ozellik["DLL_mi"])) else "EXE"
     esik = paket["meta"]["esikler"][esik_turu]
-    return {**ozellik, "olasilik": olasilik, "esik_turu": esik_turu, "esik": esik, "zararli_mi": olasilik > esik}
+    k = karar(olasilik, esik, ozellik["Dosya_Turu"] == ".NET", esik_turu)
+    return {**ozellik, "olasilik": olasilik, "esik_turu": esik_turu, "esik": esik,
+            "zararli_mi": olasilik > esik, "karar": k}
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
+def main(argv):
+    """Komut satiri. Donus: cikis kodu (hatalar sys.exit ile mesajli, kod 1)."""
+    if len(argv) != 1:
         sys.exit("Kullanim: python tahmin_et.py <dosya_yolu>")
-    dosya_yolu = sys.argv[1]
+    dosya_yolu = argv[0]
     if not os.path.isfile(dosya_yolu):
         sys.exit(f"Hata: dosya bulunamadi -> {dosya_yolu}")
     paket = model_yukle()
@@ -86,10 +116,24 @@ if __name__ == "__main__":
                "DZ_sayi", "DZ_entropi"]:
         print(f"  {ad:<17}: {s[ad]}")
     print(f"  (+ {len(paket['meta']['ozellikler']) - 8} dizge ozelligi daha; toplam {len(paket['meta']['ozellikler'])})")
-    print(f"Zararli olasiligi: %{100 * s['olasilik']:.1f} -> {'ZARARLI' if s['zararli_mi'] else 'zararsiz'} "
+    print(f"Zararli olasiligi: %{100 * s['olasilik']:.1f} -> {s['karar']} "
           f"({s['esik_turu']} esigi {s['esik']:.3f}: dogrulamada zararsiz {s['esik_turu']}'lerin %1'i asar)")
     print("  Not: skor EMBER2024'un %50 zararli ornekleminden; gercek ortamda zararli cok daha nadir, "
           "gercek olasilik daha dusuktur.")
+    if s["karar"] == BELIRSIZ and s["Dosya_Turu"] == ".NET" and gecerli_skor(s["olasilik"]):
+        print("  [!] BELIRSIZ - ek inceleme: .NET dosyasinda esigin altindaki skor 'zararsiz' icin yeterli "
+              "kanit degil; native model bu grupta zararlilarin onemli bir kismini kaciriyor "
+              f"(olcum: {NET_OLCUM_KAYNAGI}).")
+    elif s["karar"] == BELIRSIZ:
+        print("  [!] BELIRSIZ - ek inceleme: model skoru gecerli aralikta degil (NaN, sonsuz ya da [0, 1] disi).")
+    elif s["karar"] == OLASI_ZARARLI:
+        print("  [!] OLASI ZARARLI: .NET EXE'lerde native modelin yanlis alarmi .NET disi EXE'lerden "
+              f"yuksek (olcum: {NET_OLCUM_KAYNAGI}).")
     if s["Dosya_Turu"] == ".NET":
         print("  [!] .NET dosyasi: bu skor native modelden. .NET uzman modeli (net_model.py) henuz "
-              "tahmin_et'e baglanmadi; native modelin .NET alt grubu kucuk ve oynak.")
+              "tahmin_et'e baglanmadi.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))
