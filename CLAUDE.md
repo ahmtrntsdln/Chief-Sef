@@ -95,6 +95,14 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   agenttesla kaçanlarının %69'u 0.2-0.5 bandında (üç bölgeli eşikte
   "şüpheli" olur), ama 0.2 altında kalan "sessiz kaçan" ~%0.5 -> ~%3.5'e
   çıkıyor. Eşik tasarımında (Sonraki Adımlar 4) bu aile ayrıca ölçülmeli.
+- UZMAN vs NATIVE, EŞİT YA'DA (26 Ekim, ön kayıt `sonuclar/6/on_kayit_uzman_native.md`,
+  sonuç `.../uzman_native_sonuc.md`): geçit M2d EXE YA 7.34 tuttu; M2 yeniden üretimi eşik
+  0.5'te kaçan 3.74 / YA 4.32 / EXE YA 26.47 (belgedeki 3.8 / 4.2). Uzmanlar hafta 0-47'de (M2
+  100K, M2d 96.416), eşikler hafta 48-51'den tür başına, test bir kez. Hüküm verilebilen hücreler
+  (test YA örtüşüyor) yalnız EXE: H %0.45 M2d kaçan 34.07 vs native 72.58, H %1.05 23.46 vs
+  62.80 -> uzman daha az kaçırıyor. DLL ve "hepsi"de uzmanların test YA'sı native'den anlamlı
+  yüksek (ör. 0.78 vs 0.42) -> kural gereği hüküm yok (kaçan farkı büyük: 8-20 vs 86-90).
+  M2d her hücrede M2'den az kaçırıyor. Uzman henüz tahmin_et'e BAĞLI DEĞİL.
 - Üretimde eşik/kalibrasyon: M2d her tip için %50 önsel varsayar. Gerçek
   EXE/DLL zararlı oranı farkı gerçek bir bilgi, atılmamalı: eşik anında
   tipe özel önselle düzelt: p' = p·π_t / (p·π_t + (1-p)(1-π_t)),
@@ -300,7 +308,7 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   `ortak_deney.py` (yükleme/örneklem/ölçüm, tek tanım), `0/` Parquet,
   `2a/` LightGBM öğrenme eğrisi, `2b/` RF 300 bin (+ 9 Ekim 100 bin),
   `2c/` + `karar_tablosu.md`, `3/` eşik ve boyut ön kaydı, ölçümü, son model,
-  uçtan uca test; `4/` yerel set kimliği; `5/` son modelin .NET ölçümü (ön kayıt + sonuç). Büyük çıktılar (model, yerel
+  uçtan uca test; `4/` yerel set kimliği; `5/` son modelin .NET ölçümü (ön kayıt + sonuç); `6/` uzman (M2, M2d) vs native, eşit YA. Büyük çıktılar (model, yerel
   tahminler) `C:\ember2024\sonuc` ve `C:\ember2024\model` altında.
 - `model_karsilastir.py` - RF vs LightGBM, ham vs kalibre (5 katlı CV +
   makinedeki 11 örneklem + şüpheli bant). `requirements-experimental.txt`
