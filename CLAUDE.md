@@ -190,7 +190,9 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   B Dot_Net_test (Faz 1'in %92.8'iyle aynı küme): kaçan %49.77 tür eşiklerinde (YA
   %1.05), %23.29 eşik 0.5'te (YA %4.42); zararlı .NET DLL'lerin %86.71'i kaçıyor (AUC
   0.838). Faz 1'den iyi, ama .NET için yeterli değil -> uzman model bağlanmalı.
-  C yerel .NET zararsız YA %0.03 (1/3471).
+  C yerel .NET zararsız YA %0.03 (1/3471); .NET dışı %0.51 [0.28-0.91] (11/2164;
+  EXE 0.28, DLL 0.55). Yerel setin %61.6'sı .NET -> raporlanan yerel EXE %0.25 /
+  DLL %0.21 kısmen bu karışımla düşük (DLL'in 3422/5233'ü .NET).
   EŞİT YA'DA (ön kayıt `on_kayit_esit_ya.md`, Faz 1 net_dogrulama A modeli aynı kodla
   yeniden üretildi, geçit 92.77 = 92.8): Faz 1'in B'deki YA'sı %0.46 (sitedeki "%3,8"
   M2'nin kaçanı, YA değil). Native o YA'da (τ 0.76, B'den seçilen ROC noktası, üretim eşiği

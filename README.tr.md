@@ -131,6 +131,10 @@ Bu sayilar nasil okunmali:
   857'si silindi, yuzlercesi guncellendi. Olcumlerin dayandigi 5.635 satir
   yeniden taranmak yerine donduruldu (repoda yok; SHA-256
   `gumruk_memuru/sonuclar/4/yerel_set.md`'de).
+- **Yereldeki %0.25 / %0.21 kismen karisim yuzunden dusuk.** Yerel setin
+  %61.6'si .NET (3.471 / 5.635) ve native model orada neredeyse hic alarm
+  vermiyor (%0.03 [0.01-0.16]). .NET disi yerel dosyalarda yanlis alarm
+  %0.51 [0.28-0.91] (EXE %0.28, DLL %0.55; `gumruk_memuru/sonuclar/5/`).
 - Random Forest yalnizca AYARSIZ LightGBM'i gecti; ayarli LightGBM ayri,
   henuz yapilmamis bir deney.
 - **.NET hala zayif nokta.** Onceden yazilan olcutlerle ayrica olculdu
