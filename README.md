@@ -138,6 +138,10 @@ How to read these numbers:
   The 5,635 rows the measurements rely on are frozen (not in the repository;
   SHA-256 recorded in `gumruk_memuru/sonuclar/4/yerel_set.md`) instead of
   being re-scanned.
+- **The local 0.25% / 0.21% are low partly because of the mix.** 61.6% of the
+  local set is .NET (3,471 / 5,635), where the native model almost never
+  alarms (0.03% [0.01-0.16]). On the non-.NET local files the false-alarm rate
+  is 0.51% [0.28-0.91] (EXE 0.28%, DLL 0.55%; `gumruk_memuru/sonuclar/5/`).
 - Random Forest beat LightGBM only against *untuned* LightGBM; a tuned
   LightGBM is a separate, not-yet-run experiment.
 - **.NET is still a weak spot.** Measured separately with criteria registered
