@@ -125,9 +125,12 @@ Bu sayilar nasil okunmali:
   `gumruk_memuru/sonuclar/4/yerel_set.md`'de).
 - Random Forest yalnizca AYARSIZ LightGBM'i gecti; ayarli LightGBM ayri,
   henuz yapilmamis bir deney.
-- **.NET: native modelde olculmedi.** Yukaridaki sayilar yalnizca dosya
-  turune (EXE / DLL) gore; .NET alt grubu onceden yazilan olcutlerle ayrica
-  olculuyor (`gumruk_memuru/sonuclar/5/on_kayit_net.md`).
+- **.NET hala zayif nokta.** Onceden yazilan olcutlerle ayrica olculdu
+  (`gumruk_memuru/sonuclar/5/`), ayni sabit esiklerle: test haftalarinda .NET
+  EXE'lerde kacan %33.7 (.NET disi EXE %17.6). EMBER2024'un ayri .NET test
+  kumesinde native model zararlilarin %49.8'ini kaciriyor (zararli .NET
+  DLL'lerin %86.7'si); Faz 1 modeli orada %92.8 kaciriyordu. Daha iyi ama
+  yeterli degil: .NET dosyalari henuz bagli olmayan uzman modele gitmeli.
 
 ## Yol Haritasi
 

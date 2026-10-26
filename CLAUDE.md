@@ -181,9 +181,16 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   (bilinmiyor) 16.6, lummastealer 15.1 (E2 12.1), wacatac 9.3.
 - .NET alt grubu küçük (testin %0.5'i), tohum farkı 3-5 puan; .NET dosyaları
   zaten uzman modele gidecek (mimari, .NET bölümü). Bu 9 Ekim deneyinden (100 bin,
-  eşik testten). SON MODEL İÇİN .NET: native modelde ölçülmedi - ön kayıt
-  `sonuclar/5/on_kayit_net.md` (A: native test .NET alt grubu, B: Dot_Net_test,
-  Faz 1'in %92.8'iyle aynı küme, C: dondurulmuş yerel set).
+  eşik testten).
+- SON MODEL .NET'TE (26 Ekim, ön kayıt `sonuclar/5/on_kayit_net.md` ölçümden önce
+  commit'lendi; sonuç `sonuclar/5/net_sonuc.md`; sabit eşikler, Wilson %95):
+  A native test .NET alt grubu: EXE kaçan %33.74 [32.1-35.4] (.NET dışı 17.63), YA
+  %2.88 [1.3-6.2] (n=208; .NET dışı 0.82) -> EXE'de anlamlı olarak daha kötü; DLL kaçan
+  23.38 [19.0-28.4] vs 19.48 -> fark gösterilemedi (n=308).
+  B Dot_Net_test (Faz 1'in %92.8'iyle aynı küme): kaçan %49.77 tür eşiklerinde (YA
+  %1.05), %23.29 eşik 0.5'te (YA %4.42); zararlı .NET DLL'lerin %86.71'i kaçıyor (AUC
+  0.838). Faz 1'den iyi, ama .NET için yeterli değil -> uzman model bağlanmalı.
+  C yerel .NET zararsız YA %0.03 (1/3471). Faz 1 ile karşılaştırma aynı YA'da değil.
 - KARAR SÜRECİ (15-17 Ekim, ayrıntı `gumruk_memuru/sonuclar/`): ölçütler
   sonuçlardan ÖNCE yazıldı ve commit'lendi (`sonuclar/karar_olcutleri.md`): ana
   ölçüt her türde %1 yanlış alarmda DLL'de kaçan zararlı; yerel yanlış alarm
@@ -289,7 +296,7 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   `ortak_deney.py` (yükleme/örneklem/ölçüm, tek tanım), `0/` Parquet,
   `2a/` LightGBM öğrenme eğrisi, `2b/` RF 300 bin (+ 9 Ekim 100 bin),
   `2c/` + `karar_tablosu.md`, `3/` eşik ve boyut ön kaydı, ölçümü, son model,
-  uçtan uca test; `4/` yerel set kimliği. Büyük çıktılar (model, yerel
+  uçtan uca test; `4/` yerel set kimliği; `5/` son modelin .NET ölçümü (ön kayıt + sonuç). Büyük çıktılar (model, yerel
   tahminler) `C:\ember2024\sonuc` ve `C:\ember2024\model` altında.
 - `model_karsilastir.py` - RF vs LightGBM, ham vs kalibre (5 katlı CV +
   makinedeki 11 örneklem + şüpheli bant). `requirements-experimental.txt`
