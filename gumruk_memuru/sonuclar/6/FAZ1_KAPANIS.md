@@ -13,6 +13,10 @@ toplu aracın çıkış kodu eklendi; ölçüt 7-11 eklendi; iş paketleri 1-6 o
 dört maddeye çıktı ("hüküm verilmeyen durumlar"); İş 3, 4, 5 ön kayıtlarının içermesi ZORUNLU
 maddeler eklendi (aşağıda). Ölçütler ve iş sırası değişmedi.
 
+**Revizyon 3 (26 Ekim 2026, kullanıcı kararı, İş 5'in sonuçlarından önce):** İş 5'e yukarı
+yuvarlama, fail-closed gerekçesi ve ondalık / tam sayı yolu karar farkının sayısı ve yönü ölçütü.
+İş 1'de her main birleştirmesinden sonra main bu dala birleştirilir (rebase yok).
+
 ## Ön kayıt şablonu (İş 2'den itibaren her ön kayıt dört bölümü içerir)
 
 1. **Soru ve sabitler:** ne ölçülüyor; veri, dönem, model, eşik; sonuçtan sonra değişmeyecek her şey.
@@ -118,6 +122,15 @@ Faz 1, aşağıdaki on bir ölçütün HEPSİ origin/main'de ve canlı sitede sa
   - Denetçi YALNIZ tam sayı skor alır (sabit nokta); ölçek ve yuvarlama kuralı (yön dahil) yazılı.
     Dönüşüm modelin Python tarafında yapılır; NaN / ±sonsuz dönüşümden ÖNCE BELİRSİZ olur (tam sayıya
     hiç çevrilmez).
+  - YUVARLAMA YUKARI (Revizyon 3): tam sayı skor = ⌈p × ölçek⌉; skor hiçbir zaman düşürülmez.
+    Fail-closed gerekçesi: yuvarlama bir dosyayı eşiğin altına (daha "temiz" tarafa) itebilseydi,
+    eşiğin hemen üstündeki zararlı bir skor tam sayı yolunda kaçabilirdi; yukarı yuvarlama hatayı
+    yalnız daha sıkı tarafa (BELİRSİZ / ZARARLI) bırakır - Kritik Kural 7'deki "aralık dışı = şüpheli"
+    ilkesinin aynısı.
+  - ÖLÇÜT (Revizyon 3): ondalık yol ile tam sayı yolu arasındaki karar farklarının SAYISI ve YÖNÜ
+    raporlanır (test kümesi skorları + rastgele skorlar). GEÇME: tam sayı yolunun DAHA GEVŞEK
+    (ondalık yoldan daha temiz) karar verdiği fark sayısı **0**; daha sıkı yöndeki farklar sayılır ve
+    yazılır (hangi skor aralığında oldukları dahil), sıfır olmak zorunda değil.
   - Eşikler meta veride tam sayı olarak da bulunur (ondalık eşikle birlikte, tutarlılığı testli).
   - Sınır değer testleri: 0.7, nextafter(0.7, 0) ve nextafter(0.7, 1), 1.0, -0.0, NaN, ±inf
     (ve DLL eşiği için aynıları).
