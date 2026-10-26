@@ -45,7 +45,21 @@ suspicious) ones.
   (see "Native model" below): `python tahmin_et.py <file>`. Features come from
   `gumruk_memuru/ozellik_cikar.py`, the same module the external validation
   uses; the model is only loaded if its SHA-256 matches the checked-in
-  metadata (`gumruk_memuru/model_native_meta.json`).
+  metadata (`gumruk_memuru/model_native_meta.json`). For .NET files a score
+  below the threshold is reported as BELIRSIZ (uncertain, needs review), never
+  as benign, because the native model misses many .NET malware samples (see
+  ".NET is still a weak spot" below); above the threshold a .NET EXE is
+  OLASI ZARARLI (possibly malicious). Invalid scores (NaN, infinite, outside
+  [0, 1]) are BELIRSIZ for every file. Exit codes: 0 = clean (zararsiz),
+  1 = error, 2 = BELIRSIZ, 3 = ZARARLI, 4 = OLASI ZARARLI; only 0 means clean.
+- `gumruk_memuru/toplu_tahmin.py` -> The same prediction for a folder or several files:
+  `python toplu_tahmin.py <folder> [--liste]`. Prints separate counts for clean,
+  BELIRSIZ, ZARARLI, OLASI ZARARLI, not a PE file, and error; BELIRSIZ is not
+  counted as an error. File names are only printed with `--liste`, never written.
+  Exit code = the worst result: any ZARARLI 3, else OLASI ZARARLI 4, else
+  BELIRSIZ 2, else error 1, all clean 0. Non-PE files do not raise it; a missing
+  path, or no PE file classified at all (empty folder, wrong path, only .txt),
+  gives a warning and 1, so a typo never reports "all clean".
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM and calibration comparison
 
 Setup: `pip install -r requirements.txt` (`requirements-experimental.txt` for

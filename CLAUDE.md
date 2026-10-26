@@ -287,8 +287,23 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   .NET) ve türe göre eşiği (EXE 0.70, DLL 0.61) uygular. Model dosyası meta
   verideki SHA-256 ile tutmazsa YÜKLEMEZ (Kural 10). PE olmayan dosyayı
   reddeder (Kural 3); .NET dosyasında uzman modelin henüz bağlı olmadığını
-  yazar. Faz 1'in 5 özellikli `model.pkl`'i artık burada kullanılmıyor
+  yazar. KARAR (`karar()`, 26 Ekim): .NET dışı eşik üstü ZARARLI / altı zararsız;
+  .NET'te eşik altı BELİRSİZ (asla zararsız; ölçüm `sonuclar/5/net_sonuc.md`),
+  eşik üstü .NET EXE OLASI ZARARLI, .NET DLL ZARARLI; NaN / sonsuz / [0, 1] dışı
+  skor her dosyada BELİRSİZ (Kural 7). Ölçülen oranlar koda gömülmez, kaynağa
+  yönlendirilir. Testler `tests/test_tahmin_karar.py` (model dosyası gerekmez).
+  ÇIKIŞ KODLARI (bozucu değişiklik, ayrı commit'ler; `tahmin_et.CIKIS_KODU`): 0 temiz,
+  1 hata, 2 BELİRSİZ, 3 ZARARLI, 4 OLASI ZARARLI - yalnız 0 "temiz".
+  Komut satırını çağıran betik / CI yok (26 Ekim'de tarandı); içe aktaranlar
+  (`uctan_uca.py`, `net_olcum.py`, `esit_ya.py`) çıkış kodunu kullanmıyor. Faz 1'in 5 özellikli `model.pkl`'i artık burada kullanılmıyor
   (`rf_egit_gercek.py` onu hâlâ üretir; tarihsel karşılaştırma için).
+- `toplu_tahmin.py` - klasör / çok dosya için `tahmin_et.tahmin`; sayaçlar ayrı: temiz,
+  BELİRSİZ, ZARARLI, OLASI ZARARLI, PE değil (`tahmin_et.PEDegilHatasi`), hata (analiz
+  edilemeyen). BELİRSİZ hata DEĞİL. `toplu_tarama.py`'den bilerek ayrı: o model yüklemez,
+  dış doğrulama setini üretir. Dosya adı yalnız `--liste` ile ekrana. ÇIKIŞ KODU
+  (bozucu değişiklik, ayrı commit): EN KÖTÜ sonuç - ZARARLI 3 > OLASI ZARARLI 4 > BELİRSİZ 2 >
+  hata 1 > temiz 0; "PE değil" kodu yükseltmez; yol yok ya da hiç PE sınıflanmadı -> uyarı + 1
+  (fail-closed: yanlış yol sessizce "temiz" dönmesin). Test: `tests/test_toplu_tahmin.py`.
 - `ozellik_cikar.py` - TEK özellik modülü (Kural 9): `MODEL_KOLONLARI` (86,
   E3 sırası), `dosya_ozellikleri(yol)` (toplu_tarama.dosyayi_analiz_et
   `dizge80=True`: 80 thrember dizge sütunu aynı baytlardan, tek okuma) ve
