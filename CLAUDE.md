@@ -655,6 +655,15 @@ açık işler.
 - Dosya içeriğini tamamen belleğe okuyan işlerde boyut sınırı koy
   (toplu_tarama.py: 100 MiB = 100*1024*1024). Sınırsız taramada laptop
   97°C'ye çıktı.
+- `pefile.PE`'yi dosya YOLUNDAN açıp bırakma: pefile dosyayı belleğe eşler, nesne ancak döngüsel
+  çöp toplayıcıyla serbest kalır ve Windows'ta dosya o zamana kadar KİLİTLİ (26 Ekim: bağımsız
+  doğrulayıcı `test_olasi_zararli_cikis_kodu`'yu böyle düşürdü; test tek başına belirlenimci
+  düşüyor, paket içinde önceki testlerin çöp toplaması gizliyordu). Baytlar zaten okunduysa
+  `pefile.PE(data=veri)` (toplu_tarama), değilse `with pefile.PE(yol) as pe:` (Chief_1.2).
+  Ölçüm değişmedi: 500 yerel PE'de eski / yeni yol tüm sütunlarda birebir. Regresyon testi
+  `tests/test_dosya_kilidi.py` çöp toplayıcı KAPALIYKEN taramadan sonra dosyayı yeniden adlandırıp
+  siler (Linux'ta açık dosya silinebildiği için orada yakalamaz). Testler ayrıca TEK BAŞINA da
+  koşulmalı: paket sırası bir hatayı gizleyebilir.
 
 ## Ortam Notları
 - Bağımlılıklar: `requirements.txt` (ana pipeline, sürümler sabit),
