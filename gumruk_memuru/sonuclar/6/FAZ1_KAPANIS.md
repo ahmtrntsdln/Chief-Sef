@@ -9,6 +9,20 @@ Hiçbir paket kendi başına main'e almaz; main'e alma ve site yayını yalnız 
 toplu aracın çıkış kodu eklendi; ölçüt 7-11 eklendi; iş paketleri 1-6 olarak yeniden sıralandı
 (ilk sürüm `1881249`: 1-5). Kapsam dışı listesi değişmedi. İş 0 ilk sürümle yapıldı (14/14).
 
+**Revizyon 2 (26 Ekim 2026, kullanıcı kararı, İş 3-5'in sonuçlarından önce):** ön kayıt şablonu
+dört maddeye çıktı ("hüküm verilmeyen durumlar"); İş 3, 4, 5 ön kayıtlarının içermesi ZORUNLU
+maddeler eklendi (aşağıda). Ölçütler ve iş sırası değişmedi.
+
+## Ön kayıt şablonu (İş 2'den itibaren her ön kayıt dört bölümü içerir)
+
+1. **Soru ve sabitler:** ne ölçülüyor; veri, dönem, model, eşik; sonuçtan sonra değişmeyecek her şey.
+2. **Ölçüm ve kontroller:** her kontrolün geçme koşulu (geçit dahil), hesaplama yolu, güven aralığı.
+3. **Yorum / karar kuralı:** hangi sonuç hangi cümleyi yazdırır.
+4. **Hüküm verilmeyen durumlar:** hangi koşulda hüküm YAZILMAZ (ör. geçit tutmadı, hücre n < 30,
+   karşılaştırılan modellerin test yanlış alarmı eşit sağlanamadı, ölçüm çözünürlüğü hedefi
+   ayırt edemiyor, veri alanı bulunamadı); bu durumda sonuç tablosunda "hüküm yok" ve nedeni yazılır,
+   aralık örtüşmesi "eşit" diye okunmaz.
+
 ## Kapanış ölçütleri
 
 Faz 1, aşağıdaki on bir ölçütün HEPSİ origin/main'de ve canlı sitede sağlandığında kapanır.
@@ -78,10 +92,39 @@ Faz 1, aşağıdaki on bir ölçütün HEPSİ origin/main'de ve canlı sitede sa
 - **İş 3 - Gerçekçi oran + eşik kalibrasyonu + üç bölge.** Ön kayıt, yanlış alarm kaymasını açıkça
   konu eder ve ele alış yöntemlerini (doğrulama dilimini teste yakınlaştırma, hedefi marjla seçme
   vb.) sonuçtan ÖNCE yazar. BİTTİ: ölçüt 7, 8, 9'un her maddesi GEÇTİ; README'de π tablosu.
+  Ön kaydın içermesi ZORUNLU (Revizyon 2):
+  - PPV ("alarmların ne kadarı gerçek") tablosu README ve fizibilite metni için: ÖLÇÜLMÜŞ tür başına
+    yakalama oranı (TPR = 1 − kaçan) ve yanlış alarm oranıyla, EXE ve DLL ayrı; zararlı oranı
+    π = %50 / %1 / %0,1, her satır "senaryo varsayımı" diye etiketli (π ölçülmedi). Sınırlılık
+    yazılı: π değişince TPR ve yanlış alarm oranının sabit kaldığı varsayılıyor (gerçekte zararlı ve
+    zararsız dağılımı da değişir).
+  - "Zararlı" bölgesi için çok düşük yanlış alarm hedefinin ÇÖZÜNÜRLÜĞÜ: doğrulama dilimindeki tür
+    başına zararsız dosya sayısı n ile ölçülebilen en küçük adım (1/n) ve hedefte beklenen alarm
+    sayısı hesaplanır; hedef birkaç alarmdan azına düşüyorsa eşik o hedefe göre seçilmez, hüküm yok
+    (şablon madde 4). Eşik marjla seçilir (marj kuralı ön kayıtta sayıyla).
 - **İş 4 - İmza / hash filtresi.** Ön kayıtlı araştırma: ölçülebilirlik ve Kural 1 (iki tarafta aynı
   ölçüm). BİTTİ: karar ve gerekçesi yazılı. → ölçüt 10.
+  Ön kaydın içermesi ZORUNLU (Revizyon 2):
+  - EMBER2024 kayıtlarında sertifika / imza dizininin GERÇEK alan adı veriden bulunur: İSİMLE, indeksle
+    değil (Kural 5); yerel pefile tarafındaki karşılığı (ad) ve iki tarafın aynı ölçüldüğü örnekle
+    gösterilir (Kural 1).
+  - İmza bloğunun VARLIĞI zararlı / zararsız oranları olarak ölçülür (EXE / DLL ayrı, eğitim ve test
+    haftaları, Wilson).
+  - Bu "geçerli imza" diye YORUMLANMAZ (varlık ≠ doğrulanmış imza; sertifika zinciri ve iptal
+    kontrolü yok) ve bu pakette modele ÖZELLİK olarak KATILMAZ.
 - **İş 5 - Denetçi ayırma.** Python referansı + C sürümü, ortak sınır tablosu, rastgele girdi
   eşitliği, derleyici bayrakları. BİTTİ: ölçüt 11'in her maddesi GEÇTİ.
+  Ön kaydın içermesi ZORUNLU (Revizyon 2):
+  - Denetçi YALNIZ tam sayı skor alır (sabit nokta); ölçek ve yuvarlama kuralı (yön dahil) yazılı.
+    Dönüşüm modelin Python tarafında yapılır; NaN / ±sonsuz dönüşümden ÖNCE BELİRSİZ olur (tam sayıya
+    hiç çevrilmez).
+  - Eşikler meta veride tam sayı olarak da bulunur (ondalık eşikle birlikte, tutarlılığı testli).
+  - Sınır değer testleri: 0.7, nextafter(0.7, 0) ve nextafter(0.7, 1), 1.0, -0.0, NaN, ±inf
+    (ve DLL eşiği için aynıları).
+  - Ondalık (float) yol ile tam sayı yolundan AYNI karar sayıları çıktığı gösterilir (test kümesi
+    skorları ve rastgele skorlar; fark varsa sayısı ve yeri).
+  - Çıkış kodları TEK tablodan: ya hem `.py` hem `.h` o tablodan üretilir ya da test ikisinin eşit
+    olduğunu doğrular.
 - **İş 6 - Temiz klon doğrulaması + belgeler + site + etiket.** Ölçüt 1'in tüm maddeleri (son main
   üzerinde) + `git ls-files`'ta model / Parquet / dz80 / yerel set yok; GELISIM_SURECI.md Faz 1
   kapanış bölümü, CLAUDE.md / README durum satırları, kapsam dışı + Faz 2 devir listesi,
