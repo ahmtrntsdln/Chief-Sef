@@ -3,11 +3,15 @@
 Bu dosya iş paketlerinin sonuçlarından ÖNCE yazıldı ve commit'lendi (26 Ekim 2026). Ölçütler
 sonradan gevşetilmez; değişiklik gerekirse ayrı commit'le, gerekçesiyle ve kullanıcı onayıyla yapılır.
 Her iş paketi: ön kayıt commit'i → iş → sonuç commit'i (geçti / kaldı tablosu) → DUR (kullanıcı onayı).
-Hiçbir paket kendi başına main'e almaz; main'e alma ve site yayını yalnız İş 1 ve İş 5'te, onayla.
+Hiçbir paket kendi başına main'e almaz; main'e alma ve site yayını yalnız İş 1 ve İş 6'da, onayla.
+
+**Revizyon 1 (26 Ekim 2026, kullanıcı kararı, iş paketlerinin sonuçlarından önce):** ölçüt 3'e
+toplu aracın çıkış kodu eklendi; ölçüt 7-11 eklendi; iş paketleri 1-6 olarak yeniden sıralandı
+(ilk sürüm `1881249`: 1-5). Kapsam dışı listesi değişmedi. İş 0 ilk sürümle yapıldı (14/14).
 
 ## Kapanış ölçütleri
 
-Faz 1, aşağıdaki altı ölçütün HEPSİ origin/main'de ve canlı sitede sağlandığında kapanır.
+Faz 1, aşağıdaki on bir ölçütün HEPSİ origin/main'de ve canlı sitede sağlandığında kapanır.
 
 1. **Yeniden üretilebilirlik:** origin/main boş klasöre temiz klonlanır, yeni venv `requirements.txt`
    (+ dev) ile kurulur: test paketinin tamamı geçer (gcc ile, atlanan yok); Faz 1 yeniden üretimi
@@ -19,7 +23,10 @@ Faz 1, aşağıdaki altı ölçütün HEPSİ origin/main'de ve canlı sitede sa�
    .NET karışımı yazılı. Sitedeki her rakam README'de var (betik), TR = EN.
 3. **.NET güvenli davranış:** `tahmin_et.py` .NET dosyasına eşik altında asla "zararsız" demez
    (BELİRSİZ); çıkış kodları 0 temiz / 1 hata / 2 BELİRSİZ / 3 ZARARLI / 4 OLASI ZARARLI, testli;
-   toplu kullanımda BELİRSİZ hata sayılmaz, ayrı sayılır.
+   toplu kullanımda BELİRSİZ hata sayılmaz, ayrı sayılır. Toplu aracın çıkış kodunu EN KÖTÜ sonuç
+   belirler (ZARARLI 3 > OLASI ZARARLI 4 > BELİRSİZ 2 > hata 1 > temiz 0); "PE değil" kodu
+   yükseltmez; yol yok / okunamıyor 1; hiç PE bulunmadıysa uyarı ve 1 (fail-closed). 0 yalnız
+   "her şey temiz" demektir.
 4. **.NET ölçümleri kayıtlı:** native modelin .NET ölçümü (`sonuclar/5/`) ve uzman (M2, M2d) vs
    native eşit yanlış alarm karşılaştırması (`sonuclar/6/`) ön kayıtlarıyla main'de; uzman modelin
    bağlanıp bağlanmayacağı kararı ve gerekçesi yazılı.
@@ -28,6 +35,20 @@ Faz 1, aşağıdaki altı ölçütün HEPSİ origin/main'de ve canlı sitede sa�
 6. **Açık işler açıkça devredildi:** kapsam dışı listesi ve Faz 2'ye devredilenler (Linux'ta eşik
    sınır testi, UBSan, CI) README / CLAUDE.md'de; GELISIM_SURECI.md'de Faz 1 kapanış bölümü; main
    üzerinde `faz1-kapanis` etiketi.
+7. **Eşik kalibrasyonu:** eşikler her tür için doğrulama diliminden, hedefe MARJLA seçilmiş; test bir
+   kez ölçülmüş; yanlış alarm kayması (doğrulama → test, ör. uzman ölçümünde altı hücrenin beşinde
+   test YA hedefin üstünde) ölçülmüş ve ele alınış yöntemi sonuçtan önce yazılmış.
+8. **Gerçekçi zararlı oranı:** π = %1 ve %0,1 için "alarmların ne kadarı gerçek" (kesinlik / PPV)
+   test sonuçlarından (tür başına yakalama ve yanlış alarm oranı) hesaplanmış, aralıklarıyla
+   README'de.
+9. **Üç bölgeli karar:** temiz / belirsiz / zararlı; bölge sınırları doğrulamadan, test bir kez;
+   `tahmin_et.py` ve `toplu_tahmin.py` aynı kuralı kullanır; .NET kuralı (eşik altı asla temiz değil)
+   korunur.
+10. **İmza / hash filtresi:** ölçülebilirliği araştırılmış (ne ölçülebilir, hangi veriyle, eğitim ve
+    yerel tarafta aynı ölçüm mümkün mü - Kural 1) ve karar (uygula / uygulama) gerekçesiyle yazılı.
+11. **Denetçi modülü ayrı:** yalnız karar + aralık doğrulaması + hash kontrolü; model ve ayrıştırıcı
+    YOK. Python referansı ve C sürümü aynı sınır tablosundan geçer; rastgele girdilerle ikisi aynı
+    sonucu verir; C sürümü `-Wall -Wextra -Wconversion -Wsign-conversion -Werror` ile temiz derlenir.
 
 ## Kapsam dışı (Faz 1 kapanışını bekletmez)
 
@@ -43,18 +64,27 @@ Faz 1, aşağıdaki altı ölçütün HEPSİ origin/main'de ve canlı sitede sa�
 - **İş 0 - Bekleyenleri paketle (yerel, gönderim yok).** Site commit'leri (yerel yanlış alarm
   cümlesi dahil), `ozellik/net-belirsiz` (çıkış kodu tablosu, toplu kullanımda BELİRSİZ sayacı),
   etiket düzeltmeleri. BİTTİ: ön kaydındaki her kontrol GEÇTİ (`is0_on_kayit.md`).
-- **İş 1 - Main'e alım (kullanıcı onayıyla).** `belge/yerel-karisim`, `olcum/uzman-native`,
-  `ozellik/net-belirsiz` sırayla `--no-ff`; her birinden sonra test paketi ve 20/20; force yok.
-  BİTTİ: origin/main üç dalı içerir, her adımda testler geçti. → ölçüt 2, 3, 4 (kısmen).
-- **İş 2 - Uzman model kararı.** Ön kayıtlı karar ölçütü (EXE'de gösterilen kazanç, DLL'de eşit
-  yanlış alarmda yeniden ölçüm); karar "bağla" ise M2d ayrı model dosyası + meta + SHA-256 (Kural
-  10), `NET_mi`'ye göre yönlendirme, doğrulama diliminden eşik, testler, 20/20; "bağlama" ise
-  gerekçe. BİTTİ: kararın kendisi ve dayanağı main'de. → ölçüt 4.
-- **İş 3 - Temiz klon doğrulaması (son main üzerinde).** Ölçüt 1'in tüm maddeleri + `git ls-files`
-  içinde model / Parquet / dz80 / yerel set yok. BİTTİ: tüm satırlar GEÇTİ. → ölçüt 1.
-- **İş 4 - Belgeler.** GELISIM_SURECI.md Faz 1 kapanış bölümü; CLAUDE.md ve README durum satırları;
-  kapsam dışı + Faz 2 devir listesi; "DOĞRULANMADI" kalan her yer ya ölçülmüş ya devredilmiş.
-  BİTTİ: kullanıcı belgelerin son halini onayladı. → ölçüt 2, 6.
-- **İş 5 - Yayın ve etiket (kullanıcı onayıyla).** Site gönderimi, canlı = commit (bayt), canlı
-  rakamlar = README (betik), kartlar; main üzerinde `faz1-kapanis` etiketi. BİTTİ: canlı doğrulama
-  GEÇTİ, etiket origin'de. → ölçüt 5, 6.
+- **İş 1 - Main'e alım (kullanıcı onayıyla).** Dallar origin'e gönderilir (force yok, PR yok);
+  sonra `belge/yerel-karisim`, `ozellik/net-belirsiz`, `olcum/uzman-native` sırayla `--no-ff`; her
+  birleştirmeden ÖNCE kısa diff özeti ve onay, SONRA test paketi + 20/20. Site (4 commit) yalnız
+  `belge/yerel-karisim` main'deyken ve kullanıcı "gönder" derse; sonra canlı sayfalar önbelleksiz
+  çekilip rakamlar README ile betikle karşılaştırılır. BİTTİ: origin/main üç dalı içerir, her
+  adımda testler geçti. → ölçüt 2, 3, 4 (kısmen), 5 (site gönderildiyse).
+- **İş 2 - .NET uzman kararı + ek ölçümler.** Ön kayıt önce: (a) M2d'nin yerel 3.471 meşru .NET
+  dosyasında yanlış alarmı, (b) M2d'nin Win32/Win64 test haftalarındaki .NET alt kümesinde (A
+  kümesi) performansı, (c) tam eşit yanlış alarmda ROC tabanlı M2d-native karşılaştırması (EXE / DLL
+  ayrı, tanı amaçlı). Uzman BAĞLANMAZ; karar kullanıcının. BİTTİ: ölçümler ön kayıtlarıyla ve
+  kullanıcının kararı yazılı. → ölçüt 4.
+- **İş 3 - Gerçekçi oran + eşik kalibrasyonu + üç bölge.** Ön kayıt, yanlış alarm kaymasını açıkça
+  konu eder ve ele alış yöntemlerini (doğrulama dilimini teste yakınlaştırma, hedefi marjla seçme
+  vb.) sonuçtan ÖNCE yazar. BİTTİ: ölçüt 7, 8, 9'un her maddesi GEÇTİ; README'de π tablosu.
+- **İş 4 - İmza / hash filtresi.** Ön kayıtlı araştırma: ölçülebilirlik ve Kural 1 (iki tarafta aynı
+  ölçüm). BİTTİ: karar ve gerekçesi yazılı. → ölçüt 10.
+- **İş 5 - Denetçi ayırma.** Python referansı + C sürümü, ortak sınır tablosu, rastgele girdi
+  eşitliği, derleyici bayrakları. BİTTİ: ölçüt 11'in her maddesi GEÇTİ.
+- **İş 6 - Temiz klon doğrulaması + belgeler + site + etiket.** Ölçüt 1'in tüm maddeleri (son main
+  üzerinde) + `git ls-files`'ta model / Parquet / dz80 / yerel set yok; GELISIM_SURECI.md Faz 1
+  kapanış bölümü, CLAUDE.md / README durum satırları, kapsam dışı + Faz 2 devir listesi,
+  "DOĞRULANMADI" kalan her yer ölçülmüş ya da devredilmiş; site (onayla), canlı = commit (bayt),
+  canlı rakamlar = README (betik); main üzerinde `faz1-kapanis` etiketi (onayla). BİTTİ: tüm
+  satırlar GEÇTİ ve kullanıcı belgelerin son halini onayladı. → ölçüt 1, 2, 5, 6.
