@@ -44,6 +44,20 @@ basit bir statik analiz katmani kurmak.
   "Native model"): `python tahmin_et.py <dosya>`. Ozellikler dis dogrulamayla
   ayni modulden (`gumruk_memuru/ozellik_cikar.py`); model yalnizca SHA-256'si
   repodaki meta veriyle (`gumruk_memuru/model_native_meta.json`) tutarsa yuklenir.
+  .NET dosyasinda esigin altindaki skor "zararsiz" degil BELIRSIZ (ek inceleme)
+  olarak raporlanir: native model .NET zararlilarinin onemli bir kismini
+  kaciriyor (asagida ".NET hala zayif nokta"); esigin ustunde .NET EXE
+  OLASI ZARARLI. Gecersiz skor (NaN, sonsuz, [0, 1] disi) her dosyada BELIRSIZ.
+  Cikis kodlari: 0 temiz (zararsiz), 1 hata, 2 BELIRSIZ, 3 ZARARLI, 4 OLASI
+  ZARARLI; yalniz 0 "temiz" demektir.
+- `gumruk_memuru/toplu_tahmin.py` -> Ayni tahmin bir klasor ya da birden cok dosya icin:
+  `python toplu_tahmin.py <klasor> [--liste]`. Temiz, BELIRSIZ, ZARARLI, OLASI
+  ZARARLI, PE degil ve hata ayri sayilir; BELIRSIZ hata sayilmaz. Dosya adlari
+  yalniz `--liste` ile ekrana basilir, dosyaya yazilmaz. Cikis kodunu en kotu
+  sonuc belirler: herhangi bir ZARARLI 3, yoksa OLASI ZARARLI 4, yoksa BELIRSIZ
+  2, yoksa hata 1, hepsi temiz 0. PE olmayan dosyalar kodu yukseltmez; yol
+  yoksa ya da hic PE siniflanmadiysa (bos klasor, yanlis yol, yalniz .txt)
+  uyari ve 1: yazim hatasi "her sey temiz" diye donmez.
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM ve kalibrasyon karsilastirmasi
 
 Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin
