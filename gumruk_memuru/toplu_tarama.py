@@ -138,7 +138,9 @@ def dosyayi_analiz_et(dosya_yolu: str, dizge80: bool = False) -> dict:
 
     if tur == "PE":
         try:
-            pe = pefile.PE(dosya_yolu)
+            # Yukarida okunan AYNI baytlardan (data=): yoldan acilan pefile dosyayi bellege esler ve
+            # nesne cop toplanana kadar Windows'ta dosyayi kilitli tutuyordu (tests/test_dosya_kilidi.py).
+            pe = pefile.PE(data=veri)
             entropiler = []
             for section in pe.sections:
                 sveri = section.get_data()
