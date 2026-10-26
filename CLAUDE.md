@@ -180,7 +180,10 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   bulaştırıcıları: zararsız taşıyıcı statik olarak zararsız görünüyor),
   (bilinmiyor) 16.6, lummastealer 15.1 (E2 12.1), wacatac 9.3.
 - .NET alt grubu küçük (testin %0.5'i), tohum farkı 3-5 puan; .NET dosyaları
-  zaten uzman modele gidecek (mimari, .NET bölümü).
+  zaten uzman modele gidecek (mimari, .NET bölümü). Bu 9 Ekim deneyinden (100 bin,
+  eşik testten). SON MODEL İÇİN .NET: native modelde ölçülmedi - ön kayıt
+  `sonuclar/5/on_kayit_net.md` (A: native test .NET alt grubu, B: Dot_Net_test,
+  Faz 1'in %92.8'iyle aynı küme, C: dondurulmuş yerel set).
 - KARAR SÜRECİ (15-17 Ekim, ayrıntı `gumruk_memuru/sonuclar/`): ölçütler
   sonuçlardan ÖNCE yazıldı ve commit'lendi (`sonuclar/karar_olcutleri.md`): ana
   ölçüt her türde %1 yanlış alarmda DLL'de kaçan zararlı; yerel yanlış alarm

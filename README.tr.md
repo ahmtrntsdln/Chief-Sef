@@ -125,6 +125,9 @@ Bu sayilar nasil okunmali:
   `gumruk_memuru/sonuclar/4/yerel_set.md`'de).
 - Random Forest yalnizca AYARSIZ LightGBM'i gecti; ayarli LightGBM ayri,
   henuz yapilmamis bir deney.
+- **.NET: native modelde olculmedi.** Yukaridaki sayilar yalnizca dosya
+  turune (EXE / DLL) gore; .NET alt grubu onceden yazilan olcutlerle ayrica
+  olculuyor (`gumruk_memuru/sonuclar/5/on_kayit_net.md`).
 
 ## Yol Haritasi
 

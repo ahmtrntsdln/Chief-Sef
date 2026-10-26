@@ -132,6 +132,9 @@ How to read these numbers:
   being re-scanned.
 - Random Forest beat LightGBM only against *untuned* LightGBM; a tuned
   LightGBM is a separate, not-yet-run experiment.
+- **.NET: not yet measured with the native model.** The numbers above are per
+  file type (EXE / DLL) only; the .NET subgroup is measured separately with
+  criteria registered beforehand (`gumruk_memuru/sonuclar/5/on_kayit_net.md`).
 
 ## Roadmap
 
