@@ -103,6 +103,11 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   62.80 -> uzman daha az kaçırıyor. DLL ve "hepsi"de uzmanların test YA'sı native'den anlamlı
   yüksek (ör. 0.78 vs 0.42) -> kural gereği hüküm yok (kaçan farkı büyük: 8-20 vs 86-90).
   M2d her hücrede M2'den az kaçırıyor. Uzman henüz tahmin_et'e BAĞLI DEĞİL.
+  (1) Karşılaştırma YALNIZCA Dot_Net_test'te; gerçek akıştaki .NET alt kümesinde (A kümesi:
+  Win32/Win64 test haftalarındaki NET_mi=1 dosyalar) ve yerel 3.471 meşru .NET dosyasında
+  henüz DOĞRULANMADI. (2) DLL'de hüküm yok; eşit yanlış alarmda ROC tabanlı tanı
+  karşılaştırması planlı (İş 2c). (3) Bağlama kararı İş 2'nin (a)(b)(c) ölçümlerinden
+  SONRA, kullanıcı tarafından verilecek (`sonuclar/6/FAZ1_KAPANIS.md`).
 - Üretimde eşik/kalibrasyon: M2d her tip için %50 önsel varsayar. Gerçek
   EXE/DLL zararlı oranı farkı gerçek bir bilgi, atılmamalı: eşik anında
   tipe özel önselle düzelt: p' = p·π_t / (p·π_t + (1-p)(1-π_t)),
