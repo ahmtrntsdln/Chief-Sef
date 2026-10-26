@@ -119,9 +119,12 @@ How to read these numbers:
   week; in real use malware is far rarer, so the real probability behind a
   given score is lower and the real share of alarms that are false is higher.
 - **The DLL false-alarm rate exceeds its 1% target** (1.43%). The threshold was
-  set on weeks 48-51; between those weeks and the test weeks the benign DLL
-  population shifts (benign DLL share 64.9% in training, 73.4% in test). The
-  threshold ages with time and has to be revisited.
+  set on weeks 48-51. A likely cause is drift over time: the benign DLL
+  population looks different in the test weeks (benign DLL share 64.9% in the
+  training weeks, 73.4% in test). This cause was NOT measured: those shares
+  are not from weeks 48-51, where the threshold was chosen, and the
+  false-alarm rate *within* DLLs does not depend directly on the DLL share.
+  The threshold has to be re-validated over time.
 - **The local validation set is aging.** Since it was measured on 9 October,
   857 of its files have been deleted and hundreds updated on this machine.
   The 5,635 rows the measurements rely on are frozen (not in the repository;

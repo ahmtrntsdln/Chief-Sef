@@ -129,9 +129,10 @@ oynaması 0,72) ve seçildi.
 
 Son model testte bir kez ölçüldü: AUC 0,9865; kaçan zararlı EXE'de %17,7,
 DLL'de %19,5; yanlış alarm EXE'de %0,83, DLL'de %1,43. DLL'deki yanlış alarm,
-doğrulamada %1'e ayarlanan hedefi aştı: doğrulama haftalarından test
-haftalarına geçerken zararsız DLL'lerin dağılımı kayıyor. Bu bir hata değil,
-eşiğin zamanla eskidiğinin ölçümü.
+doğrulamada %1'e ayarlanan hedefi aştı. Olası neden zaman kayması: test
+haftalarında zararsız DLL kitlesi farklı görünüyor. Bu nedensellik ölçülmedi;
+ölçülen yalnızca sonuç: doğrulama haftalarında seçilen eşik, sonraki haftalarda
+hedefini tutmadı. Eşik zamanla yeniden doğrulanmalı.
 
 **18/20 koşusu.** Tahmin aracının özellikleri ile doğrulama setindekilerin
 aynı olduğunu 20 dosyada uçtan uca sınadık. İlk koşu 18/20 geçti: iki .NET

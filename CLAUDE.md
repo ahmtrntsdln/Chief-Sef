@@ -204,8 +204,12 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   [0.04-1.40], DLL %0.21 [0.12-0.38]. Model `C:\ember2024\model` (414 MB, repoda
   yok); meta `gumruk_memuru/model_native_meta.json` (repoda).
 - DLL YANLIŞ ALARMI HEDEFİ AŞIYOR: eşik doğrulamada %1 için seçildi, testte %1.43.
-  Neden: zaman kayması (hafta 48-51 -> 52-63; zararsız DLL payı train %64.9 ->
-  test %73.4). Üretim eşiği bu payı hesaba katmalı (Sonraki Adımlar 4).
+  OLASI neden (ölçülmedi): zaman kayması, hafta 48-51 -> 52-63. Train->test
+  zararsız DLL payı %64.9 -> %73.4 (import'suz %13.5 -> %18.4) kaymayı
+  gösteriyor ama nedeni kanıtlamıyor: paylar eşiğin seçildiği 48-51. haftalara
+  ait değil ve DLL içi yanlış alarm oranı DLL'lerin zararsızlar içindeki
+  payından doğrudan etkilenmez. Üretim eşiği zamanla yeniden doğrulanmalı
+  (Sonraki Adımlar 4).
 - Uçtan uca (`sonuclar/3/uctan_uca.py`): 20/20 - CSV ile 86/86 özellik aynı, tek
   dosya == toplu tahmin, tek modül == eski kod yolu. İlk koşu 18/20: 2 .NET
   dosyası 14 Ekim'de AYNI BOYUTLA güncellenmişti (eski ve yeni kod onlarda da
@@ -240,9 +244,9 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - `ember_zararli_cikar.py` - EMBER JSONL'den label'a göre özellik çıkarır
   (`kayitlari_topla(klasor, hedef, etiket)`); ana çalıştırma zararlı üretir.
   `dll_mi` (2018 ve 2024 ortak) ve `ember2018_kayittan` (temel + DLL_mi +
-  EMBER 2018 dizge grubu) burada. Repodaki iki EMBER 2018 CSV'si HENÜZ
-  eski 9 sütunlu: yeni sütunlar ana model değişince (şema değişikliği)
-  yazılacak; genişletilmiş hali eski sütunları birebir koruyor (doğrulandı).
+  EMBER 2018 dizge grubu) burada. Repodaki iki EMBER 2018 CSV'si 17 Ekim'de
+  şema değişikliğiyle (`7ff591d`) 9 -> 18 sütun oldu; eski 9 sütun birebir
+  korundu (doğrulandı, bkz. Veri dosyaları).
 - `ember2018_tam_cikar.py` - EMBER 2018'in tüm etiketli kayıtlarını
   (`test|train`) proje dışına CSV'ye çevirir (+ Aile, Ay); ~2 dk.
 - `dizge_dll_dogrulama.py` - native model için DLL_mi / dizge ablasyonu,
@@ -299,9 +303,10 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - `net_model.py` - DENEYSEL .NET uzman modeli: M0/M1/M2/M2d ablasyonu,
   tum/EXE/DLL alt grupları, aile bazında kaçma oranı.
 - `toplu_tarama.py` artık DLL_mi + EMBER 2018 dizge grubunu da üretiyor
-  (8 sütun, ucuz). thrember'ın 80 sütununu ÜRETMİYOR (dosya başına ~0.25
-  sn, 64K PE'de ~4.5 saat ek); .NET uzman modeli için gerekirse sadece
-  NET_mi=1 dosyalarda hesaplanmalı.
+  (8 sütun, ucuz). thrember'ın 80 sütununu tam taramada VARSAYILAN olarak
+  üretmiyor (dosya başına ~0.25 sn, 64K PE'de ~4.5 saat ek);
+  `dosyayi_analiz_et(yol, dizge80=True)` aynı baytlardan 80 sütunu da
+  üretiyor - `ozellik_cikar.dosya_ozellikleri` (Kural 9) bunu kullanır.
 - `ember2024_indir.py` - EMBER2024 zip'lerini indirir: Range ile devam,
   ağ hatasında artan beklemeyle yeniden deneme, HF API'sine göre boyut +
   SHA-256 kontrolü (tutmayan `.bozuk` olarak ayrılır).
@@ -380,8 +385,9 @@ demek (taramayı erteleme mantığının aynısı).
      test bir kez).
 4. Üç bölgeli eşikler (zararsız / şüpheli / zararlı).
    - KISMEN: native modelde türe göre tek eşik (EXE 0.70, DLL 0.61), doğrulama
-     diliminden %1 yanlış alarm için. Testte DLL %1.43 (zaman kayması) -> üretim
-     eşiği bu payı ve gerçek zararlı oranını (π) hesaba katmalı. Şüpheli bant
+     diliminden %1 yanlış alarm için. Testte DLL %1.43 (olası neden zaman
+     kayması, ölçülmedi) -> üretim eşiği zamanla yeniden doğrulanmalı ve
+     gerçek zararlı oranını (π) hesaba katmalı. Şüpheli bant
      ve maliyet oranı hâlâ açık.
    Şu an 0.2-0.8 bandı EMBER'in 1/4'ünü, makinenin 1/6'sını yutuyor ->
    5 özellik yetersiz; eşikleri şimdi kilitleme. Eşik kuralı: gerçek

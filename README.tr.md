@@ -114,9 +114,11 @@ Bu sayilar nasil okunmali:
   gercek kullanimda zararli cok daha nadir, bu yuzden bir skorun arkasindaki
   gercek olasilik daha dusuk, alarmlarin yanlis olan payi daha yuksektir.
 - **DLL yanlis alarmi %1 hedefini asiyor** (%1.43). Esik 48-51. haftalarda
-  ayarlandi; o haftalardan test haftalarina gecerken zararsiz DLL kitlesi
-  kayiyor (zararsiz DLL payi egitimde %64.9, testte %73.4). Esik zamanla
-  eskiyor ve yeniden ele alinmali.
+  ayarlandi. Olasi neden zaman kaymasi: test haftalarinda zararsiz DLL kitlesi
+  farkli (zararsiz DLL payi egitim haftalarinda %64.9, testte %73.4). Bu
+  nedensellik OLCULMEDI: bu paylar esigin secildigi 48-51. haftalara ait degil
+  ve DLL icindeki yanlis alarm orani DLL'lerin payindan dogrudan etkilenmez.
+  Esik zamanla yeniden dogrulanmali.
 - **Yerel dogrulama seti eskiyor.** 9 Ekim'deki olcumden bu yana dosyalarinin
   857'si silindi, yuzlercesi guncellendi. Olcumlerin dayandigi 5.635 satir
   yeniden taranmak yerine donduruldu (repoda yok; SHA-256
