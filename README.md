@@ -140,6 +140,14 @@ How to read these numbers:
   being re-scanned.
 - Random Forest beat LightGBM only against *untuned* LightGBM; a tuned
   LightGBM is a separate, not-yet-run experiment.
+- **.NET is still a weak spot.** Measured separately with criteria registered
+  beforehand (`gumruk_memuru/sonuclar/5/`), same fixed thresholds: in the test
+  weeks, .NET EXEs are missed at 33.7% (non-.NET EXEs 17.6%). On EMBER2024's
+  separate .NET test set the native model misses 49.8% of malware (86.7% of
+  malicious .NET DLLs) at 1.05% false alarms; the Phase 1 model missed 92.8%
+  there at 0.46% false alarms. At the *same* false-alarm rate as Phase 1, the
+  native model misses 59.8% (92.7% of malicious .NET DLLs). Better, not good
+  enough: .NET files need the specialist model, which is not yet connected.
 
 ## Roadmap
 

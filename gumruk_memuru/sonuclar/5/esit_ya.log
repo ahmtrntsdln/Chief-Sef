@@ -1,0 +1,20 @@
+[*] B: 120000 satir, zararli 60000, zararsiz 60000
+[+] GECIT: Faz 1 kacan %92.77 [92.56-92.97] (55662/60000) (belge: 92,8)
+[*] Faz 1 yanlis alarm (esik 0,5): %0.46 [0.41-0.51] (274/60000) | AUC 0.6328
+[*] native AUC 0.9553
+
+=== Birincil: native model, Faz 1'in yanlis alarminda ===
+  native: hedef YA <= %0.457 -> tau 0.7600, gerceklesen YA %0.453, kacan %59.79 [59.39-60.18] (35872/60000)
+      bir alt adim: tau 0.7500 -> YA %0.513 (hedefi asar), kacan %57.90
+      EXE: kacan %56.62 [56.21-57.04] (30996/54740) | YA %1.43 [1.18-1.72] (106/7436)
+      DLL: kacan %92.70 [91.96-93.37] (4876/5260) | YA %0.32 [0.27-0.37] (166/52564)
+  Faz 1 (esik 0,5): kacan alt sinir %92.56
+  KURAL: esit yanlis alarmda native .NET'te DAHA AZ kaciriyor
+
+=== Ikincil: Faz 1, native'in sabit esiklerdeki yanlis alarminda (%1.05) ===
+  Faz 1: hedef YA <= %1.050 -> tau 0.4300, gerceklesen YA %0.953, kacan %89.39 [89.14-89.63] (53634/60000)
+      bir alt adim: tau 0.4200 -> YA %1.063 (hedefi asar), kacan %88.81
+      EXE: kacan %88.46 [88.19-88.73] (48424/54740) | YA %4.28 [3.84-4.76] (318/7436)
+      DLL: kacan %99.05 [98.75-99.28] (5210/5260) | YA %0.48 [0.43-0.55] (254/52564)
+  native sabit tur esikleri: kacan %49.77 [49.37-50.17] (29864/60000)
+  KURAL: native DAHA AZ kaciriyor

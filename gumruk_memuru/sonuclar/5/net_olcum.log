@@ -1,0 +1,41 @@
+[*] model sha256 f6b74df812f02d75..., esikler {'EXE': 0.7, 'DLL': 0.61}
+[*] A: 959738 satir, hafta 52-63, .NET 4848 (2 sn)
+[+] GECIT EXE: kacan 17.749 YA 0.828 == meta
+[+] GECIT DLL: kacan 19.524 YA 1.428 == meta
+[*] B: 120000 satir, hafta 52-63, NET_mi=1 119994, DLL 57824, zararli 60000 (6 sn)
+[*] C: 5635 satir, sha256 tutuyor, .NET 3471
+
+| kume | esik | grup | tur | kacan zararli % [Wilson %95] (k/n) | yanlis alarm % [Wilson %95] (k/n) | AUC |
+|---|---|---|---|---|---|---|
+| A native test | tur esigi | .NET | EXE | %33.74 [32.14-35.38] (1106/3278) | %2.88 [1.33-6.15] (6/208) | 0.9638 |
+| A native test | tur esigi | .NET | DLL | %23.38 [19.00-28.41] (72/308) | %0.95 [0.52-1.74] (10/1054) | 0.9801 |
+| A native test | tur esigi | .NET | hepsi | %32.85 [31.33-34.40] (1178/3586) | %1.27 [0.78-2.05] (16/1262) | 0.9793 |
+| A native test | tur esigi | .NET disi | EXE | %17.63 [17.52-17.74] (79014/448124) | %0.82 [0.78-0.88] (1050/127338) | 0.9838 |
+| A native test | tur esigi | .NET disi | DLL | %19.48 [19.02-19.95] (5510/28282) | %1.43 [1.39-1.47] (5020/351146) | 0.9844 |
+| A native test | tur esigi | .NET disi | hepsi | %17.74 [17.63-17.85] (84524/476406) | %1.27 [1.24-1.30] (6070/478484) | 0.9865 |
+| B Dot_Net_test | tur esigi | .NET | EXE | %46.22 [45.80-46.64] (25302/54740) | %3.52 [3.13-3.97] (262/7436) | 0.9025 |
+| B Dot_Net_test | tur esigi | .NET | DLL | %86.71 [85.77-87.61] (4556/5254) | %0.70 [0.64-0.78] (370/52564) | 0.838 |
+| B Dot_Net_test | tur esigi | .NET | hepsi | %49.77 [49.37-50.17] (29858/59994) | %1.05 [0.97-1.14] (632/60000) | 0.9553 |
+| B Dot_Net_test | tur esigi | .NET disi | DLL | 6/6 (n<30, yorumlanmaz) | — | nan |
+| B Dot_Net_test | tur esigi | .NET disi | hepsi | 6/6 (n<30, yorumlanmaz) | — | nan |
+| B Dot_Net_test | 0,5 (Faz 1 ile ayni) | .NET | EXE | %18.09 [17.77-18.41] (9902/54740) | %18.96 [18.09-19.87] (1410/7436) | 0.9025 |
+| B Dot_Net_test | 0,5 (Faz 1 ile ayni) | .NET | DLL | %77.43 [76.28-78.54] (4068/5254) | %2.37 [2.24-2.50] (1244/52564) | 0.838 |
+| B Dot_Net_test | 0,5 (Faz 1 ile ayni) | .NET | hepsi | %23.29 [22.95-23.63] (13970/59994) | %4.42 [4.26-4.59] (2654/60000) | 0.9553 |
+| B Dot_Net_test | 0,5 (Faz 1 ile ayni) | .NET disi | DLL | 6/6 (n<30, yorumlanmaz) | — | nan |
+| B Dot_Net_test | 0,5 (Faz 1 ile ayni) | .NET disi | hepsi | 6/6 (n<30, yorumlanmaz) | — | nan |
+| C yerel (zararsiz) | tur esigi | .NET | EXE | — | %0.00 [0.00-7.27] (0/49) | nan |
+| C yerel (zararsiz) | tur esigi | .NET | DLL | — | %0.03 [0.01-0.17] (1/3422) | nan |
+| C yerel (zararsiz) | tur esigi | .NET | hepsi | — | %0.03 [0.01-0.16] (1/3471) | nan |
+| C yerel (zararsiz) | tur esigi | .NET disi | EXE | — | %0.28 [0.05-1.59] (1/353) | nan |
+| C yerel (zararsiz) | tur esigi | .NET disi | DLL | — | %0.55 [0.30-1.01] (10/1811) | nan |
+| C yerel (zararsiz) | tur esigi | .NET disi | hepsi | — | %0.51 [0.28-0.91] (11/2164) | nan |
+
+=== Yorum kurallari (on_kayit_net.md) ===
+1) B, tur esigi: native kacan %49.77 [ust 50.17] vs Faz 1 %92.8 -> AZALTIYOR
+1) B, 0,5 (Faz 1 ile ayni): native kacan %23.29 [ust 23.63] vs Faz 1 %92.8 -> AZALTIYOR
+2) A EXE kacan: .NET anlamli olarak DAHA KOTU (33.74 [32.14-35.38] vs 17.63 [17.52-17.74])
+2) A EXE yanlis alarm: .NET anlamli olarak DAHA KOTU (2.88 [1.33-6.15] vs 0.82 [0.78-0.88])
+2) A DLL kacan: fark gosterilemedi (araliklar ortusuyor: 23.38 [19.0-28.41] vs 19.48 [19.02-19.95])
+2) A DLL yanlis alarm: fark gosterilemedi (araliklar ortusuyor: 0.95 [0.52-1.74] vs 1.43 [1.39-1.47])
+
+[+] bitti (7 sn) -> net_olcum.csv
