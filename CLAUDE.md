@@ -295,6 +295,11 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   Komut satırını çağıran betik / CI yok (26 Ekim'de tarandı); içe aktaranlar
   (`uctan_uca.py`, `net_olcum.py`, `esit_ya.py`) çıkış kodunu kullanmıyor. Faz 1'in 5 özellikli `model.pkl`'i artık burada kullanılmıyor
   (`rf_egit_gercek.py` onu hâlâ üretir; tarihsel karşılaştırma için).
+- `toplu_tahmin.py` - klasör / çok dosya için `tahmin_et.tahmin`; sayaçlar ayrı: temiz,
+  BELİRSİZ, ZARARLI, OLASI ZARARLI, PE değil (`tahmin_et.PEDegilHatasi`), hata (analiz
+  edilemeyen). BELİRSİZ hata DEĞİL. `toplu_tarama.py`'den bilerek ayrı: o model yüklemez,
+  dış doğrulama setini üretir. Dosya adı yalnız `--liste` ile ekrana. Test:
+  `tests/test_toplu_tahmin.py`.
 - `ozellik_cikar.py` - TEK özellik modülü (Kural 9): `MODEL_KOLONLARI` (86,
   E3 sırası), `dosya_ozellikleri(yol)` (toplu_tarama.dosyayi_analiz_et
   `dizge80=True`: 80 thrember dizge sütunu aynı baytlardan, tek okuma) ve

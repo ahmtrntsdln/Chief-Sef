@@ -52,6 +52,10 @@ suspicious) ones.
   OLASI ZARARLI (possibly malicious). Invalid scores (NaN, infinite, outside
   [0, 1]) are BELIRSIZ for every file. Exit codes: 0 = clean (zararsiz),
   1 = error, 2 = BELIRSIZ, 3 = ZARARLI, 4 = OLASI ZARARLI; only 0 means clean.
+- `gumruk_memuru/toplu_tahmin.py` -> The same prediction for a folder or several files:
+  `python toplu_tahmin.py <folder> [--liste]`. Prints separate counts for clean,
+  BELIRSIZ, ZARARLI, OLASI ZARARLI, not a PE file, and error; BELIRSIZ is not
+  counted as an error. File names are only printed with `--liste`, never written.
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM and calibration comparison
 
 Setup: `pip install -r requirements.txt` (`requirements-experimental.txt` for

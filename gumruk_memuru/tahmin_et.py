@@ -70,6 +70,10 @@ CIKIS_KODU = {ZARARSIZ: 0, BELIRSIZ: 2, ZARARLI: 3, OLASI_ZARARLI: 4}
 NET_OLCUM_KAYNAGI = "README 'Native model' bolumu ve gumruk_memuru/sonuclar/5/net_sonuc.md"
 
 
+class PEDegilHatasi(ValueError):
+    """Dosya okundu ama PE degil (toplu_tahmin 'PE degil' sayaci; analiz edilemeyen dosyadan ayri)."""
+
+
 def gecerli_skor(olasilik):
     return math.isfinite(olasilik) and 0.0 <= olasilik <= 1.0
 
@@ -92,7 +96,7 @@ def tahmin(dosya_yolu, paket):
         raise ValueError("dosya analiz edilemedi (bos, 100 MiB ustu ya da okunamiyor)")
     if not ozellik["PE_mi"]:
         # Model sadece PE ile egitildi (Kritik Kural 3); baska dosyada skor anlamsiz.
-        raise ValueError("gecerli bir Windows PE degil; model sadece PE dosyalari icin egitildi")
+        raise PEDegilHatasi("gecerli bir Windows PE degil; model sadece PE dosyalari icin egitildi")
     X = pd.DataFrame([ozellik])[paket["meta"]["ozellikler"]]
     olasilik = float(paket["model"].predict_proba(X)[0, 1])
     esik_turu = "DLL" if int(float(ozellik["DLL_mi"])) else "EXE"

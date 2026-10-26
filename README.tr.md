@@ -50,6 +50,10 @@ basit bir statik analiz katmani kurmak.
   OLASI ZARARLI. Gecersiz skor (NaN, sonsuz, [0, 1] disi) her dosyada BELIRSIZ.
   Cikis kodlari: 0 temiz (zararsiz), 1 hata, 2 BELIRSIZ, 3 ZARARLI, 4 OLASI
   ZARARLI; yalniz 0 "temiz" demektir.
+- `gumruk_memuru/toplu_tahmin.py` -> Ayni tahmin bir klasor ya da birden cok dosya icin:
+  `python toplu_tahmin.py <klasor> [--liste]`. Temiz, BELIRSIZ, ZARARLI, OLASI
+  ZARARLI, PE degil ve hata ayri sayilir; BELIRSIZ hata sayilmaz. Dosya adlari
+  yalniz `--liste` ile ekrana basilir, dosyaya yazilmaz.
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM ve kalibrasyon karsilastirmasi
 
 Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin
