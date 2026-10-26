@@ -298,8 +298,10 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - `toplu_tahmin.py` - klasör / çok dosya için `tahmin_et.tahmin`; sayaçlar ayrı: temiz,
   BELİRSİZ, ZARARLI, OLASI ZARARLI, PE değil (`tahmin_et.PEDegilHatasi`), hata (analiz
   edilemeyen). BELİRSİZ hata DEĞİL. `toplu_tarama.py`'den bilerek ayrı: o model yüklemez,
-  dış doğrulama setini üretir. Dosya adı yalnız `--liste` ile ekrana. Test:
-  `tests/test_toplu_tahmin.py`.
+  dış doğrulama setini üretir. Dosya adı yalnız `--liste` ile ekrana. ÇIKIŞ KODU
+  (bozucu değişiklik, ayrı commit): EN KÖTÜ sonuç - ZARARLI 3 > OLASI ZARARLI 4 > BELİRSİZ 2 >
+  hata 1 > temiz 0; "PE değil" kodu yükseltmez; yol yok ya da hiç PE sınıflanmadı -> uyarı + 1
+  (fail-closed: yanlış yol sessizce "temiz" dönmesin). Test: `tests/test_toplu_tahmin.py`.
 - `ozellik_cikar.py` - TEK özellik modülü (Kural 9): `MODEL_KOLONLARI` (86,
   E3 sırası), `dosya_ozellikleri(yol)` (toplu_tarama.dosyayi_analiz_et
   `dizge80=True`: 80 thrember dizge sütunu aynı baytlardan, tek okuma) ve

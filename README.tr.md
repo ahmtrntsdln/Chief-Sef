@@ -53,7 +53,11 @@ basit bir statik analiz katmani kurmak.
 - `gumruk_memuru/toplu_tahmin.py` -> Ayni tahmin bir klasor ya da birden cok dosya icin:
   `python toplu_tahmin.py <klasor> [--liste]`. Temiz, BELIRSIZ, ZARARLI, OLASI
   ZARARLI, PE degil ve hata ayri sayilir; BELIRSIZ hata sayilmaz. Dosya adlari
-  yalniz `--liste` ile ekrana basilir, dosyaya yazilmaz.
+  yalniz `--liste` ile ekrana basilir, dosyaya yazilmaz. Cikis kodunu en kotu
+  sonuc belirler: herhangi bir ZARARLI 3, yoksa OLASI ZARARLI 4, yoksa BELIRSIZ
+  2, yoksa hata 1, hepsi temiz 0. PE olmayan dosyalar kodu yukseltmez; yol
+  yoksa ya da hic PE siniflanmadiysa (bos klasor, yanlis yol, yalniz .txt)
+  uyari ve 1: yazim hatasi "her sey temiz" diye donmez.
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM ve kalibrasyon karsilastirmasi
 
 Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin

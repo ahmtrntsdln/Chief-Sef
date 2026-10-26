@@ -56,6 +56,10 @@ suspicious) ones.
   `python toplu_tahmin.py <folder> [--liste]`. Prints separate counts for clean,
   BELIRSIZ, ZARARLI, OLASI ZARARLI, not a PE file, and error; BELIRSIZ is not
   counted as an error. File names are only printed with `--liste`, never written.
+  Exit code = the worst result: any ZARARLI 3, else OLASI ZARARLI 4, else
+  BELIRSIZ 2, else error 1, all clean 0. Non-PE files do not raise it; a missing
+  path, or no PE file classified at all (empty folder, wrong path, only .txt),
+  gives a warning and 1, so a typo never reports "all clean".
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM and calibration comparison
 
 Setup: `pip install -r requirements.txt` (`requirements-experimental.txt` for
