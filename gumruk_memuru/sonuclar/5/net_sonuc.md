@@ -40,6 +40,30 @@ B'de 6 zararlı .NET bayrağı taşımıyor (n < 30, yorumlanmaz). Tüm hücrele
 ## Sınırlar
 
 - Faz 1 karşılaştırması aynı yanlış alarmda yapılmadı (ön kayıtta yoktu); eşit yanlış alarm
-  karşılaştırması ayrı, ön kayıtlı bir ölçüm olur.
+  karşılaştırması ayrı, ön kayıtlı bir ölçüm olur. → Yapıldı, aşağıdaki EK.
 - B'nin %50'si zararlı (README'deki uyarı burada da geçerli).
 - Yerel (C) .NET zararsızlarının %99'u DLL (3422/3471); EXE yalnız 49 dosya.
+
+## EK: eşit yanlış alarmda (26 Ekim 2026)
+
+Ön kayıt `on_kayit_esit_ya.md` (commit `48994e6`, ölçümden önce), betik `esit_ya.py`, çıktı
+`esit_ya.log`. Faz 1 modeli `net_dogrulama.py`'nin "A (5 ozellik)" modeli, aynı kodla yeniden
+üretildi; GEÇİT tuttu: eşik 0,5'te kaçan %92,77 (55662/60000; belgede 92,8). Native model kayıtlı
+model. τ test kümesinden (B) seçilen ROC çalışma noktası; üretim eşiği değil.
+
+Faz 1'in B'deki yanlış alarmı (eşik 0,5): **%0,46** [0,41-0,51] (274/60000); AUC 0,6328.
+(Sitedeki "%3,8" bu değil: uzman model M2'nin kaçan oranı.)
+
+| Çalışma noktası | Model | τ | Yanlış alarm | Kaçan zararlı (B, hepsi) |
+|---|---|---|---|---|
+| Faz 1'in yanlış alarmı (≤ %0,457) | Faz 1 | 0,5 | %0,46 | %92,77 [92,56-92,97] |
+| | native | 0,76 | %0,45 | **%59,79** [59,39-60,18] |
+| native'in sabit eşiklerdeki yanlış alarmı (≤ %1,05) | native | EXE 0,70 / DLL 0,61 | %1,05 | %49,77 [49,37-50,17] |
+| | Faz 1 | 0,43 | %0,95 | %89,39 [89,14-89,63] |
+
+Tür ayrımı (aynı τ): native τ=0,76'da EXE kaçan %56,62 (YA %1,43), DLL kaçan **%92,70** (YA %0,32);
+Faz 1 τ=0,43'te EXE %88,46, DLL %99,05. Bir alt adımlar (hedefi aşan) logda.
+
+Kural: iki yönde de native modelin üst sınırı Faz 1'in alt sınırının altında → "eşit yanlış alarmda
+native model .NET'te daha az kaçırıyor". Ama Faz 1'in düşük yanlış alarmında native model .NET
+zararlılarının %59,8'ini, zararlı .NET DLL'lerin %92,7'sini kaçırıyor: .NET için yeterli değil.

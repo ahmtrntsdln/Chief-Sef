@@ -190,7 +190,11 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   B Dot_Net_test (Faz 1'in %92.8'iyle aynı küme): kaçan %49.77 tür eşiklerinde (YA
   %1.05), %23.29 eşik 0.5'te (YA %4.42); zararlı .NET DLL'lerin %86.71'i kaçıyor (AUC
   0.838). Faz 1'den iyi, ama .NET için yeterli değil -> uzman model bağlanmalı.
-  C yerel .NET zararsız YA %0.03 (1/3471). Faz 1 ile karşılaştırma aynı YA'da değil.
+  C yerel .NET zararsız YA %0.03 (1/3471).
+  EŞİT YA'DA (ön kayıt `on_kayit_esit_ya.md`, Faz 1 net_dogrulama A modeli aynı kodla
+  yeniden üretildi, geçit 92.77 = 92.8): Faz 1'in B'deki YA'sı %0.46 (sitedeki "%3,8"
+  M2'nin kaçanı, YA değil). Native o YA'da (τ 0.76, B'den seçilen ROC noktası, üretim eşiği
+  değil) kaçan %59.79, zararlı .NET DLL %92.70; Faz 1 native'in %1.05 YA'sında %89.39.
 - KARAR SÜRECİ (15-17 Ekim, ayrıntı `gumruk_memuru/sonuclar/`): ölçütler
   sonuçlardan ÖNCE yazıldı ve commit'lendi (`sonuclar/karar_olcutleri.md`): ana
   ölçüt her türde %1 yanlış alarmda DLL'de kaçan zararlı; yerel yanlış alarm
