@@ -10,6 +10,7 @@ Calistirma (repo kokunden): python -m pytest tests
 import glob
 import math
 import os
+import subprocess
 import sys
 
 import numpy as np
@@ -111,11 +112,35 @@ def test_gercek_dosyada_tahmin_karari():
     assert (native["Dosya_Turu"], native["karar"]) == ("EXE", te.ZARARSIZ)
 
 
-@net_yok
-@pytest.mark.parametrize("dosya, p, kod", [("net", 0.0, 2), ("net", float("inf"), 2), ("net", 1.0, 0),
-                                           ("native", 0.0, 0), ("native", 1.0, 0), ("native", float("nan"), 2)])
+NET_EXE = sorted(glob.glob(os.path.join(os.environ.get("WINDIR", r"C:\Windows"),
+                                         "Microsoft.NET", "Framework64", "v4.*", "MSBuild.exe")))
+DOSYALAR = {"net_dll": NET_ORNEKLERI[:1], "net_exe": NET_EXE[:1], "native_exe": [sys.executable]}
+BEKLENEN_TUR = {"net_dll": (".NET", "DLL"), "net_exe": (".NET", "EXE"), "native_exe": ("EXE", "EXE")}
+
+
+def test_cikis_kodu_tablosu():
+    """0 temiz, 1 hata, 2 belirsiz, 3 zararli, 4 olasi zararli: her karar ayri, sifir yalniz temiz."""
+    assert te.CIKIS_KODU == {te.ZARARSIZ: 0, te.BELIRSIZ: 2, te.ZARARLI: 3, te.OLASI_ZARARLI: 4}
+    assert te.CIKIS_HATA == 1 and te.CIKIS_HATA not in te.CIKIS_KODU.values()
+
+
+@pytest.mark.parametrize("dosya, p, kod", [
+    ("net_dll", 0.0, 2), ("net_dll", 1.0, 3), ("net_dll", float("inf"), 2),
+    ("net_exe", 0.0, 2), ("net_exe", 1.0, 4), ("net_exe", float("-inf"), 2),
+    ("native_exe", 0.0, 0), ("native_exe", 1.0, 3), ("native_exe", float("nan"), 2)])
 def test_cikis_kodu(monkeypatch, capsys, dosya, p, kod):
-    """BELIRSIZ -> 2 (kabuk 'temiz' saymasin); karar verildiyse 0. Hatalar sys.exit ile 1 (degismedi)."""
+    if not DOSYALAR[dosya]:
+        pytest.skip(f"{dosya} ornegi yok (.NET Framework)")
+    yol = DOSYALAR[dosya][0]
+    s = te.tahmin(yol, paket(0.0))
+    assert (s["Dosya_Turu"], s["esik_turu"]) == BEKLENEN_TUR[dosya]     # ornek gercekten o turde mi
     monkeypatch.setattr(te, "model_yukle", lambda: paket(p))
-    assert te.main([NET_ORNEKLERI[0] if dosya == "net" else sys.executable]) == kod
+    assert te.main([yol]) == kod
     capsys.readouterr()
+
+
+def test_hata_cikis_kodu_1():
+    """Gercek alt surec: olmayan dosya model yuklenmeden once reddedilir -> 1."""
+    betik = os.path.join(os.path.dirname(te.__file__), "tahmin_et.py")
+    r = subprocess.run([sys.executable, betik, "olmayan_dosya.exe"], capture_output=True, text=True)
+    assert r.returncode == te.CIKIS_HATA and "bulunamadi" in r.stderr

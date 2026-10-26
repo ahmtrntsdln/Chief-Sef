@@ -22,8 +22,8 @@ DLL'de ZARARLI. Skor NaN, sonsuz ya da [0, 1] disindaysa her dosyada BELIRSIZ (f
 Kritik Kural 7). Olculen oranlar koda GOMULMEZ; kaynaga yonlendirilir.
 
 Kullanim: python tahmin_et.py <dosya_yolu>
-Cikis kodu: 0 karar verildi (zararsiz / ZARARLI / OLASI ZARARLI), 1 hata (dosya yok, PE degil,
-model / hash), 2 BELIRSIZ (ek inceleme gerekir; kabuk betigi bunu "temiz" saymasin).
+Cikis kodu (CIKIS_KODU): 0 temiz (zararsiz), 1 hata (dosya yok, PE degil, model / hash),
+2 BELIRSIZ (ek inceleme), 3 ZARARLI, 4 OLASI ZARARLI. Kabuk betigi yalniz 0'i "temiz" saymali.
 """
 
 import hashlib
@@ -65,7 +65,8 @@ def model_yukle():
 
 
 ZARARLI, OLASI_ZARARLI, ZARARSIZ, BELIRSIZ = "ZARARLI", "OLASI ZARARLI", "zararsiz", "BELIRSIZ"
-CIKIS_BELIRSIZ = 2
+CIKIS_HATA = 1                  # sys.exit("mesaj") ile; Python mesajli cikista 1 dondurur
+CIKIS_KODU = {ZARARSIZ: 0, BELIRSIZ: 2, ZARARLI: 3, OLASI_ZARARLI: 4}
 NET_OLCUM_KAYNAGI = "README 'Native model' bolumu ve gumruk_memuru/sonuclar/5/net_sonuc.md"
 
 
@@ -102,7 +103,7 @@ def tahmin(dosya_yolu, paket):
 
 
 def main(argv):
-    """Komut satiri. Donus: cikis kodu (0 karar, 2 BELIRSIZ; hatalar sys.exit ile mesajli, kod 1)."""
+    """Komut satiri. Donus: CIKIS_KODU[karar]; hatalar sys.exit ile mesajli (kod 1)."""
     if len(argv) != 1:
         sys.exit("Kullanim: python tahmin_et.py <dosya_yolu>")
     dosya_yolu = argv[0]
@@ -135,7 +136,7 @@ def main(argv):
     if s["Dosya_Turu"] == ".NET":
         print("  [!] .NET dosyasi: bu skor native modelden. .NET uzman modeli (net_model.py) henuz "
               "tahmin_et'e baglanmadi.")
-    return CIKIS_BELIRSIZ if s["karar"] == BELIRSIZ else 0
+    return CIKIS_KODU[s["karar"]]
 
 
 if __name__ == "__main__":

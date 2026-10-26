@@ -290,7 +290,8 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   eşik üstü .NET EXE OLASI ZARARLI, .NET DLL ZARARLI; NaN / sonsuz / [0, 1] dışı
   skor her dosyada BELİRSİZ (Kural 7). Ölçülen oranlar koda gömülmez, kaynağa
   yönlendirilir. Testler `tests/test_tahmin_karar.py` (model dosyası gerekmez).
-  ÇIKIŞ KODU (bozucu değişiklik, ayrı commit): 0 karar verildi, 1 hata, 2 BELİRSİZ.
+  ÇIKIŞ KODLARI (bozucu değişiklik, ayrı commit'ler; `tahmin_et.CIKIS_KODU`): 0 temiz,
+  1 hata, 2 BELİRSİZ, 3 ZARARLI, 4 OLASI ZARARLI - yalnız 0 "temiz".
   Komut satırını çağıran betik / CI yok (26 Ekim'de tarandı); içe aktaranlar
   (`uctan_uca.py`, `net_olcum.py`, `esit_ya.py`) çıkış kodunu kullanmıyor. Faz 1'in 5 özellikli `model.pkl`'i artık burada kullanılmıyor
   (`rf_egit_gercek.py` onu hâlâ üretir; tarihsel karşılaştırma için).

@@ -50,8 +50,8 @@ suspicious) ones.
   as benign, because the native model misses many .NET malware samples (see
   ".NET is still a weak spot" below); above the threshold a .NET EXE is
   OLASI ZARARLI (possibly malicious). Invalid scores (NaN, infinite, outside
-  [0, 1]) are BELIRSIZ for every file. Exit code: 0 = verdict given,
-  1 = error, 2 = BELIRSIZ (so a shell script does not treat it as clean).
+  [0, 1]) are BELIRSIZ for every file. Exit codes: 0 = clean (zararsiz),
+  1 = error, 2 = BELIRSIZ, 3 = ZARARLI, 4 = OLASI ZARARLI; only 0 means clean.
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM and calibration comparison
 
 Setup: `pip install -r requirements.txt` (`requirements-experimental.txt` for
