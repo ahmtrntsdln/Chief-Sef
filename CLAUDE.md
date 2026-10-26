@@ -289,7 +289,10 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   .NET'te eşik altı BELİRSİZ (asla zararsız; ölçüm `sonuclar/5/net_sonuc.md`),
   eşik üstü .NET EXE OLASI ZARARLI, .NET DLL ZARARLI; NaN / sonsuz / [0, 1] dışı
   skor her dosyada BELİRSİZ (Kural 7). Ölçülen oranlar koda gömülmez, kaynağa
-  yönlendirilir. Testler `tests/test_tahmin_karar.py` (model dosyası gerekmez). Faz 1'in 5 özellikli `model.pkl`'i artık burada kullanılmıyor
+  yönlendirilir. Testler `tests/test_tahmin_karar.py` (model dosyası gerekmez).
+  ÇIKIŞ KODU (bozucu değişiklik, ayrı commit): 0 karar verildi, 1 hata, 2 BELİRSİZ.
+  Komut satırını çağıran betik / CI yok (26 Ekim'de tarandı); içe aktaranlar
+  (`uctan_uca.py`, `net_olcum.py`, `esit_ya.py`) çıkış kodunu kullanmıyor. Faz 1'in 5 özellikli `model.pkl`'i artık burada kullanılmıyor
   (`rf_egit_gercek.py` onu hâlâ üretir; tarihsel karşılaştırma için).
 - `ozellik_cikar.py` - TEK özellik modülü (Kural 9): `MODEL_KOLONLARI` (86,
   E3 sırası), `dosya_ozellikleri(yol)` (toplu_tarama.dosyayi_analiz_et

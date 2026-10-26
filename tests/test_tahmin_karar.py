@@ -109,3 +109,13 @@ def test_gercek_dosyada_tahmin_karari():
     assert te.tahmin(NET_ORNEKLERI[0], paket(1.0))["karar"] == te.ZARARLI
     native = te.tahmin(sys.executable, paket(0.0))              # native EXE: davranis ayni
     assert (native["Dosya_Turu"], native["karar"]) == ("EXE", te.ZARARSIZ)
+
+
+@net_yok
+@pytest.mark.parametrize("dosya, p, kod", [("net", 0.0, 2), ("net", float("inf"), 2), ("net", 1.0, 0),
+                                           ("native", 0.0, 0), ("native", 1.0, 0), ("native", float("nan"), 2)])
+def test_cikis_kodu(monkeypatch, capsys, dosya, p, kod):
+    """BELIRSIZ -> 2 (kabuk 'temiz' saymasin); karar verildiyse 0. Hatalar sys.exit ile 1 (degismedi)."""
+    monkeypatch.setattr(te, "model_yukle", lambda: paket(p))
+    assert te.main([NET_ORNEKLERI[0] if dosya == "net" else sys.executable]) == kod
+    capsys.readouterr()

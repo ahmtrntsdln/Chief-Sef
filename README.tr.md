@@ -48,6 +48,7 @@ basit bir statik analiz katmani kurmak.
   olarak raporlanir: native model .NET zararlilarinin onemli bir kismini
   kaciriyor (asagida ".NET hala zayif nokta"); esigin ustunde .NET EXE
   OLASI ZARARLI. Gecersiz skor (NaN, sonsuz, [0, 1] disi) her dosyada BELIRSIZ.
+  Cikis kodu: 0 karar verildi, 1 hata, 2 BELIRSIZ (kabuk betigi "temiz" saymasin).
 - `gumruk_memuru/model_karsilastir.py` -> RF vs LightGBM ve kalibrasyon karsilastirmasi
 
 Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin
