@@ -17,6 +17,12 @@ maddeler eklendi (aşağıda). Ölçütler ve iş sırası değişmedi.
 yuvarlama, fail-closed gerekçesi ve ondalık / tam sayı yolu karar farkının sayısı ve yönü ölçütü.
 İş 1'de her main birleştirmesinden sonra main bu dala birleştirilir (rebase yok).
 
+**Revizyon 4 (26 Ekim 2026, kullanıcı kararı, düzeltmenin sonuçlarından önce):** ölçüt 1'e "üç ardışık
+koşuda tam geçer (+ dosya kilidi regresyon testi) ve her test tek başına da geçer" eklendi. Neden:
+bağımsız doğrulayıcı `test_olasi_zararli_cikis_kodu`'nu Windows dosya kilidiyle düşürdü; test tek
+başına koşulunca belirlenimci olarak düşüyor, paket içinde önceki testlerin tetiklediği çöp toplama
+kilidi gizliyordu.
+
 ## Ön kayıt şablonu (İş 2'den itibaren her ön kayıt dört bölümü içerir)
 
 1. **Soru ve sabitler:** ne ölçülüyor; veri, dönem, model, eşik; sonuçtan sonra değişmeyecek her şey.
@@ -34,7 +40,9 @@ Faz 1, aşağıdaki on bir ölçütün HEPSİ origin/main'de ve canlı sitede sa
 1. **Yeniden üretilebilirlik:** origin/main boş klasöre temiz klonlanır, yeni venv `requirements.txt`
    (+ dev) ile kurulur: test paketinin tamamı geçer (gcc ile, atlanan yok); Faz 1 yeniden üretimi
    %90.1 ve 197/5700; `tahmin_et.py` modelsiz anlaşılır hata, doğru hash'le çalışır, bir baytı
-   değişmiş modeli reddeder; uçtan uca 20/20 (86/86).
+   değişmiş modeli reddeder; uçtan uca 20/20 (86/86). Test paketi ÜÇ ARDIŞIK koşuda tam geçer
+   (111/111 + dosya kilidi regresyon testi; Revizyon 4) ve her test TEK BAŞINA da geçer (paket
+   içindeki sıra ya da çöp toplama zamanlaması bir hatayı gizlemesin).
 2. **Raporlanan sayılar = ölçülen sayılar:** README'deki native model sayıları ölçüm dosyalarıyla
    (`model_native_meta.json`, `sonuclar/5/`, `sonuclar/6/`) aynı; zamansal bölme, doğrulamadan
    seçilen eşik, %50 zararlı uyarısı, DLL yanlış alarmının hedefi aşması, yerel setin eskimesi ve
