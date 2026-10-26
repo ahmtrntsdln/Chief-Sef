@@ -616,6 +616,11 @@ açık işler.
 - Bağımlılıklar: `requirements.txt` (ana pipeline, sürümler sabit),
   `requirements-experimental.txt` (+ LightGBM, sadece model_karsilastir.py)
   ve `requirements-dev.txt` (+ pytest, testler için).
+- Windows uzun yol sınırı (26 Ekim, temiz klon doğrulaması): venv uzun bir yoldaysa
+  (ör. Temp altında) `pip install` scikit-learn test dosyalarında MAX_PATH'e takılıyor ve
+  paket YARIM kalabiliyor; pytest yine geçti (testler sklearn'ü içe aktarmıyor), hata ancak
+  `rf_egit_gercek.py`'de çıktı (`sklearn.utils` yok). Venv'i kısa yolda kur ya da
+  `LongPathsEnabled`'ı aç (yönetici); kurulumdan sonra `python -c "import sklearn.ensemble"`.
 - Git: `C:\Program Files\Git\cmd\git.exe` (PATH'te olmayabilir).
 - Remote: `origin` = https://github.com/ahmtrntsdln/Chief-Sef (main takip
   ediliyor). Repo'daki eski dosyalar (Chief 1.0/1.1, mimari PDF'ler) korunmalı.

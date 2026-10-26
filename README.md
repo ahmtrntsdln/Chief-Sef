@@ -52,6 +52,14 @@ Setup: `pip install -r requirements.txt` (`requirements-experimental.txt` for
 the model comparison). If your data folders differ, edit
 `gumruk_memuru/sef_ayarlar.py`.
 
+Windows: the 260-character path limit can break `pip install` (scikit-learn
+ships deeply nested test files). A failed install can leave a half-installed
+package behind: in a clean-clone check, `pytest` still passed but
+`import sklearn` failed (`sklearn.utils` missing). Create the virtual
+environment under a short path (e.g. `C:\venvs\sef`) or enable long path
+support (`LongPathsEnabled` = 1, needs admin). Afterwards check with
+`python -c "import sklearn.ensemble"`.
+
 Tests: `pip install -r requirements-dev.txt`, then from the repo root
 `python -m pytest tests`. `tests/test_olcum_tutarliligi.py` checks that the
 malicious side (EMBER JSON) and the benign side (pefile) turn the same file

@@ -50,6 +50,14 @@ Kurulum: `pip install -r requirements.txt` (model karsilastirmasi icin
 `requirements-experimental.txt`). Veri klasorleri farkliysa
 `gumruk_memuru/sef_ayarlar.py`'yi duzenle.
 
+Windows: 260 karakterlik yol siniri `pip install`'i bozabilir (scikit-learn
+cok derin klasorlerde test dosyalari tasiyor). Yarim kalan kurulum paketi
+eksik birakabilir: temiz klon denemesinde `pytest` yine gecti ama
+`import sklearn` basarisiz oldu (`sklearn.utils` yok). Sanal ortami kisa bir
+yolda kur (or. `C:\venvs\sef`) ya da uzun yol destegini ac
+(`LongPathsEnabled` = 1, yonetici gerekir). Sonra
+`python -c "import sklearn.ensemble"` ile kontrol et.
+
 Testler: `pip install -r requirements-dev.txt` ve repo kokunden
 `python -m pytest tests`. `tests/test_olcum_tutarliligi.py`, zararli (EMBER
 JSON) ve zararsiz (pefile) tarafin ayni dosyayi ayni sayilara cevirdigini
