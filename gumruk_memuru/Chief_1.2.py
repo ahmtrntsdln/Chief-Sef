@@ -109,21 +109,22 @@ def gumruk_memuru_tam_analiz(dosya_yolu: str):
     if "Windows Calistirilabilir" in gercek_tur:
         print("\n[*] BOLUM BAZLI ENTROPI (RONTGEN)")
         try:
-            pe = pefile.PE(dosya_yolu)
-            for section in pe.sections:
-                bolum_adi = section.Name.decode('utf-8', errors='ignore').rstrip('\x00')
-                veri = section.get_data()
-                entropi = shannon_entropy(veri) if len(veri) > 0 else 0.0
-                bar = "#" * int(entropi * 5)
-                uyari = " [!] YUKSEK (Paketli?)" if entropi > 7.5 else ""
-                print(f"    {bolum_adi:<8} | Entropi: {entropi:.3f} {bar}{uyari}")
+            # with: dosya eslemesi is bitince kapanir (yoksa Windows'ta dosya kilitli kalir).
+            with pefile.PE(dosya_yolu) as pe:
+                for section in pe.sections:
+                    bolum_adi = section.Name.decode('utf-8', errors='ignore').rstrip('\x00')
+                    veri = section.get_data()
+                    entropi = shannon_entropy(veri) if len(veri) > 0 else 0.0
+                    bar = "#" * int(entropi * 5)
+                    uyari = " [!] YUKSEK (Paketli?)" if entropi > 7.5 else ""
+                    print(f"    {bolum_adi:<8} | Entropi: {entropi:.3f} {bar}{uyari}")
 
-            print("\n[*] IAT (API CAGRISI) ANALIZI")
-            iat_sonuc = supheli_fonksiyonlari_say(pe)
-            print(f"    Toplam API Cagrisi: {iat_sonuc['toplam']}")
-            print(f"    Supheli API Sayisi: {iat_sonuc['supheli']}")
-            if iat_sonuc['supheli'] > 0:
-                print(f"    Tespit Edilenler  : {', '.join(iat_sonuc['detay'])}")
+                print("\n[*] IAT (API CAGRISI) ANALIZI")
+                iat_sonuc = supheli_fonksiyonlari_say(pe)
+                print(f"    Toplam API Cagrisi: {iat_sonuc['toplam']}")
+                print(f"    Supheli API Sayisi: {iat_sonuc['supheli']}")
+                if iat_sonuc['supheli'] > 0:
+                    print(f"    Tespit Edilenler  : {', '.join(iat_sonuc['detay'])}")
 
         except pefile.PEFormatError:
             print("    [!] Hata: Gecerli bir PE dosyasi degil.")
