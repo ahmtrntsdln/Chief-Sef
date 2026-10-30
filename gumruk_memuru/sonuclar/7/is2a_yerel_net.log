@@ -1,0 +1,37 @@
+[+] K1 yerel set sha256 5d96007d6f21dd1b... == meta
+[+] K2 yerel .NET {'hepsi': 3471, 'EXE': 49, 'DLL': 3422}, Karma_Mod 7, 87 sutun tam
+[*] M2d egitildi: 4 x 24104 = 96416 (7 sn)
+[+] K3 H %0.45 M2d (uzman, tip-ici): esik EXE 0.86 / DLL 0.69 ve Dot_Net_test 3 satir == csv
+[+] K4 H %0.45 native: esik EXE 0.83 / DLL 0.69 ve Dot_Net_test 3 satir == csv
+[+] K3 H %1.05 M2d (uzman, tip-ici): esik EXE 0.76 / DLL 0.59 ve Dot_Net_test 3 satir == csv
+[+] K4 H %1.05 native: esik EXE 0.79 / DLL 0.60 ve Dot_Net_test 3 satir == csv
+[+] K4 native uretim esikleri {'EXE': 0.7, 'DLL': 0.61}: yerel .NET alarm 1/3471 == net_sonuc.md
+
+| H | model | tur | esik EXE / DLL | yerel .NET YA % [Wilson %95] (k/n) | alarmda Karma_Mod | Dot_Net_test YA (ayni esik) |
+|---|---|---|---|---|---|---|
+| %0.45 | M2d (uzman, tip-ici) | EXE | 0.86 / 0.69 | %0.00 [0.00-7.27] (0/49) | 0 | %0.40 (30/7436) |
+| %0.45 | M2d (uzman, tip-ici) | DLL | 0.86 / 0.69 | %0.00 [0.00-0.11] (0/3422) | 0 | %0.78 (412/52564) |
+| %0.45 | M2d (uzman, tip-ici) | hepsi | 0.86 / 0.69 | %0.00 [0.00-0.11] (0/3471) | 0 | %0.74 (442/60000) |
+| %0.45 | native | EXE | 0.83 / 0.69 | %0.00 [0.00-7.27] (0/49) | 0 | %0.38 (28/7436) |
+| %0.45 | native | DLL | 0.83 / 0.69 | %0.00 [0.00-0.11] (0/3422) | 0 | %0.42 (222/52564) |
+| %0.45 | native | hepsi | 0.83 / 0.69 | %0.00 [0.00-0.11] (0/3471) | 0 | %0.42 (250/60000) |
+| %1.05 | M2d (uzman, tip-ici) | EXE | 0.76 / 0.59 | %0.00 [0.00-7.27] (0/49) | 0 | %1.21 (90/7436) |
+| %1.05 | M2d (uzman, tip-ici) | DLL | 0.76 / 0.59 | %0.00 [0.00-0.11] (0/3422) | 0 | %1.13 (592/52564) |
+| %1.05 | M2d (uzman, tip-ici) | hepsi | 0.76 / 0.59 | %0.00 [0.00-0.11] (0/3471) | 0 | %1.14 (682/60000) |
+| %1.05 | native | EXE | 0.79 / 0.60 | %0.00 [0.00-7.27] (0/49) | 0 | %0.89 (66/7436) |
+| %1.05 | native | DLL | 0.79 / 0.60 | %0.03 [0.01-0.17] (1/3422) | 0 | %0.77 (406/52564) |
+| %1.05 | native | hepsi | 0.79 / 0.60 | %0.03 [0.01-0.16] (1/3471) | 0 | %0.79 (472/60000) |
+
+[*] Betimleyici: M2d esik 0,5'te yerel .NET YA: EXE %2.04 [0.36-10.69] (1/49), DLL %0.06 [0.02-0.21] (2/3422)
+
+=== Yorum kurallari (is2a_on_kayit.md) ===
+1) H %0.45 M2d EXE: YA %0.0 [0.0-7.27] (0/49) -> hukum yok: cozunurluk yetersiz (wilson(0, 49) ust %7.27 >= H)
+1) H %0.45 M2d DLL: YA %0.0 [0.0-0.112] (0/3422) -> M2d yerel mesru .NET DLL dosyalarinda hedefin ALTINDA yanlis alarm veriyor
+1) H %1.05 M2d EXE: YA %0.0 [0.0-7.27] (0/49) -> hukum yok: cozunurluk yetersiz (wilson(0, 49) ust %7.27 >= H)
+1) H %1.05 M2d DLL: YA %0.0 [0.0-0.112] (0/3422) -> M2d yerel mesru .NET DLL dosyalarinda hedefin ALTINDA yanlis alarm veriyor
+2) H %0.45 M2d - native EXE: yalniz M2d 0, yalniz native 0, p = 1 -> hukum yok: uyusmayan cift sayisi yetersiz (b + c = 0 < 6)
+2) H %0.45 M2d - native DLL: yalniz M2d 0, yalniz native 0, p = 1 -> hukum yok: uyusmayan cift sayisi yetersiz (b + c = 0 < 6)
+2) H %1.05 M2d - native EXE: yalniz M2d 0, yalniz native 0, p = 1 -> hukum yok: uyusmayan cift sayisi yetersiz (b + c = 0 < 6)
+2) H %1.05 M2d - native DLL: yalniz M2d 0, yalniz native 1, p = 1 -> hukum yok: uyusmayan cift sayisi yetersiz (b + c = 1 < 6)
+
+[+] bitti (8 sn) -> is2a_yerel_net.csv
