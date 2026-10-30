@@ -23,6 +23,13 @@ bağımsız doğrulayıcı `test_olasi_zararli_cikis_kodu`'nu Windows dosya kili
 başına koşulunca belirlenimci olarak düşüyor, paket içinde önceki testlerin tetiklediği çöp toplama
 kilidi gizliyordu.
 
+**Revizyon 5 (30 Ekim 2026, kullanıcı kararı, denetimin sonuçlarından önce):** ölçüt 12 ve İş 7
+(Çiftleme denetimi) eklendi. Neden: İş 2(b) ön kaydı hazırlanırken EMBER2024 ham JSONL'lerinde her
+kaydın İKİ KEZ bulunduğu görüldü (kopyalar yalnız capa alanlarında farklı; Win32/Win64 test 959.738
+satır = 479.856 eşsiz dosya; ayrıntı `olcum/is2-uzman` dalı, `sonuclar/7/is2b_on_kayit.md`). Belgelerde
+satır sayıları "dosya" diye yazılmış, Wilson aralıkları ve McNemar p'leri iki kat n ile hesaplanmış
+olabilir. İş 7, İş 6'dan ÖNCE yapılır. Eğitim yenilenmez (kullanıcı kararı, şimdilik).
+
 ## Ön kayıt şablonu (İş 2'den itibaren her ön kayıt dört bölümü içerir)
 
 1. **Soru ve sabitler:** ne ölçülüyor; veri, dönem, model, eşik; sonuçtan sonra değişmeyecek her şey.
@@ -35,7 +42,7 @@ kilidi gizliyordu.
 
 ## Kapanış ölçütleri
 
-Faz 1, aşağıdaki on bir ölçütün HEPSİ origin/main'de ve canlı sitede sağlandığında kapanır.
+Faz 1, aşağıdaki on iki ölçütün (12. ölçüt Revizyon 5) HEPSİ origin/main'de ve canlı sitede sağlandığında kapanır.
 
 1. **Yeniden üretilebilirlik:** origin/main boş klasöre temiz klonlanır, yeni venv `requirements.txt`
    (+ dev) ile kurulur: test paketinin tamamı geçer (gcc ile, atlanan yok); Faz 1 yeniden üretimi
@@ -75,6 +82,11 @@ Faz 1, aşağıdaki on bir ölçütün HEPSİ origin/main'de ve canlı sitede sa
 11. **Denetçi modülü ayrı:** yalnız karar + aralık doğrulaması + hash kontrolü; model ve ayrıştırıcı
     YOK. Python referansı ve C sürümü aynı sınır tablosundan geçer; rastgele girdilerle ikisi aynı
     sonucu verir; C sürümü `-Wall -Wextra -Wconversion -Wsign-conversion -Werror` ile temiz derlenir.
+12. **Dosya sayıları eşsiz dosya sayısıdır (Revizyon 5):** belgelerde ve yayında (site, README TR/EN,
+    CLAUDE.md, notlar) "dosya" diye yazılan her sayı eşsiz dosya (sha256) sayısıdır; satır sayısı
+    yazılıyorsa "satır" diye etiketlidir (ör. "479.856 eşsiz dosya (959.738 satır)"). EMBER2024
+    üzerindeki Wilson aralıkları ve McNemar p'leri eşsiz dosyalarla yeniden hesaplanmış; hükmü
+    değişen her sonuç ayrıca listelenmiş ve belgelerde düzeltilmiş.
 
 ## Kapsam dışı (Faz 1 kapanışını bekletmez)
 
@@ -152,3 +164,13 @@ Faz 1, aşağıdaki on bir ölçütün HEPSİ origin/main'de ve canlı sitede sa
   "DOĞRULANMADI" kalan her yer ölçülmüş ya da devredilmiş; site (onayla), canlı = commit (bayt),
   canlı rakamlar = README (betik); main üzerinde `faz1-kapanis` etiketi (onayla). BİTTİ: tüm
   satırlar GEÇTİ ve kullanıcı belgelerin son halini onayladı. → ölçüt 1, 2, 5, 6.
+- **İş 7 - Çiftleme denetimi (Revizyon 5; İş 6'dan ÖNCE).** Ön kayıt önce (dört bölümlü şablon),
+  sonra ölçüm. Eğitim YENİLENMEZ; hiçbir şey main'e alınmaz, site gönderilmez.
+  (a) Yayındaki ve belgelerdeki tüm "dosya" sayılarının envanteri (site TR/EN, README TR/EN,
+  CLAUDE.md, notlar): her biri satır mı eşsiz dosya mı; düzeltme TASLAĞI (yayınlanmaz, kullanıcı
+  onaylar). (b) 3/, 5/, 6/ sonuçları eşsiz dosyalarla yeniden: nokta tahminleri aynı kalmalı
+  (fark varsa nedeni), Wilson aralıkları ve McNemar p'leri yeniden; hükmü değişen her şey ayrıca
+  listelenir. (c) Son modelin eğitim örneğindeki eşsiz dosya sayısı; eğitim / doğrulama / test
+  örtüşmesi; doğrulama örtüşmesi varsa yanlış alarm kaymasına etkisi AYRI ölçüm olarak (hipotez:
+  kayma kısmen bundan). BİTTİ: (a)(b)(c) ön kaydıyla, sonuç tablosu ve düzeltme taslağı yazılı;
+  kullanıcı taslağı onaylayana kadar yayın değişmez. → ölçüt 12.
