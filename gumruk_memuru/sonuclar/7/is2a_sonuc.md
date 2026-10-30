@@ -36,6 +36,14 @@ Alarm veren dosyalarda Karma_Mod: 0. Betimleyici (hüküm yok): M2d eşik 0,5'te
 
 ## Yorum (betimleyici, hüküm değil)
 
+**Düzeltme (30 Ekim 2026, sonuç commit'inden sonra):** aşağıdaki "çoğu Microsoft / dotnet çalışma
+zamanı" ifadesi yazıldığında ÖLÇÜLMEMİŞTİ. Sonradan isimli kopyadan (`sef_dogrulama_dz80_isimli.csv`,
+repoda yok; 94 ortak sütunda dondurulmuş setle satır satır aynı) üst klasöre göre sayıldı: 3.471 .NET
+dosyasının ~%61'i Microsoft klasörlerinde (Program Files\dotnet 726, Program Files\Microsoft* /
+Windows* 1.311, Reference Assemblies 64, System32/SysWOW64 yalnız 16), ~%39'u Microsoft dışı 12
+üretici klasöründe; bunların ikisi tek başına ~%35. İmza ölçülmedi. Sonuç ve kurallar değişmedi;
+"yerel meşru .NET geneli" yorumu yapılmaz.
+
 - Dot_Net_test'te M2d'nin DLL yanlış alarmı aynı eşiklerde %0,78 / %1,13; yerelde 0/3.422. Yerel
   meşru .NET DLL'ler (çoğu Microsoft / dotnet çalışma zamanı) EMBER2024'ün zararsız .NET DLL'lerinden
   "kolay" görünüyor. Native için de aynı tablo var (yerel 0-1 alarm, testte %0,42-0,77).

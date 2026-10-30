@@ -108,6 +108,17 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   henüz DOĞRULANMADI. (2) DLL'de hüküm yok; eşit yanlış alarmda ROC tabanlı tanı
   karşılaştırması planlı (İş 2c). (3) Bağlama kararı İş 2'nin (a)(b)(c) ölçümlerinden
   SONRA, kullanıcı tarafından verilecek (`sonuclar/6/FAZ1_KAPANIS.md`).
+- İŞ 2(a) YAPILDI (30 Ekim, dal `olcum/is2-uzman`, `sonuclar/7/is2a_*`; ön kayıt ölçümden önce):
+  M2d yerel meşru .NET'te (dondurulmuş set, NET_mi=1) aynı doğrulama eşiklerinde 0/3.471 alarm;
+  DLL 0/3.422 (Wilson üst %0.11 < H) -> "hedefin altında". EXE 0/49 -> hüküm yok (üst %7.27,
+  çözünürlük yetersiz). M2d-native McNemar hüküm yok (uyuşmayan çift 0-1). SINIRLAMA - GENELLEME
+  YAPMA ("çeşitli meşru .NET'te yanlış alarm düşük" DENMEZ): set kümeli ve dar; yollar (isimli
+  kopyadan, satır satır aynı doğrulandı) Microsoft klasörleri ~%61 (Program Files\dotnet 726,
+  Program Files\Microsoft*/Windows* 1.311, Reference Assemblies 64; System32/SysWOW64 YALNIZ 16 -
+  "sistem DLL'i" değil), Microsoft dışı 12 üretici klasörü ~%39, bunların İKİSİ tek başına ~%35.
+  İmza ölçülmedi (klasör ≠ imza). EXE yalnız 49 dosya: M2d'nin bilinen zayıf noktası (EXE YA)
+  burada ölçülemedi; büyük .NET EXE ölçümü ayrı iş (yapılmadı). Native de bu sette 0-1 alarm
+  veriyor -> Dot_Net_test'teki "uzmanın DLL YA'sı yüksek" bulgusunu ne doğruluyor ne çürütüyor.
 - Üretimde eşik/kalibrasyon: M2d her tip için %50 önsel varsayar. Gerçek
   EXE/DLL zararlı oranı farkı gerçek bir bilgi, atılmamalı: eşik anında
   tipe özel önselle düzelt: p' = p·π_t / (p·π_t + (1-p)(1-π_t)),
