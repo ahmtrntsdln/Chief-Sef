@@ -62,9 +62,19 @@ Geçit tutmazsa ölçüm DURUR; log saklanır, sonuç tablosu yazılmaz.
 **Ölçüm** (tekil A, bir kez): her H × model (M2d, native) × tür (EXE, DLL, hepsi): kaçan ve YA k/n,
 %, Wilson; AUC (eşiksiz, betimleyici). Her H × tür (EXE, DLL): zararlılarda McNemar (b = yalnız M2d
 kaçırdı, c = yalnız native kaçırdı). Tekil Dot_Net_test'te aynı eşiklerle M2d ve native YA (koşul
-E1 için) ve M2d kaçan (kural 3 için). Betimleyici: Karma_Mod = 0 / 1 alt grupları; tekil A'da en sık
-zararlı aileler (n ≥ 30) ve ayrıca `agenttesla` (CLAUDE.md'de izlenecek aile) için kaçan, H %1,05;
-native üretim eşiklerinde tekil A.
+E1 için) ve M2d kaçan (kural 3 için). Betimleyici: tekil A'da en sık zararlı aileler (n ≥ 30) ve
+ayrıca `agenttesla` (CLAUDE.md'de izlenecek aile) için kaçan, H %1,05; native üretim eşiklerinde
+tekil A.
+
+**Betimleyici katmanlama: saf .NET ve karma mod** (Revizyon 1, 30 Ekim 2026, kullanıcı isteği,
+ölçümden önce; HÜKÜM KURALI DEĞİL). Tekil A iki katmana ayrılır: saf .NET (`Karma_Mod` = 0) ve karma
+mod (`Karma_Mod` = 1). Her katman × her H × model (M2d, native) × tür (EXE, DLL, hepsi) için kaçan ve
+YA: k/n, %, Wilson %95; n < 30 hücrede yalnız k/n. Ayrıca native üretim eşiklerinde aynı döküm.
+Beklenen tekil hücreler: saf .NET zararsız EXE 48 / DLL 222, zararlı EXE 1.583 / DLL 140; karma mod
+zararsız EXE 53 / DLL 295, zararlı EXE 56 / DLL 14 (zararlı karma DLL n < 30). Bu döküm hiçbir
+kural cümlesi yazdırmaz; kural 1-3 yalnız katmansız tekil A'ya uygulanır. Amaç, M2d'nin eğitimde
+neredeyse görmediği karma mod dosyalarında (Dot_Net_train'de %0,13) farkın nerede toplandığını
+göstermek; katmanlar arası fark "anlamlı" diye yazılmaz.
 
 ## 3. Yorum / karar kuralı
 
@@ -78,7 +88,8 @@ native üretim eşiklerinde tekil A.
 3. **Aktarım (M2d, kaçan, tür başına):** tekil A ve tekil Dot_Net_test'teki M2d kaçan aralıkları
    örtüşmüyorsa "M2d'nin kaçanı A'da Dot_Net_test'ten anlamlı olarak farklı (yüksek / düşük)";
    örtüşüyorsa "fark gösterilemedi".
-4. AUC, Karma_Mod alt grupları, aileler ve native üretim eşiği satırları betimleyicidir; hüküm üretmez.
+4. AUC, saf .NET / karma mod katmanları, aileler ve native üretim eşiği satırları betimleyicidir;
+   hüküm üretmez.
 5. Sonuç ne olursa olsun uzman bağlanmaz; `tahmin_et.py` .NET kuralı değişmez.
 
 ## 4. Hüküm verilmeyen durumlar
