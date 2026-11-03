@@ -643,8 +643,9 @@ açık işler.
    alarmda Dot_Net_test zararlılarının %60-89'unu kaçırıyor (İş 2(c), `olcum/is2-uzman`) ve uzman Faz 1 dışı. Bedeli:
    yerel kümede .NET'in %99.97'si, tüm kümenin %61.58'i BELİRSİZ (3.470/5.635; betimleyici,
    `sonuclar/7/yerel_belirsiz.log`; o makinenin karışımına bağlı). Yani burada BELİRSİZ "bu bir .NET dosyası" demeye
-   yakındır. İmza, hash ya da skor bölgesi bu kuralı kendiliğinden gevşetmez; değişiklik yeni ön kayıtlı ölçüm ve
-   kullanıcı kararı ister (`sonuclar/6/FAZ1_KAPANIS.md`, Revizyon 6).
+   yakındır. Model skoru, imza varlığı ve skor bölgesi .NET'te "temiz" VEREMEZ. Tek olası yol, bilinen iyi listeyle tam
+   SHA-256 eşleşmesidir; bugün YOK, ancak İş 4'te ön kayıtlı ölçüm ve açık kararla eklenir
+   (`sonuclar/6/FAZ1_KAPANIS.md`, Revizyon 6-7).
 
 ## Çalışma Alışkanlıkları
 - Uzun işler (tarama, çıkarım, eğitim döngüsü): başta işi say ve %/ETA

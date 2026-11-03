@@ -36,6 +36,12 @@ tek model.** ".NET'te eşik altı = BELİRSİZ" kalıcı kural oldu; yerel BELİ
 **iş sırası değişti: İş 4, İş 3'ün önüne alındı.** "Faz 1 sonrası açık sorular" bölümü eklendi. İş 5'e not
 düşüldü. Ölçüt gevşetilmedi. İş 2'nin sonuç dosyaları `olcum/is2-uzman` dalında (`bb6d81d`, origin'de), main'de değil.
 
+**Revizyon 7 (3 Kasım 2026, kullanıcı kararı, İş 3 ve İş 4 ön kayıtlarından önce):** İş 3'e hafta hafta yanlış alarm
+maddesi (tek kaynak burası; başka daldaki kopya kaldırılacak). Kalıcı kural netleşti: model skoru, imza varlığı ve skor
+bölgesi .NET'te "temiz" veremez; yalnız bilinen iyi listeyle tam SHA-256 eşleşmesi verebilir, o da ancak İş 4'te ön kayıtlı
+ölçüm ve açık kararla eklenirse. İş 4'e iki ön kayıt maddesi. 3. açık sorudaki atıf düzeltildi. İş 4 ön kaydı, İş 7 main'e
+girip main bu dala birleştirildikten SONRA başlar.
+
 ## Ön kayıt şablonu (İş 2'den itibaren her ön kayıt dört bölümü içerir)
 
 1. **Soru ve sabitler:** ne ölçülüyor; veri, dönem, model, eşik; sonuçtan sonra değişmeyecek her şey.
@@ -109,8 +115,12 @@ Faz 1, aşağıdaki on iki ölçütün (12. ölçüt Revizyon 5) HEPSİ origin/m
 
 Faz 1 kapanışından sonra da geçerlidir. `tahmin_et.py` ve `toplu_tahmin.py` bir .NET dosyasına eşik altı skorda asla
 "temiz" demez (`tahmin_et.karar`, testli; ölçüt 3). Gerekçe: native, 2(c)'de eşit yanlış alarmda Dot_Net_test
-zararlılarının %60-89'unu kaçırıyor. Kural yalnız yeni bir ön kayıtlı ölçüm ve kullanıcı kararıyla değişir; imza, hash
-ya da skor bölgesi bu kuralı kendiliğinden gevşetmez.
+zararlılarının %60-89'unu kaçırıyor. Kural yalnız yeni bir ön kayıtlı ölçüm ve kullanıcı kararıyla değişir.
+
+**Netleştirme (Revizyon 7):** model skoru, imza varlığı ve skor bölgesi bir .NET dosyasına "temiz" VEREMEZ. Tek olası yol,
+bilinen iyi bir listeyle **tam SHA-256 eşleşmesidir**; bu yol bugün YOKTUR ve ancak İş 4'te ön kayıtlı ölçüm ve açık kararla
+eklenir. Eklenirse ölçüt 3 ve 9'daki "asla temiz değil" ifadeleri aynı kararla bu istisnayı yazacak şekilde güncellenir;
+o zamana dek değişmez.
 
 **Bedeli (yerel küme, betimleyici, hüküm üretmez; `sonuclar/7/yerel_belirsiz.py`, `.log`).** Dondurulmuş 5.635 satır,
 `tahmin_et.karar` ile, sha256 ve alarm sayıları `net_sonuc.md` C ile aynı:
@@ -139,7 +149,8 @@ ya da skor bölgesi bu kuralı kendiliğinden gevşetmez.
 2. **Büyük bir zararsız .NET EXE kümesi.** A'da 101, yerelde 49 zararsız .NET EXE var. Bu olmadan EXE'de eşit yanlış
    alarmda M2d - native sorusu cevaplanamaz (2(c)'de sınanamadı) ve uzman kararı EXE için yeniden açılamaz.
 3. **Eşsiz verilerle yeniden eğitim.** EMBER2024'te her kayıt iki kez var; son modelin 483.224 satırlık örneği 402.129
-   eşsiz dosya (zararlı DLL hücresinde 120.806 satır = 60.403 dosya; İş 7, commit'lenmemiş ölçüm). Etkisi ölçülmedi.
+   eşsiz dosya (zararlı DLL hücresinde 120.806 satır = 60.403 dosya; dal `denetim/ciftleme`, `8ecb170`,
+   `sonuclar/8/ciftleme_c.log`). Etkisi ölçülmedi.
 
 ## İş paketleri ve "bitti" ölçütleri
 
@@ -184,6 +195,8 @@ ya da skor bölgesi bu kuralı kendiliğinden gevşetmez.
     başına zararsız dosya sayısı n ile ölçülebilen en küçük adım (1/n) ve hedefte beklenen alarm
     sayısı hesaplanır; hedef birkaç alarmdan azına düşüyorsa eşik o hedefe göre seçilmez, hüküm yok
     (şablon madde 4). Eşik marjla seçilir (marj kuralı ön kayıtta sayıyla).
+  - (Revizyon 7) Test haftaları 52-63 için hafta hafta zararsız DLL ve EXE yanlış alarmı (betimleyici, ön kayıtla;
+    eşsiz dosya, Wilson). Bu maddenin tek kaynağı burasıdır.
 - **İş 4 - İmza / hash filtresi.** Ön kayıtlı araştırma: ölçülebilirlik ve Kural 1 (iki tarafta aynı
   ölçüm). BİTTİ: karar ve gerekçesi yazılı. → ölçüt 10.
   **Öncelik (Revizyon 6): İş 4, İş 3'ün ÖNÜNE alındı.** Güncel sıra: İş 7 → İş 4 → İş 3 → İş 5 → İş 6. Neden: kalıcı kural
@@ -203,6 +216,10 @@ ya da skor bölgesi bu kuralı kendiliğinden gevşetmez.
     yerel ölçüm gerekiyorsa yeni ön kayıtla, eskiyen dosyaların sayısı yazılarak yapılır.
   - (Revizyon 6) Kalıcı kuralı çiğnemez: imza varlığı bir .NET dosyasını kendiliğinden "temiz" yapamaz. Kuralı
     değiştiren bir öneri ayrı ön kayıtlı ölçüm ve kullanıcı kararı ister.
+  - (Revizyon 7) Dot_Net_test'te zararlı .NET dosyalarının native skor dağılımı, özellikle ≤ 0,2 bandındaki pay (eşsiz
+    dosya, EXE / DLL ayrı; betimleyici, kalıcı kuralın kanıtı).
+  - (Revizyon 7) Yerel kümedeki .NET dosyalarının bilinen iyi özet listesiyle kapsanabilecek payı: hangi listeler, kaynağı
+    ve güncellenmesi dahil. Eşleşme tam SHA-256 ile (kalıcı kural, Revizyon 7).
 - **İş 5 - Denetçi ayırma.** Python referansı + C sürümü, ortak sınır tablosu, rastgele girdi
   eşitliği, derleyici bayrakları. BİTTİ: ölçüt 11'in her maddesi GEÇTİ.
   **Not (Revizyon 6, yapılacak):** `tahmin_et.py:141` ".NET uzman modeli ... henuz tahmin_et'e baglanmadi" mesajı İş 2
