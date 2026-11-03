@@ -1,0 +1,21 @@
+bolum,hucre,ciftli,tekil,durum
+5/ kural 1,B tur esigi,AZALTIYOR,AZALTIYOR,hukum ayni
+5/ kural 1,"B 0,5 (Faz 1 ile ayni)",AZALTIYOR,AZALTIYOR,hukum ayni
+5/ kural 2,A EXE kacan,.NET anlamli olarak DAHA KOTU,.NET anlamli olarak DAHA KOTU,hukum ayni
+5/ kural 2,A EXE YA,.NET anlamli olarak DAHA KOTU,.NET anlamli olarak DAHA KOTU,hukum ayni
+5/ kural 2,A DLL kacan,fark gosterilemedi,fark gosterilemedi,hukum ayni
+5/ kural 2,A DLL YA,fark gosterilemedi,fark gosterilemedi,hukum ayni
+5/ EK,birincil (Faz 1 YA'sinda),native DAHA AZ,native DAHA AZ,hukum ayni
+5/ EK,ikincil (native sabit YA'sinda),native DAHA AZ,native DAHA AZ,hukum ayni
+6/,"H 0.45 M2 (uzman, kestirmeli) EXE",UZMAN daha az kaciriyor,UZMAN daha az kaciriyor,hukum ayni
+6/,"H 0.45 M2 (uzman, kestirmeli) DLL",esit YA SAGLANAMADI -> hukum yok,esit YA SAGLANAMADI -> hukum yok,hukum ayni
+6/,"H 0.45 M2 (uzman, kestirmeli) hepsi",esit YA SAGLANAMADI -> hukum yok,esit YA SAGLANAMADI -> hukum yok,hukum ayni
+6/,"H 0.45 M2d (uzman, tip-ici) EXE",UZMAN daha az kaciriyor,UZMAN daha az kaciriyor,hukum ayni
+6/,"H 0.45 M2d (uzman, tip-ici) DLL",esit YA SAGLANAMADI -> hukum yok,esit YA SAGLANAMADI -> hukum yok,hukum ayni
+6/,"H 0.45 M2d (uzman, tip-ici) hepsi",esit YA SAGLANAMADI -> hukum yok,esit YA SAGLANAMADI -> hukum yok,hukum ayni
+6/,"H 1.05 M2 (uzman, kestirmeli) EXE",esit YA SAGLANAMADI -> hukum yok,UZMAN daha az kaciriyor,HUKUM DEGISTI
+6/,"H 1.05 M2 (uzman, kestirmeli) DLL",esit YA SAGLANAMADI -> hukum yok,esit YA SAGLANAMADI -> hukum yok,hukum ayni
+6/,"H 1.05 M2 (uzman, kestirmeli) hepsi",esit YA SAGLANAMADI -> hukum yok,esit YA SAGLANAMADI -> hukum yok,hukum ayni
+6/,"H 1.05 M2d (uzman, tip-ici) EXE",UZMAN daha az kaciriyor,UZMAN daha az kaciriyor,hukum ayni
+6/,"H 1.05 M2d (uzman, tip-ici) DLL",esit YA SAGLANAMADI -> hukum yok,esit YA SAGLANAMADI -> hukum yok,hukum ayni
+6/,"H 1.05 M2d (uzman, tip-ici) hepsi",esit YA SAGLANAMADI -> hukum yok,esit YA SAGLANAMADI -> hukum yok,hukum ayni
