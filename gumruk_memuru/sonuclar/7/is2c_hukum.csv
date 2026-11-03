@@ -1,0 +1,9 @@
+kume,tur,H,hukum_aliyor,cumle,a95_ust,fark,alt,ust
+Dot_Net_test,EXE,0.45,True,M2d esit YA'da daha az kaciriyor,-29.791079,-36.663944,-41.995725,-29.791079
+Dot_Net_test,EXE,1.05,True,M2d esit YA'da daha az kaciriyor,-31.205445,-34.469058,-39.194194,-31.205445
+Dot_Net_test,DLL,0.45,True,M2d esit YA'da daha az kaciriyor,-65.229811,-67.613016,-71.415885,-65.229811
+Dot_Net_test,DLL,1.05,True,M2d esit YA'da daha az kaciriyor,-72.976362,-75.091798,-76.982071,-72.976362
+A,EXE,0.45,False,hukum yok: asgari ornek altinda (n*H = 0.45 < 5),35.540465,-3.466656,-20.804527,35.540465
+A,EXE,1.05,False,hukum yok: asgari ornek altinda (n*H = 1.06 < 5),39.589509,15.88374,-22.252366,39.589509
+A,DLL,0.45,False,hukum yok: asgari ornek altinda (n*H = 2.33 < 5),24.530694,-53.154058,-66.532491,24.530694
+A,DLL,1.05,True,fark gosterilemedi,22.022505,9.647403,-63.034681,22.022505

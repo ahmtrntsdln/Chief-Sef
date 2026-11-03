@@ -127,7 +127,16 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   M2d kaçanı A'da 4 hücrenin hepsinde Dot_Net_test'ten anlamlı yüksek (1.81-3.61 kat). Fark karma moddan
   gelmiyor: H %0.45 EXE'deki 204 dosyalık farkın 203'ü saf .NET (betimleyici; nedeni ölçülmedi). Sınır:
   eşikler A için seçilmedi; native bu popülasyonu eğitimde gördü, M2d görmedi. Uzman BAĞLANMADI; kalan
-  İş 2(c) ve kullanıcı kararı.
+  İş 2(c) (aşağıda).
+- İŞ 2(c) YAPILDI (3 Kasım, `sonuclar/7/is2c_*`; ön kayıt ölçümden önce; geçitler K1-K7 tuttu): eşit YA her modelde
+  aynı kümede ROC'tan kuruldu (FPR = H; ROC noktası, üretim eşiği DEĞİL), eşsiz dosya, eşlenik bootstrap. Dot_Net_test'te
+  M2d dört hücrede de az kaçırıyor (Δ -34 ile -75 puan). A'da asgari örnek (n·H ≥ 5) yalnız DLL %1,05'te: +9.65
+  [-63.03, +22.02] -> fark gösterilemedi ("eşit" DENMEZ, TOST sağlanmadı; değer 5 alarm civarındaki birkaç dosyaya bağlı). EXE
+  A'da SINANAMADI (101 zararsız). KARAR (ön kayıtlı kural 5): aday yok -> VARSAYILAN: uzman Faz 1 kapsamı DIŞI, native
+  tek model. Bu "native daha iyi" hükmü değil: iki küme çelişiyor (A'da AUC native, Dot_Net_test'te M2d önde), nedeni
+  ölçülmedi; native Dot_Net_test zararlılarının %60-89'unu kaçırıyor -> .NET BELİRSİZ kuralı korunur. Yeniden açmak yeni ön
+  kayıt ve büyük zararsız .NET EXE örneği ister. 2(b)'nin %0.45 EXE hükmü takas içeriyordu: aynı alarm sayısında EXE k=0
+  M2d 61.62 / native 65.28, k=1 59.37 / 43.44, k=3 42.40 / 25.81 (betimleyici).
 - Üretimde eşik/kalibrasyon: M2d her tip için %50 önsel varsayar. Gerçek
   EXE/DLL zararlı oranı farkı gerçek bir bilgi, atılmamalı: eşik anında
   tipe özel önselle düzelt: p' = p·π_t / (p·π_t + (1-p)(1-π_t)),

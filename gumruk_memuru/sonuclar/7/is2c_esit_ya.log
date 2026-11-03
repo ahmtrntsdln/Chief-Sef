@@ -1,0 +1,182 @@
+[+] K1 ciftli 4848, tekil 2411 {(0, 0): 101, (0, 1): 1639, (1, 0): 517, (1, 1): 154}; celiskili sha 0; hafta 52-63
+[*] M2d 4 x 24104; native sha256 f6b74df812f02d75... (16 sn)
+[+] K2, K3 esikler ve Dot_Net_test 12 satir == uzman_native.csv
+[+] K3 ciftli A uretim esigi == net_olcum.csv
+[+] K4 ortak sha 0; K5 Dot_Net_test tekil 59953, farkli etiket 0
+[+] K6 24 satir (k/n ve AUC) == is2b_a_kumesi.csv
+[+] K7 AUC == roc_auc_score (1e-12), kendisiyle fark 0, tohum belirlenimci (19 sn)
+[+] Tum gecitler tuttu; olcum basliyor
+
+[*] Dot_Net_test EXE: n zararsiz 3713, zararli 27370; B = 10000 (9 sn)
+[*] Dot_Net_test DLL: n zararsiz 26240, zararli 2630; B = 10000 (9 sn)
+[*] Dot_Net_test hepsi: n zararsiz 29953, zararli 30000; B = 10000 (16 sn)
+[*] A EXE: n zararsiz 101, zararli 1639; B = 10000 (3 sn)
+[*] A DLL: n zararsiz 517, zararli 154; B = 10000 (2 sn)
+[*] A hepsi: n zararsiz 618, zararli 1793; B = 10000 (3 sn)
+
+=== BIRINCIL: esit YA'da kacan (Delta = M2d - native, puan; eslenik bootstrap %95) ===
+| kume | tur | H | n*H | M2d kacan | native kacan | Delta [%95] | %90 | hukum |
+|---|---|---|---|---|---|---|---|---|
+| Dot_Net_test | EXE | %0.45 | 16.71 | %33.59 | %70.26 | -36.66 [-42.00, -29.79] | [-41.04, -30.96] | M2d esit YA'da daha az kaciriyor |
+| Dot_Net_test | EXE | %1.05 | 38.99 | %25.89 | %60.36 | -34.47 [-39.19, -31.21] | [-38.47, -31.92] | M2d esit YA'da daha az kaciriyor |
+| Dot_Net_test | DLL | %0.45 | 118.08 | %21.61 | %89.22 | -67.61 [-71.42, -65.23] | [-70.88, -65.64] | M2d esit YA'da daha az kaciriyor |
+| Dot_Net_test | DLL | %1.05 | 275.52 | %9.04 | %84.13 | -75.09 [-76.98, -72.98] | [-76.68, -73.32] | M2d esit YA'da daha az kaciriyor |
+| A | EXE | %0.45 | 0.45 | %60.60 | %64.06 | -3.47 [-20.80, +35.54] | [-10.56, +25.88] | hukum yok: asgari ornek altinda (n*H = 0.45 < 5) |
+| A | EXE | %1.05 | 1.06 | %59.23 | %43.35 | +15.88 [-22.25, +39.59] | [-20.19, +37.23] | hukum yok: asgari ornek altinda (n*H = 1.06 < 5) |
+| A | DLL | %0.45 | 2.33 | %38.54 | %91.69 | -53.15 [-66.53, +24.53] | [-64.48, +19.48] | hukum yok: asgari ornek altinda (n*H = 2.33 < 5) |
+| A | DLL | %1.05 | 5.43 | %31.82 | %22.17 | +9.65 [-63.03, +22.02] | [-60.63, +19.57] | fark gosterilemedi |
+
+=== KARAR (kural 3-5) ===
+EXE: iki kumede de M2d lehine hucreler []; engel (native daha az) []; aday hucre []
+DLL: iki kumede de M2d lehine hucreler []; engel (native daha az) []; aday hucre []
+-> Aday yok. VARSAYILAN KARAR: uzman Faz 1 kapsami disi, native tek model.
+
+=== BETIMLEYICI: AUC (eslenik bootstrap %95) ===
+Dot_Net_test EXE: M2d 0.9769, native 0.9024, fark +0.0744 [+0.0704, +0.0787]
+Dot_Net_test DLL: M2d 0.9919, native 0.8378, fark +0.1540 [+0.1474, +0.1608]
+Dot_Net_test hepsi: M2d 0.9896, native 0.9553, fark +0.0344 [+0.0331, +0.0356]
+A EXE: M2d 0.9063, native 0.9635, fark -0.0573 [-0.0851, -0.0310]
+A DLL: M2d 0.9455, native 0.9799, fark -0.0345 [-0.0565, -0.0147]
+A hepsi: M2d 0.9450, native 0.9792, fark -0.0341 [-0.0449, -0.0232]
+
+=== BETIMLEYICI: kismi AUC (FPR <= H, ortalama TPR; asgari ornek altindaki hucre isaretli) ===
+Dot_Net_test EXE %0.45: M2d 0.5613, native 0.1885, fark +0.3728 [+0.3166, +0.4310]
+Dot_Net_test EXE %1.05: M2d 0.6445, native 0.2800, fark +0.3645 [+0.3232, +0.4061]
+Dot_Net_test DLL %0.45: M2d 0.6218, native 0.0582, fark +0.5636 [+0.5148, +0.6096]
+Dot_Net_test DLL %1.05: M2d 0.7593, native 0.1028, fark +0.6565 [+0.6254, +0.6877]
+A EXE %0.45: M2d 0.3889, native 0.3533, fark +0.0356 [-0.3575, +0.2112]  [asgari ornek altinda, yorumlanmaz]
+A EXE %1.05: M2d 0.3957, native 0.3723, fark +0.0234 [-0.3546, +0.1939]  [asgari ornek altinda, yorumlanmaz]
+A DLL %0.45: M2d 0.5297, native 0.0415, fark +0.4882 [+0.0691, +0.6439]  [asgari ornek altinda, yorumlanmaz]
+A DLL %1.05: M2d 0.6041, native 0.1707, fark +0.4334 [-0.0597, +0.6253]
+
+=== BETIMLEYICI: duyarlilik (ic degerleme yok; FPR'si H'yi asmayan son kose) ===
+Dot_Net_test EXE %0.45: M2d kacan %34.07 (FPR %0.404, sonraki %0.512) | native kacan %72.58 (FPR %0.377, sonraki %0.458)
+Dot_Net_test EXE %1.05: M2d kacan %26.74 (FPR %0.943, sonraki %1.050) | native kacan %60.82 (FPR %0.996, sonraki %1.239)
+Dot_Net_test DLL %0.45: M2d kacan %22.17 (FPR %0.412, sonraki %0.461) | native kacan %89.35 (FPR %0.446, sonraki %0.461)
+Dot_Net_test DLL %1.05: M2d kacan %9.24 (FPR %1.037, sonraki %1.059) | native kacan %84.45 (FPR %0.976, sonraki %1.082)
+A EXE %0.45: M2d kacan %61.62 (FPR %0.000, sonraki %0.990) | native kacan %65.28 (FPR %0.000, sonraki %0.990)
+A EXE %1.05: M2d kacan %59.37 (FPR %0.990, sonraki %1.980) | native kacan %43.44 (FPR %0.990, sonraki %1.980)
+A DLL %0.45: M2d kacan %38.96 (FPR %0.387, sonraki %0.580) | native kacan %100.00 (FPR %0.000, sonraki %0.774)
+A DLL %1.05: M2d kacan %31.82 (FPR %0.774, sonraki %1.161) | native kacan %22.73 (FPR %0.967, sonraki %1.161)
+
+=== BETIMLEYICI: A'da ayni zararsiz alarm sayisinda kacan (takas; hukum uretmez) ===
+| tur | k | M2d gercek alarm | M2d kacan | native gercek alarm | native kacan |
+|---|---|---|---|---|---|
+| EXE | 0 | 0 | %61.62 (1010/1639) | 0 | %65.28 (1070/1639) |
+| EXE | 1 | 1 | %59.37 (973/1639) | 1 | %43.44 (712/1639) |
+| EXE | 2 | 2 | %55.16 (904/1639) | 2 | %36.85 (604/1639) |
+| EXE | 3 | 3 | %42.40 (695/1639) | 3 | %25.81 (423/1639) |
+| DLL | 0 | 0 | %51.30 (79/154) | 0 | %100.00 (154/154) |
+| DLL | 1 | 1 | %46.75 (72/154) | 0 | %100.00 (154/154) |
+| DLL | 2 | 2 | %38.96 (60/154) | 0 | %100.00 (154/154) |
+| DLL | 3 | 3 | %36.36 (56/154) | 0 | %100.00 (154/154) |
+| DLL | 4 | 4 | %31.82 (49/154) | 4 | %70.78 (109/154) |
+| DLL | 5 | 4 | %31.82 (49/154) | 5 | %22.73 (35/154) |
+| DLL | 6 | 6 | %31.82 (49/154) | 6 | %19.48 (30/154) |
+| DLL | 7 | 7 | %29.22 (45/154) | 6 | %19.48 (30/154) |
+
+=== BETIMLEYICI: aile bazinda beklenen kacan, esit YA, H %1,05 (aralik yok; zararli n >= 30 ve agenttesla) ===
+-- Dot_Net_test --
+| aile | n | M2d | native |
+|---|---|---|---|
+| (bilinmiyor) | 4815 | %45.95 | %78.83 |
+| wacatac | 3042 | %32.71 | %66.38 |
+| xworm | 2805 | %1.64 | %32.26 |
+| jalapeno | 1550 | %19.68 | %81.14 |
+| heracles | 1162 | %21.64 | %66.21 |
+| njrat | 1034 | %11.51 | %62.88 |
+| agenttesla | 1009 | %26.07 | %48.44 |
+| asyncrat | 817 | %5.26 | %33.13 |
+| clipbanker | 688 | %3.34 | %25.81 |
+| redline | 491 | %11.61 | %67.58 |
+| formbook | 468 | %24.37 | %45.28 |
+| remcos | 346 | %25.73 | %42.52 |
+| bedep | 306 | %9.48 | %97.71 |
+| quasar | 303 | %12.21 | %79.50 |
+| snakekeylogger | 272 | %33.46 | %52.17 |
+| puwaders | 265 | %34.34 | %61.68 |
+| darkcrystal | 263 | %11.03 | %55.98 |
+| crysan | 251 | %22.71 | %78.93 |
+| taskun | 235 | %13.19 | %30.97 |
+| stelpak | 221 | %15.39 | %49.32 |
+| marsilia | 216 | %37.50 | %74.90 |
+| snakelogger | 210 | %31.43 | %45.13 |
+| convagent | 206 | %37.38 | %84.74 |
+| nanocore | 184 | %22.83 | %46.02 |
+| ipamor | 167 | %3.60 | %2.26 |
+| injuke | 161 | %9.94 | %29.68 |
+| packy | 159 | %0.00 | %5.87 |
+| cerbu | 152 | %23.69 | %71.93 |
+| lummastealer | 142 | %22.54 | %39.67 |
+| barys | 140 | %15.71 | %52.70 |
+| godzilla | 139 | %0.72 | %97.84 |
+| dnoper | 136 | %25.74 | %50.25 |
+| mamut | 132 | %37.12 | %64.06 |
+| prometheus | 130 | %0.00 | %10.10 |
+| andromeda | 127 | %31.50 | %64.22 |
+| ribaj | 122 | %18.85 | %97.54 |
+| disfa | 122 | %6.56 | %13.75 |
+| mintluks | 118 | %1.69 | %100.00 |
+| uztuby | 114 | %0.00 | %0.00 |
+| zapchast | 109 | %1.83 | %96.33 |
+| samsam | 106 | %2.83 | %6.60 |
+| virut | 102 | %65.69 | %83.88 |
+| xenorat | 101 | %8.91 | %82.95 |
+| chinachopper | 93 | %0.00 | %100.00 |
+| azorult | 90 | %0.00 | %7.78 |
+| toxicbattery | 89 | %95.51 | %98.88 |
+| bobik | 89 | %16.85 | %72.79 |
+| confuser | 84 | %4.76 | %29.50 |
+| lokibot | 79 | %37.98 | %55.14 |
+| phemedrone | 69 | %0.00 | %94.20 |
+| umbralstealer | 68 | %8.82 | %98.20 |
+| vidar | 66 | %15.16 | %75.76 |
+| blackie | 64 | %3.12 | %1.56 |
+| phonzy | 63 | %22.23 | %64.73 |
+| exnet | 59 | %30.51 | %66.10 |
+| injectnet | 58 | %3.45 | %63.79 |
+| bodegun | 54 | %53.72 | %94.44 |
+| ader | 54 | %40.75 | %87.04 |
+| miscx | 53 | %22.64 | %92.45 |
+| cryptconsole | 52 | %0.00 | %10.27 |
+| dibizor | 50 | %36.00 | %78.00 |
+| pajetbin | 50 | %6.83 | %2.00 |
+| sonbokli | 49 | %46.94 | %81.63 |
+| alien | 49 | %34.69 | %91.84 |
+| zilla | 49 | %32.66 | %83.67 |
+| spynoon | 48 | %25.01 | %50.00 |
+| perseus | 47 | %14.89 | %78.25 |
+| discordbot | 46 | %41.31 | %91.30 |
+| orcusrat | 46 | %8.70 | %95.65 |
+| disco | 42 | %21.43 | %66.67 |
+| hanoone | 41 | %7.35 | %100.00 |
+| darktortilla | 41 | %26.84 | %41.46 |
+| resinject | 40 | %0.00 | %61.40 |
+| seraph | 39 | %30.77 | %69.23 |
+| appacker | 39 | %38.46 | %84.62 |
+| rubeus | 37 | %48.65 | %94.00 |
+| zeus | 36 | %16.67 | %77.78 |
+| strictor | 35 | %22.86 | %67.94 |
+| dinvoke | 35 | %60.01 | %74.29 |
+| scrop | 34 | %67.65 | %93.47 |
+| cobaltstrike | 34 | %29.42 | %82.35 |
+| kryptocibule | 34 | %55.89 | %90.53 |
+| nominatusstorm | 33 | %54.55 | %42.42 |
+| black | 33 | %75.77 | %75.09 |
+| stealerium | 31 | %12.90 | %79.93 |
+| badinterop | 30 | %0.00 | %100.00 |
+-- A --
+| aile | n | M2d | native |
+|---|---|---|---|
+| (bilinmiyor) | 662 | %70.81 | %40.14 |
+| wacatac | 226 | %44.17 | %41.35 |
+| asyncrat | 78 | %42.23 | %41.03 |
+| heracles | 64 | %40.62 | %24.91 |
+| redline | 60 | %31.46 | %41.57 |
+| njrat | 43 | %69.77 | %44.05 |
+| jalapeno | 41 | %17.07 | %18.48 |
+| xworm | 36 | %27.78 | %24.83 |
+| puwaders | 30 | %20.00 | %28.57 |
+| agenttesla | 25 | 21.0/25 (n<30) | 14.9/25 (n<30) |
+
+[+] bitti (61 sn) -> is2c_esit_ya.csv, is2c_hukum.csv
