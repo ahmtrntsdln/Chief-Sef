@@ -7,6 +7,20 @@ sonuçtan sonra DEĞİŞMEZ. Uzman model `tahmin_et.py`'ye BAĞLANMAZ.
 **Kapsam notu:** `FAZ1_KAPANIS.md` bu ölçümü "tanı amaçlı" diye tanımlıyor. Bölüm 3'teki karar kuralı ve
 varsayılan karar, kullanıcının 3 Kasım talimatıyla eklendi.
 
+**Revizyon 1 (3 Kasım 2026, kullanıcı isteği, ölçümden önce):**
+- **"Aralıklar örtüşüyorsa eşit YA" kuralı bu pakette KULLANILMAZ** (2(b)'nin E1 / E2 koşulları yok). Eşit YA,
+  her model için aynı kümede ROC'tan aynı FPR = H noktası seçilerek KURULUR.
+- **TOST:** YA için gerekmez (eşitlik kurulum gereği). Kaçan için, yalnız "fark gösterilemedi" hücrelerini
+  ayırmak üzere, önceden belirlenmiş pay **δ = 2 yüzde puan** ile: eşlenik bootstrap %90 aralığı (5 ve 95.
+  yüzdelik) tamamen (−2, +2) içindeyse "±2 puan içinde eşdeğer (TOST)". Aday kararına GİRMEZ (kural 3-5
+  yalnız üstünlüğe bakar). Pay çözümleyicinin seçimidir: kaçanda 2 puanı karar için ihmal edilebilir sayar.
+- **Takas kaydı (2(b), A, H %0,45 EXE):** M2d 0/101, native 1/101 yanlış alarm (eşikler 0,86 / 0,83);
+  Dot_Net_test'te 15/3.713 ve 14/3.713. M2d A'da daha az alarm verdiği için "daha çok kaçırıyor" hükmü bir
+  takas olabilir (`is2b_sonuc.md`, not).
+- **Ek betimleyici (takası doğrudan gösterir, hüküm üretmez):** A'da aynı zararsız alarm SAYISINDA kaçan: EXE
+  k = 0, 1, 2, 3; DLL k = 0-7. Her model için alarmı k'yı aşmayan son ROC köşesi (iç değerleme yok); gerçek
+  alarm sayısı yazılır (bağlı skor yüzünden k'dan az olabilir). Aralık yazılmaz.
+
 **Ön kayıttan önce bilinenler (bu ölçüm körlemesine DEĞİL):** İş 2(b) sonucu aynı iki küme ve aynı iki
 modelle görüldü (`is2b_sonuc.md`, `50f2ade`): Dot_Net_test'te sabit eşiklerde M2d çok daha az kaçırıyor; A
 kümesinde H %0,45 EXE'de M2d daha çok kaçırıyor, H %1,05 EXE'de fark gösterilemedi; DLL'de E1 tutmadığı
@@ -83,7 +97,8 @@ zararlı n ≥ 30 aileler ve `agenttesla`; yalnız nokta tahmini, güven aralı�
    bu pakette aday olma yolu YOKTUR; bu bir bulgu değil, A'daki zararsız EXE sayısının sınırıdır.
 2. **Hücre cümlesi** (hüküm alan hücrelerde): aralık üstü < 0 → "M2d eşit YA'da daha az kaçırıyor"; aralık
    altı > 0 → "native eşit YA'da daha az kaçırıyor"; aralık sıfırı içeriyorsa "fark gösterilemedi" ("eşit"
-   DENMEZ). Sıfırı dışlama kesindir: sınırın tam 0 olması dışlamaz.
+   DENMEZ; yalnız TOST koşulu sağlanırsa "±2 puan içinde eşdeğer (TOST)" eklenir). Sıfırı dışlama kesindir:
+   sınırın tam 0 olması dışlamaz.
 3. **Aday hücre:** aynı tür × H'de Dot_Net_test VE A hücrelerinin ikisi de hüküm alır ve ikisinin de aralık
    üstü < 0 ise.
 4. **Bağlanmaya aday (tür düzeyinde):** bir tür için en az bir aday hücre var VE o türün hüküm alan hiçbir
@@ -113,7 +128,8 @@ zararlı n ≥ 30 aileler ve `agenttesla`; yalnız nokta tahmini, güven aralı�
 - **Tek hücre:** bağlanma adaylığı fiilen DLL, H %1,05'e (A'da 517 zararsız, 154 zararlı, beklenen 5,43 alarm)
   dayanır. Bu güçlü bir kanıt tabanı değildir; aralığın geniş çıkması beklenir.
 - **EXE sınanamıyor:** A'daki EXE zararsız sayısı (101) iki hedefte de yetersiz. Eğitim haftalarından ek
-  örnek alınamaz (native o dosyaları gördü). 2(b)'nin EXE hükümleri olduğu gibi kalır.
+  örnek alınamaz (native o dosyaları gördü). 2(b)'nin EXE hükümleri, `is2b_sonuc.md`'deki notla birlikte
+  okunur: eşit YA'da yapılmış karşılaştırma değildirler.
 - **Çalışma noktası değil:** eşit YA, tanı için kümenin içinden kurulur. Gerçek kullanımda eşik doğrulamadan
   seçilir ve kayar; 2(b) bu kaymayı gösterdi.
 - **Bootstrap yalnız örnekleme belirsizliğini ölçer:** dosyalar bağımsız varsayılır. Aile ve hafta kümeliliği
