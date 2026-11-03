@@ -30,6 +30,12 @@ satır = 479.856 eşsiz dosya; ayrıntı `olcum/is2-uzman` dalı, `sonuclar/7/is
 satır sayıları "dosya" diye yazılmış, Wilson aralıkları ve McNemar p'leri iki kat n ile hesaplanmış
 olabilir. İş 7, İş 6'dan ÖNCE yapılır. Eğitim yenilenmez (kullanıcı kararı, şimdilik).
 
+**Revizyon 6 (3 Kasım 2026, kullanıcı kararı, İş 2(c) sonucundan sonra, İş 3-6'dan önce):** İş 2(c)'ye karar
+kuralı eklendi (ön kaydı `4c21a5b` ve `eea4c8d`, ölçümden önce) ve **İş 2 kararı yazıldı: uzman Faz 1 dışı, native
+tek model.** ".NET'te eşik altı = BELİRSİZ" kalıcı kural oldu; yerel BELİRSİZ oranı ölçüldü (%61,58) ve buna göre
+**iş sırası değişti: İş 4, İş 3'ün önüne alındı.** "Faz 1 sonrası açık sorular" bölümü eklendi. İş 5'e not
+düşüldü. Ölçüt gevşetilmedi. İş 2'nin sonuç dosyaları `olcum/is2-uzman` dalında (`bb6d81d`, origin'de), main'de değil.
+
 ## Ön kayıt şablonu (İş 2'den itibaren her ön kayıt dört bölümü içerir)
 
 1. **Soru ve sabitler:** ne ölçülüyor; veri, dönem, model, eşik; sonuçtan sonra değişmeyecek her şey.
@@ -62,7 +68,8 @@ Faz 1, aşağıdaki on iki ölçütün (12. ölçüt Revizyon 5) HEPSİ origin/m
    "her şey temiz" demektir.
 4. **.NET ölçümleri kayıtlı:** native modelin .NET ölçümü (`sonuclar/5/`) ve uzman (M2, M2d) vs
    native eşit yanlış alarm karşılaştırması (`sonuclar/6/`) ön kayıtlarıyla main'de; uzman modelin
-   bağlanıp bağlanmayacağı kararı ve gerekçesi yazılı.
+   bağlanıp bağlanmayacağı kararı ve gerekçesi yazılı. (Revizyon 6: karar İş 2'de yazılı; ölçüt için `sonuclar/7/`
+   de main'e girmeli, henüz girmedi.)
 5. **Yayın tutarlı:** canlı site commit'le bayt bayt aynı; tarihli notlar silinmeden "Güncelleme"
    satırıyla düzeltilmiş; paylaşım kartları güncel etiketli.
 6. **Açık işler açıkça devredildi:** kapsam dışı listesi ve Faz 2'ye devredilenler (Linux'ta eşik
@@ -96,6 +103,43 @@ Faz 1, aşağıdaki on iki ölçütün (12. ölçüt Revizyon 5) HEPSİ origin/m
 - eBPF ile sistem çağrısı izleme (Faz 2).
 - Donanımsal izolasyon, NPU / TEE (Faz 3).
 - Ayrıca: is_dotnet + .NET katmanlı dengeleme deneyi (gerekçe `on_kayit_uzman_native.md`).
+- Uzman modelleri (M2, M2d) `tahmin_et.py`'ye bağlamak (Revizyon 6, İş 2 kararı).
+
+## Kalıcı kural: .NET'te eşik altı skor "temiz" değildir, BELİRSİZ'dir (Revizyon 6)
+
+Faz 1 kapanışından sonra da geçerlidir. `tahmin_et.py` ve `toplu_tahmin.py` bir .NET dosyasına eşik altı skorda asla
+"temiz" demez (`tahmin_et.karar`, testli; ölçüt 3). Gerekçe: native, 2(c)'de eşit yanlış alarmda Dot_Net_test
+zararlılarının %60-89'unu kaçırıyor. Kural yalnız yeni bir ön kayıtlı ölçüm ve kullanıcı kararıyla değişir; imza, hash
+ya da skor bölgesi bu kuralı kendiliğinden gevşetmez.
+
+**Bedeli (yerel küme, betimleyici, hüküm üretmez; `sonuclar/7/yerel_belirsiz.py`, `.log`).** Dondurulmuş 5.635 satır,
+`tahmin_et.karar` ile, sha256 ve alarm sayıları `net_sonuc.md` C ile aynı:
+
+| Grup | n | temiz | BELİRSİZ | ZARARLI | BELİRSİZ oranı (Wilson %95) |
+|---|---|---|---|---|---|
+| .NET EXE | 49 | 0 | 49 | 0 | %100,00 [92,73-100,00] |
+| .NET DLL | 3.422 | 0 | 3.421 | 1 | %99,97 [99,83-99,99] |
+| .NET dışı | 2.164 | 2.153 | 0 | 11 | %0 (kural gereği) |
+| **Tüm yerel küme** | **5.635** | **2.153** | **3.470** | **12** | **%61,58 [60,30-62,84]** |
+
+- Okuma: zararsız yerel .NET'te BELİRSİZ neredeyse her dosyayı kapsıyor; dolayısıyla burada **"BELİRSİZ" bilgi
+  taşımıyor, "bu bir .NET dosyası" demeye yakın.** Bu kümede `toplu_tahmin.py`'nin çıkış kodu pratikte hep 2 ya da
+  3 olur. Kural bilerek bu bedeli ödüyor (kaçan zararlıyı temiz saymamak için).
+- Skor: BELİRSİZ dosyaların %85,82'si skor ≤ 0,2 (medyan 0,040). Bu bir "düşük skorlu .NET temizdir" önerisi DEĞİLDİR:
+  zararlı .NET'in bu banttaki payı burada ölçülmedi (küme yalnız zararsız).
+- Sınırlar: küme zararsız ve tek makineden; %61,58 bu makinenin klasör karışımına bağlı (.NET payı %61,6; ~%61'i
+  Microsoft klasörlerinde, iki üretici ~%35), başka makineye genellenmez. Küme eskiyor, yeniden taranmadı.
+  Wilson aralığı kümeliliği yok sayar, iyimserdir.
+
+## Faz 1 sonrası açık sorular (Faz 1 kapanışını bekletmez; her biri ayrı ön kayıt ister)
+
+1. **A ile Dot_Net .NET popülasyonlarını ayıran özellik nedir?** 2(c)'de AUC iki kümede ters yönde. Hipotez (ÖLÇÜLMEDİ):
+   her model kendi eğitim popülasyonunda kazanıyor. Bilinen tek fark Karma_Mod payı (A %17,3, Dot_Net_train %0,13); ama
+   2(b)'de H %0,45 EXE farkının 203/204'ü saf .NET, yani bu tek başına açıklamıyor.
+2. **Büyük bir zararsız .NET EXE kümesi.** A'da 101, yerelde 49 zararsız .NET EXE var. Bu olmadan EXE'de eşit yanlış
+   alarmda M2d - native sorusu cevaplanamaz (2(c)'de sınanamadı) ve uzman kararı EXE için yeniden açılamaz.
+3. **Eşsiz verilerle yeniden eğitim.** EMBER2024'te her kayıt iki kez var; son modelin 483.224 satırlık örneği 402.129
+   eşsiz dosya (zararlı DLL hücresinde 120.806 satır = 60.403 dosya; İş 7, commit'lenmemiş ölçüm). Etkisi ölçülmedi.
 
 ## İş paketleri ve "bitti" ölçütleri
 
@@ -113,6 +157,20 @@ Faz 1, aşağıdaki on iki ölçütün (12. ölçüt Revizyon 5) HEPSİ origin/m
   kümesi) performansı, (c) tam eşit yanlış alarmda ROC tabanlı M2d-native karşılaştırması (EXE / DLL
   ayrı, tanı amaçlı). Uzman BAĞLANMAZ; karar kullanıcının. BİTTİ: ölçümler ön kayıtlarıyla ve
   kullanıcının kararı yazılı. → ölçüt 4.
+  **Revizyon 6: (c) artık karar kuralı taşıyor** (kullanıcı talimatı, ölçümden önce; `sonuclar/7/is2c_on_kayit.md`):
+  eşit yanlış alarm her modelde aynı kümede ROC'tan kurulur (aralık örtüşmesi kullanılmaz), eşsiz dosya, eşlenik bootstrap;
+  uzman ancak Dot_Net_test VE A'da, aralık sıfırı dışlayacak şekilde native'den iyiyse bağlanmaya ADAY olur; n·H < 5
+  hücrede hüküm yok; aile sonuçları betimleyici; hüküm çıkmazsa varsayılan karar geçerli.
+  **DURUM: ÖLÇÜMLER BİTTİ, KARAR YAZILI (3 Kasım 2026; dal `olcum/is2-uzman`, `bb6d81d`, main'de değil).**
+  (a) yerel .NET DLL'de hedefin altında, EXE'de hüküm yok; (b) `is2b_sonuc.md`; (c) `is2c_sonuc.md`.
+  **KARAR: önceden yazılmış varsayılan. Uzman Faz 1 dışı, native tek model.** Gerekçe:
+  - Dot_Net_test'te M2d belirgin önde: eşit yanlış alarmda dört hücrede de daha az kaçırıyor (fark −34 ile −75 puan).
+  - A'da hüküm yok / sınanamadı: EXE'de iki H ve DLL %0,45 asgari örnek altında; DLL %1,05'te fark gösterilemedi
+    (+9,65 [−63,03, +22,02]). Aday olma koşulu sağlanmadı.
+  - AUC kümeler arasında ters yönde (Dot_Net_test M2d lehine: EXE 0,9769 / 0,9024, DLL 0,9919 / 0,8378; A native
+    lehine: EXE 0,9063 / 0,9635, DLL 0,9455 / 0,9799).
+  - Hipotez (ÖLÇÜLMEDİ): her model kendi eğitim popülasyonunda kazanıyor. Açık soru 1.
+  Bu karar "native daha iyi" hükmü değildir; .NET zayıf nokta olarak kalır ve kalıcı kural geçerlidir.
 - **İş 3 - Gerçekçi oran + eşik kalibrasyonu + üç bölge.** Ön kayıt, yanlış alarm kaymasını açıkça
   konu eder ve ele alış yöntemlerini (doğrulama dilimini teste yakınlaştırma, hedefi marjla seçme
   vb.) sonuçtan ÖNCE yazar. BİTTİ: ölçüt 7, 8, 9'un her maddesi GEÇTİ; README'de π tablosu.
@@ -128,6 +186,10 @@ Faz 1, aşağıdaki on iki ölçütün (12. ölçüt Revizyon 5) HEPSİ origin/m
     (şablon madde 4). Eşik marjla seçilir (marj kuralı ön kayıtta sayıyla).
 - **İş 4 - İmza / hash filtresi.** Ön kayıtlı araştırma: ölçülebilirlik ve Kural 1 (iki tarafta aynı
   ölçüm). BİTTİ: karar ve gerekçesi yazılı. → ölçüt 10.
+  **Öncelik (Revizyon 6): İş 4, İş 3'ün ÖNÜNE alındı.** Güncel sıra: İş 7 → İş 4 → İş 3 → İş 5 → İş 6. Neden: kalıcı kural
+  yerel kümenin %61,58'ini BELİRSİZ yapıyor (.NET'in %99,97'si) ve native eşikleri bu grubu ayıramıyor; ayırabilecek planlı
+  tek iş bu. İş 3'ün üç bölgesi de bu sonucu bilerek kurulmalı. Sonuç olumsuz da çıkabilir: imza bilgisinin BELİRSİZ yükünü
+  azaltacağı VARSAYILMAZ.
   Ön kaydın içermesi ZORUNLU (Revizyon 2):
   - EMBER2024 kayıtlarında sertifika / imza dizininin GERÇEK alan adı veriden bulunur: İSİMLE, indeksle
     değil (Kural 5); yerel pefile tarafındaki karşılığı (ad) ve iki tarafın aynı ölçüldüğü örnekle
@@ -136,8 +198,16 @@ Faz 1, aşağıdaki on iki ölçütün (12. ölçüt Revizyon 5) HEPSİ origin/m
     haftaları, Wilson).
   - Bu "geçerli imza" diye YORUMLANMAZ (varlık ≠ doğrulanmış imza; sertifika zinciri ve iptal
     kontrolü yok) ve bu pakette modele ÖZELLİK olarak KATILMAZ.
+  - (Revizyon 6) İmza varlığı oranları .NET için AYRICA verilir (EXE / DLL, zararlı / zararsız, A ve Dot_Net): yük
+    (zararsız .NET'te ne kadar var) ve risk (zararlı .NET'te ne kadar var) aynı tabloda. Yerel küme yeniden TARANMAZ;
+    yerel ölçüm gerekiyorsa yeni ön kayıtla, eskiyen dosyaların sayısı yazılarak yapılır.
+  - (Revizyon 6) Kalıcı kuralı çiğnemez: imza varlığı bir .NET dosyasını kendiliğinden "temiz" yapamaz. Kuralı
+    değiştiren bir öneri ayrı ön kayıtlı ölçüm ve kullanıcı kararı ister.
 - **İş 5 - Denetçi ayırma.** Python referansı + C sürümü, ortak sınır tablosu, rastgele girdi
   eşitliği, derleyici bayrakları. BİTTİ: ölçüt 11'in her maddesi GEÇTİ.
+  **Not (Revizyon 6, yapılacak):** `tahmin_et.py:141` ".NET uzman modeli ... henuz tahmin_et'e baglanmadi" mesajı İş 2
+  kararıyla yanıltıcı oldu ("henüz" bağlanacağını ima ediyor). Şimdi DEĞİŞTİRİLMEDİ; İş 5'te ele alınır. Çıktıya bağlı
+  testleri de birlikte kontrol et.
   Ön kaydın içermesi ZORUNLU (Revizyon 2):
   - Denetçi YALNIZ tam sayı skor alır (sabit nokta); ölçek ve yuvarlama kuralı (yön dahil) yazılı.
     Dönüşüm modelin Python tarafında yapılır; NaN / ±sonsuz dönüşümden ÖNCE BELİRSİZ olur (tam sayıya

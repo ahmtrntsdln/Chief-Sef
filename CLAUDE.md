@@ -639,6 +639,12 @@ açık işler.
    engeller (eşikler o modelin doğrulama skorlarından seçildi). Model dosyası
    repoya ve paylaşıma girmez; yalnız meta veri (özellik sırası, sürümler,
    tohum, eşikler, test sonuçları, sha256) girer.
+11. .NET'TE EŞİK ALTI SKOR "TEMİZ" DEĞİL, BELİRSİZ (kalıcı; `tahmin_et.karar`, testli). Neden: native, eşit yanlış
+   alarmda Dot_Net_test zararlılarının %60-89'unu kaçırıyor (İş 2(c), `olcum/is2-uzman`) ve uzman Faz 1 dışı. Bedeli:
+   yerel kümede .NET'in %99.97'si, tüm kümenin %61.58'i BELİRSİZ (3.470/5.635; betimleyici,
+   `sonuclar/7/yerel_belirsiz.log`; o makinenin karışımına bağlı). Yani burada BELİRSİZ "bu bir .NET dosyası" demeye
+   yakındır. İmza, hash ya da skor bölgesi bu kuralı kendiliğinden gevşetmez; değişiklik yeni ön kayıtlı ölçüm ve
+   kullanıcı kararı ister (`sonuclar/6/FAZ1_KAPANIS.md`, Revizyon 6).
 
 ## Çalışma Alışkanlıkları
 - Uzun işler (tarama, çıkarım, eğitim döngüsü): başta işi say ve %/ETA
