@@ -1,0 +1,90 @@
+=== G6: Kaynak dosya tarama tamligi ===
+| kaynak dosya | taranan satir | bulunan sayi | 'dosya/files' satirindaki rakam | sinifa atanan |
+|---|---:|---:|---:|---:|
+| README.md | 213 | 47 | 28 | 28 |
+| README.tr.md | 204 | 49 | 27 | 27 |
+| CLAUDE.md | 691 | 330 | 108 | 108 |
+| GELISIM_SURECI.md | 154 | 28 | 14 | 14 |
+| site/projects/chief-sef.html | 60 | 95 | 86 | 86 |
+| site/en/projects/chief-sef.html | 60 | 84 | 61 | 61 |
+| site/notes/net-kor-nokta.html | 90 | 60 | 40 | 40 |
+| site/en/notes/dotnet-blind-spot.html | 90 | 57 | 37 | 37 |
+| site/notes/zaman-ekseni.html | 82 | 30 | 21 | 21 |
+| site/en/notes/temporal-split.html | 82 | 25 | 12 | 12 |
+| site/index.html | 1089 | 44 | 4 | 4 |
+| site/en/index.html | 1089 | 48 | 10 | 10 |
+| site/notes/index.html | 45 | 5 | 0 | 0 |
+| site/en/notes/index.html | 45 | 5 | 0 | 0 |
+| **TOPLAM (14 dosya)** | **3994** | **907** | **448** | **448** |
+
+[+] G6 GECTI: 14 dosya, 3994 satir tarandi, 907 sayi bulundu; sinif belirsiz = 0; 'dosya/files' rakamlari 448/448 sinifa atandi.
+
+=== Sinif dagilimi ===
+  satır       : 54
+  eşsiz       : 5
+  yerel       : 97
+  EMBER 2018  : 35
+  oran-yüzde  : 244
+  ilgisiz     : 472
+
+=== Duzeltme gerektiren EMBER2024 'satır' ve 'eşsiz' bulgulari ===
+Toplam gecis: 59 (satır: 54, eşsiz: 5)
+  CLAUDE.md:38 [satır] '120.000' -> satir=120000, essiz=59953 | 59.953 eşsiz dosya (120.000 satır)
+  CLAUDE.md:63 [satır] '520K' -> satir=519992, essiz=259996 | 259.996 eşsiz dosya (519.992 PE satırı; ham JSONL 520.000 satır)
+  CLAUDE.md:63 [satır] '100K' -> satir=100000, essiz=90330/74542 | 100.000 satırlık örneklem (M1/M2'de 90.330, M2d'de 74.542 eşsiz dosya)
+  CLAUDE.md:64 [satır] '120K' -> satir=120000, essiz=59953 | 59.953 eşsiz dosya (120.000 satır)
+  CLAUDE.md:65 [eşsiz] '0' -> satir=0, essiz=0 | eğitim/test ortak sha256 = 0; düzeltme gerekmez
+  CLAUDE.md:66 [satır] '8' -> satir=8, essiz=4 | 4 eşsiz kayıt (8 satır)
+  CLAUDE.md:101 [satır] '100K' -> satir=100000, essiz=89696 | 89.696 eşsiz dosya (100K satır)
+  CLAUDE.md:101 [satır] '96.416' -> satir=96416, essiz=70634 | 70.634 eşsiz dosya (96.416 satır; zararsız EXE hücresinde 12.052 eşsiz dosyanın iki kopyası)
+  CLAUDE.md:157 [satır] '4.158.450' -> satir=4158450, essiz=2079225 | 2.079.225 eşsiz dosya (4.158.450 satır)
+  CLAUDE.md:158 [satır] '959.738' -> satir=959738, essiz=479856 | 479.856 eşsiz dosya (959.738 satır)
+  CLAUDE.md:158 [satır] '1.550' -> satir=1550, essiz=775 | 775 eşsiz kayıt (1.550 satır)
+  CLAUDE.md:158 [satır] '262' -> satir=262, essiz=131 | 131 eşsiz kayıt (262 satır)
+  CLAUDE.md:159 [satır] '240K' -> satir=240000, essiz=120000 | 120K eşsiz dosya (240K satır)
+  CLAUDE.md:161 [satır] '236' -> satir=236, essiz=118 | 118 eşsiz kayıt (236 satır)
+  CLAUDE.md:162 [satır] '20K' -> satir=20000, essiz=10000 | haftada 10K eşsiz dosya (20K satır)
+  CLAUDE.md:177 [satır] '100K' -> satir=100000, essiz=96828/98787 | 100K satır (tohum 42'de E3 96.828, E1/E2 98.787 eşsiz dosya)
+  CLAUDE.md:196 [satır] '100 bin' -> satir=100000, essiz=96828/98787 | 100K satır (tohum 42'de E3 96.828, E1/E2 98.787 eşsiz dosya)
+  CLAUDE.md:201 [satır] '208' -> satir=208, essiz=101 | n=101 eşsiz dosya (208 satır)
+  CLAUDE.md:202 [satır] '308' -> satir=308, essiz=154 | n=154 eşsiz dosya (308 satır)
+  CLAUDE.md:221 [satır] '300 binde' -> satir=300000, essiz=268625 | 300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)
+  CLAUDE.md:223 [satır] '100 bin' -> satir=100000, essiz=96828/98787 | 100K satır (tohum 42'de E3 96.828, E1/E2 98.787 eşsiz dosya)
+  CLAUDE.md:224 [satır] '4,16 milyon' -> satir=4158450, essiz=2079225 | 2,08 milyon eşsiz dosya (4,16 milyon satır)
+  CLAUDE.md:226 [satır] '300 bin' -> satir=300000, essiz=268625 | 300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)
+  CLAUDE.md:226 [satır] '522.200' -> satir=522200, essiz=261100 | 261.100 eşsiz hücre tavanı (522.200 satır; 4x65.275 eşsiz zararlı DLL)
+  CLAUDE.md:227 [satır] '120.806' -> satir=120806, essiz=60403 | 60.403 eşsiz dosya (120.806 satır)
+  CLAUDE.md:227 [satır] '483.224' -> satir=483224, essiz=402129 | 402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+  CLAUDE.md:228 [satır] '483.224' -> satir=483224, essiz=402129 | 402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+  CLAUDE.md:228 [satır] '300 bin' -> satir=300000, essiz=268625 | 300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)
+  CLAUDE.md:229 [satır] '483.224' -> satir=483224, essiz=402129 | 402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+  CLAUDE.md:230 [satır] '483.224' -> satir=483224, essiz=402129 | 402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+  CLAUDE.md:331 [satır] '300 bin' -> satir=300000, essiz=268625 | 300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)
+  CLAUDE.md:331 [satır] '100 bin' -> satir=100000, essiz=96828/98787 | 100K satır (tohum 42'de E3 96.828, E1/E2 98.787 eşsiz dosya)
+  CLAUDE.md:373 [satır] '300 binde' -> satir=300000, essiz=268625 | 300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)
+  CLAUDE.md:398 [eşsiz] '3.2M' -> satir=, essiz=3200000 | EMBER2024 makalesindeki toplam eşsiz dosya sayısı (~3,2M); düzeltme gerekmez
+  CLAUDE.md:466 [satır] '120.000' -> satir=120000, essiz=59953 | 59.953 eşsiz dosya (120.000 satır)
+  CLAUDE.md:466 [satır] '60K' -> satir=60000, essiz=30000/29953 | 30.000 zararlı + 29.953 zararsız eşsiz dosya (60K/60K satır)
+  CLAUDE.md:466 [satır] '60K' -> satir=60000, essiz=30000/29953 | 30.000 zararlı + 29.953 zararsız eşsiz dosya (60K/60K satır)
+  CLAUDE.md:467 [satır] '520.000' -> satir=519992, essiz=259996 | 259.996 eşsiz dosya (519.992 PE satırı; ham JSONL 520.000 satır)
+  CLAUDE.md:468 [satır] '260K' -> satir=259998/259994, essiz=129999/129997 | ~130K/~130K eşsiz dosya (260K/260K satır)
+  CLAUDE.md:468 [satır] '260K' -> satir=259998/259994, essiz=129999/129997 | ~130K/~130K eşsiz dosya (260K/260K satır)
+  CLAUDE.md:562 [eşsiz] '60K' -> satir=120000, essiz=59953 | EMBER2024 belgesindeki ~60K eşsiz dosya sayısıdır (59.953); 120.000 çiftli JSONL satır sayısıdır
+  CLAUDE.md:562 [satır] '120K' -> satir=120000, essiz=59953 | 59.953 eşsiz dosya (120.000 satır)
+  GELISIM_SURECI.md:107 [satır] '959.738' -> satir=959738, essiz=479856 | 479.856 eşsiz dosya (959.738 satır)
+  GELISIM_SURECI.md:127 [satır] '483.224' -> satir=483224, essiz=402129 | 402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+  GELISIM_SURECI.md:127 [satır] '300 binden' -> satir=300000, essiz=268625 | 300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)
+  README.md:121 [satır] '483,224' -> satir=483224, essiz=402129 | 402,129 unique files (483,224 rows; 2 copies of 60,403 unique malicious DLLs)
+  README.md:128 [satır] '959,738' -> satir=959738, essiz=479856 | 479,856 unique files (959,738 rows)
+  README.tr.md:117 [satır] '483.224' -> satir=483224, essiz=402129 | 402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+  README.tr.md:124 [satır] '959.738' -> satir=959738, essiz=479856 | 479.856 eşsiz dosya (959.738 satır)
+  site/en/notes/dotnet-blind-spot.html:38 [satır] '120,000' -> satir=120000, essiz=59953 | 59,953 unique files (120,000 rows)
+  site/en/notes/dotnet-blind-spot.html:44 [eşsiz] '60 thousand' -> satir=120000, essiz=59953 | EMBER2024's documented ~60K was the unique file count (59,953); 120,000 is the duplicated JSONL row count
+  site/en/notes/dotnet-blind-spot.html:44 [satır] '120,000' -> satir=120000, essiz=59953 | 59,953 unique files (120,000 rows)
+  site/en/notes/dotnet-blind-spot.html:52 [satır] '100-thousand' -> satir=100000, essiz=90330/74542 | 100,000-row sample (90,330 unique files in M2, 74,542 in M2d)
+  site/en/projects/chief-sef.html:54 [satır] '959,738' -> satir=959738, essiz=479856 | 479,856 unique files (959,738 rows)
+  site/notes/net-kor-nokta.html:38 [satır] '120.000' -> satir=120000, essiz=59953 | 59.953 eşsiz dosya (120.000 satır)
+  site/notes/net-kor-nokta.html:44 [eşsiz] '60 bin' -> satir=120000, essiz=59953 | EMBER2024 belgesindeki ~60K eşsiz dosya sayısıdır (59.953); 120.000 çiftli JSONL satır sayısıdır
+  site/notes/net-kor-nokta.html:44 [satır] '120.000' -> satir=120000, essiz=59953 | 59.953 eşsiz dosya (120.000 satır)
+  site/notes/net-kor-nokta.html:52 [satır] '100 bin' -> satir=100000, essiz=90330/74542 | 100.000 satırlık örneklem (M1/M2'de 90.330, M2d'de 74.542 eşsiz dosya)
+  site/projects/chief-sef.html:54 [satır] '959.738' -> satir=959738, essiz=479856 | 479.856 eşsiz dosya (959.738 satır)

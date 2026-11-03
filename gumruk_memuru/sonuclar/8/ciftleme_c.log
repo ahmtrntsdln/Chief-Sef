@@ -1,0 +1,56 @@
+[+] G5: Parquet sha256_16 x4, havuz 3838526, ornek hucreleri {'0_0': 120806, '0_1': 120806, '1_0': 120806, '1_1': 120806} == meta (9 sn)
+
+=== Egitim ornegi (483.224 satir) ===
+  essiz dosya 402129 (%83.22); iki kopyasi birden ornekte 81095; kopya dagilimi {1: 321034, 2: 81095}
+  hucre DLL_mi=0 Etiket=0: satir 120806, essiz 109943 | havuzda satir 677186, essiz 338593
+  hucre DLL_mi=0 Etiket=1: satir 120806, essiz 116809 | havuzda satir 1798488, essiz 899244
+  hucre DLL_mi=1 Etiket=0: satir 120806, essiz 114974 | havuzda satir 1242046, essiz 621023
+  hucre DLL_mi=1 Etiket=1: satir 120806, essiz 60403 | havuzda satir 120806, essiz 60403
+  havuz: satir 3838526, essiz 1919263; dogrulama: satir 319924, essiz 159962
+
+=== O1 sha ortusmesi (essiz) ===
+  ornek x dogrulama: 0
+  ornek x test: 0
+  havuz x dogrulama: 0
+  dogrulama x test: 0
+  havuz x test: 0
+
+[*] tahminler hazir (19 sn)
+
+=== Betimleyici: esik yeniden secimi (DEGISTIRILMEZ) ===
+  EXE: ciftli dogrulama -> 0.7000 (meta 0.7), tekil dogrulama -> 0.7000
+  DLL: ciftli dogrulama -> 0.6100 (meta 0.61), tekil dogrulama -> 0.6100
+
+=== Kayma: tekil zararsizlar (dogrulama hafta 48-51, test 52-63) ===
+
+  [DLL, esik 0.61] YA dogrulama %0.988 [0.908-1.075] (533/53945) | test %1.428 [1.374-1.485] (2515/176090)
+    O1: ortusen pay dogrulama %0.000 [0.000-0.007] (0/53945), test %0.000 [0.000-0.002] (0/176090)
+       YA dog  ortusen   : -
+       YA dog  ortusmeyen: %0.988 [0.908-1.075] (533/53945)
+       YA test ortusen   : -
+       YA test ortusmeyen: %1.428 [1.374-1.485] (2515/176090)
+    -> O1 DLL: sha duzeyinde dogrulama ortusmesi yok; kayma bu mekanizmayla aciklanamaz
+    O2: ortusen pay dogrulama %0.810 [0.738-0.889] (437/53945), test %0.354 [0.328-0.383] (624/176090)
+       YA dog  ortusen   : %0.229 [0.040-1.285] (1/437)
+       YA dog  ortusmeyen: %0.994 [0.914-1.082] (532/53508)
+       YA test ortusen   : %3.526 [2.340-5.280] (22/624)
+       YA test ortusmeyen: %1.421 [1.366-1.477] (2493/175466)
+       karsi-olgusal YA*_dog %0.992; aciklanan pay 0.008 | kosullar (i) True (ii) False (iii) True
+    -> O2 DLL: gosterilemedi
+
+  [EXE, esik 0.7] YA dogrulama %0.942 [0.831-1.067] (245/26017) | test %0.828 [0.761-0.901] (528/63770)
+    O1: ortusen pay dogrulama %0.000 [0.000-0.015] (0/26017), test %0.000 [0.000-0.006] (0/63770)
+       YA dog  ortusen   : -
+       YA dog  ortusmeyen: %0.942 [0.831-1.067] (245/26017)
+       YA test ortusen   : -
+       YA test ortusmeyen: %0.828 [0.761-0.901] (528/63770)
+    -> O1 EXE: sha duzeyinde dogrulama ortusmesi yok; kayma bu mekanizmayla aciklanamaz
+    O2: ortusen pay dogrulama %1.203 [1.078-1.343] (313/26017), test %0.913 [0.842-0.989] (582/63770)
+       YA dog  ortusen   : %0.000 [0.000-1.212] (0/313)
+       YA dog  ortusmeyen: %0.953 [0.841-1.079] (245/25704)
+       YA test ortusen   : %0.515 [0.175-1.504] (3/582)
+       YA test ortusmeyen: %0.831 [0.763-0.905] (525/63188)
+       karsi-olgusal YA*_dog %0.944; aciklanan pay -0.024 | kosullar (i) True (ii) False (iii) False
+    -> O2 EXE: gosterilemedi
+
+[+] bitti (24 sn)
