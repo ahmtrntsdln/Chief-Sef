@@ -1,0 +1,13 @@
+kural,H,tur,b,c,p,E1,E2,cumle
+1,0.45,EXE,346.0,142.0,1.0658940155690142e-20,True,True,M2d A kumesinde native'den anlamli olarak daha cok kaciriyor
+1,0.45,DLL,38.0,9.0,2.4904030624384174e-05,False,True,hukum yok: esit yanlis alarm saglanamadi (E1)
+1,1.05,EXE,262.0,226.0,0.11301535126522792,True,True,fark gosterilemedi
+1,1.05,DLL,29.0,19.0,0.19341265286193737,False,True,hukum yok: esit yanlis alarm saglanamadi (E1)
+2,0.45,EXE,,,,,,"hukum yok: cozunurluk yetersiz (wilson(0, 101) ust %3.66 >= H)"
+2,0.45,DLL,,,,,,"hukum yok: cozunurluk yetersiz (wilson(0, 517) ust %0.74 >= H)"
+2,1.05,EXE,,,,,,"hukum yok: cozunurluk yetersiz (wilson(0, 101) ust %3.66 >= H)"
+2,1.05,DLL,,,,,,hedefle farki gosterilemedi
+3,0.45,EXE,,,,,,M2d'nin kacani A'da Dot_Net_test'ten anlamli olarak farkli (yuksek)
+3,0.45,DLL,,,,,,M2d'nin kacani A'da Dot_Net_test'ten anlamli olarak farkli (yuksek)
+3,1.05,EXE,,,,,,M2d'nin kacani A'da Dot_Net_test'ten anlamli olarak farkli (yuksek)
+3,1.05,DLL,,,,,,M2d'nin kacani A'da Dot_Net_test'ten anlamli olarak farkli (yuksek)
