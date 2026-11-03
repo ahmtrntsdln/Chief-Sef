@@ -122,7 +122,7 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - İŞ 2(b) YAPILDI (3 Kasım, dal `olcum/is2-uzman`, `sonuclar/7/is2b_*`; ön kayıt ölçümden önce;
   geçitler K1-K5 tuttu): M2d'nin Dot_Net_test üstünlüğü A kümesine (tekil, 2.411 eşsiz .NET dosyası:
   Win32/Win64 test haftaları, NET_mi=1) TAŞINMADI. H %0.45 EXE: M2d kaçan 61.62 vs native 49.18,
-  McNemar b 346 / c 142 -> M2d anlamlı olarak daha ÇOK kaçırıyor. H %1.05 EXE: 46.61 vs 44.42, p 0.113
+  McNemar b 346 / c 142 -> ön kayıtlı hüküm "M2d daha çok kaçırıyor", AMA A'da YA M2d 0/101, native 1/101: takas olabilir, "aynı YA'da" diye okunmaz. H %1.05 EXE: 46.61 vs 44.42, p 0.113
   -> fark gösterilemedi ("eşit" DENMEZ; M2d YA 3/101, native 1/101). DLL iki H'de hüküm yok (E1 tutmadı).
   M2d kaçanı A'da 4 hücrenin hepsinde Dot_Net_test'ten anlamlı yüksek (1.81-3.61 kat). Fark karma moddan
   gelmiyor: H %0.45 EXE'deki 204 dosyalık farkın 203'ü saf .NET (betimleyici; nedeni ölçülmedi). Sınır:

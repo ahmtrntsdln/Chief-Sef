@@ -8,7 +8,7 @@ değişmedi.
 
 **Özet:** M2d'nin Dot_Net_test'te görülen üstünlüğü A kümesine taşınmadı. Hüküm verilebilen iki EXE
 hücresinden birinde (H %0,45) M2d anlamlı olarak daha çok kaçırıyor, diğerinde (H %1,05) fark
-gösterilemedi. DLL'de hüküm yok. M2d'nin kaçanı A'da, dört hücrenin hepsinde, Dot_Net_test'tekinin
+gösterilemedi; ikisinde de yanlış alarm sayıları farklı (0/101 - 1/101, 3/101 - 1/101), aşağıdaki nota bakın. DLL'de hüküm yok. M2d'nin kaçanı A'da, dört hücrenin hepsinde, Dot_Net_test'tekinin
 1,81-3,61 katı.
 
 ## Geçitler: hepsi TUTTU
@@ -48,6 +48,14 @@ Tekil Dot_Net_test, aynı eşikler (eşit YA koşulu E1 ve kural 3 için):
 | | DLL | %8,56 [7,55-9,69] | %86,08 [84,71-87,35] | %1,13 [1,01-1,26] (296/26.240) | %0,77 [0,67-0,89] (203/26.240) |
 
 ## Ön kayıtlı kurallara göre
+
+**Not (3 Kasım 2026, sonuç commit'inden sonra, kullanıcı uyarısıyla; sayılar ve ön kayıtlı hüküm değişmedi):**
+H %0,45 EXE hücresindeki "M2d daha çok kaçırıyor" hükmü, E2'nin aralık örtüşmesiyle "eşit YA" saymasına
+dayanıyor. A'daki yanlış alarm sayıları: **M2d 0/101, native 1/101** (eşikler 0,86 / 0,83). Dot_Net_test'te
+15/3.713 ve 14/3.713. M2d A'da daha az alarm verdiği için bu fark bir yanlış alarm - kaçan TAKASI olabilir;
+101 zararsızla ayırt edilemiyor. Aynı nedenle H %1,05 EXE'de (M2d 3/101, native 1/101) "fark
+gösterilemedi" de eşit YA'da yapılmış bir karşılaştırma değildir. Hüküm "M2d aynı yanlış alarmda daha çok
+kaçırıyor" diye OKUNMAZ. İş 2(c) örtüşme kuralını kullanmaz.
 
 **Kural 1, M2d − native kaçan** (b = yalnız M2d kaçırdı, c = yalnız native kaçırdı):
 
