@@ -106,12 +106,12 @@ Tam metin taramasından muaf olan ancak İş 7 (b)'de yeniden hesaplanan `3/`, `
    - AUC: genel `0,98651`, EXE `0,98373`, DLL `0,98439` (değişmedi).
 
 2. **`gumruk_memuru/sonuclar/5/net_sonuc.md` (`net_olcum.csv` ve `esit_ya.log`):**
-   - `A` kümesi `.NET` EXE kaçan: `%33,74 [32,12–35,40] (1.083/3.210)` → **`%33,73 [31,46–36,08] (540/1.601)`**; `.NET` EXE YA: `%2,88 [1,33–6,15] (6/208)` → **`%2,97 [1,02–8,37] (3/101)`**.
-   - `A` kümesi `.NET` DLL kaçan: `%23,38 [19,00–28,42] (72/308)` → **`%23,38 [17,39–30,66] (36/154)`**; `.NET` DLL YA: `%0,00 [0,00–0,26] (0/1.466)` → **`%0,00 [0,00–0,52] (0/732)`**.
+   - `A` kümesi `.NET` EXE kaçan: `%33,74 [32,14–35,38] (1.106/3.278)` → **`%33,74 [31,49–36,06] (553/1.639)`**; `.NET` EXE YA: `%2,88 [1,33–6,15] (6/208)` → **`%2,97 [1,02–8,37] (3/101)`**.
+   - `A` kümesi `.NET` DLL kaçan: `%23,38 [19,00–28,41] (72/308)` → **`%23,38 [17,39–30,66] (36/154)`**; `.NET` DLL YA: `%0,95 [0,52–1,74] (10/1.054)` → **`%0,97 [0,41–2,24] (5/517)`**.
    - `B` kümesi (`Dot_Net_test`, `120.000` satır → **`59.953` eşsiz dosya**): tüm nokta tahminleri `Δ_max` içinde aynı, 8 hükmün 8'i de **hüküm aynı** (`ciftleme_b.csv` ve `ciftleme_b_hukum.csv`).
 
 3. **`gumruk_memuru/sonuclar/6/uzman_native_sonuc.md` (`uzman_native.csv`):**
    - 12 hüküm hücresinin 11'i **hüküm aynı**, **1 hücrede HÜKÜM DEĞİŞTİ**:
      - **`H %1,05 | M2 (uzman, kestirmeli) vs native | EXE`:**
        - Çiftli (`n = 7.436` zararsız EXE satırı): M2 test YA `%1,48 [1,23–1,78] (110/7.436)` vs native `%0,89 [0,70–1,13] (66/7.436)` — Wilson aralıkları örtüşmediğinden (`1,23 > 1,13`) **`eşit yanlış alarm SAĞLANAMADI → hüküm yok`**.
-       - Tekil (`n = 3.713` eşsiz zararsız EXE dosyası): M2 test YA `%1,48 [1,14–1,92] (55/3.713)` vs native `%0,89 [0,63–1,25] (33/3.713)` — `n` yarıya inince Wilson aralıkları genişleyerek `[1,14–1,25]` bandında örtüştü; kaçan M2 `%31,40 [30,86–31,96] (8.562/27.264)` vs native `%62,80 [62,23–63,37] (17.123/27.264)` olduğundan hüküm **`UZMAN daha az kaçırıyor`** olarak değişti.
+       - Tekil (`n = 3.713` eşsiz zararsız EXE dosyası): M2 test YA `%1,48 [1,14–1,92] (55/3.713)` vs native `%0,89 [0,63–1,25] (33/3.713)` — `n` yarıya inince Wilson aralıkları genişleyerek `[1,14–1,25]` bandında örtüştü; kaçan M2 `%31,40 [30,86–31,96] (8.595/27.370)` vs native `%62,80 [62,23–63,37] (17.189/27.370)` olduğundan hüküm mekanik olarak **`UZMAN daha az kaçırıyor`** oldu. *(Not: Bu değişen hüküm aralık örtüşmesini eşitlik sayan kuraldan doğmuştur — M2 YA ≈ native'in 1,7 katı — uzman üstünlüğü kanıtı değildir; eski hükümler korunmuş, yalnız not eklenmiştir).*

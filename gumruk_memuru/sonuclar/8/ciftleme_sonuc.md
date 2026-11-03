@@ -59,15 +59,15 @@ Taranan 14 kaynak dosyada (`README.md`, `README.tr.md`, `CLAUDE.md`, `GELISIM_SU
 
 | Bölüm / Küme | Ölçü | Çiftli `% [Wilson] (k/n)` | Tekil `% [Wilson] (k/n)` | Hüküm |
 |---|---|---|---|---|
-| `5/ A` (Win32/64 test) | `.NET=1` EXE kaçan | `%33,74 [32,12–35,40] (1.083/3.210)` | **`%33,73 [31,46–36,08] (540/1.601)`** | hüküm aynı (`.NET` EXE anlamlı daha kötü) |
+| `5/ A` (Win32/64 test) | `.NET=1` EXE kaçan | `%33,74 [32,14–35,38] (1.106/3.278)` | **`%33,74 [31,49–36,06] (553/1.639)`** | hüküm aynı (`.NET` EXE anlamlı daha kötü) |
 | `5/ A` (Win32/64 test) | `.NET=1` EXE YA | `%2,88 [1,33–6,15] (6/208)` | **`%2,97 [1,02–8,37] (3/101)`** | hüküm aynı (`.NET` dışı `[0,76–0,90]` ile örtüşmüyor) |
-| `5/ A` (Win32/64 test) | `.NET=1` DLL kaçan | `%23,38 [19,00–28,42] (72/308)` | **`%23,38 [17,39–30,66] (36/154)`** | hüküm aynı (`[18,88–20,18]` ile örtüşüyor → fark gösterilemedi) |
-| `5/ A` (Win32/64 test) | `.NET=1` DLL YA | `%0,00 [0,00–0,26] (0/1.466)` | **`%0,00 [0,00–0,52] (0/732)`** | hüküm aynı |
-| `5/ B` (`Dot_Net_test`, tür eşiği) | `hepsi` kaçan / YA | `%49,77 [49,37–50,17] (29.860/60.000)` / `%1,05 [0,97–1,13] (630/60.000)` | **`%49,77 [49,20–50,33] (14.930/30.000)`** / **`%1,05 [0,94–1,17] (315/29.953)`** | hüküm aynı |
-| `5/ B` (`Dot_Net_test`, tür eşiği) | `EXE` kaçan / YA | `%45,87 [45,45–46,29] (24.716/53.880)` / `%0,89 [0,70–1,13] (66/7.436)` | **`%45,87 [45,28–46,46] (12.358/26.940)`** / **`%0,89 [0,63–1,25] (33/3.713)`** | hüküm aynı |
-| `5/ B` (`Dot_Net_test`, tür eşiği) | `DLL` kaçan / YA | `%84,19 [83,25–85,08] (5.144/6.110)` / `%1,07 [0,99–1,16] (564/52.564)` | **`%84,19 [82,85–85,44] (2.572/3.055)`** / **`%1,07 [0,96–1,21] (282/26.240)`** | hüküm aynı |
-| `5/ EK` (`esit_ya.py`, `B`) | Nokta 1 (`YA ~%0,46`) Faz 1 vs native kaçan | `%92,77 [92,56–92,97]` vs `%59,79 [59,40–60,18]` | **`%92,77 [92,47–93,06]`** vs **`%59,79 [59,23–60,34]`** | hüküm aynı (`NATIVE daha az kaçırıyor`) |
-| `5/ EK` (`esit_ya.py`, `B`) | Nokta 2 (`YA ~%1,05`) Faz 1 vs native kaçan | `%89,39 [89,14–89,64]` vs `%49,77 [49,37–50,17]` | **`%89,39 [89,04–89,74]`** vs **`%49,77 [49,20–50,33]`** | hüküm aynı (`NATIVE daha az kaçırıyor`) |
+| `5/ A` (Win32/64 test) | `.NET=1` DLL kaçan | `%23,38 [19,00–28,41] (72/308)` | **`%23,38 [17,39–30,66] (36/154)`** | hüküm aynı (`[18,84–20,14]` ile örtüşüyor → fark gösterilemedi) |
+| `5/ A` (Win32/64 test) | `.NET=1` DLL YA | `%0,95 [0,52–1,74] (10/1.054)` | **`%0,97 [0,41–2,24] (5/517)`** | hüküm aynı (`.NET` dışı `[1,38–1,49]` ile örtüşüyor → fark gösterilemedi) |
+| `5/ B` (`Dot_Net_test`, tür eşiği) | `.NET=1` `hepsi` kaçan / YA | `%49,77 [49,37–50,17] (29.858/59.994)` / `%1,05 [0,97–1,14] (632/60.000)` | **`%49,77 [49,20–50,33] (14.929/29.997)`** / **`%1,05 [0,95–1,18] (316/29.953)`** | hüküm aynı |
+| `5/ B` (`Dot_Net_test`, tür eşiği) | `.NET=1` `EXE` kaçan / YA | `%46,22 [45,80–46,64] (25.302/54.740)` / `%3,52 [3,13–3,97] (262/7.436)` | **`%46,22 [45,63–46,81] (12.651/27.370)`** / **`%3,53 [2,98–4,17] (131/3.713)`** | hüküm aynı |
+| `5/ B` (`Dot_Net_test`, tür eşiği) | `.NET=1` `DLL` kaçan / YA | `%86,71 [85,77–87,61] (4.556/5.254)` / `%0,70 [0,64–0,78] (370/52.564)` | **`%86,71 [85,36–87,96] (2.278/2.627)`** / **`%0,71 [0,61–0,81] (185/26.240)`** | hüküm aynı |
+| `5/ EK` (`esit_ya.py`, `B`) | Nokta 1 (`YA ~%0,46`) Faz 1 vs native kaçan | `%92,77 [92,56–92,98]` vs `%59,79 [59,39–60,18]` | **`%92,77 [92,47–93,06]`** vs **`%59,79 [59,23–60,34]`** | hüküm aynı (`NATIVE daha az kaçırıyor`) |
+| `5/ EK` (`esit_ya.py`, `B`) | Nokta 2 (`YA ~%1,05`) Faz 1 vs native kaçan | `%89,39 [89,14–89,63]` vs `%49,77 [49,37–50,17]` | **`%89,39 [89,04–89,73]`** vs **`%49,77 [49,21–50,34]`** | hüküm aynı (`NATIVE daha az kaçırıyor`) |
 
 ### 3.4 `6/` Uzman vs Native (`uzman_native.py`) ve `HÜKÜM DEĞİŞTİ` Tablosu
 
@@ -75,7 +75,9 @@ Taranan 14 kaynak dosyada (`README.md`, `README.tr.md`, `CLAUDE.md`, `GELISIM_SU
 
 | Küme / Hücre | Eski Cümle (Çiftli, `n_YA = 7.436`) | Yeni Cümle (Tekil, `n_YA = 3.713`) | Neden |
 |---|---|---|---|
-| **`6/ | H %1,05 | M2 (uzman, kestirmeli) vs native | EXE`** | `eşit yanlış alarm SAĞLANAMADI (test YA %1,48 [1,23–1,78] vs %0,89 [0,70–1,13]) → hüküm yok` | **`UZMAN daha az kaçırıyor`** `(test YA %1,48 [1,14–1,92] vs %0,89 [0,63–1,25] örtüşüyor; kaçan %31,40 [30,86–31,96] vs %62,80 [62,23–63,37])` | Tekil kümede zararsız EXE örneklem boyutu `7.436`'dan `3.713`'e inince %95 Wilson güven aralıkları genişledi (`[1,14–1,92]` ve `[0,63–1,25]`) ve `[1,14–1,25]` aralığında örtüştü; ön kayıtlı kurala göre eşit YA koşulu sağlandığından kaçan zararlı karşılaştırmasına geçildi. |
+| **`6/ | H %1,05 | M2 (uzman, kestirmeli) vs native | EXE`** | `eşit yanlış alarm SAĞLANAMADI (test YA %1,48 [1,23–1,78] vs %0,89 [0,70–1,13]) → hüküm yok` | **`UZMAN daha az kaçırıyor`** `(test YA %1,48 [1,14–1,92] vs %0,89 [0,63–1,25] örtüşüyor; kaçan %31,40 [30,86–31,96] (8.595/27.370) vs %62,80 [62,23–63,37] (17.189/27.370))` | Tekil kümede zararsız EXE örneklem boyutu `7.436`'dan `3.713`'e inince %95 Wilson güven aralıkları genişledi (`[1,14–1,92]` ve `[0,63–1,25]`) ve `[1,14–1,25]` aralığında örtüştü; ön kayıtlı kurala göre eşit YA koşulu sağlandığından kaçan zararlı karşılaştırmasına geçildi. |
+
+> **Önemli Not (Uzman Üstünlüğü Kanıtı Değildir):** `6/ | H %1,05 | M2 vs native | EXE` hücresinde değişen hüküm, güven aralığı örtüşmesini eşitlik sayan ön kayıtlı kuraldan doğmuştur (`M2 YA ≈ native'in 1,7 katı`: `%1,48` vs `%0,89`); **uzman üstünlüğü kanıtı değildir.** Bu nedenle `6/uzman_native_sonuc.md` ve `CLAUDE.md` içindeki eski hükümler değiştirilmemiş, yalnızca açıklayıcı not eklenmiştir.
 
 ### 3.5 McNemar ve Betimleyici Kontroller (Yerel Set ve EMBER 2018)
 - **McNemar:** `3/`, `5/`, `6/` paketlerinde EMBER2024 verisi üzerinde McNemar testi yoktur (McNemar yalnız yerel `5.635` doğrulama setinde uygulanmıştır; yerel set EMBER2024 çiftlemesinden etkilenmez).

@@ -104,10 +104,10 @@ model veriyi doğru yansıtıyor, "zararsız görünüyor" sezgisi yanlıştı.
 ## 10. 2018 Modeli 2024'te: Çöküş, Kestirme ve Yeni Model
 
 Faz 1'in modeli EMBER 2018 ile eğitilmişti. Aynı modeli EMBER2024'ün
-Win32/Win64 test kümesinde (son 12 hafta, 959.738 dosya) ölçtüğümüzde AUC
-**0,663**'e düştü; import'suz zararlıların neredeyse tamamı kaçıyordu. Altı
-yıllık zaman farkı, Kural 6'nın (zaman ekseni) en sert örneği oldu: "geçmişte
-iyi" bir model bugünün dosyalarında yazı-turaya yaklaşabiliyor.
+Win32/Win64 test kümesinde (son 12 hafta, 479.856 eşsiz dosya; 959.738 satır)
+ölçtüğümüzde AUC **0,663**'e düştü; import'suz zararlıların neredeyse tamamı
+kaçıyordu. Altı yıllık zaman farkı, Kural 6'nın (zaman ekseni) en sert örneği
+oldu: "geçmişte iyi" bir model bugünün dosyalarında yazı-turaya yaklaşabiliyor.
 
 Yeni veriyle eğitince ikinci tanıdık sorun çıktı: **dosya tipi kestirmesi.**
 EMBER2024'te zararsızların ~%65-73'ü DLL, zararlıların yalnızca ~%6'sı. Model
@@ -124,15 +124,18 @@ seçilmişti; bu, iki modeli aynı noktada kıyaslamak için yeterli ama raporla
 bir sayı değil. Eşik sonra eğitim haftalarından ayrılan bir doğrulama
 diliminden (hafta 48-51) seçildi ve test bu sabit eşikle bir kez ölçüldü.
 Sonuç değişmedi: RF E3. Son boyut için de kural ölçümden önce yazıldı;
-483.224 örnek, 300 binden 1,69 puan daha az zararlı DLL kaçırdı (tohum
+483.224 satır (402.129 eşsiz dosya; zararlı DLL hücresi tüm havuz olan 60.403
+eşsiz dosyadan oluşur ve her dosya çift ağırlıkla girer), 300 bin satırdan
+(tohum 42'de 268.625 eşsiz dosya) 1,69 puan daha az zararlı DLL kaçırdı (tohum
 oynaması 0,72) ve seçildi.
 
-Son model testte bir kez ölçüldü: AUC 0,9865; kaçan zararlı EXE'de %17,7,
-DLL'de %19,5; yanlış alarm EXE'de %0,83, DLL'de %1,43. DLL'deki yanlış alarm,
-doğrulamada %1'e ayarlanan hedefi aştı. Olası neden zaman kayması: test
-haftalarında zararsız DLL kitlesi farklı görünüyor. Bu nedensellik ölçülmedi;
-ölçülen yalnızca sonuç: doğrulama haftalarında seçilen eşik, sonraki haftalarda
-hedefini tutmadı. Eşik zamanla yeniden doğrulanmalı.
+Son model testte (479.856 eşsiz dosya; 959.738 satır) bir kez ölçüldü: AUC
+0,9865; kaçan zararlı EXE'de %17,7 [17,6-17,9], DLL'de %19,5 [18,9-20,2];
+yanlış alarm EXE'de %0,83 [0,76-0,90], DLL'de %1,43 [1,37-1,49]. DLL'deki
+yanlış alarm, doğrulamada %1'e ayarlanan hedefi aştı. "Doğrulama örtüşmesi"
+hipotezi sınandı: `sha256` örtüşmesi 0, yakın kopyalar (aynı 86 özellik
+vektörü) kaymanın %0,8'i; yanlış alarm kayması açıklanamadı, en olası aday
+zamansal kayma (doğrulanmadı). Eşik zamanla yeniden doğrulanmalı.
 
 **18/20 koşusu.** Tahmin aracının özellikleri ile doğrulama setindekilerin
 aynı olduğunu 20 dosyada uçtan uca sınadık. İlk koşu 18/20 geçti: iki .NET

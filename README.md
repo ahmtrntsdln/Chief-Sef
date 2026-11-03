@@ -118,20 +118,23 @@ be repeated as the feature count grows.
 
 The Phase 1 model, trained on 2018 data, collapses on 2024 files (AUC 0.663).
 Its replacement is trained on EMBER2024 Win32/Win64 with 86 features (5 basic +
-80 string features + DLL flag): Random Forest, 483,224 training files sampled
+80 string features + DLL flag): Random Forest, 483,224 rows (402,129 unique
+files; the malicious-DLL cell is the entire pool of 60,403 unique files and
+each file enters with double weight) sampled
 50/50 *within* each file type, because in the data set most benign files are
 DLLs and very few malicious ones are, and a model can otherwise learn "DLL ⇒
 benign". The decision criteria were written down and committed before any
 result was seen (`gumruk_memuru/sonuclar/`).
 
 Thresholds were chosen on held-out training weeks 48-51 (1% false alarms per
-file type); the test weeks 52-63 (959,738 files) were measured once with
-those fixed thresholds:
+file type); the test weeks 52-63 (479,856 unique files; 959,738 rows) were
+measured once with those fixed thresholds (95% Wilson intervals on unique
+files):
 
 | File type | Missed malware | False alarms on EMBER2024 benign files |
 |---|---|---|
-| EXE | 17.7% | 0.83% |
-| DLL | 19.5% | 1.43% |
+| EXE | 17.7% [17.6-17.9] | 0.83% [0.76-0.90] |
+| DLL | 19.5% [18.9-20.2] | 1.43% [1.37-1.49] |
 
 Overall test AUC 0.9865. On 5,635 real benign files from this machine: false
 alarms 0.25% (EXE) and 0.21% (DLL).
@@ -141,12 +144,14 @@ How to read these numbers:
   week; in real use malware is far rarer, so the real probability behind a
   given score is lower and the real share of alarms that are false is higher.
 - **The DLL false-alarm rate exceeds its 1% target** (1.43%). The threshold was
-  set on weeks 48-51. A likely cause is drift over time: the benign DLL
-  population looks different in the test weeks (benign DLL share 64.9% in the
-  training weeks, 73.4% in test). This cause was NOT measured: those shares
-  are not from weeks 48-51, where the threshold was chosen, and the
-  false-alarm rate *within* DLLs does not depend directly on the DLL share.
-  The threshold has to be re-validated over time.
+  set on weeks 48-51. The "validation overlap" hypothesis was tested
+  (`gumruk_memuru/sonuclar/8/`): `sha256` overlap with the training sample is 0,
+  and near-duplicates (identical 86-feature vectors) account for 0.8% of the
+  drift; the false-alarm drift could not be explained, and the most likely
+  candidate is temporal drift (unverified: benign DLL share is 64.9% in the
+  training weeks vs 73.4% in test, though those shares are not from weeks 48-51
+  and the false-alarm rate *within* DLLs does not depend directly on the DLL
+  share). The threshold has to be re-validated over time.
 - **The local validation set is aging.** Since it was measured on 9 October,
   857 of its files have been deleted and hundreds updated on this machine.
   The 5,635 rows the measurements rely on are frozen (not in the repository;
@@ -160,12 +165,15 @@ How to read these numbers:
   LightGBM is a separate, not-yet-run experiment.
 - **.NET is still a weak spot.** Measured separately with criteria registered
   beforehand (`gumruk_memuru/sonuclar/5/`), same fixed thresholds: in the test
-  weeks, .NET EXEs are missed at 33.7% (non-.NET EXEs 17.6%). On EMBER2024's
-  separate .NET test set the native model misses 49.8% of malware (86.7% of
-  malicious .NET DLLs) at 1.05% false alarms; the Phase 1 model missed 92.8%
-  there at 0.46% false alarms. At the *same* false-alarm rate as Phase 1, the
-  native model misses 59.8% (92.7% of malicious .NET DLLs). Better, not good
-  enough: .NET files need the specialist model, which is not yet connected.
+  weeks, .NET EXEs are missed at 33.7% [31.5-36.1] (non-.NET EXEs 17.6%
+  [17.5-17.8]). On EMBER2024's separate .NET test set (59,953 unique files;
+  120,000 rows) the native model misses 49.8% [49.2-50.3] of malware (86.7%
+  [85.4-88.0] of malicious .NET DLLs) at 1.05% [0.95-1.18] false alarms; the
+  Phase 1 model missed 92.8% [92.5-93.1] there at 0.46% [0.39-0.54] false
+  alarms. At the *same* false-alarm rate as Phase 1, the native model misses
+  59.8% [59.2-60.3] (92.7% [91.6-93.6] of malicious .NET DLLs). Better, not
+  good enough: .NET files need the specialist model, which is not yet
+  connected.
 
 ## Roadmap
 

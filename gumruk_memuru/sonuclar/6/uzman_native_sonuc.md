@@ -42,3 +42,9 @@ doğrulama yanlış alarmları logda.
 - Native modelin eşikleri burada .NET doğrulama diliminden seçildi; üretim eşikleriyle (önceki ölçüm,
   %49,77 kaçan / %1,05 YA) karıştırılmamalı.
 - Uzman model `tahmin_et.py`'ye bağlanmadı; bağlama ayrı karar.
+
+## Ek Not — İş 7 Çiftleme Denetimi (Eşsiz Dosyalar, `sonuclar/8/`)
+
+- EMBER2024 haftalık JSONL dosyalarında her `sha256` kaydı iki kez yer aldığından `Dot_Net_test`'teki `120.000` satır gerçekte **`59.953` eşsiz dosyadır** (`30.000` zararlı: `27.370` EXE + `2.630` DLL; `29.953` zararsız: `3.713` EXE + `26.240` DLL). Eğitim örnekleminde M2 `100.000` satır = `89.696` eşsiz dosya, M2d `96.416` satır = `70.634` eşsiz dosyadır.
+- Eşsiz dosyalarda yeniden hesaplandığında (`sonuclar/8/ciftleme_b.csv`) tüm nokta tahminleri (kaçan ve yanlış alarm yüzdeleri) kopya dağılımı sınırları içinde aynıdır (`|Δ%| ≤ 0,01` puan); örneklem boyutu yarıya indiği için %95 Wilson güven aralıkları genişler.
+- **Hüküm notu (`H %1,05 | M2 (uzman, kestirmeli) vs native | EXE`):** Eşsiz dosyalarda zararsız EXE sayısı `7.436`'dan `3.713`'e inince M2 test yanlış alarmı `%1,48 [1,14-1,92] (55/3.713)` ile native `%0,89 [0,63-1,25] (33/3.713)` Wilson aralıkları `[1,14-1,25]` bandında örtüşerek ön kayıtlı kural altında mekanik olarak `"UZMAN daha az kaçırıyor"` hükmüne geçmiştir. **Ancak bu değişen hüküm, aralık örtüşmesini eşitlik sayan kuraldan doğmuştur (`M2 YA ≈ native'in 1,7 katı`: `%1,48` vs `%0,89`); uzman üstünlüğü kanıtı değildir.** Bu nedenle yukarıdaki eski hükümler değiştirilmemiş, yalnızca bu not eklenmiştir.
