@@ -114,19 +114,21 @@ artinca karsilastirma tekrarlanacak.
 
 2018 verisiyle egitilen Faz 1 modeli 2024 dosyalarinda cokuyor (AUC 0.663).
 Yerine EMBER2024 Win32/Win64 ile egitilen, 86 ozellikli (5 temel + 80 dizge +
-DLL bayragi) Random Forest geldi: 483.224 egitim dosyasi, her dosya turunun
-ICINDE 50/50 orneklenmis. Neden: veri setinde zararsizlarin cogu DLL,
-zararlilarin cok azi; aksi halde model "DLL ise zararsiz" demeyi ogreniyor.
-Karar olcutleri hicbir sonuca bakilmadan yazilip commit'lendi
-(`gumruk_memuru/sonuclar/`).
+DLL bayragi) Random Forest geldi: 483.224 satir (402.129 essiz dosya; zararli
+DLL hucresi tum havuz olan 60.403 essiz dosyadir ve her dosya cift agirlikla
+girer), her dosya turunun ICINDE 50/50 orneklenmis. Neden: veri setinde
+zararsizlarin cogu DLL, zararlilarin cok azi; aksi halde model "DLL ise
+zararsiz" demeyi ogreniyor. Karar olcutleri hicbir sonuca bakilmadan yazilip
+commit'lendi (`gumruk_memuru/sonuclar/`).
 
 Esikler egitimden ayrilan 48-51. haftalardan secildi (her turde %1 yanlis
-alarm); test haftalari 52-63 (959.738 dosya) bu sabit esiklerle bir kez olculdu:
+alarm); test haftalari 52-63 (479.856 essiz dosya; 959.738 satir) bu sabit
+esiklerle bir kez olculdu (essiz dosyalarda %95 Wilson araliklari):
 
 | Dosya turu | Kacan zararli | EMBER2024 zararsizlarinda yanlis alarm |
 |---|---|---|
-| EXE | %17.7 | %0.83 |
-| DLL | %19.5 | %1.43 |
+| EXE | %17.7 [17.6-17.9] | %0.83 [0.76-0.90] |
+| DLL | %19.5 [18.9-20.2] | %1.43 [1.37-1.49] |
 
 Genel test AUC 0.9865. Bu makinedeki 5.635 gercek zararsiz dosyada yanlis
 alarm: EXE %0.25, DLL %0.21.
@@ -136,11 +138,14 @@ Bu sayilar nasil okunmali:
   gercek kullanimda zararli cok daha nadir, bu yuzden bir skorun arkasindaki
   gercek olasilik daha dusuk, alarmlarin yanlis olan payi daha yuksektir.
 - **DLL yanlis alarmi %1 hedefini asiyor** (%1.43). Esik 48-51. haftalarda
-  ayarlandi. Olasi neden zaman kaymasi: test haftalarinda zararsiz DLL kitlesi
-  farkli (zararsiz DLL payi egitim haftalarinda %64.9, testte %73.4). Bu
-  nedensellik OLCULMEDI: bu paylar esigin secildigi 48-51. haftalara ait degil
-  ve DLL icindeki yanlis alarm orani DLL'lerin payindan dogrudan etkilenmez.
-  Esik zamanla yeniden dogrulanmali.
+  ayarlandi. "Dogrulama ortusmesi" hipotezi olculdu
+  (`gumruk_memuru/sonuclar/8/`): egitim orneklemiyle `sha256` ortusmesi 0,
+  yakin kopyalar (birebir ayni 86 ozellik vektoru) kaymanin %0.8'i; yanlis
+  alarm kaymasi aciklanamadi, en olasi aday zamansal kayma (dogrulanmadi:
+  zararsiz DLL payi egitim haftalarinda %64.9, testte %73.4; ancak bu paylar
+  esigin secildigi 48-51. haftalara ait degil ve DLL icindeki yanlis alarm
+  orani DLL'lerin payindan dogrudan etkilenmez). Esik zamanla yeniden
+  dogrulanmali.
 - **Yerel dogrulama seti eskiyor.** 9 Ekim'deki olcumden bu yana dosyalarinin
   857'si silindi, yuzlercesi guncellendi. Olcumlerin dayandigi 5.635 satir
   yeniden taranmak yerine donduruldu (repoda yok; SHA-256
@@ -153,12 +158,14 @@ Bu sayilar nasil okunmali:
   henuz yapilmamis bir deney.
 - **.NET hala zayif nokta.** Onceden yazilan olcutlerle ayrica olculdu
   (`gumruk_memuru/sonuclar/5/`), ayni sabit esiklerle: test haftalarinda .NET
-  EXE'lerde kacan %33.7 (.NET disi EXE %17.6). EMBER2024'un ayri .NET test
-  kumesinde native model %1.05 yanlis alarmda zararlilarin %49.8'ini
-  kaciriyor (zararli .NET DLL'lerin %86.7'si); Faz 1 modeli orada %0.46
-  yanlis alarmda %92.8 kaciriyordu. Faz 1 ile AYNI yanlis alarmda native
-  model %59.8 kaciriyor (zararli .NET DLL'lerin %92.7'si). Daha iyi ama
-  yeterli degil: .NET dosyalari henuz bagli olmayan uzman modele gitmeli.
+  EXE'lerde kacan %33.7 [31.5-36.1] (.NET disi EXE %17.6 [17.5-17.8]).
+  EMBER2024'un ayri .NET test kumesinde (59.953 essiz dosya; 120.000 satir)
+  native model %1.05 [0.95-1.18] yanlis alarmda zararlilarin %49.8'ini
+  [49.2-50.3] kaciriyor (zararli .NET DLL'lerin %86.7'si [85.4-88.0]); Faz 1
+  modeli orada %0.46 [0.39-0.54] yanlis alarmda %92.8 [92.5-93.1] kaciriyordu.
+  Faz 1 ile AYNI yanlis alarmda native model %59.8 [59.2-60.3] kaciriyor
+  (zararli .NET DLL'lerin %92.7'si [91.6-93.6]). Daha iyi ama yeterli degil:
+  .NET dosyalari henuz bagli olmayan uzman modele gitmeli.
 
 ## Yol Haritasi
 

@@ -1,0 +1,53 @@
+[*] native model sha256 f6b74df812f02d75... (Kural 10)
+[*] SAPMA: V48_RF_E3_300000_42 / 483224_42 YUKLENMEDI - meta'da hash yok (Kural 10). 483.224 hucresi son modelle ayni tarif (son model kapsar); 300.000 icin yapisal arguman.
+[+] G1 Win32/Win64 test: satir 959738, essiz 479856, kopya dagilimi {2: 479843, 4: 13}, celiskili sha 0
+
+=== 3/ son model, test (hafta 52-63) ===
+[+] G2: ciftli test meta test_bir_kez ile birebir (kacan, YA, AUC)
+  EXE   kacan %17.749 [17.638-17.861] (80120/451402) -> %17.749 [17.592-17.907] (40060/225701) | YA %0.828 (1056/127546) -> %0.828 [0.761-0.901] (528/63770) | AUC 0.98373 -> 0.98373
+  DLL   kacan %19.524 [19.069-19.988] (5582/28590) -> %19.524 [18.883-20.182] (2791/14295) | YA %1.428 (5030/352200) -> %1.428 [1.374-1.485] (2515/176090) | AUC 0.98439 -> 0.98439
+  hepsi kacan %17.855 [17.747-17.963] (85702/479992) -> %17.855 [17.702-18.009] (42851/239996) | YA %1.269 (6086/479746) -> %1.269 [1.225-1.314] (3043/239860) | AUC 0.98651 -> 0.98651
+
+=== 5/ A: native test .NET alt grubu ===
+[+] G1 Dot_Net_test: satir 120000, essiz 59953, kopya dagilimi {2: 59906, 4: 47}, celiskili sha 0
+[+] G3: net_olcum.csv A ve B satirlari ciftli kumede birebir
+
+=== 5/ EK esit_ya: Faz 1 vs native, tau sabit ===
+[+] G3: esit_ya.log k/n'leri ciftli kumede birebir
+
+=== 6/ uzman (M2, M2d) vs native, Dot_Net_test ===
+[+] G4: uzman_native.csv 18 satir ciftli kumede birebir
+
+=== Betimleyici ===
+  yerel set: 5635 satir, 94 sutunda birebir ayni satir (ilk haric) 174; .NET icinde 151
+  EMBER 2018 train (C:): satir 600000, essiz Dosya_Adi 600000
+  EMBER 2018 test (C:): satir 200000, essiz Dosya_Adi 200000
+  repo zararli 5700: satir 5700, essiz Dosya_Adi 5700
+  repo EMBER zararsiz 5700: satir 5700, essiz Dosya_Adi 5700
+
+=== Nokta tahmini (kural 1): 94 olcu; BEKLENMEYEN FARK 0 ===
+  en buyuk fark 0.090 puan; en buyuk delta_max 2.885
+
+=== Hukum (kural 2): 20 kural hucresi; HUKUM DEGISTI 1 ===
+  [hukum ayni] 5/ kural 1 | B tur esigi: AZALTIYOR -> AZALTIYOR
+  [hukum ayni] 5/ kural 1 | B 0,5 (Faz 1 ile ayni): AZALTIYOR -> AZALTIYOR
+  [hukum ayni] 5/ kural 2 | A EXE kacan: .NET anlamli olarak DAHA KOTU -> .NET anlamli olarak DAHA KOTU
+  [hukum ayni] 5/ kural 2 | A EXE YA: .NET anlamli olarak DAHA KOTU -> .NET anlamli olarak DAHA KOTU
+  [hukum ayni] 5/ kural 2 | A DLL kacan: fark gosterilemedi -> fark gosterilemedi
+  [hukum ayni] 5/ kural 2 | A DLL YA: fark gosterilemedi -> fark gosterilemedi
+  [hukum ayni] 5/ EK | birincil (Faz 1 YA'sinda): native DAHA AZ -> native DAHA AZ
+  [hukum ayni] 5/ EK | ikincil (native sabit YA'sinda): native DAHA AZ -> native DAHA AZ
+  [hukum ayni] 6/ | H 0.45 M2 (uzman, kestirmeli) EXE: UZMAN daha az kaciriyor -> UZMAN daha az kaciriyor
+  [hukum ayni] 6/ | H 0.45 M2 (uzman, kestirmeli) DLL: esit YA SAGLANAMADI -> hukum yok -> esit YA SAGLANAMADI -> hukum yok
+  [hukum ayni] 6/ | H 0.45 M2 (uzman, kestirmeli) hepsi: esit YA SAGLANAMADI -> hukum yok -> esit YA SAGLANAMADI -> hukum yok
+  [hukum ayni] 6/ | H 0.45 M2d (uzman, tip-ici) EXE: UZMAN daha az kaciriyor -> UZMAN daha az kaciriyor
+  [hukum ayni] 6/ | H 0.45 M2d (uzman, tip-ici) DLL: esit YA SAGLANAMADI -> hukum yok -> esit YA SAGLANAMADI -> hukum yok
+  [hukum ayni] 6/ | H 0.45 M2d (uzman, tip-ici) hepsi: esit YA SAGLANAMADI -> hukum yok -> esit YA SAGLANAMADI -> hukum yok
+  [HUKUM DEGISTI] 6/ | H 1.05 M2 (uzman, kestirmeli) EXE: esit YA SAGLANAMADI -> hukum yok -> UZMAN daha az kaciriyor
+  [hukum ayni] 6/ | H 1.05 M2 (uzman, kestirmeli) DLL: esit YA SAGLANAMADI -> hukum yok -> esit YA SAGLANAMADI -> hukum yok
+  [hukum ayni] 6/ | H 1.05 M2 (uzman, kestirmeli) hepsi: esit YA SAGLANAMADI -> hukum yok -> esit YA SAGLANAMADI -> hukum yok
+  [hukum ayni] 6/ | H 1.05 M2d (uzman, tip-ici) EXE: UZMAN daha az kaciriyor -> UZMAN daha az kaciriyor
+  [hukum ayni] 6/ | H 1.05 M2d (uzman, tip-ici) DLL: esit YA SAGLANAMADI -> hukum yok -> esit YA SAGLANAMADI -> hukum yok
+  [hukum ayni] 6/ | H 1.05 M2d (uzman, tip-ici) hepsi: esit YA SAGLANAMADI -> hukum yok -> esit YA SAGLANAMADI -> hukum yok
+
+[+] bitti (23 sn) -> ciftleme_b.csv, ciftleme_b_hukum.csv

@@ -35,7 +35,7 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 ### BİLİNEN SINIRLAMA: model .NET zararlılarına neredeyse kör (`net_dogrulama.py`)
 - Genel %90 doğruluk bir alt grubun çöküşünü gizliyor. EMBER 2018 CV'de
   .NET zararlılarının %52'si kaçıyor (.NET-dışı: %11.5).
-- EMBER2024 .NET test (120.000 dosya, Eylül-Aralık 2024, eğitimde hiç
+- EMBER2024 .NET test (59.953 eşsiz dosya / 120.000 satır, Eylül-Aralık 2024, eğitimde hiç
   görülmedi): doğruluk %53, kaçan zararlı %92.8, AUC 0.63 -> yazı-tura.
   Kaçanlar: xworm, njrat, asyncrat, agenttesla, redline, clipbanker...
   (ailelerin %83-99'u).
@@ -60,10 +60,10 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - Mimari: NET_mi=1 -> EMBER2024 .NET ile eğitilen uzman model; NET_mi=0 ->
   EMBER 2018 ana model. Kaynaklar tek modelde karıştırılmaz (Kritik Kural 2;
   string_counts EMBER 2018'de yok).
-- Veri: Dot_Net_train (520K, ilk 52 hafta) -> 100K alt örnek; test
-  Dot_Net_test (120K, son 12 hafta) - zamansal bölme. Eğitim/test ortak
+- Veri: Dot_Net_train (259.996 eşsiz dosya / 519.992 PE satırı, ham JSONL 520K, ilk 52 hafta) -> 100K satırlık alt örnek (M1/M2'de 90.330, M2d'de 74.542 eşsiz dosya); test
+  Dot_Net_test (59.953 eşsiz dosya / 120K satır, son 12 hafta) - zamansal bölme. Eğitim/test ortak
   dosya 0; birebir aynı özellik vektörü %1.6 (çıkarınca sonuç değişmiyor).
-  Train'deki 8 kayıt PE değil (`is_pe=0`, 146 baytlık JSON hata metni);
+  Train'deki 4 eşsiz kayıt (8 satır) PE değil (`is_pe=0`, 146 baytlık JSON hata metni);
   eskiden `coff` alanı olmadığı için sessizce DLL_mi=0 alıyordu, artık
   atlanıyor (Kural 3). Bu yüzden M1-M2d sayıları ilk ölçümden örneklem
   gürültüsü kadar farklı (ör. M2d EXE yanlış alarm 7.88 -> 7.34);
@@ -98,9 +98,13 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - UZMAN vs NATIVE, EŞİT YA'DA (26 Ekim, ön kayıt `sonuclar/6/on_kayit_uzman_native.md`,
   sonuç `.../uzman_native_sonuc.md`): geçit M2d EXE YA 7.34 tuttu; M2 yeniden üretimi eşik
   0.5'te kaçan 3.74 / YA 4.32 / EXE YA 26.47 (belgedeki 3.8 / 4.2). Uzmanlar hafta 0-47'de (M2
-  100K, M2d 96.416), eşikler hafta 48-51'den tür başına, test bir kez. Hüküm verilebilen hücreler
+  100K satır / 89.696 eşsiz dosya, M2d 96.416 satır / 70.634 eşsiz dosya), eşikler hafta 48-51'den tür başına, test bir kez (59.953 eşsiz dosya / 120.000 satır). Hüküm verilebilen hücreler
   (test YA örtüşüyor) yalnız EXE: H %0.45 M2d kaçan 34.07 vs native 72.58, H %1.05 23.46 vs
-  62.80 -> uzman daha az kaçırıyor. DLL ve "hepsi"de uzmanların test YA'sı native'den anlamlı
+  62.80 -> uzman daha az kaçırıyor. (Not - İş 7 çiftleme denetimi: eşsiz dosyalarda zararsız EXE
+  n=3.713'e inince Wilson aralıkları genişlediği için H %1.05 M2 EXE hücresinde de aralıklar
+  örtüşüyor [%1.48 (1.14-1.92) vs %0.89 (0.63-1.25)]; ancak bu değişim aralık örtüşmesini eşitlik
+  sayan kuraldan doğdu - M2 YA ≈ native'in 1,7 katı - uzman üstünlüğü kanıtı değildir, eski hüküm
+  korundu.) DLL ve "hepsi"de uzmanların test YA'sı native'den anlamlı
   yüksek (ör. 0.78 vs 0.42) -> kural gereği hüküm yok (kaçan farkı büyük: 8-20 vs 86-90).
   M2d her hücrede M2'den az kaçırıyor. Uzman henüz tahmin_et'e BAĞLI DEĞİL.
   (1) Karşılaştırma YALNIZCA Dot_Net_test'te; gerçek akıştaki .NET alt kümesinde (A kümesi:
@@ -154,12 +158,12 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   protokolle karşılaştırılır, hangi dalın alınacağına kullanıcı karar verir.
 - Veri (9 Ekim 2026): HF joyce8/EMBER2024 Win32/Win64 train+test zip'leri
   (21.9 GB, SHA-256 doğrulandı, `ember2024_indir.py`), AÇILMADAN okunur
-  (`ember2024_cikar.py`; açılmış ~100 GB). Eğitim 4.158.450 kayıt (hafta 0-51),
-  test 959.738 (hafta 52-63). is_pe=0 atlandı (train 1.550, test 262).
-- Kural 5 incelemesi (Win64_test, 240K): alanlar Dot_Net kaydıyla aynı;
+  (`ember2024_cikar.py`; açılmış ~100 GB). Eğitim 2.079.225 eşsiz dosya / 4.158.450 satır (hafta 0-51),
+  test 479.856 eşsiz dosya / 959.738 satır (hafta 52-63). is_pe=0 atlandı (train 775 eşsiz / 1.550 satır, test 131 eşsiz / 262 satır).
+- Kural 5 incelemesi (Win64_test, 120K eşsiz dosya / 240K satır): alanlar Dot_Net kaydıyla aynı;
   string_counts SEYREK (eşleşmeyen desen yazılmaz -> 0, yerel taraf da aynı);
-  datadirectories başında isimsiz girdi, 236 kayıtta hiç dizin yok (isimle
-  okunduğu için sorun değil); ordinal "DLL:ordinal5"; haftada 20K, 50/50.
+  datadirectories başında isimsiz girdi, 118 eşsiz kayıtta (236 satır) hiç dizin yok (isimle
+  okunduğu için sorun değil); ordinal "DLL:ordinal5"; haftada 10K eşsiz dosya (20K satır), 50/50.
 - KESTİRME (beşinci kez): zararsızların ~%73'ü DLL, zararlıların ~%6'sı
   (train %64.9 / %6.3). Import'suz: Win32 zararsız DLL'lerin %45'i (bu
   makinedeki zararsız DLL'lerde %19.2 -> örüntü gerçek ama veri setinde abartılı).
@@ -174,7 +178,7 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   sütun (5 temel + DLL_mi) ve NET_mi/Karma_Mod: `thrember_karsilastir.py`, thrember
   0.1.0, 50 yerel dosya (20 EXE, 20 DLL, 5 .NET, 5 import'suz DLL; seed 42) -> 50/50
   birebir (15 Ekim). Böylece 86 model sütununun hepsi gerçek dosyada doğrulandı.
-- Sonuç (`ember2024_native_dogrulama.py`; RF 100 ağaç, 100K alt örneklem,
+- Sonuç (`ember2024_native_dogrulama.py`; RF 100 ağaç, 100K satırlık alt örneklem [tohum 42'de E3 96.828, E1/E2 98.787 eşsiz dosya],
   5 tohum ortalaması; tohum farkı genel ≤0.35 puan, AUC ≤0.001):
   | | doğruluk | YA | kaçan | AUC | EXE YA | DLL kaçan | yerel YA (EXE / DLL) |
   |---|---|---|---|---|---|---|---|
@@ -193,23 +197,23 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
   bulaştırıcıları: zararsız taşıyıcı statik olarak zararsız görünüyor),
   (bilinmiyor) 16.6, lummastealer 15.1 (E2 12.1), wacatac 9.3.
 - .NET alt grubu küçük (testin %0.5'i), tohum farkı 3-5 puan; .NET dosyaları
-  zaten uzman modele gidecek (mimari, .NET bölümü). Bu 9 Ekim deneyinden (100 bin,
+  zaten uzman modele gidecek (mimari, .NET bölümü). Bu 9 Ekim deneyinden (100 bin satır,
   eşik testten).
 - SON MODEL .NET'TE (26 Ekim, ön kayıt `sonuclar/5/on_kayit_net.md` ölçümden önce
-  commit'lendi; sonuç `sonuclar/5/net_sonuc.md`; sabit eşikler, Wilson %95):
-  A native test .NET alt grubu: EXE kaçan %33.74 [32.1-35.4] (.NET dışı 17.63), YA
-  %2.88 [1.3-6.2] (n=208; .NET dışı 0.82) -> EXE'de anlamlı olarak daha kötü; DLL kaçan
-  23.38 [19.0-28.4] vs 19.48 -> fark gösterilemedi (n=308).
-  B Dot_Net_test (Faz 1'in %92.8'iyle aynı küme): kaçan %49.77 tür eşiklerinde (YA
-  %1.05), %23.29 eşik 0.5'te (YA %4.42); zararlı .NET DLL'lerin %86.71'i kaçıyor (AUC
+  commit'lendi; sonuç `sonuclar/5/net_sonuc.md`; sabit eşikler, eşsiz dosyalarla Wilson %95):
+  A native test .NET alt grubu: EXE kaçan %33.74 [31.5-36.1] (.NET dışı 17.63 [17.5-17.8]), YA
+  %2.97 [1.0-8.4] (3/101 eşsiz dosya, çiftlide %2.88 [1.3-6.2], 6/208 satır; .NET dışı 0.82 [0.76-0.90]) -> EXE'de anlamlı olarak daha kötü; DLL kaçan
+  23.38 [17.4-30.7] vs 19.48 [18.8-20.1] -> fark gösterilemedi (n=154 eşsiz dosya / 308 satır; çiftlide [19.0-28.4]).
+  B Dot_Net_test (59.953 eşsiz dosya / 120.000 satır; Faz 1'in %92.8'iyle aynı küme): kaçan %49.77 [49.2-50.3] tür eşiklerinde (YA
+  %1.05 [0.95-1.18]), %23.29 [22.8-23.8] eşik 0.5'te (YA %4.43 [4.20-4.67], çiftlide %4.42); zararlı .NET DLL'lerin %86.71 [85.4-88.0]'i kaçıyor (AUC
   0.838). Faz 1'den iyi, ama .NET için yeterli değil -> uzman model bağlanmalı.
   C yerel .NET zararsız YA %0.03 (1/3471); .NET dışı %0.51 [0.28-0.91] (11/2164;
   EXE 0.28, DLL 0.55). Yerel setin %61.6'sı .NET -> raporlanan yerel EXE %0.25 /
   DLL %0.21 kısmen bu karışımla düşük (DLL'in 3422/5233'ü .NET).
   EŞİT YA'DA (ön kayıt `on_kayit_esit_ya.md`, Faz 1 net_dogrulama A modeli aynı kodla
-  yeniden üretildi, geçit 92.77 = 92.8): Faz 1'in B'deki YA'sı %0.46 (sitedeki "%3,8"
+  yeniden üretildi, geçit 92.77 = 92.8): Faz 1'in B'deki YA'sı %0.46 [0.39-0.54] (sitedeki "%3,8"
   M2'nin kaçanı, YA değil). Native o YA'da (τ 0.76, B'den seçilen ROC noktası, üretim eşiği
-  değil) kaçan %59.79, zararlı .NET DLL %92.70; Faz 1 native'in %1.05 YA'sında %89.39.
+  değil) kaçan %59.79 [59.2-60.3], zararlı .NET DLL %92.70 [91.6-93.6]; Faz 1 native'in %1.05 YA'sında %89.39 [89.0-89.7].
 - KARAR SÜRECİ (15-17 Ekim, ayrıntı `gumruk_memuru/sonuclar/`): ölçütler
   sonuçlardan ÖNCE yazıldı ve commit'lendi (`sonuclar/karar_olcutleri.md`): ana
   ölçüt her türde %1 yanlış alarmda DLL'de kaçan zararlı; yerel yanlış alarm
@@ -218,26 +222,27 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - Eşik (`sonuclar/3/`, ön kayıt `on_kayit_esik_boyut.md`): eğitim havuzu hafta
   0-47, eşik hafta 48-51 doğrulama diliminden (İKİ sınıf), test hafta 52-63 SABİT
   eşikle BİR KEZ. 2c'deki ilk tablo eşiği testten seçmişti (`karar_tablosu.md`'de
-  UYARI); doğrulama eşiğiyle yeniden ölçümde mekanik sonuç aynı: 300 binde DLL
+  UYARI); doğrulama eşiğiyle yeniden ölçümde mekanik sonuç aynı: 300 bin satırda (tohum 42'de 268.625 eşsiz dosya) DLL
   kaçan RF E3 20.9, RF E2 25.6, LightGBM E3 35.8, E2 39.7.
-- RF > LightGBM yalnızca AYARSIZ LightGBM için: öğrenme eğrisi düz (100 bin ->
-  4,16 milyon AUC 0.9766 -> 0.9776) = kapasite sınırı. Ayarlı LightGBM ayrı,
+- RF > LightGBM yalnızca AYARSIZ LightGBM için: öğrenme eğrisi düz (100 bin satır ->
+  4,16 milyon satır / 2,08 milyon eşsiz dosya AUC 0.9766 -> 0.9776) = kapasite sınırı. Ayarlı LightGBM ayrı,
   ön kayıtlı deney olarak bekliyor.
-- Son boyut: ön kayıtlı kural (kazanç < tohum std -> 300 bin). 522.200 zamansal
-  doğrulamayla kurulamaz (havuzda zararlı DLL 120.806) -> 483.224. Kazanç 1.69
-  puan ≥ s 0.72 -> **483.224**. Kaynak (tohum 42): 300 bin 279 MB / 4.2 ms,
+- Son boyut: ön kayıtlı kural (kazanç < tohum std -> 300 bin satır). 522.200 satır (4×65.275 = 261.100 eşsiz tavanı) zamansal
+  doğrulamayla kurulamaz (havuzda zararlı DLL 120.806 satır = 60.403 eşsiz dosya) -> 483.224 satır (402.129 eşsiz dosya; zararlı DLL hücresi tüm havuz olan 60.403 eşsiz dosyadır ve her dosya çift ağırlıkla girer). Kazanç 1.69
+  puan ≥ s 0.72 -> **483.224 satır (402.129 eşsiz dosya)**. Kaynak (tohum 42): 300 bin 279 MB / 4.2 ms,
   483.224 395 MB / 3.6 ms (tek satır tahmin, özellik çıkarma hariç).
-- SON MODEL (`sonuclar/3/son_model.py`): RF E3, 483.224, tohum 42, hafta 0-47;
-  eşik EXE 0.70 / DLL 0.61. Test (bir kez): AUC 0.9865; kaçan EXE %17.7, DLL
-  %19.5; yanlış alarm EXE %0.83, DLL %1.43. Yerel yanlış alarm EXE %0.25
+- SON MODEL (`sonuclar/3/son_model.py`): RF E3, 483.224 satır (402.129 eşsiz dosya; zararlı DLL hücresinde tüm havuz olan 60.403 eşsiz dosya çift ağırlıkla), tohum 42, hafta 0-47;
+  eşik EXE 0.70 / DLL 0.61. Test (bir kez, 479.856 eşsiz dosya / 959.738 satır, Wilson %95): AUC 0.9865; kaçan EXE %17.7 [17.6-17.9], DLL
+  %19.5 [18.9-20.2]; yanlış alarm EXE %0.83 [0.76-0.90], DLL %1.43 [1.37-1.49]. Yerel yanlış alarm EXE %0.25
   [0.04-1.40], DLL %0.21 [0.12-0.38]. Model `C:\ember2024\model` (414 MB, repoda
   yok); meta `gumruk_memuru/model_native_meta.json` (repoda).
-- DLL YANLIŞ ALARMI HEDEFİ AŞIYOR: eşik doğrulamada %1 için seçildi, testte %1.43.
-  OLASI neden (ölçülmedi): zaman kayması, hafta 48-51 -> 52-63. Train->test
-  zararsız DLL payı %64.9 -> %73.4 (import'suz %13.5 -> %18.4) kaymayı
-  gösteriyor ama nedeni kanıtlamıyor: paylar eşiğin seçildiği 48-51. haftalara
-  ait değil ve DLL içi yanlış alarm oranı DLL'lerin zararsızlar içindeki
-  payından doğrudan etkilenmez. Üretim eşiği zamanla yeniden doğrulanmalı
+- DLL YANLIŞ ALARMI HEDEFİ AŞIYOR: eşik doğrulamada %1 için seçildi, testte %1.43 [1.37-1.49].
+  "Doğrulama örtüşmesi" hipotezi ölçüldü (`sonuclar/8/`): sha256 örtüşmesi 0, yakın kopya
+  (birebir aynı 86 özellik vektörü) kaymanın %0.8'i; YA kayması açıklanamadı, en olası aday
+  zamansal kayma (doğrulanmadı: hafta 48-51 -> 52-63; train->test zararsız DLL payı %64.9 -> %73.4,
+  import'suz %13.5 -> %18.4 kaymayı gösteriyor ama nedeni kanıtlamıyor: paylar eşiğin seçildiği
+  48-51. haftalara ait değil ve DLL içi yanlış alarm oranı DLL'lerin zararsızlar içindeki
+  payından doğrudan etkilenmez). Üretim eşiği zamanla yeniden doğrulanmalı
   (Sonraki Adımlar 4).
 - Uçtan uca (`sonuclar/3/uctan_uca.py`): 20/20 - CSV ile 86/86 özellik aynı, tek
   dosya == toplu tahmin, tek modül == eski kod yolu. İlk koşu 18/20: 2 .NET
@@ -328,9 +333,9 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 - `sonuclar/` - native model kararının tüm izi; her adımın betiği, logu ve
   küçük tabloları kendi klasöründe: `karar_olcutleri.md` (ön kayıt),
   `ortak_deney.py` (yükleme/örneklem/ölçüm, tek tanım), `0/` Parquet,
-  `2a/` LightGBM öğrenme eğrisi, `2b/` RF 300 bin (+ 9 Ekim 100 bin),
+  `2a/` LightGBM öğrenme eğrisi, `2b/` RF 300 bin satır (+ 9 Ekim 100 bin satır),
   `2c/` + `karar_tablosu.md`, `3/` eşik ve boyut ön kaydı, ölçümü, son model,
-  uçtan uca test; `4/` yerel set kimliği; `5/` son modelin .NET ölçümü (ön kayıt + sonuç); `6/` uzman (M2, M2d) vs native, eşit YA. Büyük çıktılar (model, yerel
+  uçtan uca test; `4/` yerel set kimliği; `5/` son modelin .NET ölçümü (ön kayıt + sonuç); `6/` uzman (M2, M2d) vs native, eşit YA; `8/` çiftleme denetimi (envanter, tekil ölçüm, doğrulama örtüşmesi). Büyük çıktılar (model, yerel
   tahminler) `C:\ember2024\sonuc` ve `C:\ember2024\model` altında.
 - `model_karsilastir.py` - RF vs LightGBM, ham vs kalibre (5 katlı CV +
   makinedeki 11 örneklem + şüpheli bant). `requirements-experimental.txt`
@@ -370,7 +375,7 @@ Kararların gerekçeleri ve hikayesi: `GELISIM_SURECI.md`.
 
 ## Model Seçimi
 - YENİDEN AÇILDI (86 özellik, 15-17 Ekim): RF vs ayarsız LightGBM, aynı örneklem
-  ve tohumlar, eşik doğrulama diliminden. RF açık farkla önde (300 binde DLL
+  ve tohumlar, eşik doğrulama diliminden. RF açık farkla önde (300 bin satırda DLL
   kaçan RF E3 20.9 / LightGBM E3 35.8). LightGBM'in öğrenme eğrisi düz -> sonuç
   yalnız AYARSIZ LightGBM için; ayarlı LightGBM (sabit bütçe, doğrulama
   diliminde ayar, test bir kez) ayrı ön kayıtlı deney, henüz yapılmadı.
@@ -429,8 +434,9 @@ demek (taramayı erteleme mantığının aynısı).
      test bir kez).
 4. Üç bölgeli eşikler (zararsız / şüpheli / zararlı).
    - KISMEN: native modelde türe göre tek eşik (EXE 0.70, DLL 0.61), doğrulama
-     diliminden %1 yanlış alarm için. Testte DLL %1.43 (olası neden zaman
-     kayması, ölçülmedi) -> üretim eşiği zamanla yeniden doğrulanmalı ve
+     diliminden %1 yanlış alarm için. Testte DLL %1.43 ("doğrulama örtüşmesi" hipotezi
+     `sonuclar/8/`'de elendi: sha256 örtüşmesi 0, yakın kopya kaymanın %0.8'i; YA kayması
+     açıklanamadı, en olası aday zamansal kayma, doğrulanmadı) -> üretim eşiği zamanla yeniden doğrulanmalı ve
      gerçek zararlı oranını (π) hesaba katmalı. Şüpheli bant
      ve maliyet oranı hâlâ açık.
    Şu an 0.2-0.8 bandı EMBER'in 1/4'ünü, makinenin 1/6'sını yutuyor ->
@@ -463,9 +469,9 @@ demek (taramayı erteleme mantığının aynısı).
 - `sef_tarama_tum_dosyalar.csv` - tüm tarama (tam yollar içerir, büyük);
   `.gitignore`'da.
 - EMBER2024 .NET CSV'leri - proje DIŞINDA, REPO'DA YOK (büyük, üretilmiş):
-  `C:\ember2024\ember2024_net_test_ozellik.csv` (120.000 kayıt, 60K/60K,
-  son 12 hafta) ve `...\ember2024_net_train_ozellik.csv` (520.000 kayıt,
-  260K/260K, ilk 52 hafta). Sütunlar: temel + NET_mi/Karma_Mod + 80 dizge
+  `C:\ember2024\ember2024_net_test_ozellik.csv` (120.000 satır / 59.953 eşsiz dosya: 30.000 zararlı + 29.953 zararsız, 60K/60K satır,
+  son 12 hafta) ve `...\ember2024_net_train_ozellik.csv` (519.992 PE satırı / 259.996 eşsiz dosya: 129.997 zararlı + 129.999 zararsız, ham JSONL 520.000 satır,
+  260K/260K satır, ilk 52 hafta). Sütunlar: temel + NET_mi/Karma_Mod + 80 dizge
   (DZ_*) + DLL_mi + Aile + Hafta. Yeniden üretmek (Apache-2.0):
   1. `curl.exe -L -o C:\ember2024\Dot_Net_test.zip https://huggingface.co/datasets/joyce8/EMBER2024/resolve/main/Dot_Net_test.zip`
      (210 MB) -> C:\ember2024 içinde `tar -xf Dot_Net_test.zip` (~1 GB JSONL)
@@ -559,7 +565,7 @@ açık işler.
    - Liste alanlarında indeks -> isim eşlemesi, dizin olmayan ek girdiler,
      isim yazımları (CLR_RUNTIME_HEADER / COM_DESCRIPTOR). İNDEKSLE okuma.
    - Etiket değerleri ve sınıf sayıları (belgelenen sayıya güvenme:
-     EMBER2024 .NET test "60K" dendi, gerçekte 120K).
+     EMBER2024 .NET test belgede "60K" dendi: bu 59.953 eşsiz dosya sayısıydı; her haftalık JSONL'da aynı sha256 iki kez yer aldığından satır sayısı 120K çıktı).
    - Değişiklikten sonra mevcut sütunların birebir aynı kaldığını doğrula.
    - Bozuk/PE olmayan kayıtlar (EMBER2024 `is_pe=0`, eksik `header.coff`):
      `.get(..., [])` ile okuma - sessizce varsayılan değer alırlar. Alanı

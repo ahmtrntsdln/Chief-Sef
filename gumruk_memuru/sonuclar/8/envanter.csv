@@ -1,0 +1,908 @@
+dosya,satir_no,ham_ifade,sayi,sinif,es_deger_satir,es_deger_essiz,oneri
+CLAUDE.md,15,- Eğitim: EMBER zararlı (5700) + EMBER zararsız (5700). İki sınıf da aynı,5700,EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+CLAUDE.md,15,itim: EMBER zararlı (5700) + EMBER zararsız (5700). İki sınıf da aynı,5700,EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+CLAUDE.md,18,- Dış doğrulama: bu makinedeki 5700 gerçek zararsız PE (eğitimde hiç,5700,yerel,5700,,düzeltme gerekmez (yerel 5.700 zararsız PE)
+CLAUDE.md,23,profile benzeyen 22 gerçek dosyanın %64'ü zararlı -> model hatas,22,EMBER 2018,22,22,düzeltme gerekmez (EMBER 2018 alt profil)
+CLAUDE.md,23,"profile benzeyen 22 gerçek dosyanın %64'ü zararlı -> model hatası değil,",64,oran-yüzde,,,
+CLAUDE.md,27,toplanmış: 11.400 satırın hepsi dosyanın ilk ~34 bin kaydından,11.400,EMBER 2018,11400,11400,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+CLAUDE.md,27,"oplanmış: 11.400 satırın hepsi dosyanın ilk ~34 bin kaydından, hepsi",34 bin,EMBER 2018,34000,34000,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+CLAUDE.md,28,Kasım 2018. 80/20 bölme bu dar pencerenin içinde. Aynı,2018,ilgisiz,,,
+CLAUDE.md,28,Kasım 2018. 80/20 bölme bu dar pencerenin içinde. Aynı dosyanı,80/20,oran-yüzde,,,
+CLAUDE.md,29,kalan 188.600 kaydında (Kasım+Aralık) ana model: %87.4 doğ,188.600,EMBER 2018,188600,188600,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+CLAUDE.md,30,0.947. Aynı 5 özellik tasarımı zamansal bölmeyle (,0.947,oran-yüzde,,,
+CLAUDE.md,31,"Kasım-Aralık test): %83.8, AUC 0.920. Sızıntı değil, ama raporlanacak",0.920,oran-yüzde,,,
+CLAUDE.md,36,uluk bir alt grubun çöküşünü gizliyor. EMBER 2018 CV'de,2018,ilgisiz,,,
+CLAUDE.md,38,"- EMBER2024 .NET test (120.000 dosya, Eylül-Aralık 2024,",2024,ilgisiz,,,
+CLAUDE.md,38,"- EMBER2024 .NET test (120.000 dosya, Eylül-Aralık 2024, eğitimde hiç",120.000,satır,120000,59953,59.953 eşsiz dosya (120.000 satır)
+CLAUDE.md,38,"R2024 .NET test (120.000 dosya, Eylül-Aralık 2024, eğitimde hiç",2024,ilgisiz,,,
+CLAUDE.md,43,T dosyalarını birbirinden ayıramıyor (hepsi ~1,1,ilgisiz,,,
+CLAUDE.md,44,"import, benzer entropi) ve EMBER 2018 eğitiminde .NET zararlı az (162).",2018,ilgisiz,,,
+CLAUDE.md,44,i) ve EMBER 2018 eğitiminde .NET zararlı az (162).,162,EMBER 2018,162,162,düzeltme gerekmez (EMBER 2018 eğitimdeki .NET zararlı)
+CLAUDE.md,50,"mixed-mode dosyanın 62'sini yakaladı, 0 yanlış pozitif).",62,yerel,62,,düzeltme gerekmez (yerel mixed-mode doğrulaması)
+CLAUDE.md,50,"mixed-mode dosyanın 62'sini yakaladı, 0 yanlış pozitif).",0,yerel,0,,düzeltme gerekmez (yerel mixed-mode doğrulaması)
+CLAUDE.md,51,- Tutarlılık doğrulandı (60 bin EMBER kaydı + 5228 yerel PE): indeks,60 bin,EMBER 2018,60000,60000,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+CLAUDE.md,51,Tutarlılık doğrulandı (60 bin EMBER kaydı + 5228 yerel PE): indeks,5228,yerel,5228,,düzeltme gerekmez (yerel PE taraması)
+CLAUDE.md,53,"- Etkisi (EMBER 2018 CV): doğruluk %89.65 -> %90.16, .NET yanlış",2018,ilgisiz,,,
+CLAUDE.md,55,"kestirmesi gerçek, küçük). EMBER2024 .NET'te kaçan 92.8 -> 93.4.",2024,ilgisiz,,,
+CLAUDE.md,60,- Mimari: NET_mi=1 -> EMBER2024 .NET ile eğitilen uzman model; NET_mi=0 ->,2024,ilgisiz,,,
+CLAUDE.md,61,EMBER 2018 ana model. Kaynaklar tek modelde karıştırılm,2018,ilgisiz,,,
+CLAUDE.md,62,string_counts EMBER 2018'de yok).,2018,ilgisiz,,,
+CLAUDE.md,63,"- Veri: Dot_Net_train (520K, ilk 52 hafta) -> 100K alt örnek; test",520K,satır,519992,259996,259.996 eşsiz dosya (519.992 PE satırı; ham JSONL 520.000 satır)
+CLAUDE.md,63,"Veri: Dot_Net_train (520K, ilk 52 hafta) -> 100K alt örnek; test",100K,satır,100000,90330/74542,"100.000 satırlık örneklem (M1/M2'de 90.330, M2d'de 74.542 eşsiz dosya)"
+CLAUDE.md,64,"Dot_Net_test (120K, son 12 hafta) - zamansal bölme. Eğitim/test",120K,satır,120000,59953,59.953 eşsiz dosya (120.000 satır)
+CLAUDE.md,65,dosya 0; birebir aynı özellik vektörü %1.6 (çıkarınc,0,eşsiz,0,0,eğitim/test ortak sha256 = 0; düzeltme gerekmez
+CLAUDE.md,65,dosya 0; birebir aynı özellik vektörü %1.6 (çıkarınca sonuç değişmiyor).,1.6,oran-yüzde,,,
+CLAUDE.md,66,"Train'deki 8 kayıt PE değil (`is_pe=0`, 146 baytlık JSON",8,satır,8,4,4 eşsiz kayıt (8 satır)
+CLAUDE.md,72,00 yerel dosyada (148 .NET) karşılaştırıldı: 500/500 birebir aynı.,500/500,yerel,500/500,,düzeltme gerekmez (yerel doğrulama k/n)
+CLAUDE.md,72,500 yerel dosyada (148 .NET) karşılaştırıldı: 50,500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+CLAUDE.md,72,500 yerel dosyada (148 .NET) karşılaştırıldı: 500/500 birebir aynı.,148,yerel,148,,düzeltme gerekmez (yerel dosya alt kümesi)
+CLAUDE.md,73,Yerelde dosya başına ~0.25 sn (tam tarama süresini uzatır).,0.25,oran-yüzde,,,
+CLAUDE.md,74,- Ablasyon (EMBER2024 .NET test): M0 mevcut model kaçan %92.8 / AU,2024,ilgisiz,,,
+CLAUDE.md,76,"dizgeler kaçan %3.8, yanlış alarm %4.2, AUC 0.993.",0.993,oran-yüzde,,,
+CLAUDE.md,77,- KESTİRME (üçüncü kez aynı ders): EMBER2024 .NET'te zararsızların ~%90'ı,2024,ilgisiz,,,
+CLAUDE.md,82,züm (M2d): eğitim örneklemi her tipin İÇİNDE 50/50 + DLL_mi girdi. EXE,50/50,oran-yüzde,,,
+CLAUDE.md,83,"yanlış alarm 26.5 -> 7.3, EXE AUC 0.966 -> 0.979, DLL AUC 0.986 -> 0.993;",0.966,oran-yüzde,,,
+CLAUDE.md,83,"yanlış alarm 26.5 -> 7.3, EXE AUC 0.966 -> 0.979, DLL AUC 0.986 -> 0.993;",0.979,oran-yüzde,,,
+CLAUDE.md,83,"26.5 -> 7.3, EXE AUC 0.966 -> 0.979, DLL AUC 0.986 -> 0.993;",0.986,oran-yüzde,,,
+CLAUDE.md,83,".3, EXE AUC 0.966 -> 0.979, DLL AUC 0.986 -> 0.993;",0.993,oran-yüzde,,,
+CLAUDE.md,100,çan 3.74 / YA 4.32 / EXE YA 26.47 (belgedeki 3.8 / 4.2). Uzmanlar hafta 0-47'de (M2,3.8 / 4.2,oran-yüzde,,,
+CLAUDE.md,101,"100K, M2d 96.416), eşikler hafta 48-51'den tür ba",100K,satır,100000,89696,89.696 eşsiz dosya (100K satır)
+CLAUDE.md,101,"100K, M2d 96.416), eşikler hafta 48-51'den tür başına, test b",96.416,satır,96416,70634,70.634 eşsiz dosya (96.416 satır; zararsız EXE hücresinde 12.052 eşsiz dosyanın iki kopyası)
+CLAUDE.md,107,t haftalarındaki NET_mi=1 dosyalar) ve yerel 3.471 meşru .NET dosyasında,3.471,yerel,3471,,düzeltme gerekmez (yerel .NET dosya sayısı)
+CLAUDE.md,107,Win32/Win64 test haftalarındaki NET_mi=1 dosyalar) ve yerel 3.471 meşru .NET dosyasın,1,ilgisiz,,,
+CLAUDE.md,114,"t ∈ {EXE, DLL}. EMBER2024'teki %88/%9 örnekleme artefaktı, gerçek π_t",2024,ilgisiz,,,
+CLAUDE.md,115,u makinedeki gerçek zararsız .NET dosyaları (500 EXE + 500 DLL; Program,500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+CLAUDE.md,115,ki gerçek zararsız .NET dosyaları (500 EXE + 500 DLL; Program,500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+CLAUDE.md,116,"Files x2 + Microsoft.NET, <=20 MB), yanlış alarm, %95 Wilson aralığı:",20,ilgisiz,,,
+CLAUDE.md,116,"x2 + Microsoft.NET, <=20 MB), yanlış alarm, %95 Wilson aralığı:",95,oran-yüzde,,,
+CLAUDE.md,117,".0], M2d EXE %1.6 [0.8-3.1]; DLL ikisinde de 0/500",0/500,yerel,0/500,,düzeltme gerekmez (yerel doğrulama k/n)
+CLAUDE.md,119,neklem rastgele değil (os.walk sırasıyla ilk 500) ve kümeli (aynı,500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+CLAUDE.md,123,## Native Model: DLL_mi + EMBER 2018 dizgeleri - DENEYSEL (`dizge_dll_dogrulama.p,2018,ilgisiz,,,
+CLAUDE.md,124,- Soru: EMBER2024 Win32/Win64'ü (17 GB) indirmeden native mode,2024,ilgisiz,,,
+CLAUDE.md,125,sinyali eklenebilir mi? EMBER 2018 JSON'unda `strings` grubu var ama,2018,ilgisiz,,,
+CLAUDE.md,127,mber ile satır satır AYNI kod) + tüm dosyada 4 kaba sayım,4,ilgisiz,,,
+CLAUDE.md,129,doğrulandı: 60K kayıtta iç tutarlılık (printabledist toplamı,60K,EMBER 2018,60000,60000,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+CLAUDE.md,130,"ınırı, MZ>=1) ihlalsiz; yerel `dosyadan_ember2018_dizge`",2018,ilgisiz,,,
+CLAUDE.md,130,"histogram sınırı, MZ>=1) ihlalsiz; yerel `dosyadan_ember2018_dizge`",1,ilgisiz,,,
+CLAUDE.md,131,in StringExtractor koduyla 500 yerel dosyada 500/500 birebir.,500/500,yerel,500/500,,düzeltme gerekmez (yerel doğrulama k/n)
+CLAUDE.md,131,EMBER'in StringExtractor koduyla 500 yerel dosyada 500/500 birebir.,500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+CLAUDE.md,133,KESTİRME BURADA DA VAR (dördüncü kez): EMBER 2018 train'de zararsızların,2018,ilgisiz,,,
+CLAUDE.md,139,"- Sonuç (zamansal test, Kasım-Aralık 200K, 5 tohum ortalaması; tohum farkı",200K,EMBER 2018,200000,200000,düzeltme gerekmez (EMBER 2018 test 200.000/200.000 eşsiz)
+CLAUDE.md,140,"genel ~1 puan, AUC ~0.006, .NET kaçan ~12 puan):",0.006,oran-yüzde,,,
+CLAUDE.md,141,V0 5 temel %83.8 / AUC 0.920; V2 +dizge %86.8 / 0.945 (.NET AUC 0.865 ->,0.920,oran-yüzde,,,
+CLAUDE.md,141,V0 5 temel %83.8 / AUC 0.920; V2 +dizge %86.8 / 0.945 (.NET AUC 0.865 ->,86.8 / 0.945,oran-yüzde,,,
+CLAUDE.md,141,AUC 0.920; V2 +dizge %86.8 / 0.945 (.NET AUC 0.865 ->,0.865,oran-yüzde,,,
+CLAUDE.md,142,0.939); V4 +dizge +DLL_mi tip-içi dengeli %86.3 /,0.939,oran-yüzde,,,
+CLAUDE.md,142,"0.939); V4 +dizge +DLL_mi tip-içi dengeli %86.3 / 0.944, DLL AUC 0.982","86.3 / 0.944,",oran-yüzde,,,
+CLAUDE.md,142,"LL_mi tip-içi dengeli %86.3 / 0.944, DLL AUC 0.982",0.982,oran-yüzde,,,
+CLAUDE.md,143,"(V2 0.970), DLL kaçan 7.8 (V2 18.6), EXE yanlış alarm",0.970,oran-yüzde,,,
+CLAUDE.md,144,EXE kaçan 16.2 (V2 12.7). V4'te DLL_mi önemi 0.027 (V3'te 0.106);,0.027,oran-yüzde,,,
+CLAUDE.md,144,2 (V2 12.7). V4'te DLL_mi önemi 0.027 (V3'te 0.106);,0.106,oran-yüzde,,,
+CLAUDE.md,146,"- Yorum: dizge grubu gerçek kazanç (AUC +0.025, tohum farkının ~4 katı).",0.025,oran-yüzde,,,
+CLAUDE.md,152,## Native Model: EMBER2024 (Win32+Win64) + thrember dizgeleri - SEÇİLDİ,2024,ilgisiz,,,
+CLAUDE.md,155,- Veri (9 Ekim 2026): HF joyce8/EMBER2024 Win32/Win64 train+test,2026,ilgisiz,,,
+CLAUDE.md,155,- Veri (9 Ekim 2026): HF joyce8/EMBER2024 Win32/Win64 train+test zip'leri,2024,ilgisiz,,,
+CLAUDE.md,156,"(21.9 GB, SHA-256 doğrulandı, `ember2024_indir.py`), AÇILMADAN okunur",2024,ilgisiz,,,
+CLAUDE.md,157,(`ember2024_cikar.py`; açılmış ~100 GB). Eğitim 4.158.45,2024,ilgisiz,,,
+CLAUDE.md,157,"mber2024_cikar.py`; açılmış ~100 GB). Eğitim 4.158.450 kayıt (hafta 0-51),",4.158.450,satır,4158450,2079225,2.079.225 eşsiz dosya (4.158.450 satır)
+CLAUDE.md,158,"test 959.738 (hafta 52-63). is_pe=0 atlandı (train 1.550,",959.738,satır,959738,479856,479.856 eşsiz dosya (959.738 satır)
+CLAUDE.md,158,"59.738 (hafta 52-63). is_pe=0 atlandı (train 1.550, test 262).",1.550,satır,1550,775,775 eşsiz kayıt (1.550 satır)
+CLAUDE.md,158,"a 52-63). is_pe=0 atlandı (train 1.550, test 262).",262,satır,262,131,131 eşsiz kayıt (262 satır)
+CLAUDE.md,159,"- Kural 5 incelemesi (Win64_test, 240K): alanlar Dot_Net kaydıyla aynı;",240K,satır,240000,120000,120K eşsiz dosya (240K satır)
+CLAUDE.md,161,"datadirectories başında isimsiz girdi, 236 kayıtta hiç dizin yok (isimle",236,satır,236,118,118 eşsiz kayıt (236 satır)
+CLAUDE.md,162,"orun değil); ordinal ""DLL:ordinal5""; haftada 20K, 50/50.",20K,satır,20000,10000,haftada 10K eşsiz dosya (20K satır)
+CLAUDE.md,162,"değil); ordinal ""DLL:ordinal5""; haftada 20K, 50/50.",50/50.,oran-yüzde,,,
+CLAUDE.md,167,- Dış doğrulama: `dogrulama_dizge80.py` aynı 5637 dosyaya 80 dizge sütunu ekledi,5637,yerel,5637,,düzeltme gerekmez (yerel PE taraması)
+CLAUDE.md,167,ma: `dogrulama_dizge80.py` aynı 5637 dosyaya 80 dizge sütunu ekledi,80,ilgisiz,,,
+CLAUDE.md,168,"-> 5635 (2 silinmiş, değişen 0; 7 Ekim'deki 3 ortak",5635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+CLAUDE.md,168,değişen 0; 7 Ekim'deki 3 ortak dizge sütunu 5635/5635,5635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+CLAUDE.md,170,SET ESKİYOR: 15 Ekim'de 5635 dosyanın 857'si (%15) diskte yok (güncelleme,5635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+CLAUDE.md,170,SET ESKİYOR: 15 Ekim'de 5635 dosyanın 857'si (%15) diskte yo,15,ilgisiz,,,
+CLAUDE.md,170,"SET ESKİYOR: 15 Ekim'de 5635 dosyanın 857'si (%15) diskte yok (güncellemeler,",857,yerel,857,,düzeltme gerekmez (yerel dosya alt kümesi)
+CLAUDE.md,170,"T ESKİYOR: 15 Ekim'de 5635 dosyanın 857'si (%15) diskte yok (güncellemeler,",15,ilgisiz,,,
+CLAUDE.md,171,ör. dotnet paketleri). 9 Ekim ölçümü geçerli; yeniden ölçüm bu dosyal,9,ilgisiz,,,
+CLAUDE.md,172,"- Kural 1, GERÇEK dosyalarla (yerel ölçüm = thrember ö",1,ilgisiz,,,
+CLAUDE.md,172,yalarla (yerel ölçüm = thrember ölçümü mü?): 80 dizge sütunu,80,ilgisiz,,,
+CLAUDE.md,173,Eylül'de 500 yerel dosyada thrember ile 500/500 (o betik repoda YOK). Kalan 6,500/500,yerel,500/500,,düzeltme gerekmez (yerel doğrulama k/n)
+CLAUDE.md,173,Eylül'de 500 yerel dosyada thrember ile 500/500 (o betik,500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+CLAUDE.md,173,mber ile 500/500 (o betik repoda YOK). Kalan 6,6,ilgisiz,,,
+CLAUDE.md,175,"0 DLL, 5 .NET, 5 import'suz DLL; seed 42) -> 50/50",50/50,yerel,50/50,,düzeltme gerekmez (yerel 50 dosya Kural 1 doğrulaması)
+CLAUDE.md,175,"0.1.0, 50 yerel dosya (20 EXE, 20 DLL, 5 .NET, 5",0.1,ilgisiz,,,
+CLAUDE.md,175,"0.1.0, 50 yerel dosya (20 EXE, 20 DLL, 5 .NET, 5 i",0,ilgisiz,,,
+CLAUDE.md,175,"0.1.0, 50 yerel dosya (20 EXE, 20 DLL, 5 .NET, 5 impor",50,yerel,50,,düzeltme gerekmez (yerel 50 dosya Kural 1 doğrulaması)
+CLAUDE.md,175,"0.1.0, 50 yerel dosya (20 EXE, 20 DLL, 5 .NET, 5 import'suz DLL; seed",20,yerel,20,,düzeltme gerekmez (yerel 50 dosya Kural 1 doğrulaması)
+CLAUDE.md,175,"0.1.0, 50 yerel dosya (20 EXE, 20 DLL, 5 .NET, 5 import'suz DLL; seed 42) -> 5",20,yerel,20,,düzeltme gerekmez (yerel 50 dosya Kural 1 doğrulaması)
+CLAUDE.md,175,"0.1.0, 50 yerel dosya (20 EXE, 20 DLL, 5 .NET, 5 import'suz DLL; seed 42) -> 50/50",5,yerel,5,,düzeltme gerekmez (yerel 50 dosya Kural 1 doğrulaması)
+CLAUDE.md,175,"1.0, 50 yerel dosya (20 EXE, 20 DLL, 5 .NET, 5 import'suz DLL; seed 42) -> 50/50",5,yerel,5,,düzeltme gerekmez (yerel 50 dosya Kural 1 doğrulaması)
+CLAUDE.md,175,"EXE, 20 DLL, 5 .NET, 5 import'suz DLL; seed 42) -> 50/50",42,ilgisiz,,,
+CLAUDE.md,176,birebir (15 Ekim). Böylece 86 model sütununun hepsi gerç,15,ilgisiz,,,
+CLAUDE.md,176,birebir (15 Ekim). Böylece 86 model sütununun hepsi gerçek dosyada doğrula,86,ilgisiz,,,
+CLAUDE.md,177,"- Sonuç (`ember2024_native_dogrulama.py`; RF 100 ağaç, 100K alt",2024,ilgisiz,,,
+CLAUDE.md,177,"ember2024_native_dogrulama.py`; RF 100 ağaç, 100K alt örneklem,",100K,satır,100000,96828/98787,"100K satır (tohum 42'de E3 96.828, E1/E2 98.787 eşsiz dosya)"
+CLAUDE.md,178,"talaması; tohum farkı genel ≤0.35 puan, AUC ≤0.001):",0.001,oran-yüzde,,,
+CLAUDE.md,181,"| ANA (EMBER 2018, 5 öz.) | 55.5 | 10.3 | 78.7 | 0.663 | 11.7",2018,ilgisiz,,,
+CLAUDE.md,181,"A (EMBER 2018, 5 öz.) | 55.5 | 10.3 | 78.7 | 0.663 | 11.7 | 68.4 | 3.4 (10.9 / 2.8) |",0.663,oran-yüzde,,,
+CLAUDE.md,181,5 | 10.3 | 78.7 | 0.663 | 11.7 | 68.4 | 3.4 (10.9 / 2.8) |,10.9 / 2.8,oran-yüzde,,,
+CLAUDE.md,182,"| E1 2024, 5 temel | 88.2 | 7.1 | 16.5 | 0.953 | 11.6",2024,ilgisiz,,,
+CLAUDE.md,182,"| E1 2024, 5 temel | 88.2 | 7.1 | 16.5 | 0.953 | 11.6 | 35.6 | 6.5 (10.9 / 6.1) |",0.953,oran-yüzde,,,
+CLAUDE.md,182,.2 | 7.1 | 16.5 | 0.953 | 11.6 | 35.6 | 6.5 (10.9 / 6.1) |,10.9 / 6.1,oran-yüzde,,,
+CLAUDE.md,183,"2 +dizge, sınıf dengeli | 93.8 | 3.4 | 9.0 | 0.986 | 7.4 | 24.6 | 1.2 (4.7 / 1.0) |",0.986,oran-yüzde,,,
+CLAUDE.md,183,93.8 | 3.4 | 9.0 | 0.986 | 7.4 | 24.6 | 1.2 (4.7 / 1.0) |,4.7 / 1.0,oran-yüzde,,,
+CLAUDE.md,184,"dizge +DLL_mi, tip-içi | 92.5 | 4.7 | 10.3 | 0.979 | 5.3 | 12.4 | 1.4 (2.7 / 1.3) |",0.979,oran-yüzde,,,
+CLAUDE.md,184,2.5 | 4.7 | 10.3 | 0.979 | 5.3 | 12.4 | 1.4 (2.7 / 1.3) |,2.7 / 1.3,oran-yüzde,,,
+CLAUDE.md,186,- Yorum: ana model 2024 verisinde çöküyor (import'suz zararlıların %,2024,ilgisiz,,,
+CLAUDE.md,187,"azancın büyüğü VERİDEN (E1), dizgeler AUC'yi 0.953 -> 0.986 taşıyor.",0.953,oran-yüzde,,,
+CLAUDE.md,187,"üyüğü VERİDEN (E1), dizgeler AUC'yi 0.953 -> 0.986 taşıyor.",0.986,oran-yüzde,,,
+CLAUDE.md,189,"7.4 (E3 5.3); DLL AUC E3'te daha iyi (0.978 / 0.969), EXE AUC aynı (~0.976).",0.978,oran-yüzde,,,
+CLAUDE.md,189,".4 (E3 5.3); DLL AUC E3'te daha iyi (0.978 / 0.969), EXE AUC aynı (~0.976).",0.969,oran-yüzde,,,
+CLAUDE.md,189,"'te daha iyi (0.978 / 0.969), EXE AUC aynı (~0.976).",0.976,oran-yüzde,,,
+CLAUDE.md,192,"- Zayıf kalanlar (tohum 42, E3 kaçan %): floxif 49.7, virut 32.2 (dosya",42,ilgisiz,,,
+CLAUDE.md,192,"ayıf kalanlar (tohum 42, E3 kaçan %): floxif 49.7, virut 32.2 (dosya",49.7,oran-yüzde,,,
+CLAUDE.md,192,"r (tohum 42, E3 kaçan %): floxif 49.7, virut 32.2 (dosya",32.2,oran-yüzde,,,
+CLAUDE.md,195,"- .NET alt grubu küçük (testin %0.5'i), tohum farkı 3-5 puan; .NET dosyaları",0.5,oran-yüzde,,,
+CLAUDE.md,195,"alt grubu küçük (testin %0.5'i), tohum farkı 3-5 puan; .NET dosyaları",3,ilgisiz,,,
+CLAUDE.md,195,"t grubu küçük (testin %0.5'i), tohum farkı 3-5 puan; .NET dosyaları",5,ilgisiz,,,
+CLAUDE.md,196,"(mimari, .NET bölümü). Bu 9 Ekim deneyinden (100 bin,",100 bin,satır,100000,96828/98787,"100K satır (tohum 42'de E3 96.828, E1/E2 98.787 eşsiz dosya)"
+CLAUDE.md,201,%2.88 [1.3-6.2] (n=208; .NET dışı 0.82) -> EXE'de anlamlı olarak da,208,satır,208,101,n=101 eşsiz dosya (208 satır)
+CLAUDE.md,202,19.0-28.4] vs 19.48 -> fark gösterilemedi (n=308).,308,satır,308,154,n=154 eşsiz dosya (308 satır)
+CLAUDE.md,205,"0.838). Faz 1'den iyi, ama .NET için yeterli değil",0.838,oran-yüzde,,,
+CLAUDE.md,206,C yerel .NET zararsız YA %0.03 (1/3471); .NET dışı %0.51 [0.28-0.91] (11/2164;,1/3471,yerel,3471,,düzeltme gerekmez (yerel .NET dosya sayısı)
+CLAUDE.md,206,%0.03 (1/3471); .NET dışı %0.51 [0.28-0.91] (11/2164;,11/2164,yerel,2164,,düzeltme gerekmez (yerel .NET dışı dosya sayısı)
+CLAUDE.md,208,DLL %0.21 kısmen bu karışımla düşük (DLL'in 3422/5233'ü .NET).,3422,yerel,3422/5233,,düzeltme gerekmez (yerel DLL'lerde .NET payı)
+CLAUDE.md,221,eşiğiyle yeniden ölçümde mekanik sonuç aynı: 300 binde DLL,300 binde,satır,300000,268625,"300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)"
+CLAUDE.md,223,a AYARSIZ LightGBM için: öğrenme eğrisi düz (100 bin ->,100 bin,satır,100000,96828/98787,"100K satır (tohum 42'de E3 96.828, E1/E2 98.787 eşsiz dosya)"
+CLAUDE.md,224,"4,16 milyon AUC 0.9766 -> 0.9776) = kapasite sınırı. Aya","4,16 milyon",satır,4158450,2079225,"2,08 milyon eşsiz dosya (4,16 milyon satır)"
+CLAUDE.md,226,yut: ön kayıtlı kural (kazanç < tohum std -> 300 bin). 522.200 zamansal,300 bin,satır,300000,268625,"300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)"
+CLAUDE.md,226,yıtlı kural (kazanç < tohum std -> 300 bin). 522.200 zamansal,522.200,satır,522200,261100,261.100 eşsiz hücre tavanı (522.200 satır; 4x65.275 eşsiz zararlı DLL)
+CLAUDE.md,227,doğrulamayla kurulamaz (havuzda zararlı DLL 120.806) -> 483.224. Kazanç 1.69,120.806,satır,120806,60403,60.403 eşsiz dosya (120.806 satır)
+CLAUDE.md,227,a kurulamaz (havuzda zararlı DLL 120.806) -> 483.224. Kazanç 1.69,483.224,satır,483224,402129,402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+CLAUDE.md,228,puan ≥ s 0.72 -> **483.224**. Kaynak (tohum 42): 300 bin 279 MB / 4.2 m,483.224,satır,483224,402129,402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+CLAUDE.md,228,"≥ s 0.72 -> **483.224**. Kaynak (tohum 42): 300 bin 279 MB / 4.2 ms,",300 bin,satır,300000,268625,"300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)"
+CLAUDE.md,229,"483.224 395 MB / 3.6 ms (tek satır tahmin, özellik ç",483.224,satır,483224,402129,402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+CLAUDE.md,230,"ON MODEL (`sonuclar/3/son_model.py`): RF E3, 483.224, tohum 42, hafta 0-47;",483.224,satır,483224,402129,402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+CLAUDE.md,233,"1.40], DLL %0.21 [0.12-0.38]. Model `C:\ember2024\model` (414 MB, repoda",2024,ilgisiz,,,
+CLAUDE.md,242,"- Uçtan uca (`sonuclar/3/uctan_uca.py`): 20/20 - CSV ile 86/86 özellik aynı, tek",20/20,yerel,20/20,,düzeltme gerekmez (yerel 20 dosya uçtan uca test)
+CLAUDE.md,242,"(`sonuclar/3/uctan_uca.py`): 20/20 - CSV ile 86/86 özellik aynı, tek",86/86,ilgisiz,,,
+CLAUDE.md,243,"tahmin, tek modül == eski kod yolu. İlk koşu 18/20: 2 .NET",18/20,yerel,18/20,,düzeltme gerekmez (yerel 20 dosya uçtan uca test)
+CLAUDE.md,243,tek modül == eski kod yolu. İlk koşu 18/20: 2 .NET,2,yerel,2,,düzeltme gerekmez (yerel 20 dosya uçtan uca test)
+CLAUDE.md,244,dosyası 14 Ekim'de AYNI BOYUTLA güncellenmişti (eski ve,14,ilgisiz,,,
+CLAUDE.md,247,"- Yerel set ESKİYOR: 857 dosya diskte yok, aynı boyutla güncellenen .",857,yerel,857,,düzeltme gerekmez (yerel dosya alt kümesi)
+CLAUDE.md,248,452. Ölçümlerin dayandığı 5.635 satır DONDURULDU: `sef_yerel_dogrulama_5635.,5.635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+CLAUDE.md,248,5.635 satır DONDURULDU: `sef_yerel_dogrulama_5635.csv`,5635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+CLAUDE.md,248,452. Ölçümlerin dayandığı 5.635 satır DONDURULDU,452,yerel,452,,düzeltme gerekmez (yerel dosya alt kümesi)
+CLAUDE.md,249,"(repoda yok; sha256 `5d96007d…262987`, `sonuclar/4/yerel_set.md`). Yenide",96007,ilgisiz,,,
+CLAUDE.md,249,"(repoda yok; sha256 `5d96007d…262987`, `sonuclar/4/yerel_set.md`). Yeniden",262987,ilgisiz,,,
+CLAUDE.md,256,"INAL_DESENI, CLR dizin adları. Neden: bunlar 3 dosyada ayrı kopyaydı;",3,ilgisiz,,,
+CLAUDE.md,275,`dll_mi` (2018 ve 2024 ortak) ve `ember2018_kayittan` (teme,2018,ilgisiz,,,
+CLAUDE.md,275,`dll_mi` (2018 ve 2024 ortak) ve `ember2018_kayittan` (temel + DLL_,2024,ilgisiz,,,
+CLAUDE.md,275,`dll_mi` (2018 ve 2024 ortak) ve `ember2018_kayittan` (temel + DLL_mi +,2018,ilgisiz,,,
+CLAUDE.md,276,EMBER 2018 dizge grubu) burada. Repodaki iki EMBER 2018,2018,ilgisiz,,,
+CLAUDE.md,276,2018 dizge grubu) burada. Repodaki iki EMBER 2018 CSV'si 17 Ekim'de,2018,ilgisiz,,,
+CLAUDE.md,279,- `ember2018_tam_cikar.py` - EMBER 2018'in tüm etiketli k,2018,ilgisiz,,,
+CLAUDE.md,279,- `ember2018_tam_cikar.py` - EMBER 2018'in tüm etiketli kayıtlarını,2018,ilgisiz,,,
+CLAUDE.md,283,yeniden_olc.py` - dış doğrulama setinin AYNI 5700 dosyasını,5700,yerel,5700,,düzeltme gerekmez (yerel 5.700 zararsız PE)
+CLAUDE.md,297,"tahmin_et.py <dosya>`: NATIVE model (RF E3, 86",86,ilgisiz,,,
+CLAUDE.md,299,"çıkarır (dış doğrulamayla AYNI kod, Kural 9); dosya türünü (EXE / DLL /",9,ilgisiz,,,
+CLAUDE.md,300,".NET) ve türe göre eşiği (EXE 0.70, DLL 0.61) uygular. Model dosyası meta",0.70,oran-yüzde,,,
+CLAUDE.md,300,".NET) ve türe göre eşiği (EXE 0.70, DLL 0.61) uygular. Model dosyası meta",0.61,oran-yüzde,,,
+CLAUDE.md,301,verideki SHA-256 ile tutmazsa YÜKLEMEZ (Kural 10). PE olmayan,256,ilgisiz,,,
+CLAUDE.md,301,erideki SHA-256 ile tutmazsa YÜKLEMEZ (Kural 10). PE olmayan dosyayı,10,ilgisiz,,,
+CLAUDE.md,302,reddeder (Kural 3); .NET dosyasında uzman modelin henüz bağlı,3,ilgisiz,,,
+CLAUDE.md,306,"skor her dosyada BELİRSİZ (Kural 7). Ölçülen oranlar koda gömülmez, kaynağa",7,ilgisiz,,,
+CLAUDE.md,331,"`2a/` LightGBM öğrenme eğrisi, `2b/` RF 300 bin (+ 9 Ekim 100 bin),",300 bin,satır,300000,268625,"300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)"
+CLAUDE.md,331,"M öğrenme eğrisi, `2b/` RF 300 bin (+ 9 Ekim 100 bin),",100 bin,satır,100000,96828/98787,"100K satır (tohum 42'de E3 96.828, E1/E2 98.787 eşsiz dosya)"
+CLAUDE.md,334,tahminler) `C:\ember2024\sonuc` ve `C:\ember2024\model` altında.,2024,ilgisiz,,,
+CLAUDE.md,334,tahminler) `C:\ember2024\sonuc` ve `C:\ember2024\model` altında.,2024,ilgisiz,,,
+CLAUDE.md,336,makinedeki 11 örneklem + şüpheli bant). `requirements-expe,11,yerel,11,,düzeltme gerekmez (yerel doğrulama örneklemi)
+CLAUDE.md,338,- `ember2024_net_cikar.py` - EMBER2024 .NET kümelerini (`,2024,ilgisiz,,,
+CLAUDE.md,338,- `ember2024_net_cikar.py` - EMBER2024 .NET kümelerini (`test|train`) aynı,2024,ilgisiz,,,
+CLAUDE.md,341,kuralı (Apache-2.0); JSON kaydından ve ham dosyadan aynı 80 süt,2.0,ilgisiz,,,
+CLAUDE.md,341,he-2.0); JSON kaydından ve ham dosyadan aynı 80 sütun. Ayrıca,80,ilgisiz,,,
+CLAUDE.md,342,"EMBER 2018 strings grubu (8 sütun: DZ_sayi, DZ_ort_uzun",2018,ilgisiz,,,
+CLAUDE.md,345,- `net_dogrulama.py` - 5 vs 7 özellik; EMBER 2018 CV (.NET / .NET-dışı) ve,2018,ilgisiz,,,
+CLAUDE.md,346,EMBER2024 .NET üzerinde kestirme/körlük testi.,2024,ilgisiz,,,
+CLAUDE.md,349,- `toplu_tarama.py` artık DLL_mi + EMBER 2018 dizge grubunu da üretiyor,2018,ilgisiz,,,
+CLAUDE.md,351,"üretmiyor (dosya başına ~0.25 sn, 64K PE'de ~4.5 saat ek);",64K,yerel,64263,,düzeltme gerekmez (makinede bulunan toplam PE yolu)
+CLAUDE.md,351,"üretmiyor (dosya başına ~0.25 sn, 64K PE'de ~4.5 saat ek);",0.25,oran-yüzde,,,
+CLAUDE.md,351,"üretmiyor (dosya başına ~0.25 sn, 64K PE'de ~4.5 saat ek);",4.5,ilgisiz,,,
+CLAUDE.md,352,"naliz_et(yol, dizge80=True)` aynı baytlardan 80 sütunu da",80,ilgisiz,,,
+CLAUDE.md,353,r - `ozellik_cikar.dosya_ozellikleri` (Kural 9) bunu kullanır.,9,ilgisiz,,,
+CLAUDE.md,354,- `ember2024_indir.py` - EMBER2024 zip'lerini indirir: Ra,2024,ilgisiz,,,
+CLAUDE.md,354,"- `ember2024_indir.py` - EMBER2024 zip'lerini indirir: Range ile devam,",2024,ilgisiz,,,
+CLAUDE.md,357,- `ember2024_cikar.py` - Win32/Win64 zip'lerinden açmadan,2024,ilgisiz,,,
+CLAUDE.md,358,(ember2024_net_cikar ile aynı fonksiyonlar + Tur); haft,2024,ilgisiz,,,
+CLAUDE.md,360,bölüm yok). Çıktı `C:\ember2024\ozellik\<zip>\`.,2024,ilgisiz,,,
+CLAUDE.md,362,eski 5 sütun ve 3 ortak dizge sütunu tutmayan dosya,5,ilgisiz,,,
+CLAUDE.md,362,eski 5 sütun ve 3 ortak dizge sütunu tutmayan dosyayı eler/say,3,ilgisiz,,,
+CLAUDE.md,363,- `ember2024_native_dogrulama.py` - native adaylar (ANA/E,2024,ilgisiz,,,
+CLAUDE.md,366,"dosyalar, 6 sütun + NET_mi/Karma_Mod). İki adım, iki ort",6,ilgisiz,,,
+CLAUDE.md,367,ortamında (`C:\ember2024\thr_env`; Windows yol sınırı yüzünden kısa y,2024,ilgisiz,,,
+CLAUDE.md,368,"0.7.1 sabit), `karsilastir` proje ortamında. 50 kayıt yoksa BAŞARISIZ",50,yerel,50,,düzeltme gerekmez (yerel doğrulama örneklemi)
+CLAUDE.md,373,k doğrulama diliminden. RF açık farkla önde (300 binde DLL,300 binde,satır,300000,268625,"300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)"
+CLAUDE.md,378,"rsız modellerle: RF CV doğruluk %89.65 / AUC 0.963,",0.963,oran-yüzde,,,
+CLAUDE.md,379,LightGBM %87.96 / 0.952 (fark katlar arası oynaklığın üstünde). RF i,87.96 / 0.952,oran-yüzde,,,
+CLAUDE.md,391,"EMBER2024'e bağlı. 2-4'ü önce yapmak, geçişten sonra h",2024,ilgisiz,,,
+CLAUDE.md,394,1. EMBER2024'e geçiş + `string_counts` tabanlı özellikler,2024,ilgisiz,,,
+CLAUDE.md,395,NIF BİRDEN taşınır (Kritik Kural 2): zararlı 2024 / zararsız,2024,ilgisiz,,,
+CLAUDE.md,396,"2018 olursa model yine ""hangi veri seti"" (2018 vs",2018,ilgisiz,,,
+CLAUDE.md,396,"2018 olursa model yine ""hangi veri seti"" (2018 vs 2024, lief vs",2018,ilgisiz,,,
+CLAUDE.md,396,"olursa model yine ""hangi veri seti"" (2018 vs 2024, lief vs",2024,ilgisiz,,,
+CLAUDE.md,397,sorusunu öğrenir; ayrıca string_counts EMBER 2018'de yok.,2018,ilgisiz,,,
+CLAUDE.md,398,"- Kaynak: 3.2M dosya, 2023-2024, pefile (thrember) ile çıka",3.2M,eşsiz,,3200000,"EMBER2024 makalesindeki toplam eşsiz dosya sayısı (~3,2M); düzeltme gerekmez"
+CLAUDE.md,398,"- Kaynak: 3.2M dosya, 2023-2024, pefile (thrember) ile çıkarılmış,",2023,ilgisiz,,,
+CLAUDE.md,398,"- Kaynak: 3.2M dosya, 2023-2024, pefile (thrember) ile çıkarılmış,",2024,ilgisiz,,,
+CLAUDE.md,399,"Apache-2.0, HuggingFace joyce8/EMBER2024'ten dosya tipi bazında",2024,ilgisiz,,,
+CLAUDE.md,399,"Apache-2.0, HuggingFace joyce8/EMBER2024'ten dosya tipi",2.0,ilgisiz,,,
+CLAUDE.md,414,- Diğer adaylar (EMBER2024 JSON'unda varsa): overlay/paketleyici,2024,ilgisiz,,,
+CLAUDE.md,416,"I (native kısmı, indirmesiz): DLL_mi + EMBER 2018 dizge grubu",2018,ilgisiz,,,
+CLAUDE.md,420,"sinleşince, BİR KEZ. Alternatif (daha ucuz): 5700'lük set",5700,yerel,5700,,düzeltme gerekmez (yerel 5.700 zararsız PE)
+CLAUDE.md,421,`sef_tarama_tum_dosyalar.csv`'den seed 42 ile birebir yeniden,42,ilgisiz,,,
+CLAUDE.md,422,kurulabiliyor (5700/5700 doğrulandı). Ama o dosya eski tarama sü,5700,yerel,5700,,düzeltme gerekmez (yerel 5.700 zararsız PE)
+CLAUDE.md,424,"leştir, sadece o dosyaları yeniden oku, eski 5 sütunun birebir",5,ilgisiz,,,
+CLAUDE.md,436,"Şu an 0.2-0.8 bandı EMBER'in 1/4'ünü, makinenin 1/6'sını yutuyor ->",1/4,oran-yüzde,,,
+CLAUDE.md,436,"an 0.2-0.8 bandı EMBER'in 1/4'ünü, makinenin 1/6'sını yutuyor ->",1/6,oran-yüzde,,,
+CLAUDE.md,444,"ataset_zararli_gercek.csv` - EMBER label==1, 5700 kayıt",5700,EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+CLAUDE.md,445,"ataset_ember_zararsiz.csv` - EMBER label==0, 5700 kayıt",5700,EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+CLAUDE.md,447,"(DLL_mi + EMBER 2018 dizge grubu), aynı satırlar, eski 9 sütun bi",2018,ilgisiz,,,
+CLAUDE.md,448,"rf_egit_gercek.py çıktısı değişmedi: %90.1, 197/5700).",197/5700,yerel,197/5700,,düzeltme gerekmez (yerel doğrulama k/n)
+CLAUDE.md,449,- `sef_yerel_dogrulama_5635.csv` - native model ölçümlerinin dayandığı y,5635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+CLAUDE.md,450,"(9 Ekim dz80 ölçümünün dondurulmuş kopyası; 5.635 satır, 94",5.635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+CLAUDE.md,452,`5d96007d6f21dd1b1b128669639d07cc1b4b56ce73bdc9ce69b2,96007,ilgisiz,,,
+CLAUDE.md,452,`5d96007d6f21dd1b1b128669639d07cc1b4b56ce73bdc9ce69b213f02b262987`.,128669639,ilgisiz,,,
+CLAUDE.md,452,d1b1b128669639d07cc1b4b56ce73bdc9ce69b213f02b262987`.,262987,ilgisiz,,,
+CLAUDE.md,453,Eski 5700'lük `sef_dataset_zararsiz_gercek.csv` DEĞİŞM,5700,yerel,5700,,düzeltme gerekmez (yerel 5.700 zararsız PE)
+CLAUDE.md,455,- EMBER2024 Win32/Win64 Parquet - proje DIŞINDA: `C:\emb,2024,ilgisiz,,,
+CLAUDE.md,455,in32/Win64 Parquet - proje DIŞINDA: `C:\ember2024\parquet\,2024,ilgisiz,,,
+CLAUDE.md,457,birebir). Native model: `C:\ember2024\model\model_native.joblib` (414 MB).,2024,ilgisiz,,,
+CLAUDE.md,458,"ararsiz_gercek.csv` - bu makinenin taraması, 5700 PE",5700,yerel,5700,,düzeltme gerekmez (yerel 5.700 zararsız PE)
+CLAUDE.md,459,"(533.081 dosyadan 64.263 PE bulundu, random.seed(42)",533.081,yerel,533081,,düzeltme gerekmez (makinede taranan toplam dosya yolu)
+CLAUDE.md,459,"(533.081 dosyadan 64.263 PE bulundu, random.seed(42) ile örneklendi).",64.263,yerel,64263,,düzeltme gerekmez (makinede bulunan toplam PE yolu)
+CLAUDE.md,459,".081 dosyadan 64.263 PE bulundu, random.seed(42) ile örneklendi).",42,ilgisiz,,,
+CLAUDE.md,465,"- EMBER2024 .NET CSV'leri - proje DIŞINDA, REPO'DA YOK (",2024,ilgisiz,,,
+CLAUDE.md,466,`C:\ember2024\ember2024_net_test_ozellik.csv` (120.000 kay,2024,ilgisiz,,,
+CLAUDE.md,466,"`C:\ember2024\ember2024_net_test_ozellik.csv` (120.000 kayıt, 60K/60",2024,ilgisiz,,,
+CLAUDE.md,466,":\ember2024\ember2024_net_test_ozellik.csv` (120.000 kayıt, 60K/60K,",120.000,satır,120000,59953,59.953 eşsiz dosya (120.000 satır)
+CLAUDE.md,466,"er2024_net_test_ozellik.csv` (120.000 kayıt, 60K/60K,",60K,satır,60000,30000/29953,30.000 zararlı + 29.953 zararsız eşsiz dosya (60K/60K satır)
+CLAUDE.md,466,"24_net_test_ozellik.csv` (120.000 kayıt, 60K/60K,",60K,satır,60000,30000/29953,30.000 zararlı + 29.953 zararsız eşsiz dosya (60K/60K satır)
+CLAUDE.md,467,"son 12 hafta) ve `...\ember2024_net_train_ozellik.csv` (520.000 kayıt,",2024,ilgisiz,,,
+CLAUDE.md,467,"a) ve `...\ember2024_net_train_ozellik.csv` (520.000 kayıt,",520.000,satır,519992,259996,259.996 eşsiz dosya (519.992 PE satırı; ham JSONL 520.000 satır)
+CLAUDE.md,468,"260K/260K, ilk 52 hafta). Sütunlar: temel + NET_m",260K,satır,259998/259994,129999/129997,~130K/~130K eşsiz dosya (260K/260K satır)
+CLAUDE.md,468,"260K/260K, ilk 52 hafta). Sütunlar: temel + NET_mi/Kar",260K,satır,259998/259994,129999/129997,~130K/~130K eşsiz dosya (260K/260K satır)
+CLAUDE.md,470,1. `curl.exe -L -o C:\ember2024\Dot_Net_test.zip https://huggingface.co/data,2024,ilgisiz,,,
+CLAUDE.md,470,https://huggingface.co/datasets/joyce8/EMBER2024/resolve/main/Dot_Net_test.zip`,2024,ilgisiz,,,
+CLAUDE.md,471,(210 MB) -> C:\ember2024 içinde `tar -xf Dot_Net_test.zip` (~1 GB JSO,2024,ilgisiz,,,
+CLAUDE.md,472,ten `Dot_Net_train.zip` (894 MB) -> `C:\ember2024\train`,2024,ilgisiz,,,
+CLAUDE.md,474,3. `gumruk_memuru` içinde `python ember2024_net_cikar.py test` (~15 sn),2024,ilgisiz,,,
+CLAUDE.md,475,ve `python ember2024_net_cikar.py train` (~1 dk),2024,ilgisiz,,,
+CLAUDE.md,477,"- EMBER 2018 tam CSV'leri - proje DIŞINDA, REPO'DA YOK:",2018,ilgisiz,,,
+CLAUDE.md,478,`C:\ember2018\ember2018_train_ozellik.csv` (600.000 etiket,2018,ilgisiz,,,
+CLAUDE.md,478,"`C:\ember2018\ember2018_train_ozellik.csv` (600.000 etiketli, Ocak-E",2018,ilgisiz,,,
+CLAUDE.md,478,"`C:\ember2018\ember2018_train_ozellik.csv` (600.000 etiketli, Ocak-Ekim)",600.000,EMBER 2018,600000,600000,düzeltme gerekmez (EMBER 2018 train 600.000/600.000 eşsiz)
+CLAUDE.md,479,"ve `..._test_ozellik.csv` (200.000, Kasım-Aralık). Yeniden üretmek: ham",200.000,EMBER 2018,200000,200000,düzeltme gerekmez (EMBER 2018 test 200.000/200.000 eşsiz)
+CLAUDE.md,480,EMBER 2018 (`C:\ember2018\ember2018`) varken `python em,2018,ilgisiz,,,
+CLAUDE.md,480,EMBER 2018 (`C:\ember2018\ember2018`) varken `python ember2018_tam_cik,2018,ilgisiz,,,
+CLAUDE.md,480,EMBER 2018 (`C:\ember2018\ember2018`) varken `python ember2018_tam_cikar.py,2018,ilgisiz,,,
+CLAUDE.md,480,C:\ember2018\ember2018`) varken `python ember2018_tam_cikar.py,2018,ilgisiz,,,
+CLAUDE.md,485,197/5700). (2) Pickle sklearn sürümüne bağlı ikili do,197/5700,yerel,197/5700,,düzeltme gerekmez (yerel doğrulama k/n)
+CLAUDE.md,485,197/5700). (2) Pickle sklearn sürümüne bağlı ikili dosya.,2,ilgisiz,,,
+CLAUDE.md,485,Pickle sklearn sürümüne bağlı ikili dosya. (3) Pickle,3,ilgisiz,,,
+CLAUDE.md,489,ır. İstisnalar (kullanıcı kararı): iki EMBER 2018 CSV'si,2018,ilgisiz,,,
+CLAUDE.md,514,"- [x] WINDOWS MinGW'DE DOĞRULANDI (17 Ekim 2026; gcc 16.2.0, winget paketi",2026,ilgisiz,,,
+CLAUDE.md,519,"version]""); doğru sürüm temiz. C doğru sürüm 7/7;",7/7,ilgisiz,,,
+CLAUDE.md,521,sayıyor - beklenen. pytest 63/63 (gcc'siz: 3 skipped). Çıktı:,63/63,ilgisiz,,,
+CLAUDE.md,540,EMBER2024 (thrember) farklı: ordinal `DLL:ordinal5` bi,2024,ilgisiz,,,
+CLAUDE.md,548,3. Zararsız tarafa PE olmayan dosya karıştırma,3,ilgisiz,,,
+CLAUDE.md,554,"5. Her yeni veri kaynağında (EMBER 2018, EMBER2024, ileride başka bir",2018,ilgisiz,,,
+CLAUDE.md,554,". Her yeni veri kaynağında (EMBER 2018, EMBER2024, ileride başka bir",2024,ilgisiz,,,
+CLAUDE.md,562,"EMBER2024 .NET test ""60K"" dendi, gerçekte 120K).",2024,ilgisiz,,,
+CLAUDE.md,562,"EMBER2024 .NET test ""60K"" dendi, gerçekte 120K).",60K,eşsiz,120000,59953,EMBER2024 belgesindeki ~60K eşsiz dosya sayısıdır (59.953); 120.000 çiftli JSONL satır sayısıdır
+CLAUDE.md,562,"EMBER2024 .NET test ""60K"" dendi, gerçekte 120K).",120K,satır,120000,59953,59.953 eşsiz dosya (120.000 satır)
+CLAUDE.md,564,"- Bozuk/PE olmayan kayıtlar (EMBER2024 `is_pe=0`, eksik `header.coff`):",2024,ilgisiz,,,
+CLAUDE.md,568,ents-dev.txt`). Aynı sahte dosyayı hem EMBER 2018 hem,2018,ilgisiz,,,
+CLAUDE.md,569,EMBER2024 biçimli JSON'a hem pefile tarafına verip 7 s,2024,ilgisiz,,,
+CLAUDE.md,582,"alt grup"", bu ""hangi zaman"". Örnek: Faz 1 ana modeli %90.1 (tek dosyanın",1,ilgisiz,,,
+CLAUDE.md,582,", bu ""hangi zaman"". Örnek: Faz 1 ana modeli %90.1 (tek dosyanın",90.1,oran-yüzde,,,
+CLAUDE.md,583,"ilk 34K kaydı, hepsi Kasım 2018, içinde 80/20) -> ay",34K,EMBER 2018,34000,34000,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+CLAUDE.md,583,"ilk 34K kaydı, hepsi Kasım 2018, içinde 80/20) -> aynı dosyanın geri",2018,ilgisiz,,,
+CLAUDE.md,583,"ilk 34K kaydı, hepsi Kasım 2018, içinde 80/20) -> aynı dosyanın geri",80/20,oran-yüzde,,,
+CLAUDE.md,588,test sonraki dönem (EMBER 2018: Ocak-Ekim -> Kasım-Aralık; EMBER2024:,2018,ilgisiz,,,
+CLAUDE.md,588,(EMBER 2018: Ocak-Ekim -> Kasım-Aralık; EMBER2024:,2024,ilgisiz,,,
+CLAUDE.md,594,"diliminden seçilir (EMBER2024: hafta 48-51, iki sınıf birden; yalnız",2024,ilgisiz,,,
+CLAUDE.md,598,nem SAYISIYLA değil KAYIT payıyla seç: EMBER 2018,2018,ilgisiz,,,
+CLAUDE.md,599,train'de appeared 2006'ya kadar gidiyor; dönem sayısının %20'si tüm,2006,ilgisiz,,,
+CLAUDE.md,600,2018'i doğrulamaya atıp eğitimde hiç zararlı bıra,2018,ilgisiz,,,
+CLAUDE.md,619,8. TİP-DENGELİ EĞİTİM: dosya tipi (EXE/DLL) sı,8,ilgisiz,,,
+CLAUDE.md,620,"kez görüldü: EMBER2024 .NET %90/%10, EMBER 2018 %45.7/%6.3, EMBER20",2024,ilgisiz,,,
+CLAUDE.md,620,"kez görüldü: EMBER2024 .NET %90/%10, EMBER 2018 %45.7/%6.3, EMBER2024",2018,ilgisiz,,,
+CLAUDE.md,620,"24 .NET %90/%10, EMBER 2018 %45.7/%6.3, EMBER2024",2024,ilgisiz,,,
+CLAUDE.md,627,(EMBER2024: zararlı DLL); yerine koyarak örnekleme yapı,2024,ilgisiz,,,
+CLAUDE.md,633,"`sonuclar/3/uctan_uca.py` (20/20: CSV ile 86/86, tek == toplu, tek modül ==",20/20,yerel,20/20,,düzeltme gerekmez (yerel 20 dosya uçtan uca test)
+CLAUDE.md,633,"`sonuclar/3/uctan_uca.py` (20/20: CSV ile 86/86, tek == toplu, tek modül ==","86/86,",ilgisiz,,,
+CLAUDE.md,636,`tahmin_et.model_yukle` model dosyasının SHA-256'sını,256,ilgisiz,,,
+CLAUDE.md,656,(toplu_tarama.py: 100 MiB = 100*1024*1024). Sınırsız taramada laptop,1024,ilgisiz,,,
+CLAUDE.md,656,(toplu_tarama.py: 100 MiB = 100*1024*1024). Sınırsız taramada laptop,1024,ilgisiz,,,
+CLAUDE.md,659,ve Windows'ta dosya o zamana kadar KİLİTLİ (26 Ekim: bağımsız,26,ilgisiz,,,
+CLAUDE.md,679,"ediliyor). Repo'daki eski dosyalar (Chief 1.0/1.1, mimari PDF'ler) korunmalı.","1.0/1.1,",ilgisiz,,,
+CLAUDE.md,681,MBER verisi (~10 GB) proje DIŞINDA: `C:\ember2018\ember2018`,2018,ilgisiz,,,
+CLAUDE.md,681,i (~10 GB) proje DIŞINDA: `C:\ember2018\ember2018`,2018,ilgisiz,,,
+CLAUDE.md,682,(OneDrive'ı şişirmemek için). EMBER2024 .NET: test JSONL + CSV'ler,2024,ilgisiz,,,
+CLAUDE.md,683,"`C:\ember2024`, train JSONL `C:\ember2024\train`.",2024,ilgisiz,,,
+CLAUDE.md,683,"`C:\ember2024`, train JSONL `C:\ember2024\train`.",2024,ilgisiz,,,
+CLAUDE.md,684,a (System32 + Program Files x2) bu makinede ~2.5 saat sürüyor.,2.5,ilgisiz,,,
+GELISIM_SURECI.md,12,somut adım olarak Faz 1 seçildi: dosyaları çalıştırmadan önce Shanno,1,ilgisiz,,,
+GELISIM_SURECI.md,18,"dom Forest modeli, sentetik olarak üretilmiş 2000 ""zararlı"" satırla",2000,ilgisiz,,,
+GELISIM_SURECI.md,44,girdiler olarak listeliyordu (incelenen ilk 2000 kayıtta import,2000,EMBER 2018,2000,2000,düzeltme gerekmez (EMBER 2018 ilk 2000 kayıt)
+GELISIM_SURECI.md,56,"Files) tarandı. Yeni model %97 başarı verdi, ancak özellik önem",97,oran-yüzde,,,
+GELISIM_SURECI.md,76,"hesaplanmasıydı. 100 MB'lık bir dosya boyutu filtresi eklendi, sı",100,ilgisiz,,,
+GELISIM_SURECI.md,85,"Eğitimde hiç görmediği, bu bilgisayardaki 5700 gerçek zararsız PE",5700,yerel,5700,,düzeltme gerekmez (yerel 5.700 zararsız PE)
+GELISIM_SURECI.md,86,dosyasında yanlış alarm oranı **%3.5** oldu. Önceki %97'lik sonuçtan,3.5,oran-yüzde,,,
+GELISIM_SURECI.md,86,da yanlış alarm oranı **%3.5** oldu. Önceki %97'lik sonuçtan,97,oran-yüzde,,,
+GELISIM_SURECI.md,101,de EMBER'de bu profile benzeyen 22 gerçek dosyanın %64'ü zararlı:,22,EMBER 2018,22,22,düzeltme gerekmez (EMBER 2018 alt profil)
+GELISIM_SURECI.md,101,R'de bu profile benzeyen 22 gerçek dosyanın %64'ü zararlı:,64,oran-yüzde,,,
+GELISIM_SURECI.md,104,"## 10. 2018 Modeli 2024'te: Çöküş, Kestirme ve Yeni Mode",2018,ilgisiz,,,
+GELISIM_SURECI.md,104,"## 10. 2018 Modeli 2024'te: Çöküş, Kestirme ve Yeni Model",2024,ilgisiz,,,
+GELISIM_SURECI.md,106,Faz 1'in modeli EMBER 2018 ile eğitilmişti. Aynı modeli EMBER2024'ün,2018,ilgisiz,,,
+GELISIM_SURECI.md,106,EMBER 2018 ile eğitilmişti. Aynı modeli EMBER2024'ün,2024,ilgisiz,,,
+GELISIM_SURECI.md,107,"Win32/Win64 test kümesinde (son 12 hafta, 959.738 dosya) ölçtüğümüzde AUC",959.738,satır,959738,479856,479.856 eşsiz dosya (959.738 satır)
+GELISIM_SURECI.md,107,"Win32/Win64 test kümesinde (son 12 hafta, 959.738 dosya) ölçtüğümüzde AUC",12,ilgisiz,,,
+GELISIM_SURECI.md,108,"**0,663**'e düştü; import'suz zararlıların neredeyse","0,663",oran-yüzde,,,
+GELISIM_SURECI.md,113,"EMBER2024'te zararsızların ~%65-73'ü DLL, zararlıların",2024,ilgisiz,,,
+GELISIM_SURECI.md,116,dersti. Çözüm .NET modelinde ve 2018 denemesinde olduğu gibi: eğitim,2018,ilgisiz,,,
+GELISIM_SURECI.md,117,örneklemini her dosya tipinin İÇİNDE 50/50 dengelemek (E3). Genel doğruluk,50/50,oran-yüzde,,,
+GELISIM_SURECI.md,127,"483.224 örnek, 300 binden 1,69 puan daha az zararlı",483.224,satır,483224,402129,402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+GELISIM_SURECI.md,127,"483.224 örnek, 300 binden 1,69 puan daha az zararlı DLL kaçırdı (tohum",300 binden,satır,300000,268625,"300.000 satır (hafta 0-47 tohum 42'de 268.625, 52 haftada 271.385 eşsiz dosya)"
+GELISIM_SURECI.md,137,**18/20 koşusu.** Tahmin aracının özellikleri ile do,18/20,yerel,18/20,,düzeltme gerekmez (yerel 20 dosya uçtan uca test)
+GELISIM_SURECI.md,138,uğunu 20 dosyada uçtan uca sınadık. İlk koşu 18/20 geçti: iki .NET,18/20,yerel,18/20,,düzeltme gerekmez (yerel 20 dosya uçtan uca test)
+GELISIM_SURECI.md,138,aynı olduğunu 20 dosyada uçtan uca sınadık. İlk koşu 18/20 ge,20,yerel,20,,düzeltme gerekmez (yerel 20 dosya uçtan uca test)
+GELISIM_SURECI.md,144,önce olan dosyalar) ve testi yeniden koştuk: 20/20. İlk koşunun kaydı da,20/20.,yerel,20/20,,düzeltme gerekmez (yerel 20 dosya uçtan uca test)
+GELISIM_SURECI.md,146,"bu yana 857 dosya silinmiş, yüzlercesi güncellenmişti. Ö",857,yerel,857,,düzeltme gerekmez (yerel dosya alt kümesi)
+GELISIM_SURECI.md,147,5.635 satır bu yüzden donduruldu.,5.635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+README.md,60,"BELIRSIZ 2, else error 1, all clean 0. Non-PE files do",2,ilgisiz,,,
+README.md,60,"BELIRSIZ 2, else error 1, all clean 0. Non-PE files do not raise it;",1,ilgisiz,,,
+README.md,60,"BELIRSIZ 2, else error 1, all clean 0. Non-PE files do not raise it; a missing",0,ilgisiz,,,
+README.md,91,"opy, total APIs, suspicious APIs). Training: 5,700 malicious + 5,700","5,700",EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+README.md,91,"uspicious APIs). Training: 5,700 malicious + 5,700","5,700",EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+README.md,92,benign real PE files from EMBER 2018.,2018,ilgisiz,,,
+README.md,96,| EMBER test accuracy: same period (80/20 within November 2018) | 90.1% |,80/20,oran-yüzde,,,
+README.md,96,accuracy: same period (80/20 within November 2018) | 90.1% |,2018,ilgisiz,,,
+README.md,97,(train Jan-Oct -> test Nov-Dec) | 83.8% (AUC 0.920) |,0.920,oran-yüzde,,,
+README.md,99,"| False alarms on 5,700 real benign PE files from this machine (neve","5,700",yerel,5700,,düzeltme gerekmez (yerel 5.700 zararsız PE)
+README.md,99,from this machine (never seen in training) | 3.5% |,3.5,oran-yüzde,,,
+README.md,101,Nearly blind to .NET malware: 93% of recent (2024) .NET malware is missed (see CLAUDE.md) |,2024,ilgisiz,,,
+README.md,113,l comparison (5-fold CV): Random Forest (AUC 0.963) beats untuned,0.963,oran-yüzde,,,
+README.md,114,LightGBM (0.952). This result is specific to 5 features; the,0.952,oran-yüzde,,,
+README.md,117,"## Native model (EMBER2024, October 2026)",2024,ilgisiz,,,
+README.md,117,"## Native model (EMBER2024, October 2026)",2026,ilgisiz,,,
+README.md,119,"The Phase 1 model, trained on 2018 data, collapses on 2024 files (AUC 0.663).",2018,ilgisiz,,,
+README.md,119,"1 model, trained on 2018 data, collapses on 2024 files (AUC 0.663).",2024,ilgisiz,,,
+README.md,119,"d on 2018 data, collapses on 2024 files (AUC 0.663).",0.663,oran-yüzde,,,
+README.md,119,"The Phase 1 model, trained on 2018 data, collapses on 20",1,ilgisiz,,,
+README.md,120,Its replacement is trained on EMBER2024 Win32/Win64 with 86 features (5 basic +,2024,ilgisiz,,,
+README.md,121,"string features + DLL flag): Random Forest, 483,224 training files sampled","483,224",satır,483224,402129,"402,129 unique files (483,224 rows; 2 copies of 60,403 unique malicious DLLs)"
+README.md,121,"80 string features + DLL flag): Random Forest,",80,ilgisiz,,,
+README.md,122,"50/50 *within* each file type, because in the data",50/50,oran-yüzde,,,
+README.md,128,"file type); the test weeks 52-63 (959,738 files) were measured once with","959,738",satır,959738,479856,"479,856 unique files (959,738 rows)"
+README.md,128,"file type); the test weeks 52-63 (959,738 files) were measured once with",52,ilgisiz,,,
+README.md,128,"file type); the test weeks 52-63 (959,738 files) were measured once with",63,ilgisiz,,,
+README.md,131,type | Missed malware | False alarms on EMBER2024 benign files |,2024,ilgisiz,,,
+README.md,136,"Overall test AUC 0.9865. On 5,635 real benign files from this machine: false","5,635",yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+README.md,136,"Overall test AUC 0.9865. On 5,635 real benign files from this machin",0.9865,oran-yüzde,,,
+README.md,140,*50% of the test files are malicious.** EMBER2024 is sampled 50/50 per,2024,ilgisiz,,,
+README.md,140,files are malicious.** EMBER2024 is sampled 50/50 per,50/50,oran-yüzde,,,
+README.md,140,- **50% of the test files are malicious.** EMBER202,50,oran-yüzde,,,
+README.md,151,857 of its files have been deleted and hundreds,857,yerel,857,,düzeltme gerekmez (yerel dosya alt kümesi)
+README.md,152,"The 5,635 rows the measurements rely on are frozen (no","5,635",yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+README.md,156,"local set is .NET (3,471 / 5,635), where the native model almost neve","3,471",yerel,3471,,düzeltme gerekmez (yerel .NET dosya sayısı)
+README.md,156,"local set is .NET (3,471 / 5,635), where the native model almost never","5,635",yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+README.md,157,alarms (0.03% [0.01-0.16]). On the non-.NET local files t,0.03,oran-yüzde,,,
+README.md,157,alarms (0.03% [0.01-0.16]). On the non-.NET local files the fals,0.01,oran-yüzde,,,
+README.md,157,alarms (0.03% [0.01-0.16]). On the non-.NET local files the false-ala,0.16,oran-yüzde,,,
+README.md,163,ssed at 33.7% (non-.NET EXEs 17.6%). On EMBER2024's,2024,ilgisiz,,,
+README.md,182,"4. [x] 5,700 real malicious records extracted from EMBER.","5,700",EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+README.md,187,"also taken from EMBER, and the machine scan (533,081 files, 64,263","533,081",yerel,533081,,düzeltme gerekmez (makinede taranan toplam dosya yolu)
+README.md,187,"EMBER, and the machine scan (533,081 files, 64,263","64,263",yerel,64263,,düzeltme gerekmez (makinede bulunan toplam PE yolu)
+README.md,192,"6b. [x] Native model moved to EMBER2024 (Random Forest, 86 features,",2024,ilgisiz,,,
+README.md,193,"-balanced training; see ""Native model""). The 2018 model is kept",2018,ilgisiz,,,
+README.md,207,fied on Windows with MinGW gcc 16.2 (October 2026): the warning,2026,ilgisiz,,,
+README.tr.md,50,"OLASI ZARARLI. Gecersiz skor (NaN, sonsuz, [0, 1] disi) her dosyada BELIRSIZ.",0,ilgisiz,,,
+README.tr.md,50,"ASI ZARARLI. Gecersiz skor (NaN, sonsuz, [0, 1] disi) her dosyada BELIRSIZ.",1,ilgisiz,,,
+README.tr.md,58,"2, yoksa hata 1, hepsi temiz 0. PE olmayan dos",2,ilgisiz,,,
+README.tr.md,58,"2, yoksa hata 1, hepsi temiz 0. PE olmayan dosyalar kodu yuk",1,ilgisiz,,,
+README.tr.md,58,"2, yoksa hata 1, hepsi temiz 0. PE olmayan dosyalar kodu yukseltmez; yol",0,ilgisiz,,,
+README.tr.md,87,"isi, toplam API, supheli API). Egitim: EMBER 2018'den 5700 zararli +",2018,ilgisiz,,,
+README.tr.md,87,"am API, supheli API). Egitim: EMBER 2018'den 5700 zararli +",5700,EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+README.tr.md,88,5700 zararsiz gercek PE dosyasi.,5700,EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+README.tr.md,92,| EMBER test dogrulugu: ayni donem (Kasim 2018 icinde 80/20) | %90.1 |,2018,ilgisiz,,,
+README.tr.md,92,est dogrulugu: ayni donem (Kasim 2018 icinde 80/20) | %90.1 |,80/20,oran-yüzde,,,
+README.tr.md,93,im egitim -> Kasim-Aralik test) | %83.8 (AUC 0.920) |,0.920,oran-yüzde,,,
+README.tr.md,95,| Bu makinedeki 5700 gercek zararsiz PE'de yanlis alarm (egitimde,5700,yerel,5700,,düzeltme gerekmez (yerel 5.700 zararsız PE)
+README.tr.md,97,| .NET zararlilarina neredeyse kor: guncel (2024) .NET zararlilarinin %93'u kaciyor (bkz. CLA,2024,ilgisiz,,,
+README.tr.md,109,ilastirmasi (5 katli CV): Random Forest (AUC 0.963) ayarsiz,0.963,oran-yüzde,,,
+README.tr.md,110,LightGBM'i (0.952) geciyor. Bu sonuc 5 ozellige ozgu; ozellik,0.952,oran-yüzde,,,
+README.tr.md,113,"## Native model (EMBER2024, Ekim 2026)",2024,ilgisiz,,,
+README.tr.md,113,"## Native model (EMBER2024, Ekim 2026)",2026,ilgisiz,,,
+README.tr.md,115,2018 verisiyle egitilen Faz 1 modeli 2024 dosyala,2018,ilgisiz,,,
+README.tr.md,115,2018 verisiyle egitilen Faz 1 modeli 2024 dosyalarinda cokuyor (AUC 0.663).,2024,ilgisiz,,,
+README.tr.md,115,Faz 1 modeli 2024 dosyalarinda cokuyor (AUC 0.663).,0.663,oran-yüzde,,,
+README.tr.md,115,2018 verisiyle egitilen Faz 1 modeli 2024 dosyalarinda cokuyor (AUC 0.663),1,ilgisiz,,,
+README.tr.md,116,"Yerine EMBER2024 Win32/Win64 ile egitilen, 86 ozellikli (5 te",2024,ilgisiz,,,
+README.tr.md,117,"DLL bayragi) Random Forest geldi: 483.224 egitim dosyasi, her dosya turunun",483.224,satır,483224,402129,402.129 eşsiz dosya (483.224 satır; zararlı DLL hücresinde 60.403 eşsiz dosyanın iki kopyası)
+README.tr.md,118,ICINDE 50/50 orneklenmis. Neden: veri setinde zararsizlar,50/50,oran-yüzde,,,
+README.tr.md,124,alarm); test haftalari 52-63 (959.738 dosya) bu sabit esiklerle bir kez olculdu:,959.738,satır,959738,479856,479.856 eşsiz dosya (959.738 satır)
+README.tr.md,124,alarm); test haftalari 52-63 (959.738 dosya) bu sabit esiklerle bir ke,52,ilgisiz,,,
+README.tr.md,124,alarm); test haftalari 52-63 (959.738 dosya) bu sabit esiklerle bir kez o,63,ilgisiz,,,
+README.tr.md,126,| Dosya turu | Kacan zararli | EMBER2024 zararsizlarinda yanlis alarm |,2024,ilgisiz,,,
+README.tr.md,131,Genel test AUC 0.9865. Bu makinedeki 5.635 gercek zararsiz dosyada yanlis,5.635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+README.tr.md,131,Genel test AUC 0.9865. Bu makinedeki 5.635 gercek zararsiz dosyada,0.9865,oran-yüzde,,,
+README.tr.md,135,- **Test dosyalarinin %50'si zararli.** EMBER2024 haftalik 50/50 orneklenmis;,2024,ilgisiz,,,
+README.tr.md,135,larinin %50'si zararli.** EMBER2024 haftalik 50/50 orneklenmis;,50/50,oran-yüzde,,,
+README.tr.md,135,- **Test dosyalarinin %50'si zararli.** EMBER2024 haftalik 50/50 ornek,50,oran-yüzde,,,
+README.tr.md,144,- **Yerel dogrulama seti eskiyor.** 9 Ekim'deki olcumden bu yana dosyalarinin,9,ilgisiz,,,
+README.tr.md,145,yuzlercesi guncellendi. Olcumlerin dayandigi 5.635 satir,5.635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+README.tr.md,145,"857'si silindi, yuzlercesi guncellendi. Olcumler",857,yerel,857,,düzeltme gerekmez (yerel dosya alt kümesi)
+README.tr.md,149,%61.6'si .NET (3.471 / 5.635) ve native model orada neredeyse hic,3.471,yerel,3471,,düzeltme gerekmez (yerel .NET dosya sayısı)
+README.tr.md,149,%61.6'si .NET (3.471 / 5.635) ve native model orada neredeyse hic alarm,5.635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+README.tr.md,150,vermiyor (%0.03 [0.01-0.16]). .NET disi yerel dosyalarda yan,0.03,oran-yüzde,,,
+README.tr.md,150,vermiyor (%0.03 [0.01-0.16]). .NET disi yerel dosyalarda yanlis al,0.01,oran-yüzde,,,
+README.tr.md,150,vermiyor (%0.03 [0.01-0.16]). .NET disi yerel dosyalarda yanlis alarm,0.16,oran-yüzde,,,
+README.tr.md,156,erde kacan %33.7 (.NET disi EXE %17.6). EMBER2024'un ayri .NET test,2024,ilgisiz,,,
+README.tr.md,174,4. [x] EMBER'den gercek 5700 zararli kayit cikarildi. EMBER'in olcumu,5700,EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+README.tr.md,176,5. [x] Zararsiz veri once bu makineden (System,5,ilgisiz,,,
+README.tr.md,178,"EMBER'den alindi, makine taramasi (533.081 dosya, 64.263 PE) dis",533.081,yerel,533081,,düzeltme gerekmez (makinede taranan toplam dosya yolu)
+README.tr.md,178,"'den alindi, makine taramasi (533.081 dosya, 64.263 PE) dis",64.263,yerel,64263,,düzeltme gerekmez (makinede bulunan toplam PE yolu)
+README.tr.md,183,"6b. [x] Native model EMBER2024'e tasindi (Random Forest, 86 ozellik, tur",2024,ilgisiz,,,
+README.tr.md,184,"ici dengeli egitim; bkz. ""Native model""). 2018 modeli git etiketi",2018,ilgisiz,,,
+README.tr.md,198,ndows'ta MinGW gcc 16.2 ile dogrulandi (Ekim 2026): uyari,2026,ilgisiz,,,
+site/en/index.html,28,"<meta property=""og:image:width"" content=""1200"">",1200,ilgisiz,,,
+site/en/index.html,165,"age: linear-gradient(90deg, #0b0f19 0%, #0b0f1900 48%), linear-gradient(0deg, #0b0f19 0%, #0b0",1900,ilgisiz,,,
+site/en/index.html,165,"48%), linear-gradient(0deg, #0b0f19 0%, #0b0f1900 52%), url(""../assets/turk-bayragi.webp"");",1900,ilgisiz,,,
+site/en/index.html,186,"age: linear-gradient(90deg, #0b0f19 0%, #0b0f1900 48%), linear-gradient(0deg, #0b0f19 0%, #0b0",1900,ilgisiz,,,
+site/en/index.html,186,"48%), linear-gradient(0deg, #0b0f19 0%, #0b0f1900 52%), url(""../assets/ataturk-amac.webp"");",1900,ilgisiz,,,
+site/en/index.html,199,"kground: linear-gradient(to right, #ffffff, #64748b);",64748,ilgisiz,,,
+site/en/index.html,215,"ground: radial-gradient(circle at center, #1d3345 0, #0d1117 42%, #0d1117 75%);",3345,ilgisiz,,,
+site/en/index.html,215,"ial-gradient(circle at center, #1d3345 0, #0d1117 42%, #0d1117 75%);",1117,ilgisiz,,,
+site/en/index.html,215,"circle at center, #1d3345 0, #0d1117 42%, #0d1117 75%);",1117,ilgisiz,,,
+site/en/index.html,278,border: 1px solid #334155;,334155,ilgisiz,,,
+site/en/index.html,318,background: #111827;,111827,ilgisiz,,,
+site/en/index.html,349,border: 1px solid #334155;,334155,ilgisiz,,,
+site/en/index.html,412,background: #111827;,111827,ilgisiz,,,
+site/en/index.html,434,border: 1px solid #334155;,334155,ilgisiz,,,
+site/en/index.html,457,border: 1px solid #334155;,334155,ilgisiz,,,
+site/en/index.html,459,"kground: radial-gradient(circle at 20% 20%, #24384a, #0d151b 62%);",24384,ilgisiz,,,
+site/en/index.html,460,color: #64748b;,64748,ilgisiz,,,
+site/en/index.html,514,color: #64748b;,64748,ilgisiz,,,
+site/en/index.html,539,background: #111827;,111827,ilgisiz,,,
+site/en/index.html,540,border: 1px solid #334155;,334155,ilgisiz,,,
+site/en/index.html,580,border: 1px solid #334155;,334155,ilgisiz,,,
+site/en/index.html,596,left: -9999px;,9999,ilgisiz,,,
+site/en/index.html,653,border: 1px solid #334155;,334155,ilgisiz,,,
+site/en/index.html,660,"background: linear-gradient(90deg, #38bdf8, #64748b);",64748,ilgisiz,,,
+site/en/index.html,665,color: #64748b;,64748,ilgisiz,,,
+site/en/index.html,714,color: #64748b;,64748,ilgisiz,,,
+site/en/index.html,716,border: 1px dashed #475569;,475569,ilgisiz,,,
+site/en/index.html,999,"hief-progress-status"">Closed on 25 September 2026 · an experimental .NET specialist model is i",2026,ilgisiz,,,
+site/en/index.html,1011,is updated by hand · last updated 7 October 2026</p>,2026,ilgisiz,,,
+site/en/index.html,1015,<h4>Transparency note · 5 October 2026</h4>,2026,ilgisiz,,,
+site/en/index.html,1026,"<li>Phase 1 model (EMBER 2018, 5 features): temporal test accuracy 83.8%;",2018,ilgisiz,,,
+site/en/index.html,1028,"<li>Native model (EMBER2024, 86 features; test weeks measured once with",2024,ilgisiz,,,
+site/en/index.html,1028,(EXE) and 19.5% (DLL); false alarms on EMBER2024 benign files 0.83% (EXE) and 1.43% (DLL). Th,2024,ilgisiz,,,
+site/en/index.html,1028,"<li>Native model (EMBER2024, 86 features; test weeks measured once with fixe",86,ilgisiz,,,
+site/en/index.html,1028,once with fixed thresholds): missed malware 17.7% (EXE) and 19.5% (DLL); false alarms on EMBE,17.7,oran-yüzde,,,
+site/en/index.html,1028,thresholds): missed malware 17.7% (EXE) and 19.5% (DLL); false alarms on EMBER2024 benign fil,19.5,oran-yüzde,,,
+site/en/index.html,1028,DLL); false alarms on EMBER2024 benign files 0.83% (EXE) and 1.43% (DLL). The 1% target was ex,0.83,oran-yüzde,,,
+site/en/index.html,1028,ms on EMBER2024 benign files 0.83% (EXE) and 1.43% (DLL). The 1% target was exceeded for DLLs.,1.43,oran-yüzde,,,
+site/en/index.html,1028,enign files 0.83% (EXE) and 1.43% (DLL). The 1% target was exceeded for DLLs.</li>,1,oran-yüzde,,,
+site/en/index.html,1029,"<li>In the native model's test, 50% of the files are malicious: 0.83% is not th",50,oran-yüzde,,,
+site/en/index.html,1029,"odel's test, 50% of the files are malicious: 0.83% is not the share of alarms that are false;",0.83,oran-yüzde,,,
+site/en/index.html,1030,"ET EXEs are missed (17.6% non-.NET). On EMBER2024's .NET test set, at the same false-alarm rat",2024,ilgisiz,,,
+site/en/index.html,1040,"lt and tested the model on recent data (EMBER2024, October 2026); next comes a small, measurab",2024,ilgisiz,,,
+site/en/index.html,1040,"the model on recent data (EMBER2024, October 2026); next comes a small, measurable eBPF experi",2026,ilgisiz,,,
+site/en/index.html,1041,"uild and re-test the model on new data (EMBER2024; done, October 2026) → measure eBPF events a",2024,ilgisiz,,,
+site/en/index.html,1041,"model on new data (EMBER2024; done, October 2026) → measure eBPF events and resource usage →",2026,ilgisiz,,,
+site/en/index.html,1082,"<p class=""tech-transition-copyright"">© 2026 Turan Tech. All rights reserved.</p>",2026,ilgisiz,,,
+site/en/index.html,1084,"on-version"">Site version v1.8.0 · 17 October 2026</p>",2026,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,24,"<meta property=""og:image:width"" content=""1200"">",1200,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,34,"pan class=""kicker"">Research note · 9 October 2026</span>",2026,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,36,"lass=""meta"">Ahmet Turan Taşdelen · 9 October 2026 · about 7 minutes · Project: <a href=""../pro",2026,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,37,"p class=""summary""><strong>Update (26 October 2026):</strong> The ""existing model"" (M0) in this",2026,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,37,"M0) in this note is the Phase 1 model (EMBER 2018, 5 features); today's model is the native mo",2018,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,37,'s model is the native model trained on EMBER2024. 3.8% is the missed-malware rate of the spec,2024,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,37,"ef-Sef/blob/main/README.md#native-model-ember2024-october-2026"" target=""_blank"" rel=""noopener",2024,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,37,"ain/README.md#native-model-ember2024-october-2026"" target=""_blank"" rel=""noopener noreferrer"">R",2026,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,38,"Chief-Sef model looked good overall. But on 120,000 .NET files from the last months of 2024, its","120,000",satır,120000,59953,"59,953 unique files (120,000 rows)"
+site/en/notes/dotnet-blind-spot.html,38,"n 120,000 .NET files from the last months of 2024, its accuracy fell to 53% and it missed 92.8",2024,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,38,"he last months of 2024, its accuracy fell to 53% and it missed 92.8% of the malware. The ove",53,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,38,"2024, its accuracy fell to 53% and it missed 92.8% of the malware. The overall score was hidin",92.8,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,41,The model scored about 90% accuracy on EMBER 2018 data. Splitting the results by file type cha,2018,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,41,<p>The model scored about 90% accuracy on EMBER 2018 data. Splitting the,90,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,41,"ed the picture: in cross-validation, <strong>52%</strong> of .NET malware slipped through, a",52,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,41,"ng> of .NET malware slipped through, against 11.5% for non-.NET files. Because .NET files are",11.5,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,44,"g data? I used the .NET test set of the EMBER2024 dataset (September–December 2024, never seen",2024,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,44,"of the EMBER2024 dataset (September–December 2024, never seen in training). A side note: the d",2024,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,44,"e note: the documentation said this set held 60 thousand files; when I counted, it held 120,000. Not",60 thousand,eşsiz,120000,59953,"EMBER2024's documented ~60K was the unique file count (59,953); 120,000 is the duplicated JSONL row count"
+site/en/notes/dotnet-blind-spot.html,44,"d 60 thousand files; when I counted, it held 120,000. Not trusting a documented number is part of","120,000",satır,120000,59953,"59,953 unique files (120,000 rows)"
+site/en/notes/dotnet-blind-spot.html,45,"rap""><table><thead><tr><th>Measurement (EMBER2024 .NET test)</th><th class=""num"">Result</th></",2024,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,49,"d similar entropy. On top of that, the EMBER 2018 training data held few .NET malware samples",2018,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,49,training data held few .NET malware samples (162). Adding an “is it .NET?” flag did not help,162,EMBER 2018,162,162,düzeltme gerekmez (EMBER 2018 eğitimdeki .NET zararlı)
+site/en/notes/dotnet-blind-spot.html,49,"d, and with the flag the miss rate went from 92.8% to 93.4%.</p>",92.8,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,49,th the flag the miss rate went from 92.8% to 93.4%.</p>,93.4,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,52,rate model for .NET files. I trained it on a 100-thousand-file sample from the first 52 weeks of EMBER,100-thousand,satır,100000,90330/74542,"100,000-row sample (90,330 unique files in M2, 74,542 in M2d)"
+site/en/notes/dotnet-blind-spot.html,52,-file sample from the first 52 weeks of EMBER2024's .NET training set and tested it on the las,2024,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,52,on a 100-thousand-file sample from the first 52 weeks of EMBER2024's .NET training set and t,52,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,52,.NET training set and tested it on the last 12 weeks (a temporal split). Step by step:</p>,12,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,53,"/td><td class=""num"">3.8%</td><td class=""num"">0.993</td></tr></tbody></table></div>",0.993,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,57,"executable (EXE) files, and in the dataset ~90% of benign files were DLLs while ~90% of mal",90,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,57,ataset ~90% of benign files were DLLs while ~90% of malicious ones were EXEs. The model had,90,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,58,"s false-alarm rate on EXE files was <strong>~26%</strong>, hidden by the overall 4.2%. Remov",26,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,58,"<strong>~26%</strong>, hidden by the overall 4.2%. Removing the manifest words from the featu",4.2,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,58,fest words from the features did not fix it (21%): the type information had seeped into othe,21,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,62,"/td></tr><tr><td>EXE AUC</td><td class=""num"">0.966</td><td class=""num"">0.979</td></tr><tr><td>D",0.966,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,62,"td><td class=""num"">0.966</td><td class=""num"">0.979</td></tr><tr><td>DLL AUC</td><td class=""num""",0.979,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,62,"/td></tr><tr><td>DLL AUC</td><td class=""num"">0.986</td><td class=""num"">0.993</td></tr><tr><td>E",0.986,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,62,"td><td class=""num"">0.986</td><td class=""num"">0.993</td></tr><tr><td>EXE missed malware</td><td",0.993,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,66,"eal, benign .NET files from my own computer (500 EXEs, 500 DLLs). On EXEs, false alarms were",500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+site/en/notes/dotnet-blind-spot.html,66,"n .NET files from my own computer (500 EXEs, 500 DLLs). On EXEs, false alarms were <strong>15",500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+site/en/notes/dotnet-blind-spot.html,66,"00 DLLs). On EXEs, false alarms were <strong>15.6%</strong> for M2 (95% confidence interval 12",15.6,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,66,e alarms were <strong>15.6%</strong> for M2 (95% confidence interval 12.7–19.0) and <strong>,95,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,66,.6%</strong> for M2 (95% confidence interval 12.7–19.0) and <strong>1.6%</strong> for M2d (0.8,12.7,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,66,strong> for M2 (95% confidence interval 12.7–19.0) and <strong>1.6%</strong> for M2d (0.8–3.1),19.0,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,66,% confidence interval 12.7–19.0) and <strong>1.6%</strong> for M2d (0.8–3.1); on DLLs both ha,1.6,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,66,2.7–19.0) and <strong>1.6%</strong> for M2d (0.8–3.1); on DLLs both had 0 false alarms out of,0.8,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,66,19.0) and <strong>1.6%</strong> for M2d (0.8–3.1); on DLLs both had 0 false alarms out of 500,3.1,oran-yüzde,,,
+site/en/notes/dotnet-blind-spot.html,66,/strong> for M2d (0.8–3.1); on DLLs both had 0 false alarms out of 500. The shortcut existe,0,yerel,0/500,,düzeltme gerekmez (yerel 500 DLL'de 0 yanlış alarm)
+site/en/notes/dotnet-blind-spot.html,66,"3.1); on DLLs both had 0 false alarms out of 500. The shortcut existed in the real world too,",500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+site/en/notes/dotnet-blind-spot.html,66,caveat: this sample is not random (the first 500 in folder order) and contains many files fro,500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+site/en/notes/dotnet-blind-spot.html,84,"""https://huggingface.co/datasets/joyce8/EMBER2024"">The EMBER2024 dataset</a> (Hugging Face) an",2024,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,84,"gface.co/datasets/joyce8/EMBER2024"">The EMBER2024 dataset</a> (Hugging Face) and its feature e",2024,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,84,"=""https://github.com/FutureComputing4AI/EMBER2024"">thrember</a> (Apache-2.0); the string featu",2024,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,85,"atic PE Malware Machine Learning Models</a>, 2018.</li>",2018,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,88,"<footer><div class=""wrap"">© 2026 Turan Tech · <a href=""../../en/privacy.html""",2026,ilgisiz,,,
+site/en/notes/dotnet-blind-spot.html,88,><br><small>Site version v1.8.0 · 17 October 2026</small></div></footer>,2026,ilgisiz,,,
+site/en/notes/index.html,24,"<meta property=""og:image:width"" content=""1200"">",1200,ilgisiz,,,
+site/en/notes/index.html,39,"<li><p class=""meta"">9 October 2026 · Measurement</p><h3><a href=""temporal-split",2026,ilgisiz,,,
+site/en/notes/index.html,40,"<li><p class=""meta"">9 October 2026 · Subgroups</p><h3><a href=""dotnet-blind-spo",2026,ilgisiz,,,
+site/en/notes/index.html,43,"<footer><div class=""wrap"">© 2026 Turan Tech · <a href=""../../en/privacy.html""",2026,ilgisiz,,,
+site/en/notes/index.html,43,><br><small>Site version v1.8.0 · 17 October 2026</small></div></footer>,2026,ilgisiz,,,
+site/en/notes/temporal-split.html,24,"<meta property=""og:image:width"" content=""1200"">",1200,ilgisiz,,,
+site/en/notes/temporal-split.html,34,"pan class=""kicker"">Research note · 9 October 2026</span>",2026,ilgisiz,,,
+site/en/notes/temporal-split.html,36,"lass=""meta"">Ahmet Turan Taşdelen · 9 October 2026 · about 5 minutes · Project: <a href=""../pro",2026,ilgisiz,,,
+site/en/notes/temporal-split.html,37,"by time (training on the first ten months of 2018 and testing on the last two), it scored 83.8",2018,ilgisiz,,,
+site/en/notes/temporal-split.html,40,"d suspicious API count. The training data is 5,700 malicious and 5,700 benign files from the EM","5,700",EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+site/en/notes/temporal-split.html,40,"nt. The training data is 5,700 malicious and 5,700 benign files from the EMBER 2018 dataset.</p","5,700",EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+site/en/notes/temporal-split.html,40,"icious and 5,700 benign files from the EMBER 2018 dataset.</p>",2018,ilgisiz,,,
+site/en/notes/temporal-split.html,41,easurement misled me. The first model scored 99.9% on synthetic data; because the data came fr,99.9,oran-yüzde,,,
+site/en/notes/temporal-split.html,41,than malicious behaviour. The second scored 97%; because the benign files came from a singl,97,oran-yüzde,,,
+site/en/notes/temporal-split.html,44,"file (<code>test_features.jsonl</code>). All 11,400 rows came from the first ~34 thousand record","11,400",EMBER 2018,11400,11400,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+site/en/notes/temporal-split.html,44,"code>). All 11,400 rows came from the first ~34 thousand records of that file, and every one of them",34 thousand,EMBER 2018,34000,34000,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+site/en/notes/temporal-split.html,44,every one of them was from <strong>November 2018</strong>. The 80% training / 20% test split,2018,ilgisiz,,,
+site/en/notes/temporal-split.html,44,was from <strong>November 2018</strong>. The 80% training / 20% test split happened inside t,80,oran-yüzde,,,
+site/en/notes/temporal-split.html,44,g>November 2018</strong>. The 80% training / 20% test split happened inside that narrow wind,20,oran-yüzde,,,
+site/en/notes/temporal-split.html,49,"Same period: 80% / 20% split within November 2018</td><td class=""num"">90.1%</td><td class=""num",2018,ilgisiz,,,
+site/en/notes/temporal-split.html,49,"r><tr><td>Same model, rest of the same file (188,600 records, Nov–Dec)</td><td class=""num"">87.4%<","188,600",EMBER 2018,188600,188600,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+site/en/notes/temporal-split.html,49,"td><td class=""num"">87.4%</td><td class=""num"">0.947</td></tr><tr><td>Temporal split: train on Ja",0.947,oran-yüzde,,,
+site/en/notes/temporal-split.html,49,"td><td class=""num"">83.8%</td><td class=""num"">0.920</td></tr></tbody></table></div>",0.920,oran-yüzde,,,
+site/en/notes/temporal-split.html,50,"legitimate files on a real computer (3.5% on 5,700 files never seen in training), is not affect","5,700",yerel,5700,,düzeltme gerekmez (yerel 5.700 zararsız PE)
+site/en/notes/temporal-split.html,50,"ises on legitimate files on a real computer (3.5% on 5,700 files never seen in training), is",3.5,oran-yüzde,,,
+site/en/notes/temporal-split.html,75,"atic PE Malware Machine Learning Models</a>, 2018.</li>",2018,ilgisiz,,,
+site/en/notes/temporal-split.html,76,"n across Space and Time</a>, USENIX Security 2019.</li>",2019,ilgisiz,,,
+site/en/notes/temporal-split.html,77,"g based Temporal Analysis of PE Malware</a>, 2021.</li>",2021,ilgisiz,,,
+site/en/notes/temporal-split.html,80,"<footer><div class=""wrap"">© 2026 Turan Tech · <a href=""../../en/privacy.html""",2026,ilgisiz,,,
+site/en/notes/temporal-split.html,80,><br><small>Site version v1.8.0 · 17 October 2026</small></div></footer>,2026,ilgisiz,,,
+site/en/projects/chief-sef.html,24,"<meta property=""og:image:width"" content=""1200"">",1200,ilgisiz,,,
+site/en/projects/chief-sef.html,26,"f-Sef: real output of the native model (EMBER2024) on notepad.exe, 26 October 2026"">",2024,ilgisiz,,,
+site/en/projects/chief-sef.html,26,"model (EMBER2024) on notepad.exe, 26 October 2026"">",2026,ilgisiz,,,
+site/en/projects/chief-sef.html,41,Boyut_Bayt : 360448,360448,ilgisiz,,,
+site/en/projects/chief-sef.html,43,Ortalama_Entropi : 3.202,3.202,ilgisiz,,,
+site/en/projects/chief-sef.html,47,DZ_sayi : 1424,1424,ilgisiz,,,
+site/en/projects/chief-sef.html,50,li olasiligi: %2.0 -&gt; zararsiz (EXE esigi 0.700: dogrulamada zararsiz EXE'lerin %1'i asar),0.700,oran-yüzde,,,
+site/en/projects/chief-sef.html,51,Not: skor EMBER2024'un %50 zararli ornekleminden; gercek ortamda,2024,ilgisiz,,,
+site/en/projects/chief-sef.html,51,">Unabridged output of the native model (EMBER2024, Random Forest, 86 features) on a benign Win",2024,ilgisiz,,,
+site/en/projects/chief-sef.html,51,tures) on a benign Windows file · 26 October 2026. The command was run in the file's own folde,2026,ilgisiz,,,
+site/en/projects/chief-sef.html,51,malicious: 2.0% → benign”; the EXE threshold 0.700 is the score that 1% of benign EXEs exceeded,0.700,oran-yüzde,,,
+site/en/projects/chief-sef.html,51,"and the note says the score comes from EMBER2024's 50%-malicious sample, so the real probabil",2024,ilgisiz,,,
+site/en/projects/chief-sef.html,51,ious side come from measurements on the EMBER2024 dataset.</p><p>Phase 1 · Static analysis · c,2024,ilgisiz,,,
+site/en/projects/chief-sef.html,51,Static analysis · completed on 25 September 2026 · native model moved to EMBER2024 on 17 Octo,2026,ilgisiz,,,
+site/en/projects/chief-sef.html,51,"September 2026 · native model moved to EMBER2024 on 17 October 2026</p><div class=""bar""><span",2024,ilgisiz,,,
+site/en/projects/chief-sef.html,51,"ative model moved to EMBER2024 on 17 October 2026</p><div class=""bar""><span></span></div></div",2026,ilgisiz,,,
+site/en/projects/chief-sef.html,53,Development process</h2><p><strong>5 October 2026 · Transparency note:</strong> I am not build,2026,ilgisiz,,,
+site/en/projects/chief-sef.html,53,endent tests; Phase 1 closed on 25 September 2026.</li><li>Measurements showed that the model,2026,ilgisiz,,,
+site/en/projects/chief-sef.html,53,this.</li><li>The native model moved to EMBER2024 (17 October 2026): both classes from EMBER20,2024,ilgisiz,,,
+site/en/projects/chief-sef.html,53,"native model moved to EMBER2024 (17 October 2026): both classes from EMBER2024 data, 86 featu",2026,ilgisiz,,,
+site/en/projects/chief-sef.html,53,"24 (17 October 2026): both classes from EMBER2024 data, 86 features including string features,",2024,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"ion on its own. For the Phase 1 model (EMBER 2018, 5 features) the README reports 83.8% tempor",2018,ilgisiz,,,
+site/en/projects/chief-sef.html,54,replaced by the native model trained on EMBER2024. Thresholds were chosen on held-out training,2024,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"alarms per file type; the test weeks 52–63 (959,738 files) were measured once with those fixed t","959,738",satır,959738,479856,"479,856 unique files (959,738 rows)"
+site/en/projects/chief-sef.html,54,"are</th><th class=""num"">False alarms on EMBER2024 benign files</th></tr></thead><tbody><tr><td",2024,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"</table></div><p>Overall test AUC 0.9865. On 5,635 real benign files from this machine: false a","5,635",yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+site/en/projects/chief-sef.html,54,the test files are malicious.</strong> EMBER2024 is sampled 50/50 per week. 0.83% is the shar,2024,ilgisiz,,,
+site/en/projects/chief-sef.html,54,are malicious.</strong> EMBER2024 is sampled 50/50 per week. 0.83% is the share of EMBER2024's,50/50,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"d 50/50 per week. 0.83% is the share of EMBER2024's benign EXEs that raised an alarm, not the",2024,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"have been deleted and hundreds updated; the 5,635 rows the measurements rely on are frozen ins","5,635",yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+site/en/projects/chief-sef.html,54,"ix.</strong> 61.6% of the local set is .NET (3,471 / 5,635), where the native model almost neve","3,471",yerel,3471,,düzeltme gerekmez (yerel .NET dosya sayısı)
+site/en/projects/chief-sef.html,54,"ong> 61.6% of the local set is .NET (3,471 / 5,635), where the native model almost never alarms","5,635",yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+site/en/projects/chief-sef.html,54,are missed (17.6% of non-.NET EXEs). On EMBER2024's separate .NET test set the native model mi,2024,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"ef-Sef/blob/main/README.md#native-model-ember2024-october-2026"" target=""_blank"" rel=""noopener",2024,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"ain/README.md#native-model-ember2024-october-2026"" target=""_blank"" rel=""noopener noreferrer"">R",2026,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"security decision on its own. For the Phase 1 model (EMBER 2018, 5 features) the README re",1,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"its own. For the Phase 1 model (EMBER 2018, 5 features) the README reports 83.8% temporal",5,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"(EMBER 2018, 5 features) the README reports 83.8% temporal accuracy, 90.1% same-period accura",83.8,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"the README reports 83.8% temporal accuracy, 90.1% same-period accuracy and a 3.5% independent",90.1,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"l accuracy, 90.1% same-period accuracy and a 3.5% independent false-alarm rate.</p><p>That mo",3.5,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"holds were chosen on held-out training weeks 48–51, for 1% false alarms per file type; the t",48,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"ds were chosen on held-out training weeks 48–51, for 1% false alarms per file type; the test",51,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"chosen on held-out training weeks 48–51, for 1% false alarms per file type; the test weeks",1,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"% false alarms per file type; the test weeks 52–63 (959,738 files) were measured once with t",52,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"alse alarms per file type; the test weeks 52–63 (959,738 files) were measured once with thos",63,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"thead><tbody><tr><td>EXE</td><td class=""num"">17.7%</td><td class=""num"">0.83%</td></tr><tr><td>",17.7,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"td><td class=""num"">17.7%</td><td class=""num"">0.83%</td></tr><tr><td>DLL</td><td class=""num"">19",0.83,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"83%</td></tr><tr><td>DLL</td><td class=""num"">19.5%</td><td class=""num"">1.43%</td></tr></tbody>",19.5,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"td><td class=""num"">19.5%</td><td class=""num"">1.43%</td></tr></tbody></table></div><p>Overall t",1.43,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"tr></tbody></table></div><p>Overall test AUC 0.9865. On 5,635 real benign files from this machin",0.9865,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,benign files from this machine: false alarms 0.25% (EXE) and 0.21% (DLL). How to read these nu,0.25,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,m this machine: false alarms 0.25% (EXE) and 0.21% (DLL). How to read these numbers:</p><ul cl,0.21,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"numbers:</p><ul class=""process""><li><strong>50% of the test files are malicious.</strong> E",50,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,strong> EMBER2024 is sampled 50/50 per week. 0.83% is the share of EMBER2024's benign EXEs tha,0.83,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,<strong>The DLL false-alarm rate exceeds its 1% target</strong> (1.43%). The threshold was,1,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,e-alarm rate exceeds its 1% target</strong> (1.43%). The threshold was set on weeks 48–51; a l,1.43,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"ong> (1.43%). The threshold was set on weeks 48–51; a likely cause is drift over time, but t",48,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"> (1.43%). The threshold was set on weeks 48–51; a likely cause is drift over time, but that",51,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"is aging.</strong> Since it was measured on 9 October, 857 of its files have been deleted",9,ilgisiz,,,
+site/en/projects/chief-sef.html,54,"/strong> Since it was measured on 9 October, 857 of its files have been deleted and hundreds",857,yerel,857,,düzeltme gerekmez (yerel dosya alt kümesi)
+site/en/projects/chief-sef.html,54,being re-scanned.</li><li><strong>The local 0.25% / 0.21% are low partly because of the mix.<,0.25,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,e-scanned.</li><li><strong>The local 0.25% / 0.21% are low partly because of the mix.</strong>,0.21,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"are low partly because of the mix.</strong> 61.6% of the local set is .NET (3,471 / 5,635), w",61.6,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,where the native model almost never alarms (0.03% [0.01-0.16]). On the non-.NET local files t,0.03,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,the native model almost never alarms (0.03% [0.01-0.16]). On the non-.NET local files the fals,0.01,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,ative model almost never alarms (0.03% [0.01-0.16]). On the non-.NET local files the false-ala,0.16,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"non-.NET local files the false-alarm rate is 0.51% [0.28-0.91] (EXE 0.28%, DLL 0.55%).</li><li",0.51,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"T local files the false-alarm rate is 0.51% [0.28-0.91] (EXE 0.28%, DLL 0.55%).</li><li>Random",0.28,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"al files the false-alarm rate is 0.51% [0.28-0.91] (EXE 0.28%, DLL 0.55%).</li><li>Random Fore",0.91,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"e false-alarm rate is 0.51% [0.28-0.91] (EXE 0.28%, DLL 0.55%).</li><li>Random Forest beat Lig",0.28,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"rm rate is 0.51% [0.28-0.91] (EXE 0.28%, DLL 0.55%).</li><li>Random Forest beat LightGBM only",0.55,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"d, same fixed thresholds: in the test weeks, 33.7% of malicious .NET EXEs are missed (17.6% of",33.7,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"ks, 33.7% of malicious .NET EXEs are missed (17.6% of non-.NET EXEs). On EMBER2024's separate",17.6,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,parate .NET test set the native model misses 49.8% of malware at 1.05% false alarms (86.7% of,49.8,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,the native model misses 49.8% of malware at 1.05% false alarms (86.7% of malicious .NET DLLs),1.05,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,sses 49.8% of malware at 1.05% false alarms (86.7% of malicious .NET DLLs); the Phase 1 model,86.7,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,ms (86.7% of malicious .NET DLLs); the Phase 1 model missed 92.8% there at 0.46% false alar,1,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,licious .NET DLLs); the Phase 1 model missed 92.8% there at 0.46% false alarms. At the same fa,92.8,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,Ls); the Phase 1 model missed 92.8% there at 0.46% false alarms. At the same false-alarm rate,0.46,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"larms. At the same false-alarm rate as Phase 1, the native model misses 59.8% (92.7% of mal",1,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"arm rate as Phase 1, the native model misses 59.8% (92.7% of malicious .NET DLLs). Better, not",59.8,oran-yüzde,,,
+site/en/projects/chief-sef.html,54,"e as Phase 1, the native model misses 59.8% (92.7% of malicious .NET DLLs). Better, not good e",92.7,oran-yüzde,,,
+site/en/projects/chief-sef.html,58,"<footer><div class=""wrap"">© 2026 Turan Tech · <a href=""../privacy.html"">Priva",2026,ilgisiz,,,
+site/en/projects/chief-sef.html,58,><br><small>Site version v1.8.0 · 17 October 2026</small></div></footer>,2026,ilgisiz,,,
+site/index.html,28,"<meta property=""og:image:width"" content=""1200"">",1200,ilgisiz,,,
+site/index.html,165,"age: linear-gradient(90deg, #0b0f19 0%, #0b0f1900 48%), linear-gradient(0deg, #0b0f19 0%, #0b0",1900,ilgisiz,,,
+site/index.html,165,"48%), linear-gradient(0deg, #0b0f19 0%, #0b0f1900 52%), url(""assets/turk-bayragi.webp"");",1900,ilgisiz,,,
+site/index.html,186,"age: linear-gradient(90deg, #0b0f19 0%, #0b0f1900 48%), linear-gradient(0deg, #0b0f19 0%, #0b0",1900,ilgisiz,,,
+site/index.html,186,"48%), linear-gradient(0deg, #0b0f19 0%, #0b0f1900 52%), url(""assets/ataturk-amac.webp"");",1900,ilgisiz,,,
+site/index.html,199,"kground: linear-gradient(to right, #ffffff, #64748b);",64748,ilgisiz,,,
+site/index.html,215,"ground: radial-gradient(circle at center, #1d3345 0, #0d1117 42%, #0d1117 75%);",3345,ilgisiz,,,
+site/index.html,215,"ial-gradient(circle at center, #1d3345 0, #0d1117 42%, #0d1117 75%);",1117,ilgisiz,,,
+site/index.html,215,"circle at center, #1d3345 0, #0d1117 42%, #0d1117 75%);",1117,ilgisiz,,,
+site/index.html,278,border: 1px solid #334155;,334155,ilgisiz,,,
+site/index.html,318,background: #111827;,111827,ilgisiz,,,
+site/index.html,349,border: 1px solid #334155;,334155,ilgisiz,,,
+site/index.html,412,background: #111827;,111827,ilgisiz,,,
+site/index.html,434,border: 1px solid #334155;,334155,ilgisiz,,,
+site/index.html,457,border: 1px solid #334155;,334155,ilgisiz,,,
+site/index.html,459,"kground: radial-gradient(circle at 20% 20%, #24384a, #0d151b 62%);",24384,ilgisiz,,,
+site/index.html,460,color: #64748b;,64748,ilgisiz,,,
+site/index.html,514,color: #64748b;,64748,ilgisiz,,,
+site/index.html,539,background: #111827;,111827,ilgisiz,,,
+site/index.html,540,border: 1px solid #334155;,334155,ilgisiz,,,
+site/index.html,580,border: 1px solid #334155;,334155,ilgisiz,,,
+site/index.html,596,left: -9999px;,9999,ilgisiz,,,
+site/index.html,653,border: 1px solid #334155;,334155,ilgisiz,,,
+site/index.html,660,"background: linear-gradient(90deg, #38bdf8, #64748b);",64748,ilgisiz,,,
+site/index.html,665,color: #64748b;,64748,ilgisiz,,,
+site/index.html,714,color: #64748b;,64748,ilgisiz,,,
+site/index.html,716,border: 1px dashed #475569;,475569,ilgisiz,,,
+site/index.html,999,"<span class=""chief-progress-status"">25 Eylül 2026'da kapandı · .NET için deneysel uzman model",2026,ilgisiz,,,
+site/index.html,1011,arı elle güncellenir · son güncelleme 7 Ekim 2026</p>,2026,ilgisiz,,,
+site/index.html,1015,<h4>Şeffaflık notu · 5 Ekim 2026</h4>,2026,ilgisiz,,,
+site/index.html,1020,"motorudur. Mevcut açık kaynak prototip, Faz 1’de statik analiz katmanını doğrular.</p>",1,ilgisiz,,,
+site/index.html,1026,"<li>Faz 1 modeli (EMBER 2018, 5 özellik): zamansal test doğruluğu %83,8;",2018,ilgisiz,,,
+site/index.html,1028,"<li>Native model (EMBER2024, 86 özellik; test haftaları sabit eşiklerle",2024,ilgisiz,,,
+site/index.html,1028,"çan zararlı EXE’de %17,7, DLL’de %19,5; EMBER2024 zararsızlarında yanlış alarm EXE’de %0,83, D",2024,ilgisiz,,,
+site/index.html,1029,"<li>Native model testinde dosyaların %50’si zararlı: %0,83 alarmların ne kadarının ya",50,oran-yüzde,,,
+site/index.html,1029,"e model testinde dosyaların %50’si zararlı: %0,83 alarmların ne kadarının yanlış olduğu değild","0,83",oran-yüzde,,,
+site/index.html,1030,"kaçan zararlı %33,7 (.NET dışı %17,6). EMBER2024 .NET test kümesinde Faz 1 ile aynı yanlış al",2024,ilgisiz,,,
+site/index.html,1039,“güvenli” kararı verecek noktada değil. Faz 1’de ölçüm sonuçlarını görmek iyi bir başlangı,1,ilgisiz,,,
+site/index.html,1040,Bu yüzden modeli önce güncel verilerle (EMBER2024) yeniden kurup sınadım (Ekim 2026); sırada L,2024,ilgisiz,,,
+site/index.html,1040,"erle (EMBER2024) yeniden kurup sınadım (Ekim 2026); sırada Linux üzerinde küçük, ölçülebilir b",2026,ilgisiz,,,
+site/index.html,1041,"sıram:</strong> modeli yeni verilerle (EMBER2024) yeniden kurup sınamak (yapıldı, Ekim 2026)",2024,ilgisiz,,,
+site/index.html,1041,"ER2024) yeniden kurup sınamak (yapıldı, Ekim 2026) → eBPF olaylarını ve kaynak tüketimini ölçm",2026,ilgisiz,,,
+site/index.html,1082,"<p class=""tech-transition-copyright"">© 2026 Turan Tech. Tüm hakları saklıdır.</p>",2026,ilgisiz,,,
+site/index.html,1084,"sition-version"">Site sürümü v1.8.0 · 17 Ekim 2026</p>",2026,ilgisiz,,,
+site/notes/index.html,24,"<meta property=""og:image:width"" content=""1200"">",1200,ilgisiz,,,
+site/notes/index.html,39,"<li><p class=""meta"">9 Ekim 2026 · Ölçüm</p><h3><a href=""zaman-ekseni.html"">M",2026,ilgisiz,,,
+site/notes/index.html,40,"<li><p class=""meta"">9 Ekim 2026 · Alt gruplar</p><h3><a href=""net-kor-nokta.",2026,ilgisiz,,,
+site/notes/index.html,43,"<footer><div class=""wrap"">© 2026 Turan Tech · <a href=""../privacy.html"">Gizli",2026,ilgisiz,,,
+site/notes/index.html,43,k</a><br><small>Site sürümü v1.8.0 · 17 Ekim 2026</small></div></footer>,2026,ilgisiz,,,
+site/notes/net-kor-nokta.html,24,"<meta property=""og:image:width"" content=""1200"">",1200,ilgisiz,,,
+site/notes/net-kor-nokta.html,34,"<span class=""kicker"">Araştırma notu · 9 Ekim 2026</span>",2026,ilgisiz,,,
+site/notes/net-kor-nokta.html,36,"p class=""meta"">Ahmet Turan Taşdelen · 9 Ekim 2026 · yaklaşık 7 dakika · Proje: <a href=""../pro",2026,ilgisiz,,,
+site/notes/net-kor-nokta.html,37,"class=""summary""><strong>Güncelleme (26 Ekim 2026):</strong> Bu nottaki ""mevcut model"" (M0) Fa",2026,ilgisiz,,,
+site/notes/net-kor-nokta.html,37,"i ""mevcut model"" (M0) Faz 1 modelidir (EMBER 2018, 5 özellik); bugünkü model EMBER2024 ile eği",2018,ilgisiz,,,
+site/notes/net-kor-nokta.html,37,"(EMBER 2018, 5 özellik); bugünkü model EMBER2024 ile eğitilen native model. %3,8, uzman model",2024,ilgisiz,,,
+site/notes/net-kor-nokta.html,37,"Sef/blob/main/README.tr.md#native-model-ember2024-ekim-2026"" target=""_blank"" rel=""noopener nor",2024,ilgisiz,,,
+site/notes/net-kor-nokta.html,37,"ain/README.tr.md#native-model-ember2024-ekim-2026"" target=""_blank"" rel=""noopener noreferrer"">R",2026,ilgisiz,,,
+site/notes/net-kor-nokta.html,38,ilk modeli genel olarak iyi görünüyordu. Ama 2024'ün son aylarından 120.000 .NET dosyasında do,2024,ilgisiz,,,
+site/notes/net-kor-nokta.html,38,iyi görünüyordu. Ama 2024'ün son aylarından 120.000 .NET dosyasında doğruluğu %53'e düştü ve zar,120.000,satır,120000,59953,59.953 eşsiz dosya (120.000 satır)
+site/notes/net-kor-nokta.html,38,"ylarından 120.000 .NET dosyasında doğruluğu %53'e düştü ve zararlıların %92,8'ini kaçırdı. G",53,oran-yüzde,,,
+site/notes/net-kor-nokta.html,38,"sında doğruluğu %53'e düştü ve zararlıların %92,8'ini kaçırdı. Genel skor bu çöküşü gizliyordu","92,8",oran-yüzde,,,
+site/notes/net-kor-nokta.html,41,"<p>Model, EMBER 2018 verisinde yaklaşık %90 doğruluk veriyordu. S",2018,ilgisiz,,,
+site/notes/net-kor-nokta.html,41,"<p>Model, EMBER 2018 verisinde yaklaşık %90 doğruluk veriyordu. Sonuçları dosya türüne g",90,oran-yüzde,,,
+site/notes/net-kor-nokta.html,41,raz doğrulamada .NET zararlılarının <strong>%52'si</strong> kaçıyordu; .NET dışı dosyalarda,52,ilgisiz,,,
+site/notes/net-kor-nokta.html,41,"ng> kaçıyordu; .NET dışı dosyalarda bu oran %11,5'ti. .NET dosyaları verinin küçük bir kısmı o","11,5",oran-yüzde,,,
+site/notes/net-kor-nokta.html,44,a çıkan .NET zararlılarında ne yapıyor? EMBER2024 veri setinin .NET test kümesini (Eylül–Aralı,2024,ilgisiz,,,
+site/notes/net-kor-nokta.html,44,"eri setinin .NET test kümesini (Eylül–Aralık 2024, eğitimde hiç görülmemiş) kullandım. Bir not",2024,ilgisiz,,,
+site/notes/net-kor-nokta.html,44,emiş) kullandım. Bir not: belgede bu kümenin 60 bin dosya olduğu yazıyordu; saydığımda 120.000 ç,60 bin,eşsiz,120000,59953,EMBER2024 belgesindeki ~60K eşsiz dosya sayısıdır (59.953); 120.000 çiftli JSONL satır sayısıdır
+site/notes/net-kor-nokta.html,44,in 60 bin dosya olduğu yazıyordu; saydığımda 120.000 çıktı. Belgelenen sayıya güvenmemek de bu iş,120.000,satır,120000,59953,59.953 eşsiz dosya (120.000 satır)
+site/notes/net-kor-nokta.html,45,"table-wrap""><table><thead><tr><th>Ölçü (EMBER2024 .NET test)</th><th class=""num"">Sonuç</th></t",2024,ilgisiz,,,
+site/notes/net-kor-nokta.html,49,l</code>) ve entropileri yakın. Üstüne EMBER 2018 eğitim verisinde .NET zararlı sayısı azdı (1,2018,ilgisiz,,,
+site/notes/net-kor-nokta.html,49,"8 eğitim verisinde .NET zararlı sayısı azdı (162). Modele "".NET mi?"" bayrağı eklemek de çözme",162,EMBER 2018,162,162,düzeltme gerekmez (EMBER 2018 eğitimdeki .NET zararlı)
+site/notes/net-kor-nokta.html,49,"nı körlükteydi, bayraklı modelde kaçan oran %92,8'den %93,4'e çıktı.</p>","92,8",oran-yüzde,,,
+site/notes/net-kor-nokta.html,49,"eydi, bayraklı modelde kaçan oran %92,8'den %93,4'e çıktı.</p>","93,4",oran-yüzde,,,
+site/notes/net-kor-nokta.html,52,dosyaları için ayrı bir model denedim. EMBER2024'ün .NET eğitim kümesinin ilk 52 haftasından,2024,ilgisiz,,,
+site/notes/net-kor-nokta.html,52,"'ün .NET eğitim kümesinin ilk 52 haftasından 100 bin dosyalık bir örneklemle eğittim, son 12 haft",100 bin,satır,100000,90330/74542,"100.000 satırlık örneklem (M1/M2'de 90.330, M2d'de 74.542 eşsiz dosya)"
+site/notes/net-kor-nokta.html,52,edim. EMBER2024'ün .NET eğitim kümesinin ilk 52 haftasından 100 bin dosyalık bir örneklemle,52,ilgisiz,,,
+site/notes/net-kor-nokta.html,52,"100 bin dosyalık bir örneklemle eğittim, son 12 haftayla sınadım (zamansal bölme). Adım adım",12,ilgisiz,,,
+site/notes/net-kor-nokta.html,53,"/td><td class=""num"">%3,8</td><td class=""num"">0,993</td></tr></tbody></table></div>","0,993",oran-yüzde,,,
+site/notes/net-kor-nokta.html,54,"aha ekledi. M2'nin genel yanlış alarm oranı %4,2'ydi. Fazla iyi görünüyordu.</p>","4,2",oran-yüzde,,,
+site/notes/net-kor-nokta.html,57,"inde geçiyor ve veri setinde zararsızların ~%90'ı DLL, zararlıların ~%90'ı EXE idi. Model ""E",90,oran-yüzde,,,
+site/notes/net-kor-nokta.html,57,"nde zararsızların ~%90'ı DLL, zararlıların ~%90'ı EXE idi. Model ""EXE ise şüphelen"" kestirme",90,oran-yüzde,,,
+site/notes/net-kor-nokta.html,58,"dosyalarındaki yanlış alarm oranı <strong>~%26</strong>'ydı; genel %4,2 bunu gizliyordu. Ma",26,oran-yüzde,,,
+site/notes/net-kor-nokta.html,58,"larm oranı <strong>~%26</strong>'ydı; genel %4,2 bunu gizliyordu. Manifest kelimelerini özell","4,2",oran-yüzde,,,
+site/notes/net-kor-nokta.html,58,lerini özelliklerden çıkarmak işe yaramadı (%21): tür bilgisi başka özelliklere de sinmişti.,21,oran-yüzde,,,
+site/notes/net-kor-nokta.html,61,eğitim örneklemini her dosya türünün içinde %50 zararlı / %50 zararsız olacak şekilde kurdum,50,oran-yüzde,,,
+site/notes/net-kor-nokta.html,61,mini her dosya türünün içinde %50 zararlı / %50 zararsız olacak şekilde kurdum ve dosya türü,50,oran-yüzde,,,
+site/notes/net-kor-nokta.html,62,"/td></tr><tr><td>EXE AUC</td><td class=""num"">0,966</td><td class=""num"">0,979</td></tr><tr><td>D","0,966",oran-yüzde,,,
+site/notes/net-kor-nokta.html,62,"td><td class=""num"">0,966</td><td class=""num"">0,979</td></tr><tr><td>DLL AUC</td><td class=""num""","0,979",oran-yüzde,,,
+site/notes/net-kor-nokta.html,62,"/td></tr><tr><td>DLL AUC</td><td class=""num"">0,986</td><td class=""num"">0,993</td></tr><tr><td>E","0,986",oran-yüzde,,,
+site/notes/net-kor-nokta.html,62,"td><td class=""num"">0,986</td><td class=""num"">0,993</td></tr><tr><td>EXE kaçan zararlı</td><td c","0,993",oran-yüzde,,,
+site/notes/net-kor-nokta.html,66,"rçek, zararsız .NET dosyalarında da sınadım (500 EXE, 500 DLL). EXE'lerde yanlış alarm M2'de",500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+site/notes/net-kor-nokta.html,66,"arsız .NET dosyalarında da sınadım (500 EXE, 500 DLL). EXE'lerde yanlış alarm M2'de <strong>%",500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+site/notes/net-kor-nokta.html,66,"DLL). EXE'lerde yanlış alarm M2'de <strong>%15,6</strong> (%95 güven aralığı 12,7–19,0), M2d'","15,6",oran-yüzde,,,
+site/notes/net-kor-nokta.html,66,"yanlış alarm M2'de <strong>%15,6</strong> (%95 güven aralığı 12,7–19,0), M2d'de <strong>%1,",95,oran-yüzde,,,
+site/notes/net-kor-nokta.html,66,"de <strong>%15,6</strong> (%95 güven aralığı 12,7–19,0), M2d'de <strong>%1,6</strong> (0,8–3,1","12,7",oran-yüzde,,,
+site/notes/net-kor-nokta.html,66,"trong>%15,6</strong> (%95 güven aralığı 12,7–19,0), M2d'de <strong>%1,6</strong> (0,8–3,1) old","19,0",oran-yüzde,,,
+site/notes/net-kor-nokta.html,66,"95 güven aralığı 12,7–19,0), M2d'de <strong>%1,6</strong> (0,8–3,1) oldu; DLL'lerde ikisi de","1,6",oran-yüzde,,,
+site/notes/net-kor-nokta.html,66,"ğı 12,7–19,0), M2d'de <strong>%1,6</strong> (0,8–3,1) oldu; DLL'lerde ikisi de 500'de 0 yanlı","0,8",oran-yüzde,,,
+site/notes/net-kor-nokta.html,66,"2,7–19,0), M2d'de <strong>%1,6</strong> (0,8–3,1) oldu; DLL'lerde ikisi de 500'de 0 yanlış al","3,1",oran-yüzde,,,
+site/notes/net-kor-nokta.html,66,"</strong> (0,8–3,1) oldu; DLL'lerde ikisi de 500'de 0 yanlış alarm verdi. Kestirme gerçek dün",500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+site/notes/net-kor-nokta.html,66,"g> (0,8–3,1) oldu; DLL'lerde ikisi de 500'de 0 yanlış alarm verdi. Kestirme gerçek dünyada",0,yerel,0/500,,düzeltme gerekmez (yerel 500 DLL'de 0 yanlış alarm)
+site/notes/net-kor-nokta.html,66,rneklem rastgele değil (klasör sırasıyla ilk 500) ve aynı paketten çok dosya içeriyor; gerçek,500,yerel,500,,düzeltme gerekmez (yerel 500 dosya örneklemi)
+site/notes/net-kor-nokta.html,84,"""https://huggingface.co/datasets/joyce8/EMBER2024"">EMBER2024 veri seti</a> (Hugging Face) ve ö",2024,ilgisiz,,,
+site/notes/net-kor-nokta.html,84,"ggingface.co/datasets/joyce8/EMBER2024"">EMBER2024 veri seti</a> (Hugging Face) ve özellik çıka",2024,ilgisiz,,,
+site/notes/net-kor-nokta.html,84,"=""https://github.com/FutureComputing4AI/EMBER2024"">thrember</a> (Apache-2.0); dizge özellikler",2024,ilgisiz,,,
+site/notes/net-kor-nokta.html,85,"atic PE Malware Machine Learning Models</a>, 2018.</li>",2018,ilgisiz,,,
+site/notes/net-kor-nokta.html,88,"<footer><div class=""wrap"">© 2026 Turan Tech · <a href=""../privacy.html"">Gizli",2026,ilgisiz,,,
+site/notes/net-kor-nokta.html,88,k</a><br><small>Site sürümü v1.8.0 · 17 Ekim 2026</small></div></footer>,2026,ilgisiz,,,
+site/notes/zaman-ekseni.html,24,"<meta property=""og:image:width"" content=""1200"">",1200,ilgisiz,,,
+site/notes/zaman-ekseni.html,34,"<span class=""kicker"">Araştırma notu · 9 Ekim 2026</span>",2026,ilgisiz,,,
+site/notes/zaman-ekseni.html,36,"p class=""meta"">Ahmet Turan Taşdelen · 9 Ekim 2026 · yaklaşık 5 dakika · Proje: <a href=""../pro",2026,ilgisiz,,,
+site/notes/zaman-ekseni.html,37,ynı model tasarımını zamana göre böldüğümde (2018'in ilk on ayıyla eğitip son iki ayıyla sınad,2018,ilgisiz,,,
+site/notes/zaman-ekseni.html,40,ı ve şüpheli API sayısı. Eğitim verisi EMBER 2018 veri setinden 5.700 zararlı ve 5.700 zararsı,2018,ilgisiz,,,
+site/notes/zaman-ekseni.html,40,yısı. Eğitim verisi EMBER 2018 veri setinden 5.700 zararlı ve 5.700 zararsız dosya.</p>,5.700,EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+site/notes/zaman-ekseni.html,40,si EMBER 2018 veri setinden 5.700 zararlı ve 5.700 zararsız dosya.</p>,5.700,EMBER 2018,5700,5700,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+site/notes/zaman-ekseni.html,41,"üçüncü durumdu. İlk model sentetik veriyle %99,9 vermişti; veri beş sabit senaryodan üretildi","99,9",oran-yüzde,,,
+site/notes/zaman-ekseni.html,41,eğil o kalıpları ezberlemişti. İkinci model %97 vermişti; zararsız dosyalar tek bir bilgisay,97,oran-yüzde,,,
+site/notes/zaman-ekseni.html,44,code>test_features.jsonl</code>) başlıyordu. 11.400 satırın tamamı o dosyanın ilk ~34 bin kaydın,11.400,EMBER 2018,11400,11400,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+site/notes/zaman-ekseni.html,44,yordu. 11.400 satırın tamamı o dosyanın ilk ~34 bin kaydından gelmişti ve hepsi <strong>Kasım 20,34 bin,EMBER 2018,34000,34000,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+site/notes/zaman-ekseni.html,44,in kaydından gelmişti ve hepsi <strong>Kasım 2018</strong> tarihliydi. %80 eğitim / %20 test b,2018,ilgisiz,,,
+site/notes/zaman-ekseni.html,44,psi <strong>Kasım 2018</strong> tarihliydi. %80 eğitim / %20 test bölmesi bu dar pencerenin,80,oran-yüzde,,,
+site/notes/zaman-ekseni.html,44,asım 2018</strong> tarihliydi. %80 eğitim / %20 test bölmesi bu dar pencerenin içinde yapılı,20,oran-yüzde,,,
+site/notes/zaman-ekseni.html,49,"/tr></thead><tbody><tr><td>Aynı dönem: Kasım 2018 içinde %80 / %20 bölme</td><td class=""num"">%",2018,ilgisiz,,,
+site/notes/zaman-ekseni.html,49,"r><td>Aynı model, aynı dosyanın geri kalanı (188.600 kayıt, Kasım–Aralık)</td><td class=""num"">%87",188.600,EMBER 2018,188600,188600,düzeltme gerekmez (EMBER 2018'de çiftleme yok)
+site/notes/zaman-ekseni.html,49,"td><td class=""num"">%87,4</td><td class=""num"">0,947</td></tr><tr><td>Zamansal bölme: Ocak–Ekim i","0,947",oran-yüzde,,,
+site/notes/zaman-ekseni.html,49,"td><td class=""num"">%83,8</td><td class=""num"">0,920</td></tr></tbody></table></div>","0,920",oran-yüzde,,,
+site/notes/zaman-ekseni.html,49,"tbody><tr><td>Aynı dönem: Kasım 2018 içinde %80 / %20 bölme</td><td class=""num"">%90,1</td><t",80,oran-yüzde,,,
+site/notes/zaman-ekseni.html,49,"<tr><td>Aynı dönem: Kasım 2018 içinde %80 / %20 bölme</td><td class=""num"">%90,1</td><td clas",20,oran-yüzde,,,
+site/notes/zaman-ekseni.html,49,"içinde %80 / %20 bölme</td><td class=""num"">%90,1</td><td class=""num"">—</td></tr><tr><td>Aynı","90,1",oran-yüzde,,,
+site/notes/zaman-ekseni.html,49,"00 kayıt, Kasım–Aralık)</td><td class=""num"">%87,4</td><td class=""num"">0,947</td></tr><tr><td>Z","87,4",oran-yüzde,,,
+site/notes/zaman-ekseni.html,49,", Kasım–Aralık ile sına</td><td class=""num"">%83,8</td><td class=""num"">0,920</td></tr></tbody><","83,8",oran-yüzde,,,
+site/notes/zaman-ekseni.html,50,"rm veriyor?"" ölçümü (eğitimde hiç görülmemiş 5.700 dosyada %3,5) bu bulgudan etkilenmiyor.</p>",5.700,yerel,5700,,düzeltme gerekmez (yerel 5.700 zararsız PE)
+site/notes/zaman-ekseni.html,50,"çümü (eğitimde hiç görülmemiş 5.700 dosyada %3,5) bu bulgudan etkilenmiyor.</p>","3,5",oran-yüzde,,,
+site/notes/zaman-ekseni.html,75,"atic PE Malware Machine Learning Models</a>, 2018.</li>",2018,ilgisiz,,,
+site/notes/zaman-ekseni.html,76,"n across Space and Time</a>, USENIX Security 2019.</li>",2019,ilgisiz,,,
+site/notes/zaman-ekseni.html,77,"g based Temporal Analysis of PE Malware</a>, 2021.</li>",2021,ilgisiz,,,
+site/notes/zaman-ekseni.html,80,"<footer><div class=""wrap"">© 2026 Turan Tech · <a href=""../privacy.html"">Gizli",2026,ilgisiz,,,
+site/notes/zaman-ekseni.html,80,k</a><br><small>Site sürümü v1.8.0 · 17 Ekim 2026</small></div></footer>,2026,ilgisiz,,,
+site/projects/chief-sef.html,24,"<meta property=""og:image:width"" content=""1200"">",1200,ilgisiz,,,
+site/projects/chief-sef.html,26,"lt"" content=""Chief-Sef: native modelin (EMBER2024) notepad.exe üzerindeki gerçek çıktısı, 26 E",2024,ilgisiz,,,
+site/projects/chief-sef.html,26,"tepad.exe üzerindeki gerçek çıktısı, 26 Ekim 2026"">",2026,ilgisiz,,,
+site/projects/chief-sef.html,41,Boyut_Bayt : 360448,360448,ilgisiz,,,
+site/projects/chief-sef.html,43,Ortalama_Entropi : 3.202,3.202,ilgisiz,,,
+site/projects/chief-sef.html,47,DZ_sayi : 1424,1424,ilgisiz,,,
+site/projects/chief-sef.html,50,li olasiligi: %2.0 -&gt; zararsiz (EXE esigi 0.700: dogrulamada zararsiz EXE'lerin %1'i asar),0.700,oran-yüzde,,,
+site/projects/chief-sef.html,51,Not: skor EMBER2024'un %50 zararli ornekleminden; gercek ortamda,2024,ilgisiz,,,
+site/projects/chief-sef.html,51,"/pre><p class=""caption"">Native modelin (EMBER2024, Random Forest, 86 özellik) zararsız bir Win",2024,ilgisiz,,,
+site/projects/chief-sef.html,51,"üzerindeki çıktısı, kısaltılmadan · 26 Ekim 2026. Komut dosyanın bulunduğu klasörde çalıştırı",2026,ilgisiz,,,
+site/projects/chief-sef.html,51,ıştırılmıyor; zararlı tarafın sonuçları EMBER2024 veri setindeki ölçümlerden geliyor.</p><p>Fa,2024,ilgisiz,,,
+site/projects/chief-sef.html,51,iyor.</p><p>Faz 1 · Statik analiz · 25 Eylül 2026'da tamamlandı · native model 17 Ekim 2026'da,2026,ilgisiz,,,
+site/projects/chief-sef.html,51,"ül 2026'da tamamlandı · native model 17 Ekim 2026'da EMBER2024'e taşındı</p><div class=""bar""><",2026,ilgisiz,,,
+site/projects/chief-sef.html,51,"mamlandı · native model 17 Ekim 2026'da EMBER2024'e taşındı</p><div class=""bar""><span></span><",2024,ilgisiz,,,
+site/projects/chief-sef.html,51,Not: skor EMBER2024'un %50 zararli ornekleminden; gercek ortamda zararl,50,oran-yüzde,,,
+site/projects/chief-sef.html,51,"n"">Native modelin (EMBER2024, Random Forest, 86 özellik) zararsız bir Windows dosyası üzerin",86,ilgisiz,,,
+site/projects/chief-sef.html,51,"dosyası üzerindeki çıktısı, kısaltılmadan · 26 Ekim 2026. Komut dosyanın bulunduğu klasörde",26,oran-yüzde,,,
+site/projects/chief-sef.html,51,eri setindeki ölçümlerden geliyor.</p><p>Faz 1 · Statik analiz · 25 Eylül 2026'da tamamland,1,ilgisiz,,,
+site/projects/chief-sef.html,51,erden geliyor.</p><p>Faz 1 · Statik analiz · 25 Eylül 2026'da tamamlandı · native model 17 E,25,ilgisiz,,,
+site/projects/chief-sef.html,51,· 25 Eylül 2026'da tamamlandı · native model 17 Ekim 2026'da EMBER2024'e taşındı</p><div cla,17,ilgisiz,,,
+site/projects/chief-sef.html,53,><h2>Geliştirme süreci</h2><p><strong>5 Ekim 2026 · Şeffaflık notu:</strong> Şef'i tek başıma,2026,ilgisiz,,,
+site/projects/chief-sef.html,53,ölçüm tutarlılığı incelendi; Faz 1 25 Eylül 2026'da kapandı.</li><li>Modelin güncel .NET zara,2026,ilgisiz,,,
+site/projects/chief-sef.html,53,rinde çalışılıyor.</li><li>Native model EMBER2024'e taşındı (17 Ekim 2026): iki sınıf da EMBER,2024,ilgisiz,,,
+site/projects/chief-sef.html,53,"li>Native model EMBER2024'e taşındı (17 Ekim 2026): iki sınıf da EMBER2024 verisinden, dizge ö",2026,ilgisiz,,,
+site/projects/chief-sef.html,53,"'e taşındı (17 Ekim 2026): iki sınıf da EMBER2024 verisinden, dizge özellikleriyle 86 özellik,",2024,ilgisiz,,,
+site/projects/chief-sef.html,53,"""panel""><h2>Geliştirme süreci</h2><p><strong>5 Ekim 2026 · Şeffaflık notu:</strong> Şef'i t",5,ilgisiz,,,
+site/projects/chief-sef.html,53,z testlerle ölçüm tutarlılığı incelendi; Faz 1 25 Eylül 2026'da kapandı.</li><li>Modelin gü,1,ilgisiz,,,
+site/projects/chief-sef.html,53,testlerle ölçüm tutarlılığı incelendi; Faz 1 25 Eylül 2026'da kapandı.</li><li>Modelin günce,25,ilgisiz,,,
+site/projects/chief-sef.html,53,r.</li><li>Native model EMBER2024'e taşındı (17 Ekim 2026): iki sınıf da EMBER2024 verisinde,17,ilgisiz,,,
+site/projects/chief-sef.html,53,"a EMBER2024 verisinden, dizge özellikleriyle 86 özellik, her dosya türünün içinde dengeli eğ",86,ilgisiz,,,
+site/projects/chief-sef.html,53,nuçlara bakılmadan önce yazıldı.</li><li>Faz 2 (eBPF ile Linux sistem çağrısı izleme) ve Fa,2,ilgisiz,,,
+site/projects/chief-sef.html,53,eBPF ile Linux sistem çağrısı izleme) ve Faz 3 (NPU/TEE donanımsal izolasyon) henüz başlama,3,ilgisiz,,,
+site/projects/chief-sef.html,54,"ı verecek noktada değil. Faz 1 modeli (EMBER 2018, 5 özellik) için README'de zamansal doğruluk",2018,ilgisiz,,,
+site/projects/chief-sef.html,54,raporlanmıştır.</p><p>Bu modelin yerini EMBER2024 ile eğitilen native model aldı. Eşikler eğit,2024,ilgisiz,,,
+site/projects/chief-sef.html,54,ş alarm için seçildi; 52–63. test haftaları (959.738 dosya) bu sabit eşiklerle bir kez ölçüldü:</,959.738,satır,959738,479856,479.856 eşsiz dosya (959.738 satır)
+site/projects/chief-sef.html,54,"""num"">Kaçan zararlı</th><th class=""num"">EMBER2024 zararsızlarında yanlış alarm</th></tr></thea",2024,ilgisiz,,,
+site/projects/chief-sef.html,54,"/div><p>Genel test AUC 0,9865. Bu makinedeki 5.635 gerçek zararsız dosyada yanlış alarm: EXE %0",5.635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+site/projects/chief-sef.html,54,"t dosyalarının %50'si zararlı.</strong> EMBER2024 haftalık 50/50 örneklenmiş. %0,83, EMBER2024",2024,ilgisiz,,,
+site/projects/chief-sef.html,54,"%50'si zararlı.</strong> EMBER2024 haftalık 50/50 örneklenmiş. %0,83, EMBER2024'ün zararsız EX",50/50,oran-yüzde,,,
+site/projects/chief-sef.html,54,"2024 haftalık 50/50 örneklenmiş. %0,83, EMBER2024'ün zararsız EXE'lerinden kaçının alarm verdi",2024,ilgisiz,,,
+site/projects/chief-sef.html,54,yüzlercesi güncellendi; ölçümlerin dayandığı 5.635 satır yeniden taranmak yerine donduruldu.</l,5.635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+site/projects/chief-sef.html,54,"n düşük.</strong> Yerel setin %61,6'sı .NET (3.471 / 5.635) ve native model orada neredeyse hiç",3.471,yerel,3471,,düzeltme gerekmez (yerel .NET dosya sayısı)
+site/projects/chief-sef.html,54,"</strong> Yerel setin %61,6'sı .NET (3.471 / 5.635) ve native model orada neredeyse hiç alarm v",5.635,yerel,5635,,düzeltme gerekmez (dondurulmuş yerel doğrulama seti)
+site/projects/chief-sef.html,54,"arlı %33,7 (.NET dışı EXE'lerde %17,6). EMBER2024'ün ayrı .NET test kümesinde native model %1,",2024,ilgisiz,,,
+site/projects/chief-sef.html,54,"Sef/blob/main/README.tr.md#native-model-ember2024-ekim-2026"" target=""_blank"" rel=""noopener nor",2024,ilgisiz,,,
+site/projects/chief-sef.html,54,"ain/README.tr.md#native-model-ember2024-ekim-2026"" target=""_blank"" rel=""noopener noreferrer"">R",2026,ilgisiz,,,
+site/projects/chief-sef.html,54,"a güvenlik kararı verecek noktada değil. Faz 1 modeli (EMBER 2018, 5 özellik) için README'd",1,oran-yüzde,,,
+site/projects/chief-sef.html,54,"cek noktada değil. Faz 1 modeli (EMBER 2018, 5 özellik) için README'de zamansal doğruluk %8",5,ilgisiz,,,
+site/projects/chief-sef.html,54,"5 özellik) için README'de zamansal doğruluk %83,8, aynı dönem doğruluğu %90,1 ve bağımsız yanl","83,8",oran-yüzde,,,
+site/projects/chief-sef.html,54,"mansal doğruluk %83,8, aynı dönem doğruluğu %90,1 ve bağımsız yanlış alarm oranı %3,5 raporlan","90,1",oran-yüzde,,,
+site/projects/chief-sef.html,54,"ruluğu %90,1 ve bağımsız yanlış alarm oranı %3,5 raporlanmıştır.</p><p>Bu modelin yerini EMBE","3,5",oran-yüzde,,,
+site/projects/chief-sef.html,54,"native model aldı. Eşikler eğitimden ayrılan 48–51. haftalarda, her dosya türünde %1 yanlış",48,ilgisiz,,,
+site/projects/chief-sef.html,54,"ive model aldı. Eşikler eğitimden ayrılan 48–51. haftalarda, her dosya türünde %1 yanlış ala",51,ilgisiz,,,
+site/projects/chief-sef.html,54,"yrılan 48–51. haftalarda, her dosya türünde %1 yanlış alarm için seçildi; 52–63. test hafta",1,oran-yüzde,,,
+site/projects/chief-sef.html,54,dosya türünde %1 yanlış alarm için seçildi; 52–63. test haftaları (959.738 dosya) bu sabit,52,ilgisiz,,,
+site/projects/chief-sef.html,54,sya türünde %1 yanlış alarm için seçildi; 52–63. test haftaları (959.738 dosya) bu sabit eşi,63,ilgisiz,,,
+site/projects/chief-sef.html,54,"head><tbody><tr><td>EXE</td><td class=""num"">%17,7</td><td class=""num"">%0,83</td></tr><tr><td>D","17,7",oran-yüzde,,,
+site/projects/chief-sef.html,54,"d><td class=""num"">%17,7</td><td class=""num"">%0,83</td></tr><tr><td>DLL</td><td class=""num"">%19","0,83",oran-yüzde,,,
+site/projects/chief-sef.html,54,"83</td></tr><tr><td>DLL</td><td class=""num"">%19,5</td><td class=""num"">%1,43</td></tr></tbody><","19,5",oran-yüzde,,,
+site/projects/chief-sef.html,54,"d><td class=""num"">%19,5</td><td class=""num"">%1,43</td></tr></tbody></table></div><p>Genel test","1,43",oran-yüzde,,,
+site/projects/chief-sef.html,54,"</tr></tbody></table></div><p>Genel test AUC 0,9865. Bu makinedeki 5.635 gerçek zararsız dosyada","0,9865",oran-yüzde,,,
+site/projects/chief-sef.html,54,"5 gerçek zararsız dosyada yanlış alarm: EXE %0,25, DLL %0,21. Bu sayılar nasıl okunmalı:</p><u","0,25",oran-yüzde,,,
+site/projects/chief-sef.html,54,"rarsız dosyada yanlış alarm: EXE %0,25, DLL %0,21. Bu sayılar nasıl okunmalı:</p><ul class=""pr","0,21",oran-yüzde,,,
+site/projects/chief-sef.html,54,"ass=""process""><li><strong>Test dosyalarının %50'si zararlı.</strong> EMBER2024 haftalık 50/5",50,oran-yüzde,,,
+site/projects/chief-sef.html,54,"rong> EMBER2024 haftalık 50/50 örneklenmiş. %0,83, EMBER2024'ün zararsız EXE'lerinden kaçının","0,83",oran-yüzde,,,
+site/projects/chief-sef.html,54,"üksektir.</li><li><strong>DLL yanlış alarmı %1 hedefini aşıyor</strong> (%1,43). Eşik 48–51",1,oran-yüzde,,,
+site/projects/chief-sef.html,54,"yanlış alarmı %1 hedefini aşıyor</strong> (%1,43). Eşik 48–51. haftalarda ayarlandı; olası ne","1,43",oran-yüzde,,,
+site/projects/chief-sef.html,54,"mı %1 hedefini aşıyor</strong> (%1,43). Eşik 48–51. haftalarda ayarlandı; olası neden zaman",48,ilgisiz,,,
+site/projects/chief-sef.html,54,"%1 hedefini aşıyor</strong> (%1,43). Eşik 48–51. haftalarda ayarlandı; olası neden zaman kay",51,ilgisiz,,,
+site/projects/chief-sef.html,54,trong>Yerel doğrulama seti eskiyor.</strong> 9 Ekim'deki ölçümden bu yana dosyalarının 857',9,ilgisiz,,,
+site/projects/chief-sef.html,54,"g> 9 Ekim'deki ölçümden bu yana dosyalarının 857'si silindi, yüzlercesi güncellendi; ölçümler",857,yerel,857,,düzeltme gerekmez (yerel dosya alt kümesi)
+site/projects/chief-sef.html,54,"erine donduruldu.</li><li><strong>Yereldeki %0,25 / %0,21 kısmen karışım yüzünden düşük.</stro","0,25",oran-yüzde,,,
+site/projects/chief-sef.html,54,"nduruldu.</li><li><strong>Yereldeki %0,25 / %0,21 kısmen karışım yüzünden düşük.</strong> Yere","0,21",oran-yüzde,,,
+site/projects/chief-sef.html,54,"arışım yüzünden düşük.</strong> Yerel setin %61,6'sı .NET (3.471 / 5.635) ve native model orad","61,6",oran-yüzde,,,
+site/projects/chief-sef.html,54,"e model orada neredeyse hiç alarm vermiyor (%0,03 [0,01-0,16]). .NET dışı yerel dosyalarda yan","0,03",oran-yüzde,,,
+site/projects/chief-sef.html,54,"l orada neredeyse hiç alarm vermiyor (%0,03 [0,01-0,16]). .NET dışı yerel dosyalarda yanlış al","0,01",oran-yüzde,,,
+site/projects/chief-sef.html,54,"da neredeyse hiç alarm vermiyor (%0,03 [0,01-0,16]). .NET dışı yerel dosyalarda yanlış alarm %","0,16",oran-yüzde,,,
+site/projects/chief-sef.html,54,"]). .NET dışı yerel dosyalarda yanlış alarm %0,51 [0,28-0,91] (EXE %0,28, DLL %0,55).</li><li>","0,51",oran-yüzde,,,
+site/projects/chief-sef.html,54,"ET dışı yerel dosyalarda yanlış alarm %0,51 [0,28-0,91] (EXE %0,28, DLL %0,55).</li><li>Random","0,28",oran-yüzde,,,
+site/projects/chief-sef.html,54,"şı yerel dosyalarda yanlış alarm %0,51 [0,28-0,91] (EXE %0,28, DLL %0,55).</li><li>Random Fore","0,91",oran-yüzde,,,
+site/projects/chief-sef.html,54,"yalarda yanlış alarm %0,51 [0,28-0,91] (EXE %0,28, DLL %0,55).</li><li>Random Forest yalnızca","0,28",oran-yüzde,,,
+site/projects/chief-sef.html,54,"lış alarm %0,51 [0,28-0,91] (EXE %0,28, DLL %0,55).</li><li>Random Forest yalnızca ayarsız Lig","0,55",oran-yüzde,,,
+site/projects/chief-sef.html,54,"t haftalarında .NET EXE'lerde kaçan zararlı %33,7 (.NET dışı EXE'lerde %17,6). EMBER2024'ün ay","33,7",oran-yüzde,,,
+site/projects/chief-sef.html,54,"de kaçan zararlı %33,7 (.NET dışı EXE'lerde %17,6). EMBER2024'ün ayrı .NET test kümesinde nati","17,6",oran-yüzde,,,
+site/projects/chief-sef.html,54,"24'ün ayrı .NET test kümesinde native model %1,05 yanlış alarmda zararlıların %49,8'ini kaçırı","1,05",oran-yüzde,,,
+site/projects/chief-sef.html,54,"ive model %1,05 yanlış alarmda zararlıların %49,8'ini kaçırıyor (zararlı .NET DLL'lerin %86,7'","49,8",oran-yüzde,,,
+site/projects/chief-sef.html,54,"%49,8'ini kaçırıyor (zararlı .NET DLL'lerin %86,7'si); Faz 1 modeli orada %0,46 yanlış alarmda","86,7",oran-yüzde,,,
+site/projects/chief-sef.html,54,"rıyor (zararlı .NET DLL'lerin %86,7'si); Faz 1 modeli orada %0,46 yanlış alarmda %92,8 kaçı",1,oran-yüzde,,,
+site/projects/chief-sef.html,54,"NET DLL'lerin %86,7'si); Faz 1 modeli orada %0,46 yanlış alarmda %92,8 kaçırıyordu. Faz 1 ile","0,46",oran-yüzde,,,
+site/projects/chief-sef.html,54,"i); Faz 1 modeli orada %0,46 yanlış alarmda %92,8 kaçırıyordu. Faz 1 ile aynı yanlış alarmda n","92,8",oran-yüzde,,,
+site/projects/chief-sef.html,54,"%0,46 yanlış alarmda %92,8 kaçırıyordu. Faz 1 ile aynı yanlış alarmda native model %59,8 k",1,oran-yüzde,,,
+site/projects/chief-sef.html,54,"Faz 1 ile aynı yanlış alarmda native model %59,8 kaçırıyor (zararlı .NET DLL'lerin %92,7'si).","59,8",oran-yüzde,,,
+site/projects/chief-sef.html,54,"del %59,8 kaçırıyor (zararlı .NET DLL'lerin %92,7'si). Daha iyi ama yeterli değil: .NET uzman","92,7",oran-yüzde,,,
+site/projects/chief-sef.html,58,"<footer><div class=""wrap"">© 2026 Turan Tech · <a href=""../privacy.html"">Gizli",2026,ilgisiz,,,
+site/projects/chief-sef.html,58,k</a><br><small>Site sürümü v1.8.0 · 17 Ekim 2026</small></div></footer>,2026,ilgisiz,,,
