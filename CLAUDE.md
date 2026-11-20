@@ -672,6 +672,8 @@ açık işler.
   koşulmalı: paket sırası bir hatayı gizleyebilir.
 
 ## Ortam Notları
+- KESİN KURAL (çoklu işletim sistemi): Fedora, Windows diskine hiçbir şekilde
+  erişmez; sistemler arası veri yalnız USB/Drive ve SHA-256 manifestiyle taşınır.
 - Bağımlılıklar: `requirements.txt` (ana pipeline, sürümler sabit),
   `requirements-experimental.txt` (+ LightGBM, sadece model_karsilastir.py)
   ve `requirements-dev.txt` (+ pytest, testler için).
