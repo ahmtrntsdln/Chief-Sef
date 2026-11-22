@@ -1,0 +1,4 @@
+# /etc/sudoers.d/sef-kirmizi (root:root 440). Kurulum: kurulum.sh (visudo -cf ile denetlenir).
+# kirmizi (kirmizi takim) yalniz bu iki sarmalayiciyi, yalniz sef kullanicisi olarak calistirabilir.
+# Argumanlari sarmalayicilar kendisi denetler (bilinmeyen arguman -> cikis 64).
+kirmizi ALL=(sef) NOPASSWD: /usr/local/bin/sef-tara, /usr/local/bin/sef-toplu

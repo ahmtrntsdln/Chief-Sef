@@ -1,0 +1,92 @@
+#!/bin/bash
+# sef-tara: stdin'den TEK dosya okur, Sef'in native modeliyle tahmin_et.py'yi calistirir.
+# Kurulum: /usr/local/bin/sef-tara (root:root 755). Calistirma (kirmizi):
+#   sudo -u sef /usr/local/bin/sef-tara [--ozet] < dosya
+#   sudo -u sef /usr/local/bin/sef-tara --surum
+# stdout/stderr tahmin_et.py'ninkidir; cikis kodu tahmin_et.py'ninkidir
+# (0 temiz, 1 hata, 2 BELIRSIZ, 3 ZARARLI, 4 OLASI ZARARLI). Sarmalayicinin kendi kodlari:
+# 64 girdi reddedildi (bilinmeyen arguman, girdi siniri asildi), 124 ZAMAN ASIMI.
+# Sarmalayicinin kendi mesajlari stderr'e, "sef-tara:" onekiyle.
+set -u
+umask 077
+export PATH=/usr/bin:/bin
+
+readonly SEF_KOK=/opt/sef
+readonly GECICI_TABAN=/var/tmp
+readonly SURE_SN=300
+readonly BELLEK_BAYT=$((8 * 1024 * 1024 * 1024))
+readonly GIRDI_SINIR_BAYT=$((2 * 1024 * 1024 * 1024))
+readonly AD=sef-tara
+
+KULLANIM="Kullanim: $AD [--ozet] < dosya   |   $AD --surum"
+
+surum() {
+    echo "$AD - Sef kara kutu tarayicisi (tek dosya, stdin)"
+    echo "Sinirlar: sure $SURE_SN sn (tum cagri; asilirsa cikis 124, 'ZAMAN AŞIMI');" \
+         "bellek (adres alani, prlimit --as) $BELLEK_BAYT bayt (8 GiB);" \
+         "girdi $GIRDI_SINIR_BAYT bayt (2 GiB; asilirsa cikis 64)"
+    echo "Cikis kodlari: 0 temiz, 1 hata, 2 BELIRSIZ, 3 ZARARLI, 4 OLASI ZARARLI (tahmin_et.py);" \
+         "64 girdi reddedildi, 124 ZAMAN AŞIMI (sarmalayici)"
+    echo "--- $SEF_KOK/SURUM.txt ---"
+    cat -- "$SEF_KOK/SURUM.txt"
+}
+
+OZET=0
+case "$#:${1:-}" in
+    "1:--surum") surum; exit $? ;;
+    "1:--ozet") OZET=1 ;;
+    "0:") ;;
+    *) echo "$AD: bilinmeyen arguman. $KULLANIM" >&2; exit 64 ;;
+esac
+
+GECICI=""
+COCUK=""
+temizle() { if [ -n "$GECICI" ]; then rm -rf -- "$GECICI"; fi; }
+sinyal() {
+    if [ -n "$COCUK" ]; then kill -TERM "$COCUK" 2>/dev/null; wait "$COCUK" 2>/dev/null; fi
+    exit "$1"
+}
+trap temizle EXIT
+trap 'sinyal 129' HUP
+trap 'sinyal 130' INT
+trap 'sinyal 143' TERM
+
+# Cocugu arka planda calistirip bekler: sinyal gelince trap onu da sonlandirabilsin.
+# Is denetimi kapaliyken arka plan isinin stdin'i /dev/null olur; "<&0" ile cagiranin
+# stdin'ini (sef-tara: kirmizi'nin girdisi) acikca ver.
+calistir() { "$@" <&0 & COCUK=$!; wait "$COCUK"; local rc=$?; COCUK=""; return "$rc"; }
+
+kalan_sure() { echo $((SURE_SN - SECONDS)); }
+zaman_asimi() { echo "$AD: ZAMAN AŞIMI ($SURE_SN sn)" >&2; exit 124; }
+
+# Oldurulmus (SIGKILL) eski cagrilardan kalan klasorler: sure siniri 300 sn, 60 dk'dan eskisi
+# calisiyor olamaz.
+find "$GECICI_TABAN" -maxdepth 1 -name "$AD.*" -user "$(id -u)" -mmin +60 \
+    -exec rm -rf -- {} + 2>/dev/null
+
+GECICI=$(mktemp -d "$GECICI_TABAN/$AD.XXXXXXXX") || { echo "$AD: gecici klasor acilamadi" >&2; exit 1; }
+chmod 700 -- "$GECICI"
+GIRDI="$GECICI/girdi"
+
+calistir timeout "$(kalan_sure)" head -c $((GIRDI_SINIR_BAYT + 1)) >"$GIRDI"
+rc=$?
+if [ "$rc" -eq 124 ]; then zaman_asimi; fi
+if [ "$rc" -ne 0 ]; then echo "$AD: girdi okunamadi (head cikis $rc)" >&2; exit 1; fi
+
+BOYUT=$(stat -c %s -- "$GIRDI")
+if [ "$BOYUT" -gt "$GIRDI_SINIR_BAYT" ]; then
+    echo "$AD: GİRDİ REDDEDİLDİ: $GIRDI_SINIR_BAYT bayttan buyuk" >&2
+    exit 64
+fi
+if [ "$OZET" -eq 1 ]; then
+    echo "$AD: girdi $BOYUT bayt, sha256 $(sha256sum -- "$GIRDI" | cut -d' ' -f1)" >&2
+fi
+
+KALAN=$(kalan_sure)
+if [ "$KALAN" -le 0 ]; then zaman_asimi; fi
+cd -- "$GECICI" || exit 1
+calistir timeout --kill-after=10 "$KALAN" prlimit --as="$BELLEK_BAYT" -- \
+    "$SEF_KOK/venv/bin/python" -I -B "$SEF_KOK/calistir.py" tahmin_et "$GIRDI"
+rc=$?
+if [ "$rc" -eq 124 ] || { [ "$rc" -eq 137 ] && [ "$SECONDS" -ge "$SURE_SN" ]; }; then zaman_asimi; fi
+exit "$rc"

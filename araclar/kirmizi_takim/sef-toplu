@@ -1,0 +1,110 @@
+#!/bin/bash
+# sef-toplu: stdin'den tar arsivi okur, ozel gecici klasore acar, toplu_tahmin.py'yi calistirir.
+# Kurulum: /usr/local/bin/sef-toplu (root:root 755). Calistirma (kirmizi):
+#   sudo -u sef /usr/local/bin/sef-toplu [--ozet] [--liste] < arsiv.tar
+#   sudo -u sef /usr/local/bin/sef-toplu --surum
+# Arsiv: duz tar ya da gz/bz2/xz sikistirilmis tar. Acma Python tarfile, filter='data'
+# (/opt/sef/arsiv_ac.py): tek bir uye bile reddedilirse hicbir sey acilmaz, cikis 64.
+# stdout/stderr ve cikis kodu toplu_tahmin.py'ninkidir (en kotu sonuc: ZARARLI 3 > OLASI
+# ZARARLI 4 > BELIRSIZ 2 > hata 1 > temiz 0). Sarmalayicinin kendi kodlari: 64 girdi/arsiv
+# reddedildi, 124 ZAMAN ASIMI. Sarmalayicinin kendi mesajlari stderr'e, "sef-toplu:" onekiyle.
+set -u
+umask 077
+export PATH=/usr/bin:/bin
+
+readonly SEF_KOK=/opt/sef
+readonly GECICI_TABAN=/var/tmp
+readonly SURE_SN=300
+readonly BELLEK_BAYT=$((8 * 1024 * 1024 * 1024))
+readonly GIRDI_SINIR_BAYT=$((2 * 1024 * 1024 * 1024))
+readonly AD=sef-toplu
+
+KULLANIM="Kullanim: $AD [--ozet] [--liste] < arsiv.tar   |   $AD --surum"
+
+surum() {
+    echo "$AD - Sef kara kutu tarayicisi (tar arsivi, stdin)"
+    echo "Sinirlar: sure $SURE_SN sn (tum cagri: okuma + acma + tarama; asilirsa cikis 124," \
+         "'ZAMAN AŞIMI'); bellek (adres alani, prlimit --as) $BELLEK_BAYT bayt (8 GiB);" \
+         "girdi $GIRDI_SINIR_BAYT bayt (2 GiB) hem arsiv hem acik toplam boyut (asilirsa cikis 64)"
+    echo "Arsiv: tarfile filter='data'; '..' ile disari cikan yol, mutlak/disari baglanti, aygit" \
+         "dosyasi -> cikis 64 (hicbir sey acilmaz); mutlak dosya yolunun bastaki '/'si kirpilir"
+    echo "Cikis kodlari: 0 temiz, 1 hata, 2 BELIRSIZ, 3 ZARARLI, 4 OLASI ZARARLI (toplu_tahmin.py," \
+         "en kotu sonuc); 64 girdi/arsiv reddedildi, 124 ZAMAN AŞIMI (sarmalayici)"
+    echo "--- $SEF_KOK/SURUM.txt ---"
+    cat -- "$SEF_KOK/SURUM.txt"
+}
+
+if [ "$#" -eq 1 ] && [ "$1" = "--surum" ]; then surum; exit $?; fi
+OZET=0
+LISTE=()
+for a in "$@"; do
+    case "$a" in
+        --ozet) OZET=1 ;;
+        --liste) LISTE=(--liste) ;;
+        *) echo "$AD: bilinmeyen arguman. $KULLANIM" >&2; exit 64 ;;
+    esac
+done
+
+GECICI=""
+COCUK=""
+temizle() { if [ -n "$GECICI" ]; then rm -rf -- "$GECICI"; fi; }
+sinyal() {
+    if [ -n "$COCUK" ]; then kill -TERM "$COCUK" 2>/dev/null; wait "$COCUK" 2>/dev/null; fi
+    exit "$1"
+}
+trap temizle EXIT
+trap 'sinyal 129' HUP
+trap 'sinyal 130' INT
+trap 'sinyal 143' TERM
+
+# Cocugu arka planda calistirip bekler: sinyal gelince trap onu da sonlandirabilsin.
+# Is denetimi kapaliyken arka plan isinin stdin'i /dev/null olur; "<&0" ile cagiranin
+# stdin'ini (sef-tara: kirmizi'nin girdisi) acikca ver.
+calistir() { "$@" <&0 & COCUK=$!; wait "$COCUK"; local rc=$?; COCUK=""; return "$rc"; }
+
+kalan_sure() { echo $((SURE_SN - SECONDS)); }
+zaman_asimi() { echo "$AD: ZAMAN AŞIMI ($SURE_SN sn)" >&2; exit 124; }
+zaman_asti_mi() { [ "$1" -eq 124 ] || { [ "$1" -eq 137 ] && [ "$SECONDS" -ge "$SURE_SN" ]; }; }
+
+# Oldurulmus (SIGKILL) eski cagrilardan kalan klasorler: sure siniri 300 sn, 60 dk'dan eskisi
+# calisiyor olamaz.
+find "$GECICI_TABAN" -maxdepth 1 -name "$AD.*" -user "$(id -u)" -mmin +60 \
+    -exec rm -rf -- {} + 2>/dev/null
+
+GECICI=$(mktemp -d "$GECICI_TABAN/$AD.XXXXXXXX") || { echo "$AD: gecici klasor acilamadi" >&2; exit 1; }
+chmod 700 -- "$GECICI"
+ARSIV="$GECICI/arsiv"
+ACIK="$GECICI/acik"
+mkdir -m 700 -- "$ACIK" || exit 1
+
+calistir timeout "$(kalan_sure)" head -c $((GIRDI_SINIR_BAYT + 1)) >"$ARSIV"
+rc=$?
+if [ "$rc" -eq 124 ]; then zaman_asimi; fi
+if [ "$rc" -ne 0 ]; then echo "$AD: girdi okunamadi (head cikis $rc)" >&2; exit 1; fi
+
+BOYUT=$(stat -c %s -- "$ARSIV")
+if [ "$BOYUT" -gt "$GIRDI_SINIR_BAYT" ]; then
+    echo "$AD: GİRDİ REDDEDİLDİ: $GIRDI_SINIR_BAYT bayttan buyuk" >&2
+    exit 64
+fi
+if [ "$OZET" -eq 1 ]; then
+    echo "$AD: arsiv $BOYUT bayt, sha256 $(sha256sum -- "$ARSIV" | cut -d' ' -f1)" >&2
+fi
+
+cd -- "$GECICI" || exit 1
+KALAN=$(kalan_sure)
+if [ "$KALAN" -le 0 ]; then zaman_asimi; fi
+calistir timeout --kill-after=10 "$KALAN" prlimit --as="$BELLEK_BAYT" --fsize="$GIRDI_SINIR_BAYT" -- \
+    "$SEF_KOK/venv/bin/python" -I -B "$SEF_KOK/arsiv_ac.py" "$ARSIV" "$ACIK" "$GIRDI_SINIR_BAYT"
+rc=$?
+if zaman_asti_mi "$rc"; then zaman_asimi; fi
+if [ "$rc" -ne 0 ]; then exit "$rc"; fi
+rm -f -- "$ARSIV"
+
+KALAN=$(kalan_sure)
+if [ "$KALAN" -le 0 ]; then zaman_asimi; fi
+calistir timeout --kill-after=10 "$KALAN" prlimit --as="$BELLEK_BAYT" -- \
+    "$SEF_KOK/venv/bin/python" -I -B "$SEF_KOK/calistir.py" toplu_tahmin "$ACIK" "${LISTE[@]}"
+rc=$?
+if zaman_asti_mi "$rc"; then zaman_asimi; fi
+exit "$rc"
